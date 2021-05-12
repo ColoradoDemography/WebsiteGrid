@@ -109,21 +109,24 @@ var rows = tbody
     .append('tr')
 	.attr("width", "25%")
 	.attr("border-spacing","0px")
-	.attr("font-size","10pt")
 	.style("color","black");
 
 //Columns
 rows.append('td')
       .style("text-align", "left")
+	  .style('font-size','10pt')
 	  .html(function(m) { return m.age_cat; });
 rows.append('td')
       .style("text-align", "right")
+	  .style('font-size','10pt')
       .html(function(m) { return m.curval; });
 rows.append('td')
-       .style("text-align", "right")
+       .style("text-align", "right") 
+	   .style('font-size','10pt')
        .html(function(m) { return m.pct_chg; });
 rows.append('td')
       .style("text-align", "right")
+	  .style('font-size','10pt')
       .html(function(m) { return m.forval; });
 
 
