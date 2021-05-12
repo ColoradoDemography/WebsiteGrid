@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- DOLA CSS 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" />
+    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_Rhxq1U9o3ufXvFIyswIuZ29b9MB9oyxGhEO6DVz7zPU.css" />
+    <link rel="stylesheet" media="all" href="/modules/contrib/bootstrap_paragraphs/css/bootstrap-paragraphs-image.min.css?qrhddm" />
+    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_dNIRbQ91YAYD0xcmt43pYJt1M6cVaai2wptN2HAZzxw.css" />
+    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_7MlqUZRO9Z_KKXQV7L-mdaLGlXI2TrjqYKujbxbJ2kQ.css" />
+-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
+<!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+<!-- SDO CSS -->
+<link type="text/css" rel="stylesheet" href="./assets/css/common.css" async=""> 
+<style>
+body {
+    font-family: "Trebuchet MS, helvetica, lucida sans, tahoma, verdana", sans-serif;
+	font-size: 12pt;
+
+</style>
+<!-- adding d3.js  for data manipulation-->
+ <script src="https://d3js.org/d3.v6.min.js"></script>
+<!-- SDO suport functions, genSYA, insertHTML, -->
+<script src="./assets/js/funct.js"></script>
+</head>
+<body>
+<div>
+<a href="https://cdola.colorado.gov/"><img src="./assets/img/SDO-1600x400.jpg" alt="Department of Local Affairs Homepage" width="400px" height="100px"></a>
+</div>
+<h1>Sample Homepage Grid:</h1>
+<div id="header-name">
+<nav id="top-navigation-wrapper" style="display: block;">
+<ul id="top-navigation-list" class="sm sm-simple">
+<li class="padding-normal">    </li>
+<li class="padding-normal"> <a href="https://cdola.colorado.gov/assessment-appeals">Assessment Appeals</a></li>
+<li class="padding-normal"> <a href="https://cdola.colorado.gov/housing">Housing</a></li>
+<li class="padding-normal"> <a href="https://cdola.colorado.gov/local-government">Local Government</a></li>
+<li class="padding-normal"> <a href="https://cdola.colorado.gov/property-taxation">Property Taxation</a></li>
+</ul>
+</nav>
+</div>
+<!-- First Grid, linked images -->
+<div class="grid-container">
+  <div class="grid-item panel_1_1">
+			State Demography Office
+			<br>The State Demography Office is the primary state agency for population and demographic information.
+  </div>
+  <div class="grid-item panel_2_1">
+	 <button class="dropdown-btn"><a href="./Sample Homepage.html">Home</a></button>
+	 <button class="dropdown-btn">Data Dashboards</button>
+	  <div class="dropdown-container">
+		<a href="https://gis.dola.colorado.gov/apps/demographic_dashboard/">Demographic Dashboard</a>
+		<br><a href="https://gis.dola.colorado.gov/apps/netmigration_dashboard/">Net Migration Dashboard</a>
+		<br><a href="https://demography.dola.colorado.gov/colorado-demographic-profiles/">Colorado Demographic Profiles</a>
+	  </div>
+	  <button class="dropdown-btn">Population Data</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/population/">Population</a>
+		<br><a href="https://demography.dola.colorado.gov/births-deaths-migration/">Births Deaths and Migration</a>
+		<br><a href="https://demography.dola.colorado.gov/economy-labor-force/">Economy and Labor Force</a>
+		<br><a href="https://demography.dola.colorado.gov/housing-and-households/">Housing and Households</a>
+	  </div>
+	  <button class="dropdown-btn">Maps and GIS Data</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/gis/map-gallery/">Interactive Map Gallery</a>
+		<br><a href="https://demography.dola.colorado.gov/gis/thematic-maps/#thematic-maps">Thematic Maps</a>
+		<br><a href="https://demography.dola.colorado.gov/demography/region-reports-2014/#colorado-planning-region-reports">Region Reports</a>
+		<br><a href="https://demography.dola.colorado.gov/gis/gis-data/#gis-data">GIS Data Downloads</a>
+		<br><a href="https://demography.dola.colorado.gov/gis/gis-data/#gis-data">Links to GIS Data and DOLA Grants</a>
+	  </div>
+	 <button class="dropdown-btn">Census and ACS Data</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/data/#census-data-tools">Census Data Tools</a>
+		<br><a href="https://demography.dola.colorado.gov/census-acs/">SDO Census Data Page</a>
+		<br><a href="https://census.data.gov/cedsci">Census Bureau data Portal</a>
+	  </div>
+	  <button class="dropdown-btn">Publications and Presentations</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/demography/publications-and-presentations/#publications-and-presentations">Publications and Reports</a>
+		<br><a href="https://demography.dola.colorado.gov/crosstabs/">Crosstabs</a>
+		<br><a href="https://demography.dola.colorado.gov/demography/publications-and-presentations/#annual-demography-summit-2020">Annual Summit</a>
+	  </div>
+	  <button class="dropdown-btn">About the State Demography Office</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/information/">About the State Demography Office</a>
+		<br><a href="https://demography.dola.colorado.gov/contact/">Contact Us</a>
+		<br><a href="http://colorado.us13.list-manage.com/subscribe?u=542afe896a1951030a7772c33&id=89fa6d3fd5">Sign up the Demography Listserv</a>
+		<br><a href="https://www.colorado.gov/dola">Department of Local Affairs</a>
+	  </div>
+  </div> <!--Grid Nav item -->
+  <div class="grid-item panel_2_2_w">
+	   <label for="county-dropdown">Select County:</label>
+	   <select class="county-dropdown" id="county-dropdown"></select>
+	 <div id="PopTab"></div>
+	 <div id="RaceTab"></div>
+	 <div id="HousTab"></div>
+  </div>
+  <div class="grid-item panel_2_5_w">
+	 <div id="EducTab"></div>
+	 <div id="IncomeTab"></div>
+
+  </div>
+
+<div class="grid-item panel_4_2">
+	   <p class="grid-title">News</p>
+	   <ul>
+		   <li><a href="https://demography.dola.colorado.gov/crosstabs/">Crosstabs - The Blog Taking a Closer Look at the Economics & Demographics of Colorado</a></li>
+		   <li><a href="https://colorado.us13.list-manage.com/subscribe?u=1d97570d5b1d9d9b89bf4591b&id=b9e5d12066">Sign up for the SDO Newsletter</a></li>
+		   <li><a href="https://demography.dola.colorado.gov/demography/publications-and-presentations/#publications-and-presentations">SDO Publications, webinars, and training materials</a</li>
+		   <li><a href="https://demography.dola.colorado.gov/demography/publications-and-presentations/#annual-demography-summit-2020">State Demography Summit</a></li>
+	   </ul>
+	 </div>
+	<div class="grid-item panel_4_4">
+		   <p class="grid-title">Data Tools</p>
+	   <ul>
+	   	 <li><a href="https://demography.dola.colorado.gov/gis/map-gallery">SDO Map Gallery</a></li>
+	     <li><a href="https://gis.dola.colorado.gov/apps/demographic_dashboard/">Demographic Dashboard</a></li>
+	     <li><a href="https://demography.dola.colorado.gov/colorado-demographic-profiles">Colorado Demographic Profiles</a></li>
+	  <ul>
+    </div>
+	<div class="grid-item panel_4_6">
+	   <p class="grid-title">External Links</p>
+	   <ul>
+	   	 <li><a href="https://www.census.gov">U.S. Census Bureau</a></li>
+	     <li><a href="https://data.census.gov/cedsci">Access Census Data: data.census.gov</a></li>
+	     <li><a href="https://www.colorado.gov/dola">Department of Local Affairs</a></li>
+	  <ul>
+	</div>
+</div>  <!-- End Grid -->
+<script>
+
+
+/* Populate County Dropdown */
+
+//Counties
+var counties = [{'county': 'Colorado', 'fips': '000'},{'county':'Adams County', 'fips': '001'},
+                {'county':'Alamosa County', 'fips': '003'},{'county':'Arapahoe County', 'fips': '005'},
+				{'county':'Archuleta County', 'fips': '007'},{'county':'Baca County', 'fips': '009'},
+				{'county':'Bent County', 'fips': '011'},{'county':'Boulder County', 'fips': '013'},
+				{'county':'Broomfield County', 'fips': '014'},{'county':'Chaffee County', 'fips': '015'},
+				{'county':'Cheyenne County', 'fips': '017'},{'county':'Clear Creek County', 'fips': '019'},
+				{'county':'Conejos County', 'fips': '021'},{'county':'Costilla County', 'fips': '023'},
+				{'county':'Crowley County', 'fips': '025'},{'county':'Custer County', 'fips': '027'},
+				{'county':'Delta County', 'fips': '029'},{'county':'Denver County', 'fips': '031'},
+				{'county':'Dolores County', 'fips': '033'},{'county':'Douglas County', 'fips': '035'},
+				{'county':'Eagle County', 'fips': '037'},{'county':'Elbert County', 'fips': '039'},
+				{'county':'El Paso County', 'fips': '041'},{'county':'Fremont County', 'fips': '043'},
+				{'county':'Garfield County', 'fips': '045'},{'county':'Gilpin County', 'fips': '047'},
+				{'county':'Grand County', 'fips': '049'},{'county':'Gunnison County', 'fips': '051'},
+				{'county':'Hinsdale County', 'fips': '053'},{'county':'Huerfano County', 'fips': '055'},
+				{'county':'Jackson County', 'fips': '057'},{'county':'Jefferson County', 'fips': '059'},
+				{'county':'Kiowa County', 'fips': '061'},{'county':'Kit Carson County', 'fips': '063'},
+				{'county':'Lake County', 'fips': '065'},{'county':'La Plata County', 'fips': '067'},
+				{'county':'Larimer County', 'fips': '069'},{'county':'Las Animas County', 'fips': '071'},
+				{'county':'Lincoln County', 'fips': '073'},{'county':'Logan County', 'fips': '075'},
+				{'county':'Mesa County', 'fips': '077'},{'county':'Mineral County', 'fips': '079'},
+				{'county':'Moffat County', 'fips': '081'},{'county':'Montezuma County', 'fips': '083'},
+				{'county':'Montrose County', 'fips': '085'},{'county':'Morgan County', 'fips': '087'},
+				{'county':'Otero County', 'fips': '089'},{'county':'Ouray County', 'fips': '091'},
+				{'county':'Park County', 'fips': '093'},{'county':'Phillips County', 'fips': '095'},
+				{'county':'Pitkin County', 'fips': '097'},{'county':'Prowers County', 'fips': '099'},
+				{'county':'Pueblo County', 'fips': '101'},{'county':'Rio Blanco County', 'fips': '103'},
+				{'county':'Rio Grande County', 'fips': '105'},{'county':'Routt County', 'fips': '107'},
+				{'county':'Saguache County', 'fips': '109'},{'county':'San Juan County', 'fips': '111'},
+				{'county':'San Miguel County', 'fips': '113'},{'county':'Sedgwick County', 'fips': '115'},
+				{'county':'Summit County', 'fips': '117'},{'county':'Teller County', 'fips': '119'},
+				{'county':'Washington County', 'fips': '121'},{'county':'Weld County', 'fips': '123'},
+				{'county':'Yuma County', 'fips': '125'}];
+
+d3.select("#county-dropdown")
+    .selectAll('option')
+    .data(counties)
+    .enter()
+    .append('option')
+    .attr('value', d => d.fips) 
+    .text(d => d.county);
+	
+	
+//generating maximum year value for estimates
+var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
+d3.json(urlstr).then(function(yeardata){
+    var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
+	var yrsList = maxest.map(function(d){return d.year;});
+    var yrvalue = d3.max(yrsList);
+	
+genSYA("000",yrvalue);
+
+
+d3.select("#county-dropdown").on("change", function(d,i) {
+        var selectedfips = d3.select("#county-dropdown").property('value');
+		var selectedcounty = d3.select('#county-dropdown option:checked').text();;
+		//Replace this with table creation code
+        genSYA(selectedfips,yrvalue);
+    });
+}); //end of maximum year value
+/* Acoordian Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+</script>
+
+</body>
+</html> 

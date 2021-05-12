@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- DOLA CSS 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" />
+    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_Rhxq1U9o3ufXvFIyswIuZ29b9MB9oyxGhEO6DVz7zPU.css" />
+    <link rel="stylesheet" media="all" href="/modules/contrib/bootstrap_paragraphs/css/bootstrap-paragraphs-image.min.css?qrhddm" />
+    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_dNIRbQ91YAYD0xcmt43pYJt1M6cVaai2wptN2HAZzxw.css" />
+    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_7MlqUZRO9Z_KKXQV7L-mdaLGlXI2TrjqYKujbxbJ2kQ.css" />
+-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
+<!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+<!-- SDO CSS -->
+<link type="text/css" rel="stylesheet" href="./assets/css/common.css" async=""> 
+<style>
+body {
+    font-family: "Trebuchet MS, helvetica, lucida sans, tahoma, verdana", sans-serif;
+	font-size: 12pt;
+	line-height: 1.1;
+}
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 12pt;}
+}
+
+</style>
+</head>
+<body>
+<<div>
+<a href="https://cdola.colorado.gov/"><img src="./assets/img/SDO-1600x400.jpg" alt="Department of Local Affairs Homepage" width="400px" height="100px"></a>
+</div>
+<h1>Sample Population Page:</h1>
+<div id="header-name">
+<nav id="top-navigation-wrapper" style="display: block;">
+<ul id="top-navigation-list" class="sm sm-simple">
+<li class="padding-normal"> <a href="https://demography.dola.colorado.gov/">State Demography Office</a></li>
+<li class="padding-normal"> <a href="https://cdola.colorado.gov/assessment-appeals">Assessment Appeals</a></li>
+<li class="padding-normal"> <a href="https://cdola.colorado.gov/housing">Housing</a></li>
+<li class="padding-normal"> <a href="https://cdola.colorado.gov/local-government">Local Government</a></li>
+<li class="padding-normal"> <a href="https://cdola.colorado.gov/property-taxation">Property Taxation</a></li>
+</ul>
+</nav>
+</div>
+<!-- First Grid, linked images -->
+<div class="grid-container_secpg">
+  <div class="grid-item item_nav_3">
+  <u>Data Download Applications</u><br>
+  <ul>
+     <li><a href="https://demography.dola.colorado.gov/population/data/sya-county/#county-population-by-single-year-of-age">Population By SIngle Year of Age & Gender</a></li>
+     <li><a href="https://demography.dola.colorado.gov/population/data/muni-pop-housing/">Population and Housing Time Series</a></li>
+	 <li><a href="https://demography.dola.colorado.gov/population/data/profile-county/">Demographic Profiles - County</a></li>
+  </ul>
+  </div> <!--Grid Nav item -->
+  <div class="grid-item panel_secpg_1_1">
+      <div class="map-thumbnail"><a onmouseout="styleout(this);" onmouseover="styleparent(this);" href="https://demography.dola.colorado.gov/AgeMap/" title="Change of population by age group by county." target="_blank"><img alt="Thumbnail of Age Map" src="./map_gallery/img/AgeMap.PNG" style="width:200px;height:147px;"></a><span class="map-app" onmouseout="styleout(this);" onmouseover="styleparent(this);">Population Change By Age:<br />1990-2050</span></div>	
+  </div>
+  <div class="grid-item panel_secpg_2_1">
+      <div class="map-thumbnail"><a onmouseout="styleout(this);" onmouseover="styleparent(this);" href="https://demography.dola.colorado.gov/ComponentsOfChange/" title="Display factors that contribute to population change." target="_blank"><img alt="Thumbnail of Components of Change Map" src="./map_gallery/img/components.png" style="width:200px;height:147px;"></a><span class="map-app" onmouseout="styleout(this);" onmouseover="styleparent(this);">Population Change:<br />Births, Deaths, and Migration</span></div>
+  </div>
+  <div class="grid-item panel_secpg_3_1">
+      <div class="map-thumbnail"><a onmouseout="styleout(this);" onmouseover="styleparent(this);" href="https://demography.dola.colorado.gov/Age-Animation-Bars" title="Population by Age 1990 to 2050" target="_blank"><img alt="Age Animation" src="./map_gallery/img/agebars.png" style="width:200px;height:147px;"></a><span class="map-app" onmouseout="styleout(this);" onmouseover="styleparent(this);">Age Animation</span></div>
+  </div>
+  <div class="grid-item panel_secpg_4_1">
+     <div class="map-thumbnail"><a onmouseout="styleout(this);" onmouseover="styleparent(this);" href="https://demography.dola.colorado.gov/density_2010/" title="Population and Housing Density 2010." target="_blank"><img alt="Thumbnail of Density" src="./map_gallery/img/density.png" style="width:200px;height:147px;"></a><span class="map-app" onmouseout="styleout(this);" onmouseover="styleparent(this);">Population and Housing Density 2010</span></div>
+  </div>
+  <div class="grid-item panel_secpg_0_2"> 
+  	 <button class="dropdown-btn"><a href="./Sample Homepage.html">Home</a></button>
+	 <button class="dropdown-btn">Data Dashboards</button>
+	  <div class="dropdown-container">
+		<a href="https://gis.dola.colorado.gov/apps/demographic_dashboard/">Demographic Dashboard</a>
+		<br><a href="https://gis.dola.colorado.gov/apps/netmigration_dashboard/">Net Migration Dashboard</a>
+		<br><a href="https://demography.dola.colorado.gov/colorado-demographic-profiles/">Colorado Demographic Profiles</a>
+	  </div>
+	  <button class="dropdown-btn">Population Data</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/population/">Population</a>
+		<br><a href="https://demography.dola.colorado.gov/births-deaths-migration/">Births Deaths and Migration</a>
+		<br><a href="https://demography.dola.colorado.gov/economy-labor-force/">Economy and Labor Force</a>
+		<br><a href="https://demography.dola.colorado.gov/housing-and-households/">Housing and Households</a>
+	  </div>
+	  <button class="dropdown-btn">Maps and GIS Data</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/gis/map-gallery/">Interactive Map Gallery</a>
+		<br><a href="https://demography.dola.colorado.gov/gis/thematic-maps/#thematic-maps">Thematic Maps</a>
+		<br><a href="https://demography.dola.colorado.gov/demography/region-reports-2014/#colorado-planning-region-reports">Region Reports</a>
+		<br><a href="https://demography.dola.colorado.gov/gis/gis-data/#gis-data">GIS Data Downloads</a>
+		<br><a href="https://demography.dola.colorado.gov/gis/gis-data/#gis-data">Links to GIS Data and DOLA Grants</a>
+	  </div>
+	 <button class="dropdown-btn">Census and ACS Data</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/data/#census-data-tools">Census Data Tools</a>
+		<br><a href="https://demography.dola.colorado.gov/census-acs/">SDO Census Data Page</a>
+		<br><a href="https://census.data.gov/cedsci">Census Bureau data Portal</a>
+	  </div>
+	  <button class="dropdown-btn">Publications and Presentations</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/demography/publications-and-presentations/#publications-and-presentations">Publications and Reports</a>
+		<br><a href="https://demography.dola.colorado.gov/crosstabs/">Crosstabs</a>
+		<br><a href="https://demography.dola.colorado.gov/demography/publications-and-presentations/#annual-demography-summit-2020">Annual Summit</a>
+	  </div>
+	  <button class="dropdown-btn">About the State Demography Office</button>
+	  <div class="dropdown-container">
+		<a href="https://demography.dola.colorado.gov/information/">About the State Demography Office</a>
+		<br><a href="https://demography.dola.colorado.gov/contact/">Contact Us</a>
+		<br><a href="http://colorado.us13.list-manage.com/subscribe?u=542afe896a1951030a7772c33&id=89fa6d3fd5">Sign up the Demography Listserv</a>
+		<br><a href="https://www.colorado.gov/dola">Department of Local Affairs</a>
+	  </div>
+  </div>
+   <div class="grid-item panel_secpg_1_2">
+    <div class="map-thumbnail"><a onmouseout="styleout(this);" onmouseover="styleparent(this);" href="https://public.flourish.studio/visualisation/3775693/" title="Historical Birthplace of Colorado Residents" target="_blank"><img alt="Thumbnail of Birthplace Chart" src="./map_gallery/img/Birthplace.png" style="width:200px;height:147px;"></a><span class="map-app" onmouseout="styleout(this);" onmouseover="styleparent(this);">Historical Birthplace of Colorado Residents</span></div>
+  </div>
+  <div class="grid-item panel_secpg_2_2">
+    <div class="map-thumbnail"><a onmouseout="styleout(this);" onmouseover="styleparent(this);" href="https://public.flourish.studio/visualisation/3832584/" title="Historical Residence of Colorado Born" target="_blank"><img alt="Thumbnail of Residence Chart" src="./map_gallery/img/Residence.png" style="width:200px;height:147px;"/></a><span class="map-app" onmouseout="styleout(this);" onmouseover="styleparent(this);">Historical Residence of Colorado Born</span></div>	
+  </div>
+  <div class="grid-item panel_secpg_3_2">
+    <div class="map-thumbnail"><a onmouseout="styleout(this);" onmouseover="styleparent(this);" href="https://arcg.is/1KXX05" title="Historical County Populations." target="_blank"><img alt="Thumbnail of Density" src="./map_gallery/img/1870.png" style="width:200px;height:147px;"></a><span class="map-app" onmouseout="styleout(this);" onmouseover="styleparent(this);">Historical County Populations</span></div>	
+  </div>
+ <div class="grid-item panel_secpg_4_2">
+    <div class="map-thumbnail"><a onmouseout="styleout(this);" onmouseover="styleparent(this);" href="https://demography.dola.colorado.gov/Population-Bubbles" title="Historic Colorado County Population by Decade." target="_blank"><img alt="Thumbnail of Population Animation" src="./map_gallery/img/popvis.png" style="width:200px;height:147px;"></a><span class="map-app" onmouseout="styleout(this);" onmouseover="styleparent(this);">Colorado County Population</span></div>
+ </div>
+</div>
+
+
+<script>
+
+
+/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+</script>
+
+</body>
+</html> 
