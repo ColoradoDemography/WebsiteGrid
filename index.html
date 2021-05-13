@@ -89,6 +89,7 @@
 	   <label for="county-dropdown">Select County:</label>
 	   <select class="county-dropdown" id="county-dropdown"></select>
 	 <div id="PopTab"></div>
+	 <div id="COCTab"></div>
    </div>
    <div class="grid-item panel_2_4_w">
      <p></p>
@@ -187,6 +188,7 @@ d3.json(urlstr).then(function(yeardata){
 	
 //Generate Initial Tables
 genSYA("000",yrvalue);
+genCOC("000",yrvalue)
 genRaceEth("000",yrvalue);
 genHousing("000",yrvalue);
 
@@ -195,6 +197,7 @@ d3.select("#county-dropdown").on("change", function(d,i) {
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
 
         genSYA(selectedfips,yrvalue);
+		genCOC(selectedfips,yrvalue);
 		genRaceEth(selectedfips,yrvalue);
 		genHousing(selectedfips,yrvalue);
     });
