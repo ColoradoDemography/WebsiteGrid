@@ -83,7 +83,7 @@ for(i = 0; i < ages.length; i++) {
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Population Estimates by Age: '+ yrvalue, 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>SDO Single Year of Age</a>", 'colspan' : 2}
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>SDO Single Year of Age Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Ages','Number of People','Year Over Year Change','2030 Forecast'];
 // Output table 
@@ -149,10 +149,11 @@ rows.append('td')
 }); //d3.json
 } //end of genSYA
 
-//genCOC generates components of change data fro table
+//genCOC generates components of change data for table
 function genCOC(fips,yrvalue){
-
-// Extracts and summarizes SYA data for output table
+	var fmt_pct = d3.format(".2%")
+	var fmt_comma = d3.format(",");
+// Extracts and summarizes COC data for output table
 //Specify fips_list
 var fips_list = parseInt(fips); 
    
@@ -167,12 +168,95 @@ var fips_list = parseInt(fips);
   var COCdata = [];
   d3.json(urlstr).then(function(data){
        data.forEach( function(obj){  
-      COCdata.push({'year' : obj.year, 'estimate' : parseInt(obj.estimate), 'bitths' : parseInt(obj.births),
-                    'deaths' : parseInt(obj.deaths), 'netmig' : parseInt(obj.netmig), 'natincr' : parseInt(obj.chnage)});
+      COCdata.push({'year' : obj.year, 'estimate' : parseInt(obj.estimate), 'Births' : parseInt(obj.births),
+                    'Deaths' : parseInt(obj.deaths), 'Net Migration' : parseInt(obj.netmig), 'natincr' : parseInt(obj.change)});
   }); 
   
+var COC_T = transpose(COCdata);
 
-  return(COCdata);
+var COC_fint = Object.values(COC_T);
+
+//Extracting data for table
+var tbl_arr = [];
+var outname;
+var prevVal;
+var curVal;
+var pctchg;
+var forVal;
+debugger;
+for(i = 2; i <= 4; i++){
+	outname = COC_fint[i][0][0]['name'];
+	prevVal = COC_fint[i][0][0]['value'];
+	curVal = COC_fint[i][1][0]['value'];
+    forVal = COC_fint[i][2][0]['value'];
+	pctchg = (curVal - prevVal)/prevVal;
+	tbl_arr.push({'coc_name' : outname, 'curval' : fmt_comma(curVal), 'pct_chg' : fmt_pct(pctchg), 'forval' : fmt_comma(forVal) });
+}
+//Generate Table
+var tblcolumns1 = [
+    {'text' :'Components of Change: '+ yrvalue, 'colspan' : 2},
+	{'text' : "<a href='https://demography.dola.colorado.gov/births-deaths-migration/data/components-change/#components-of-change' target=_blank>SDO Components of Change Lookup</a>", 'colspan' : 2}
+	 ];
+var tblcolumns2 = ['Component','Number of People','Year Over Year Change','2030 Forecast'];
+// Output table 
+d3.select('#COCTab').html("");
+var syatab = d3.select('#COCTab')
+               .append('table')
+               .style('table-layout', 'fixed');
+			   
+thead = syatab.append('thead');
+tbody = syatab.append('tbody');
+//Header
+thead.append('tr')
+       .selectAll('th')
+   .data(tblcolumns1).enter()
+   .append('th')
+   .html(function(d) {return d.text;})
+   .attr("colspan", function(d) {return d.colspan;})
+   .style("border", "1px black solid")
+   .style("width","50%")
+ 	
+thead.append('tr')
+   .selectAll('th')
+   .data(tblcolumns2).enter()
+   .append('th')
+   .text(function(d) {return d;})
+   .style("border", "1px black solid")
+   .style("width","25%")
+   .style("text-align", "center")
+   .style("font-weight", "bold");
+//Rows   
+
+var rows = tbody
+    .selectAll('tr')
+    .data(tbl_arr).enter()
+    .append('tr')
+	.attr("width", "25%")
+	.attr("border-spacing","0")
+	.style("color","black");
+
+//Columns
+rows.append('td')
+      .style("text-align", "left")
+	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
+	  .html(function(m) { return m.coc_name; });
+rows.append('td')
+      .style("text-align", "right")
+	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
+      .html(function(m) { return m.curval; });
+rows.append('td')
+       .style("text-align", "right") 
+	   .style('font-size','10pt')
+	   .attr("border-spacing","0")
+       .html(function(m) { return m.pct_chg; });
+rows.append('td')
+      .style("text-align", "right")
+	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
+      .html(function(m) { return m.forval; });
+	
   }); //d3.json  
 } //end genCOC
 
@@ -266,7 +350,7 @@ for(i = 0; i < raceth.length; i++) {
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Race/Ethnicity by Age: '+ yrvalue, 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>SDO Race/Ethnicity Dashboard</a>", 'colspan' : 2}
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>SDO Race/Ethnicity Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Race/Ethnicity','Number of People','Year Over Year Change','2030 Forecast'];
 // Output table 
@@ -595,7 +679,7 @@ for(i = 1; i < housing_fint.length; i++){
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>SDO County Profile Dashboard</a>", 'colspan' : 2}
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>SDO County Profile Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Housing Type', 'Value', 'Year Over Year Change'];
 // Output table 
