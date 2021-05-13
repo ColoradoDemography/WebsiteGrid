@@ -2,6 +2,18 @@
 //A. Bickford 5/2021
 
 //list of lookup statements  https://github.com/ColoradoDemography/MS_Demog_Lookups/tree/master/doc
+//Utility Function
+
+function transpose(data) {
+  let result = {};
+  for (let row of data) {
+    for (let [key, value] of Object.entries(row)) {
+      result[key] = result[key] || [];
+	result[key].push([{'name' : key, 'value' : value}]); 
+    }
+  }
+  return result;
+}
 
 //Data Aqusition functions
 
@@ -68,10 +80,10 @@ for(i = 0; i < ages.length; i++) {
 	tbl_arr.push({'age_cat' : ages[i], 'curval' : fmt_comma(filt[1].totalpopulation), 'pct_chg' : fmt_pct((filt[1].totalpopulation - filt[0].totalpopulation)/filt[0].totalpopulation), 'forval' : fmt_comma(filt[2].totalpopulation)});
   };
 
-
+//Generate Table
 var tblcolumns1 = [
     {'text' :'Population Estimates by Age: '+ yrvalue, 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>SDO Single Year of Age</a>", 'colspan' : 2}
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>SDO Single Year of Age</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Ages','Number of People','Year Over Year Change','2030 Forecast'];
 // Output table 
@@ -108,25 +120,29 @@ var rows = tbody
     .data(tbl_arr).enter()
     .append('tr')
 	.attr("width", "25%")
-	.attr("border-spacing","0px")
+	.attr("border-spacing","0")
 	.style("color","black");
 
 //Columns
 rows.append('td')
       .style("text-align", "left")
 	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
 	  .html(function(m) { return m.age_cat; });
 rows.append('td')
       .style("text-align", "right")
 	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
       .html(function(m) { return m.curval; });
 rows.append('td')
        .style("text-align", "right") 
 	   .style('font-size','10pt')
+	   .attr("border-spacing","0")
        .html(function(m) { return m.pct_chg; });
 rows.append('td')
       .style("text-align", "right")
 	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
       .html(function(m) { return m.forval; });
 
 
@@ -162,6 +178,8 @@ var fips_list = parseInt(fips);
 
 //genRaceEth generates race and ethnicity data for table
 function genRaceEth(fips,yrvalue){
+	var fmt_pct = d3.format(".2%")
+	var fmt_comma = d3.format(",");
 
 //Specify fips_list
 var fips_list = parseInt(fips); 
@@ -188,7 +206,7 @@ urlstr_nonhispest = "https://gis.dola.colorado.gov/lookups/sya-race-estimates?ag
 
 //forecast urls
 urlstr_for = "https://gis.dola.colorado.gov/lookups/sya-race-forecast?age=0,18,65&county=" + fips_list + "&year=" + year10 + "&race=1,2,3,4,5&group=opt7";
-console.log(urlstr_for);
+
 var hisp_est = [];
 var nonhisp_est = [];
 var raceeth_for = [];
@@ -207,6 +225,9 @@ hisp_est.push({'year' : obj.year, 'sex' : obj.sex, 'population' : parseInt(obj.c
      raceeth_for.push({'year' : obj.year, 'race_eth' : obj.race, 'population' : parseInt(obj.count)});
 });
 
+for(i = 0; i < raceeth_for.length; i++){
+     if(raceeth_for[i].race_eth == "Asian non Hispanic"){ raceeth_for[i].race_eth = "Asian/Pacific Islander non Hispanic"};
+};
    
 //Rolling up the hispanic and non-hispanic datasets
 var hisp_total = d3.rollup(hisp_est, v => d3.sum(v, d => d.population), d => d.year);
@@ -223,15 +244,90 @@ for (let[key2, value2] of value) {
    nonhisp_flat.push({'year' : key1, 'race_eth' : key2 + ' non Hispanic', 'population' : value2});
 }
 }
+
 var raceeth_est = hisp_flat.concat(nonhisp_flat);
-var raceeth_tmp = [];
+var raceeth_fin = [];
+
 raceeth_est.concat(raceeth_for).forEach(function(obj) {
-    raceeth_tmp.push({'sortkey' : obj.year + obj.race_eth, 'year' : obj.year, 'race_eth' : obj.race_eth, 'population' : obj.population});
+    raceeth_fin.push({'year' : obj.year, 'race_eth' : obj.race_eth, 'population' : obj.population});
     });
 
-    var raceeth_fin = raceeth_tmp.sort(function(a, b){return a.sortkey - b.sortkey});
 
-return(raceeth_fin);
+// Create table array for output
+var tbl_arr = []
+
+var raceth = ["Hispanic", "White non Hispanic", "Black non Hispanic", "Asian/Pacific Islander non Hispanic", "American Indian non Hispanic"];
+
+for(i = 0; i < raceth.length; i++) {
+	var filt = raceeth_fin.filter(function(d) {return d.race_eth == raceth[i]});
+	tbl_arr.push({'race_eth' : raceth[i], 'curval' : fmt_comma(filt[1].population), 'pct_chg' : fmt_pct((filt[1].population - filt[0].population)/filt[0].population), 'forval' : fmt_comma(filt[2].population)});
+  };
+
+//Generate Table
+var tblcolumns1 = [
+    {'text' :'Race/Ethnicity by Age: '+ yrvalue, 'colspan' : 2},
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>SDO Race/Ethnicity Dashboard</a>", 'colspan' : 2}
+	 ];
+var tblcolumns2 = ['Race/Ethnicity','Number of People','Year Over Year Change','2030 Forecast'];
+// Output table 
+d3.select('#RaceTab').html("");
+var syatab = d3.select('#RaceTab')
+               .append('table')
+               .style('table-layout', 'fixed');
+			   
+thead = syatab.append('thead');
+tbody = syatab.append('tbody');
+//Header
+thead.append('tr')
+       .selectAll('th')
+   .data(tblcolumns1).enter()
+   .append('th')
+   .html(function(d) {return d.text;})
+   .attr("colspan", function(d) {return d.colspan;})
+   .style("border", "1px black solid")
+   .style("width","50%")
+ 	
+thead.append('tr')
+   .selectAll('th')
+   .data(tblcolumns2).enter()
+   .append('th')
+   .text(function(d) {return d;})
+   .style("border", "1px black solid")
+   .style("width","25%")
+   .style("text-align", "center")
+   .style("font-weight", "bold");
+//Rows   
+
+var rows = tbody
+    .selectAll('tr')
+    .data(tbl_arr).enter()
+    .append('tr')
+	.attr("width", "25%")
+	.attr("border-spacing","0")
+	.style("color","black");
+
+//Columns
+rows.append('td')
+      .style("text-align", "left")
+	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
+	  .html(function(m) { return m.race_eth; });
+rows.append('td')
+      .style("text-align", "right")
+	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
+      .html(function(m) { return m.curval; });
+rows.append('td')
+       .style("text-align", "right") 
+	   .style('font-size','10pt')
+	   .attr("border-spacing","0")
+       .html(function(m) { return m.pct_chg; });
+rows.append('td')
+      .style("text-align", "right")
+	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
+      .html(function(m) { return m.forval; });
+
 
 }); //end of Promise
 
@@ -403,6 +499,10 @@ for(i = 0; i <= 262; i++ ){  //Summary Loop
 
 //genHousing generates housing data for table From the SDO County Profile
 function genHousing(fips, yrvalue) {
+	var fmt_pct = d3.format(".2%")
+	var fmt_comma = d3.format(",");
+	var fmt_dec = d3.format(".2");
+
 //Specify fips_list
 var fips_list = parseInt(fips); 
    
@@ -445,7 +545,112 @@ for (let [key, obj] of housing_temp) {
 						'household_size' : obj.householdpopulation/obj.households,
 	                    'censusbuildingpermits' : obj.censusbuildingpermits});
  };
-return(housing_fin);
+
+
+var housing_T = transpose(housing_fin);
+
+var housing_fint = Object.values(housing_T);
+
+
+var tbl_arr = [];
+var out_name  = "";
+var currentVal = 0;
+var prevVal = 0;
+var cVal = 0;
+var pctVal = 0;
+
+for(i = 1; i < housing_fint.length; i++){
+	currentVal = housing_fint[i][1][0]['value'];
+	prevVal = housing_fint[i][0][0]['value']; 
+	
+	if(housing_fint[i][0][0].name == 'totalhousingunits') { out_name = "Total Housing Units";
+	                                                     cVal = fmt_comma(currentVal);
+														 pctVal = fmt_pct((currentVal-prevVal)/prevVal);
+													   };
+	if(housing_fint[i][0][0].name == 'householdpopulation') { out_name = "Household Population";
+	                                                     cVal = fmt_comma(currentVal);
+														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
+													   };
+	if(housing_fint[i][0][0].name == 'groupquarterspopulation') { out_name = "Group Quarters Population";
+	                                                     cVal = fmt_comma(currentVal);
+														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
+													   };
+	if(housing_fint[i][0][0].name == 'households') { out_name = "Households";
+	                                                     cVal = fmt_comma(currentVal);
+														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
+													   };
+	if(housing_fint[i][0][0].name == 'household_size') { out_name = "Household Size";
+	                                                     cVal = fmt_dec(currentVal);
+														 pctVal = "";
+													   };
+	if(housing_fint[i][0][0].name == 'censusbuildingpermits') { out_name = "Census Building Permits";
+	                                                     cVal = fmt_comma(currentVal);
+														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
+													   };
+	tbl_arr.push({ 'row_name' : out_name,
+	               'curval' : cVal, 
+	               'pct_chg' : pctVal});
+};
+
+//Generate Table
+var tblcolumns1 = [
+    {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>SDO County Profile Dashboard</a>", 'colspan' : 2}
+	 ];
+var tblcolumns2 = ['Housing Type', 'Value', 'Year Over Year Change'];
+// Output table 
+d3.select('#HousTab').html("");
+var syatab = d3.select('#HousTab')
+               .append('table')
+               .style('table-layout', 'fixed');
+			   
+thead = syatab.append('thead');
+tbody = syatab.append('tbody');
+//Header
+thead.append('tr')
+       .selectAll('th')
+   .data(tblcolumns1).enter()
+   .append('th')
+   .html(function(d) {return d.text;})
+   .attr("colspan", function(d) {return d.colspan;})
+   .style("border", "1px black solid")
+   .style("width","33%")
+ 	
+thead.append('tr')
+   .selectAll('th')
+   .data(tblcolumns2).enter()
+   .append('th')
+   .text(function(d) {return d;})
+   .style("border", "1px black solid")
+   .style("width","33%")
+   .style("text-align", "center")
+   .style("font-weight", "bold");
+//Rows   
+
+var rows = tbody
+    .selectAll('tr')
+    .data(tbl_arr).enter()
+    .append('tr')
+	.attr("width", "33%")
+	.attr("border-spacing","0")
+	.style("color","black");
+
+//Columns
+rows.append('td')
+      .style("text-align", "left")
+	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
+	  .html(function(m) { return m.row_name; });
+rows.append('td')
+      .style("text-align", "right")
+	  .style('font-size','10pt')
+	  .attr("border-spacing","0")
+      .html(function(m) { return m.curval; });
+rows.append('td')
+       .style("text-align", "right") 
+	   .style('font-size','10pt')
+	   .attr("border-spacing","0")
+       .html(function(m) { return m.pct_chg; });
 
 }); //d3.json
 }; // End of genHousing
