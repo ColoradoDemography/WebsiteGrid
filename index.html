@@ -95,14 +95,16 @@ body {
 	   <label for="county-dropdown">Select County:</label>
 	   <select class="county-dropdown" id="county-dropdown"></select>
 	 <div id="PopTab"></div>
+   </div>
+   <div class="grid-item panel_2_4_w">
+     <p></p>
+	 <p></p>
+	 <p></p>
 	 <div id="RaceTab"></div>
+   </div>
+   <div class="grid-item panel_2_6_w">
 	 <div id="HousTab"></div>
-  </div>
-  <div class="grid-item panel_2_5_w">
-	 <div id="EducTab"></div>
-	 <div id="IncomeTab"></div>
-
-  </div>
+   </div>
 
 <div class="grid-item panel_4_2">
 	   <p class="grid-title">News</p>
@@ -186,14 +188,18 @@ d3.json(urlstr).then(function(yeardata){
 	var yrsList = maxest.map(function(d){return d.year;});
     var yrvalue = d3.max(yrsList);
 	
+//Generate Initial Tables
 genSYA("000",yrvalue);
-
+genRaceEth("000",yrvalue);
+genHousing("000",yrvalue);
 
 d3.select("#county-dropdown").on("change", function(d,i) {
         var selectedfips = d3.select("#county-dropdown").property('value');
-		var selectedcounty = d3.select('#county-dropdown option:checked').text();;
-		//Replace this with table creation code
+		var selectedcounty = d3.select('#county-dropdown option:checked').text();
+
         genSYA(selectedfips,yrvalue);
+		genRaceEth(selectedfips,yrvalue);
+		genHousing(selectedfips,yrvalue);
     });
 }); //end of maximum year value
 /* Acoordian Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
