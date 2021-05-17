@@ -4,6 +4,54 @@
 //list of lookup statements  https://github.com/ColoradoDemography/MS_Demog_Lookups/tree/master/doc
 //Utility Function
 
+//includeHTML  taken for W3  https://www.w3schools.com/howto/howto_html_include.asp
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /* Loop through a collection of all HTML elements: */
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+    /*search for elements with a certain atrribute:*/
+    file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      /* Make an HTTP request using the attribute value as the file name: */
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+          /* Remove the attribute, and call this function once more: */
+          elmnt.removeAttribute("w3-include-html");
+          includeHTML();
+        }
+      }
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /* Exit the function: */
+      return;
+    }
+  }
+}
+
+function runAccordion(){
+
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+};
+return;
+}
+
 function transpose(data) {
   let result = {};
   for (let row of data) {
@@ -183,7 +231,7 @@ var prevVal;
 var curVal;
 var pctchg;
 var forVal;
-debugger;
+
 for(i = 2; i <= 4; i++){
 	outname = COC_fint[i][0][0]['name'];
 	prevVal = COC_fint[i][0][0]['value'];
@@ -349,10 +397,10 @@ for(i = 0; i < raceth.length; i++) {
 
 //Generate Table
 var tblcolumns1 = [
-    {'text' :'Race/Ethnicity by Age: '+ yrvalue, 'colspan' : 2},
+    {'text' :'Race/ Ethnicity: '+ yrvalue, 'colspan' : 2},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>SDO Race/Ethnicity Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Race/Ethnicity','Number of People','Year Over Year Change','2030 Forecast'];
+var tblcolumns2 = ['Race/ Ethnicity','Number of People','Year Over Year Change','2030 Forecast'];
 // Output table 
 d3.select('#RaceTab').html("");
 var syatab = d3.select('#RaceTab')

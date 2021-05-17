@@ -165,7 +165,7 @@ html,button,input,select,textarea{
 
 h1, h2, h3, h4, h5{
   ffont-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
-  line-height: 1.25;
+  line-height: 1;
 }
 
 
@@ -264,9 +264,6 @@ h5:before {
 button {
     border: 0px;
 }
-
-
-
 
 #logo {
     margin-top:12px;
@@ -461,13 +458,7 @@ button {
     margin-right: 20px;
       padding-bottom: 20px;
   }
-  
-  
-}
-
-
-
-
+  }
 
 
 @media screen and (max-width: 784px) {
@@ -476,7 +467,6 @@ button {
     }
  
 }
-
 
 
 @media screen and (min-width: 785px) {
@@ -708,14 +698,17 @@ a :hover {
 }
 
 /* Style the sidenav links and the dropdown button */
+p.dd {line-height: 80%;}
+br {
+        line-height: 80%;
+     }
 .dropdown-btn {
-   /* padding: 6px 8px 6px 16px;*/
-    text-decoration: none;
-    font-size: 12pt;
+    padding-top: 5px;
+    text-decoration: underline;
+    font-size: 11pt;
     color: blue; 
     display: block;
 	border : none;
-    border-bottom-style: solid;
     background: none;
     width: 100%;
     text-align: left;
@@ -726,6 +719,16 @@ a :hover {
 /* On mouse-over */
 .dropdown-btn:hover {
     color: black;
+}
+
+.dropdown-link {
+	text-decoration: none;
+    font-size: 11pt;
+    color: blue; 
+    display: block;
+	border : none;
+    background: none;
+    width: 100%;
 }
 
 /* Main content */
