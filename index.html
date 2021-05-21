@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- DOLA CSS 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" />
-    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_Rhxq1U9o3ufXvFIyswIuZ29b9MB9oyxGhEO6DVz7zPU.css" />
-    <link rel="stylesheet" media="all" href="/modules/contrib/bootstrap_paragraphs/css/bootstrap-paragraphs-image.min.css?qrhddm" />
-    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_dNIRbQ91YAYD0xcmt43pYJt1M6cVaai2wptN2HAZzxw.css" />
-    <link rel="stylesheet" media="all" href="/sites/dola/files/css/css_7MlqUZRO9Z_KKXQV7L-mdaLGlXI2TrjqYKujbxbJ2kQ.css" />
--->
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
@@ -21,7 +14,9 @@
 <!-- SDO suport functions, genSYA, insertHTML, -->
 <script src="./assets/js/funct.js"></script>
 </head>
-<body onload="runAccordion()">
+
+<body>
+
 <div>
 <a href="https://cdola.colorado.gov/"><img src="./assets/img/SDO-1600x400.jpg" alt="Department of Local Affairs Homepage" width="400px" height="100px"></a>
 </div>
@@ -42,23 +37,23 @@
 			State Demography Office
 			<br>The State Demography Office is the primary state agency for population and demographic information.
   </div>
-  <div class="grid-item panel_2_1" id="accordion">
+  <div class="grid-item panel_2_1" id="leftHand">
 	<div w3-include-html="./assets/html/left_hand.html"></div>
   </div> <!-- Grid  panel_2_1 -->
 
-  <div class="grid-item panel_2_2_w">
+  <div class="grid-item panel_2_2">
 	   <label for="county-dropdown">Select County:</label>
 	   <select class="county-dropdown" id="county-dropdown"></select>
 	 <div id="PopTab"></div>
 	 <div id="COCTab"></div>
    </div>
-   <div class="grid-item panel_2_4_w">
+   <div class="grid-item panel_2_3">
      <a href='https://arcg.is/04jOOq' target=_blank>Colorado's Population and Economic Trends</a>
 	 <p></p>
 	 <p></p>
 	 <div id="RaceTab"></div>
    </div>
-   <div class="grid-item panel_2_6_w">
+   <div class="grid-item panel_2_4">
      <p></p>
 	 <p></p>
 	 <p></p>
@@ -68,17 +63,20 @@
 <div class="grid-item panel_4_2">
 			<div w3-include-html="./assets/html/bodycontent1.html"></div>
 	 </div>
-	<div class="grid-item panel_4_4">
+	<div class="grid-item panel_4_3">
 			<div w3-include-html="./assets/html/bodycontent2.html"></div>
     </div>
-	<div class="grid-item panel_4_6">
+	<div class="grid-item panel_4_4">
 			<div w3-include-html="./assets/html/bodycontent3.html"></div>
 	</div>
 </div>  <!-- End Grid -->
 <script>
 //Setting HTML include and Accordion
 includeHTML(); 
+//Function checks if selected div is loaded and runs Accordion
 
+window.onload = runAccordion;
+setInterval(function(){ runAccordion(); }, 50);
 
 /* Populate County Dropdown */
 
@@ -149,9 +147,6 @@ d3.select("#county-dropdown").on("change", function(d,i) {
 		genHousing(selectedfips,yrvalue);
     });
 }); //end of maximum year value
-
-window.onload = function() { runAccordion();};
-    
 
 </script>
 
