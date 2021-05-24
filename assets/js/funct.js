@@ -135,7 +135,7 @@ var tblcolumns1 = [
     {'text' :'Population Estimates by Age: '+ yrvalue, 'colspan' : 2},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>SDO Single Year of Age Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Ages','Number','Change','2030 Forecast'];
+var tblcolumns2 = ['Ages','Number','Change from '+ prevyear,'2030 Forecast'];
 // Output table 
 d3.select('#PopTab').html("");
 var syatab = d3.select('#PopTab')
@@ -401,7 +401,7 @@ var tblcolumns1 = [
     {'text' :'Race/ Ethnicity: '+ yrvalue, 'colspan' : 2},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>SDO Race/Ethnicity Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Race/ Ethnicity','Number','Change','2030 Forecast'];
+var tblcolumns2 = ['Race/ Ethnicity','Number','Change from '+ prevyear,'2030 Forecast'];
 // Output table 
 d3.select('#RaceTab').html("");
 var syatab = d3.select('#RaceTab')
@@ -730,7 +730,7 @@ var tblcolumns1 = [
     {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>SDO County Profile Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Housing Type', 'Value', 'Change'];
+var tblcolumns2 = ['Housing Type', 'Value', 'Change from ' + prevyear];
 // Output table 
 d3.select('#HousTab').html("");
 var syatab = d3.select('#HousTab')
