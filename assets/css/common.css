@@ -207,13 +207,17 @@ thead {
 	padding: 2px;
 }
 
+ .tbl-margin {
+     margin-bottom: 1cm;
+  }
+  
 tr.spaceUnder>td {
   padding-top : 0px;
   padding-bottom : 0px;
 }
 
-tbody tr:nth-child(even){background-color: #f2f2f2}
-tbody tr:nth-child(odd){background-color: #ccc}
+tbody tr:nth-child(even){background-color: white}
+tbody tr:nth-child(odd){background-color: white}
 
 /* anchor tag hacks */
 
@@ -265,11 +269,9 @@ button {
     border: 0px;
 }
 
-#logo {
-    margin-top:12px;
-    margin-left:12px;
-    margin-bottom:5px;
-
+.logoSDO {
+	width : 75%;
+	height: 25%;
 }
 
 #top-bar-wrapper {
@@ -487,7 +489,7 @@ button {
   
   
     #top-navigation-wrapper{
-        background-color: #21201e;
+        background-color: #7c7e80;
         height: 48px;
     }
 
@@ -496,7 +498,7 @@ button {
         padding: 0;
         padding-left: 4px;
         height: 48px;
-        background-color: #21201e;
+        background-color: #7c7e80;
     }
 
     #top-navigation-list li{
@@ -506,15 +508,16 @@ button {
 
     #top-navigation-list li a{
         position: relative;
-        color: #c3c1c1;
-        background-color: #21201e; 
+        background-color: #7c7e80; 
+		text-align: right;
+		color: white;
         font-size:16px;
         text-decoration:none;
         border:none;
         top: 12px;
         padding-top: 13px;
         padding-bottom: 13px;
-        border-right: 1px solid #454444;
+        border-right: 1px solid #7c7e80;
     }
 
     #top-navigation-list li.padding-extra a {
@@ -523,7 +526,6 @@ button {
     }
 
     #top-navigation-list li.padding-normal a {
-		text-align: center;
         padding-left: 10px;
         padding-right: 10px;
     }
@@ -537,11 +539,34 @@ button {
     }
 
     #top-navigation-list li a:active, #top-navigation-list li a.active, #top-navigation-list li a:hover{
-        background-color:#21201e;
-        color:#fff;
+        background-color:#7c7e80;
+        color:white;
     }
 }
 
+/* New Horizontal Rule */
+.horiz {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: grey;
+}
+.horiz_item {
+  float: left;
+}
+
+.horiz_item a {
+  display: block;
+  color: white;
+  text-align: left;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.horiz_item a:hover {
+  background-color: #111;
+}
 
 .banner-image-container {
   position: relative;
@@ -714,6 +739,7 @@ br {
     text-align: left;
     cursor: pointer;
     outline: none;
+	z-index: 10;
 }
 
 /* On mouse-over */

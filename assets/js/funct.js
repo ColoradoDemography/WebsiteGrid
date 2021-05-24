@@ -135,7 +135,7 @@ var tblcolumns1 = [
     {'text' :'Population Estimates by Age: '+ yrvalue, 'colspan' : 2},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>SDO Single Year of Age Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Ages','Number of People','Year Over Year Change','2030 Forecast'];
+var tblcolumns2 = ['Ages','Number','Change','2030 Forecast'];
 // Output table 
 d3.select('#PopTab').html("");
 var syatab = d3.select('#PopTab')
@@ -210,8 +210,7 @@ var fips_list = parseInt(fips);
 //extract year value   
  
   var prevyear = yrvalue - 1;
-  var year10 = 2030;
-  var yr_list = prevyear + "," + yrvalue + "," + year10;
+  var yr_list = prevyear + "," + yrvalue;
   
    //Generate url
  var urlstr = "https://gis.dola.colorado.gov/lookups/components?county=" + fips_list + "&year=" + yr_list
@@ -238,16 +237,15 @@ for(i = 2; i <= 4; i++){
 	outname = COC_fint[i][0][0]['name'];
 	prevVal = COC_fint[i][0][0]['value'];
 	curVal = COC_fint[i][1][0]['value'];
-    forVal = COC_fint[i][2][0]['value'];
 	pctchg = (curVal - prevVal)/prevVal;
-	tbl_arr.push({'coc_name' : outname, 'curval' : fmt_comma(curVal), 'pct_chg' : fmt_pct(pctchg), 'forval' : fmt_comma(forVal) });
+	tbl_arr.push({'coc_name' : outname, 'prevval' : fmt_comma(prevVal), 'curval' : fmt_comma(curVal), 'pct_chg' : fmt_pct(pctchg)});
 }
 //Generate Table
 var tblcolumns1 = [
-    {'text' :'Components of Change: '+ yrvalue, 'colspan' : 2},
+    {'text' :'Components of Change', 'colspan' : 2},
 	{'text' : "<a href='https://demography.dola.colorado.gov/births-deaths-migration/data/components-change/#components-of-change' target=_blank>SDO Components of Change Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Component','Number of People','Year Over Year Change','2030 Forecast'];
+var tblcolumns2 = ['Component','Number,  ' + prevyear,'Number,  ' + yrvalue,'Change'];
 // Output table 
 d3.select('#COCTab').html("");
 var syatab = d3.select('#COCTab')
@@ -295,17 +293,17 @@ rows.append('td')
       .style("text-align", "right")
 	  .style('font-size','10pt')
 	  .attr("border-spacing","0")
-      .html(function(m) { return m.curval; });
+      .html(function(m) { return m.prevval; });
 rows.append('td')
        .style("text-align", "right") 
 	   .style('font-size','10pt')
 	   .attr("border-spacing","0")
-       .html(function(m) { return m.pct_chg; });
+       .html(function(m) { return m.curval; });
 rows.append('td')
       .style("text-align", "right")
 	  .style('font-size','10pt')
 	  .attr("border-spacing","0")
-      .html(function(m) { return m.forval; });
+      .html(function(m) { return m.pct_chg; });
 	
   }); //d3.json  
 } //end genCOC
@@ -402,7 +400,7 @@ var tblcolumns1 = [
     {'text' :'Race/ Ethnicity: '+ yrvalue, 'colspan' : 2},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>SDO Race/Ethnicity Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Race/ Ethnicity','Number of People','Year Over Year Change','2030 Forecast'];
+var tblcolumns2 = ['Race/ Ethnicity','Number','Change','2030 Forecast'];
 // Output table 
 d3.select('#RaceTab').html("");
 var syatab = d3.select('#RaceTab')
@@ -717,7 +715,7 @@ for(i = 1; i < housing_fint.length; i++){
 	                                                     cVal = fmt_dec(currentVal);
 														 pctVal = "";
 													   };
-	if(housing_fint[i][0][0].name == 'censusbuildingpermits') { out_name = "Census Building Permits";
+	if(housing_fint[i][0][0].name == 'censusbuildingpermits') { out_name = "Annual Building Permits";
 	                                                     cVal = fmt_comma(currentVal);
 														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
 													   };
@@ -731,7 +729,7 @@ var tblcolumns1 = [
     {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>SDO County Profile Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Housing Type', 'Value', 'Year Over Year Change'];
+var tblcolumns2 = ['Housing Type', 'Value', 'Change'];
 // Output table 
 d3.select('#HousTab').html("");
 var syatab = d3.select('#HousTab')
