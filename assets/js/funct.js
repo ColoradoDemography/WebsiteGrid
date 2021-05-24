@@ -351,14 +351,15 @@ data[0].forEach(function(obj) {
 hisp_est.push({'year' : obj.year, 'sex' : obj.sex, 'population' : parseInt(obj.count)});
 });
     data[1].forEach(function(obj) {
+	 if(obj.race ==  "Asian/Pacific Islander") {obj.race ="Asian/ Pacific Islander";}
      nonhisp_est.push({'year' : obj.year, 'sex' : obj.sex, 'race' : obj.race, 'population' : parseInt(obj.count)});
 });
     data[2].forEach(function(obj) {
      raceeth_for.push({'year' : obj.year, 'race_eth' : obj.race, 'population' : parseInt(obj.count)});
 });
-
+console.log(nonhisp_est);
 for(i = 0; i < raceeth_for.length; i++){
-     if(raceeth_for[i].race_eth == "Asian non Hispanic"){ raceeth_for[i].race_eth = "Asian/Pacific Islander non Hispanic"};
+     if(raceeth_for[i].race_eth == "Asian non Hispanic"){ raceeth_for[i].race_eth = "Asian/ Pacific Islander non Hispanic"};
 };
    
 //Rolling up the hispanic and non-hispanic datasets
@@ -387,8 +388,8 @@ raceeth_est.concat(raceeth_for).forEach(function(obj) {
 
 // Create table array for output
 var tbl_arr = []
-
-var raceth = ["Hispanic", "White non Hispanic", "Black non Hispanic", "Asian/Pacific Islander non Hispanic", "American Indian non Hispanic"];
+debugger;
+var raceth = ["Hispanic", "White non Hispanic", "Black non Hispanic", "Asian/ Pacific Islander non Hispanic", "American Indian non Hispanic"];
 
 for(i = 0; i < raceth.length; i++) {
 	var filt = raceeth_fin.filter(function(d) {return d.race_eth == raceth[i]});
