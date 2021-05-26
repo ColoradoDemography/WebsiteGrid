@@ -109,7 +109,7 @@ function educData(indata,fips) {
   //flatten 
 var outdata_flat = [];
 for(i = 0; i < outdata.length; i++){
-	if(fips = "000") {
+	if(fips == "000") {
 		outdata_flat.push ({
 			'state' : outdata[i][0].state,
 			 'total_est' : outdata[i][0].total_est,
@@ -150,10 +150,11 @@ function povData(indata,fips) {
 	for(i = 0; i < indata.data.length; i++) {
 	   proc_data.push(indata.data[i]);
 	};
-	
+
 	var outdata = [];
 	for(a = 0; a < proc_data.length; a++){ 
-	 	 var temp = [];
+
+	 var temp = [];
 	 if(fips == "000"){
 	    temp.push({
 			 'state' : Number(proc_data[a].state),
@@ -165,15 +166,15 @@ function povData(indata,fips) {
 			 'pov_moe_pct' : Number(proc_data[a].b06012_moe002)/Number(proc_data[a].b06012001)
 		});
 	 } else {
-			temp.push({
-			'county' : Number(proc_data[a].county),
+		temp.push({
+			 'county' : Number(proc_data[a].county),
 			 'total_est' : Number(proc_data[a].b06012001),
-			 'total_moe' : Number(proc_data[a].b06012moe001),
+			 'total_moe' : Number(proc_data[a].b06012_moe001),
 			 'pov_est' : Number(proc_data[a].b06012002),
-			 'pov_moe' : Number(proc_data[a].b06012moe001),
+			 'pov_moe' : Number(proc_data[a].b06012_moe001),
 			 'pov_est_pct' : Number(proc_data[a].b06012002)/Number(proc_data[a].b06012001),
-			 'pov_moe_pct' : Number(proc_data[a].b06012moe002)/Number(proc_data[a].b06012001)
-			 });
+			 'pov_moe_pct' : Number(proc_data[a].b06012_moe002)/Number(proc_data[a].b06012001)
+		 });
 	 };
 	
 	 outdata.push(temp);	
@@ -182,7 +183,7 @@ function povData(indata,fips) {
  //flatten 
 var outdata_flat = [];
 for(i = 0; i < outdata.length; i++){
-	if(fips = "000") {
+	if(fips == "000") {
 		outdata_flat.push ({
 			'state' : outdata[i][0].state,
 			 'total_est' : outdata[i][0].total_est,
@@ -279,7 +280,7 @@ function incData(indata, type, fips) {  //Type: HH: Household Income, MORT: home
  //flatten 
 var outdata_flat = [];
 for(i = 0; i < outdata.length; i++){
-	if(fips = "000") {
+	if(fips == "000") {
 		outdata_flat.push ({
 			'state' : outdata[i][0].state,
 			 'inc_est' : outdata[i][0].inc_est,
@@ -859,7 +860,8 @@ Promise.all(prom).then(function(data){
 
     educ_prev = educData(data[2],fips);
 	educ_cur = educData(data[3],fips);
-
+    console.log(educ_prev);
+	console.log(educ_cur);
 	//Calculate rank 
 	educ_rank = educ_cur.sort(function(a, b){ return d3.ascending(b['baplus_est_pct'], a['baplus_est_pct']); });
 	educRank = returnRank(educ_rank,fips);
