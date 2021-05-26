@@ -938,7 +938,7 @@ Promise.all(prom).then(function(data){
 var tbl_arr = [];
 var censstub = "https://data.census.gov/cedsci/table?q=";
 
-var tabno = ["B06012","C15003","B19013","B25097","B25064"];
+var tabno = ["B06012","B15003","B19013","B25097","B25064"];
 var tabname = ["% living in Poverty","% with BA+",
               "Median Household Income", "Median Home Value", "Median Gross Rent"];
 
