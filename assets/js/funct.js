@@ -632,7 +632,7 @@ hisp_est.push({'year' : obj.year, 'sex' : obj.sex, 'population' : parseInt(obj.c
 });
 
 for(i = 0; i < raceeth_for.length; i++){
-     if(raceeth_for[i].race_eth == "Asian non Hispanic"){ raceeth_for[i].race_eth = "Asian/ Pacific Islander non Hispanic"};
+     if(raceeth_for[i].race_eth == "Asian non Hispanic"){ raceeth_for[i].race_eth = "Asian/ Pacific Islander NH"};
 };
    
 //Rolling up the hispanic and non-hispanic datasets
@@ -647,7 +647,7 @@ for (let [key, value] of hisp_total) {
 var nonhisp_flat = [];
 for (let [key1, value] of nonhisp_total) {
 for (let[key2, value2] of value) {
-   nonhisp_flat.push({'year' : key1, 'race_eth' : key2 + ' non Hispanic', 'population' : value2});
+   nonhisp_flat.push({'year' : key1, 'race_eth' : key2 + 'NH', 'population' : value2});
 }
 }
 
@@ -662,7 +662,7 @@ raceeth_est.concat(raceeth_for).forEach(function(obj) {
 // Create table array for output
 var tbl_arr = []
 
-var raceth = ["Hispanic", "White non Hispanic", "Black non Hispanic", "Asian/ Pacific Islander non Hispanic", "American Indian non Hispanic"];
+var raceth = ["Hispanic", "White NH", "Black NH", "Asian/ Pacific Islander NH", "American Indian NH"];
 
 for(i = 0; i < raceth.length; i++) {
 	var filt = raceeth_fin.filter(function(d) {return d.race_eth == raceth[i]});
