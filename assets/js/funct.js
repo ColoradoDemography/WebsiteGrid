@@ -1048,7 +1048,7 @@ if(fips == "000"){
 
 // Output table 
 d3.select('#ACSTab').html("");
-var syatab = d3.select('#HousTab')
+var syatab = d3.select('#ACSTab')
                .append('table')
                .style('table-layout', 'fixed');
 			   
