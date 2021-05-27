@@ -631,7 +631,12 @@ hisp_est.push({'year' : obj.year, 'sex' : obj.sex, 'population' : parseInt(obj.c
      raceeth_for.push({'year' : obj.year, 'race_eth' : obj.race, 'population' : parseInt(obj.count)});
 });
 
+
+
 for(i = 0; i < raceeth_for.length; i++){
+	if(raceeth_for[i].race_eth == "White non Hispanic"){ raceeth_for[i].race_eth = "White NH"};
+	if(raceeth_for[i].race_eth == "Black non Hispanic"){ raceeth_for[i].race_eth = "Black NH"};
+	if(raceeth_for[i].race_eth == "American Indian non Hispanic"){ raceeth_for[i].race_eth = "American Indian NH"};
      if(raceeth_for[i].race_eth == "Asian non Hispanic"){ raceeth_for[i].race_eth = "Asian/ Pacific Islander NH"};
 };
    
@@ -647,7 +652,7 @@ for (let [key, value] of hisp_total) {
 var nonhisp_flat = [];
 for (let [key1, value] of nonhisp_total) {
 for (let[key2, value2] of value) {
-   nonhisp_flat.push({'year' : key1, 'race_eth' : key2 + 'NH', 'population' : value2});
+   nonhisp_flat.push({'year' : key1, 'race_eth' : key2 + ' NH', 'population' : value2});
 }
 }
 
@@ -668,6 +673,7 @@ for(i = 0; i < raceth.length; i++) {
 	var filt = raceeth_fin.filter(function(d) {return d.race_eth == raceth[i]});
 	tbl_arr.push({'race_eth' : raceth[i], 'curval' : fmt_comma(filt[1].population), 'pct_chg' : fmt_pct((filt[1].population - filt[0].population)/filt[0].population), 'forval' : fmt_comma(filt[2].population)});
   };
+
 
 //Generate Table
 var tblcolumns1 = [
@@ -860,8 +866,7 @@ Promise.all(prom).then(function(data){
 
     educ_prev = educData(data[2],fips);
 	educ_cur = educData(data[3],fips);
-    console.log(educ_prev);
-	console.log(educ_cur);
+ 
 	//Calculate rank 
 	educ_rank = educ_cur.sort(function(a, b){ return d3.ascending(b['baplus_est_pct'], a['baplus_est_pct']); });
 	educRank = returnRank(educ_rank,fips);
