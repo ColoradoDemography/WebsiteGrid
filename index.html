@@ -44,17 +44,18 @@
   <div class="grid-item panel_2_2">
 	   <label for="county-dropdown">Select County:</label>
 	   <select class="county-dropdown" id="county-dropdown"></select>
+	  
 	 <div id="PopTab"></div>
 	 <div id="COCTab"></div>
    </div>
    <div class="grid-item panel_2_3">
    <p class="tbl-margin"></p>
-	 <div id="RaceTab"></div>
+	 <div id="ACSTab"></div>
    </div>
    <div class="grid-item panel_2_4">
       <p class="tbl-margin"></p>
+	 <div id="RaceTab"></div>
 	 <div id="HousTab"></div>
-	 <div id="ACSTab"></div>
    </div>
 
 <div class="grid-item panel_4_2">
@@ -130,10 +131,11 @@ d3.json(urlstr).then(function(yeardata){
 	
 //Generate Initial Tables
 genSYA("000",yrvalue);
-genCOC("000",yrvalue)
+genCOC("000",yrvalue);
+genACS("000",yrvalue);
 genRaceEth("000",yrvalue);
 genHousing("000",yrvalue);
-genACS("000",yrvalue);
+
 
 d3.select("#county-dropdown").on("change", function(d,i) {
         var selectedfips = d3.select("#county-dropdown").property('value');
@@ -141,9 +143,9 @@ d3.select("#county-dropdown").on("change", function(d,i) {
 
         genSYA(selectedfips,yrvalue);
 		genCOC(selectedfips,yrvalue);
+		genACS(selectedfips,yrvalue);
 		genRaceEth(selectedfips,yrvalue);
 		genHousing(selectedfips,yrvalue);
-		genACS(selectedfips,yrvalue);
     });
 }); //end of maximum year value
 
