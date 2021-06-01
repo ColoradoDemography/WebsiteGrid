@@ -650,9 +650,4 @@ br {
    grid-column: 6;
    grid-row: 3;   
   }
-  
-  .panel2_3_7 {  
-   grid-column: 7;
-   grid-row: 3;   
-  }
-} /* Layour for Desktops */
+} /* Layout for Desktops */
