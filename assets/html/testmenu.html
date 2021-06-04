@@ -1,0 +1,18 @@
+<button class="menu-btn">Open <</button>
+<div class="menu-content">
+<a class="links" href="#">Contact Us</a>
+<a class="links" href="#">Visit Us</a>
+<a class="links" href="#">About Us</a>
+</div>
+</div>
+<script>
+let dropdownBtn = document.querySelector('.menu-btn');
+let menuContent = document.querySelector('.menu-content');
+dropdownBtn.addEventListener('click',()=>{
+   if(menuContent.style.display===""){
+      menuContent.style.display="block";
+   } else {
+      menuContent.style.display="";
+   }
+})
+</script>

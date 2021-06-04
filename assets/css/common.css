@@ -230,30 +230,7 @@ button {
 	  font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
 	  }
 
-/* Data Button Style */
-.databutton { 
-      font-size: 90%; 
-	  color: #efefef; 
-	  text-decoration: none; 
-	  top: 0px; 
-	  width: 245px; 
-	  height: 40px; 
-	  right: 0px; 
-	  left:20px; 
-	  display: table-cell; 
-	  cursor: pointer; 
-	  font-weight: bold; 
-	  background-color: rgb(92,102,112); 
-	  vertical-align: middle; 
-	  line-height: 26px; 
-	  text-align: center; 
-	  border: .25px solid white; 
-	  opacity: .9; 
-	  } 
-.databutton:hover{ background-color: grey; 
-                   text-decoration: none 
-				  }
-				  
+			  
 				  
 /* Map button Styles */
 /* Style for icon images */
@@ -290,8 +267,8 @@ a :hover {
 	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
 	  pointer-events: none;
 }
-
-/* Style the sidenav links and the dropdown button */
+/* Button Styles AB 6/2/2021
+/* Accordion Style the sidenav links and the dropdown button */
 p.dd {line-height: 80%;}
 br {
         line-height: 80%;
@@ -335,6 +312,62 @@ br {
 	font-size: 12pt;
 	text-align: left;
 }
+
+/* databutton, menu for downloading data and images
+/* Data Button Style */
+.databutton { 
+	  font-size: 90%; 
+	  color: #efefef; 
+	  text-decoration: none;
+	  width: 40px; 
+	  height: 40px;
+	  display: table-cell; 
+	  cursor: pointer; 
+	  font-weight: bold; 
+	  vertical-align: middle; 
+	  line-height: 0px; 
+	  text-align: center; 
+	  border: .25px solid white; 
+	  opacity: .9; 
+	  } 
+	  
+ .AClass{
+    right:0;
+    position: absolute;
+}
+.dropbtn {
+  color: #efefef;
+  width: 40px; 
+  height: 40px;
+  border: 25px solid white; 
+}
+
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color : #d9d5d4;
+  z-index: 1;
+  right : 10px;
+  border: 1px solid black; 
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a {font-size : 10pt;}
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
 
 
 /* Grid Styles  Panel number designation: panel_row_column*/
@@ -655,4 +688,46 @@ br {
    grid-column: 7;
    grid-row: 3;   
   }
+
+/* Layout for Application Page */
+ /* Left Hand Panel */  
+.app-panel_2_1 {  
+   grid-column: 1;
+   grid-row: 2/ span 7;
+  }
+/* Description Row */
+.app-panel_2_2 {  
+  gap : 0;
+  grid-column: 2 / span 6;
+  grid-row: 2 ;
+  }
+ 
+ /* Image Panels */
+  .app-panel_3_2 {  
+   grid-column: 2 / span 6;
+   grid-row: 3;   
+  }
+  .app-panel_4_2 {  
+   grid-column: 2 / span 6;
+   grid-row: 4;   
+  }
+  .app-panel_5_2 {  
+   grid-column: 2 / span 6;
+   grid-row: 5;   
+  }  
+  .app-panel_6_2 {  
+   grid-column: 2 / span 6;
+   grid-row: 6;
+  }
+   .app-panel_7_2 {  
+   grid-column: 2 / span 6;
+   grid-row: 7;   
+  }
+   .app-panel_8_2 {  
+   grid-column: 2 / span 6;
+   grid-row: 8;   
+  }  
+   
+/* end of app-panels */
+ 
 } /* Layout for Desktops */
