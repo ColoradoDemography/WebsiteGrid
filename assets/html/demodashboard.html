@@ -43,12 +43,14 @@
   </div> <!-- Grid  panel2_2_1 -->
   <div class="grid-item app-panel_2_2">
   <b>Demographic Dashboard</b>
-   <br>INSTRUCTIONS:
+   <br><br>INSTRUCTIONS:
    <p>
    The following page shows graphs and charts for various datasets by county. Select the county from the list below to view the graphs for that county. 
    You can hover over specific data points on each graph to view the data for that specific point.
    </p>
    Click on the download icon on the right of each chart to download the chart and the underlying data.
+   <br><br>
+   <b><i>This data visualization can only be viewed on a tablet or desktop.</i></b>
    <br><br>
  	 <label for="county-dropdown"><b>Select County:</b></label>
 	 <select class="county-dropdown" id="county-dropdown"></select>
@@ -126,51 +128,8 @@ window.onload = runAccordion();
 setInterval(function(){ runAccordion(); }, 50);
 
 /* Populate County Dropdown */
+popDropdown('county','county-dropdown')
 
-//Counties
-var counties = [{'county': 'Colorado', 'fips': '000'},{'county':'Adams County', 'fips': '001'},
-                {'county':'Alamosa County', 'fips': '003'},{'county':'Arapahoe County', 'fips': '005'},
-				{'county':'Archuleta County', 'fips': '007'},{'county':'Baca County', 'fips': '009'},
-				{'county':'Bent County', 'fips': '011'},{'county':'Boulder County', 'fips': '013'},
-				{'county':'Broomfield County', 'fips': '014'},{'county':'Chaffee County', 'fips': '015'},
-				{'county':'Cheyenne County', 'fips': '017'},{'county':'Clear Creek County', 'fips': '019'},
-				{'county':'Conejos County', 'fips': '021'},{'county':'Costilla County', 'fips': '023'},
-				{'county':'Crowley County', 'fips': '025'},{'county':'Custer County', 'fips': '027'},
-				{'county':'Delta County', 'fips': '029'},{'county':'Denver County', 'fips': '031'},
-				{'county':'Dolores County', 'fips': '033'},{'county':'Douglas County', 'fips': '035'},
-				{'county':'Eagle County', 'fips': '037'},{'county':'Elbert County', 'fips': '039'},
-				{'county':'El Paso County', 'fips': '041'},{'county':'Fremont County', 'fips': '043'},
-				{'county':'Garfield County', 'fips': '045'},{'county':'Gilpin County', 'fips': '047'},
-				{'county':'Grand County', 'fips': '049'},{'county':'Gunnison County', 'fips': '051'},
-				{'county':'Hinsdale County', 'fips': '053'},{'county':'Huerfano County', 'fips': '055'},
-				{'county':'Jackson County', 'fips': '057'},{'county':'Jefferson County', 'fips': '059'},
-				{'county':'Kiowa County', 'fips': '061'},{'county':'Kit Carson County', 'fips': '063'},
-				{'county':'Lake County', 'fips': '065'},{'county':'La Plata County', 'fips': '067'},
-				{'county':'Larimer County', 'fips': '069'},{'county':'Las Animas County', 'fips': '071'},
-				{'county':'Lincoln County', 'fips': '073'},{'county':'Logan County', 'fips': '075'},
-				{'county':'Mesa County', 'fips': '077'},{'county':'Mineral County', 'fips': '079'},
-				{'county':'Moffat County', 'fips': '081'},{'county':'Montezuma County', 'fips': '083'},
-				{'county':'Montrose County', 'fips': '085'},{'county':'Morgan County', 'fips': '087'},
-				{'county':'Otero County', 'fips': '089'},{'county':'Ouray County', 'fips': '091'},
-				{'county':'Park County', 'fips': '093'},{'county':'Phillips County', 'fips': '095'},
-				{'county':'Pitkin County', 'fips': '097'},{'county':'Prowers County', 'fips': '099'},
-				{'county':'Pueblo County', 'fips': '101'},{'county':'Rio Blanco County', 'fips': '103'},
-				{'county':'Rio Grande County', 'fips': '105'},{'county':'Routt County', 'fips': '107'},
-				{'county':'Saguache County', 'fips': '109'},{'county':'San Juan County', 'fips': '111'},
-				{'county':'San Miguel County', 'fips': '113'},{'county':'Sedgwick County', 'fips': '115'},
-				{'county':'Summit County', 'fips': '117'},{'county':'Teller County', 'fips': '119'},
-				{'county':'Washington County', 'fips': '121'},{'county':'Weld County', 'fips': '123'},
-				{'county':'Yuma County', 'fips': '125'}];
-
-d3.select("#county-dropdown")
-    .selectAll('option')
-    .data(counties)
-    .enter()
-    .append('option')
-    .attr('value', d => d.fips) 
-    .text(d => d.county);
-	
-	
 //generating maximum year value for estimates
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
