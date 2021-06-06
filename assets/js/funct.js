@@ -1794,7 +1794,7 @@ data[2].forEach( function(obj) {
 
 
 //Plotting 
-var config = {//responsive: true,
+var config = {responsive: true,
               displayModeBar: false};
 //Clearing out divs
 var ESTIMATE = document.getElementById("est_output");
@@ -1831,9 +1831,9 @@ var est_data = [est_trace];
 
 var est_layout = {
 		title: "Population Estimates 1985 to "+ yrvalue + ", " + ctyName,
-		  autosize: false,
-		  width: 1150,
-		  height: 400, 
+		 // autosize: false,
+		 // width: 1150,
+		 // height: 400, 
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
