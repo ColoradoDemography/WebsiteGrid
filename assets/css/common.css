@@ -332,8 +332,8 @@ br {
 	  } 
 	  
  .AClass{
-    right:20px;
-    position: absolute;
+    left : 0;
+    position: relative;
 }
 .dropbtn {
   color: #efefef;
