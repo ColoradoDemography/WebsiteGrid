@@ -434,7 +434,7 @@ function exportToPng(cname, type, graphDiv){
 		if(type == 'popchng') {
 			var fileName = "Population Change by Age Group " + cname;
 		};
-	  Plotly.downloadImage(graphDiv, {format: 'png', width: 1150, height: 400, filename: fileName});
+	  Plotly.downloadImage(graphDiv, {format: 'png', width: 1000, height: 400, filename: fileName});
 };
 
 //educData reads in the ACS Education data file and output the summary file information
@@ -1831,9 +1831,9 @@ var est_data = [est_trace];
 
 var est_layout = {
 		title: "Population Estimates 1985 to "+ yrvalue + ", " + ctyName,
-		 // autosize: false,
-		 // width: 1150,
-		 // height: 400, 
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -1884,7 +1884,7 @@ var forec_data = [forec_trace];
 var forec_layout = {
 		title: "Population Projections 2010 to 2050, " + ctyName ,
 		  autosize: false,
-		  width: 1150,
+		  width: 1000,
 		  height: 400,
 		  xaxis: {
 			title : 'Year',
@@ -1977,7 +1977,7 @@ var coc_data = [coc_trace1, coc_trace2, coc_trace3];
 var coc_layout = {
 		title: "Births, Deaths and Net Migration 1985 to " + yrvalue + ", " + ctyName,
 		  autosize: false,
-		  width: 1150,
+		  width: 1000,
 		  height: 400,
 		  xaxis: {
 			title : 'Year',
@@ -2026,7 +2026,7 @@ var migr_data = [migr_trace];
 var migr_layout = {
 		title: "Net Migration by Age, 2000 to 2010, " + ctyName,
 		  autosize: false,
-		  width: 1150,
+		  width: 1000,
 		  height: 400,
 		  xaxis: {
 			title : 'Age',
@@ -2075,7 +2075,7 @@ var age_data = [age_trace];
 var age_layout = {
 		title: "Population by Age Group " + yrvalue + ", " + ctyName,
 		  autosize: false,
-		  width: 1150,
+		  width: 1000,
 		  height: 400,
 		  xaxis: {
 			title : 'Total Population',
@@ -2125,7 +2125,7 @@ var popchng_data = [popchng_trace];
 var popchng_layout = {
 		title: "Projected Population Change by Age Group, 2020 to 2050 " + ctyName,
 		  autosize: false,
-		  width: 1150,
+		  width: 1000,
 		  height: 400,
 		  xaxis: {
 			title : 'Percent Change',
