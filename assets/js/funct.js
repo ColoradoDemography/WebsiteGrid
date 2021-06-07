@@ -2123,7 +2123,7 @@ var popchng_trace = {
 var popchng_data = [popchng_trace];
 
 var popchng_layout = {
-		title: "Projected Population Change by Age Group, 2020 to 2050 " + ctyName,
+		title: "Projected Population Change by Age Group, 2020 to 2025" + ctyName,
 		  autosize: false,
 		  width: 1000,
 		  height: 400,
