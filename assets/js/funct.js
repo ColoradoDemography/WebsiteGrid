@@ -2058,7 +2058,7 @@ Plotly.newPlot(MIGR, migr_data, migr_layout,config);
 var age_cat_arr =[];
 var age_pop_arr = [];
 
-for(i = 0; i < latestYr_flat.length; i++){
+for(i = 1; i < latestYr_flat.length; i++){
 	age_cat_arr.push(latestYr_flat[i].age_cat);
 	age_pop_arr.push(latestYr_flat[i].totalpopulation);
 };
