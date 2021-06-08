@@ -371,7 +371,7 @@ function runAccordion(){
 
 var accordion = document.getElementsByClassName("accordion-btn");
 var i;
-debugger;
+
 for (i = 0; i < accordion.length; i++) {
   accordion[i].addEventListener("mousedown", function() {
  //   this.classList.toggle("active");
