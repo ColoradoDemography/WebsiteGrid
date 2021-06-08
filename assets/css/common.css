@@ -274,8 +274,7 @@ br {
         line-height: 80%;
      }
 .accordion-btn {
-    padding-top: 5px;
-    text-decoration: underline;
+    border: 2px solid black;
     font-size: 11pt;
     color: blue; 
     display: block;
@@ -308,9 +307,10 @@ br {
 .accordion-container {
     display: none;
     background-color: white;
-    padding-left: 8px;
-	font-size: 12pt;
+    padding-left: 4px;
+	font-size: 11pt;
 	text-align: left;
+	line-height: 15px; 
 }
 
 ul.accordion-ul {

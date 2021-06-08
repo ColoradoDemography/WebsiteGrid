@@ -371,10 +371,10 @@ function runAccordion(){
 
 var accordion = document.getElementsByClassName("accordion-btn");
 var i;
-
+debugger;
 for (i = 0; i < accordion.length; i++) {
-  accordion[i].addEventListener("click", function() {
-    this.classList.toggle("active");
+  accordion[i].addEventListener("mousedown", function() {
+ //   this.classList.toggle("active");
     var accordionContent = this.nextElementSibling;
     if (accordionContent.style.display === "block") {
       accordionContent.style.display = "none";
