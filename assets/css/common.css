@@ -273,7 +273,7 @@ p.dd {line-height: 80%;}
 br {
         line-height: 80%;
      }
-.dropdown-btn {
+.accordion-btn {
     padding-top: 5px;
     text-decoration: underline;
     font-size: 11pt;
@@ -289,11 +289,11 @@ br {
 }
 
 /* On mouse-over */
-.dropdown-btn:hover {
+.accordion-btn:hover {
     color: black;
 }
 
-.dropdown-link {
+.accordion-link {
 	text-decoration: none;
     font-size: 11pt;
     color: blue; 
@@ -305,12 +305,17 @@ br {
 
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
-.dropdown-container {
+.accordion-container {
     display: none;
     background-color: white;
     padding-left: 8px;
 	font-size: 12pt;
 	text-align: left;
+}
+
+ul.accordion-ul {
+	padding : 0;
+	list-style-type : disc;
 }
 
 /* databutton, menu for downloading data and images

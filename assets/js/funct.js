@@ -3,6 +3,29 @@
 
 //list of lookup statements  https://github.com/ColoradoDemography/MS_Demog_Lookups/tree/master/doc
 //Utility Function
+
+
+
+function restructure(inData) {
+    var output = [];
+   var WH, HP, BL, AS, AM
+   var ages = [... new Set(inData.map(tag => tag.age))];
+
+    for(i = 0; i < ages.length; i++) {
+		var tmp = inData.filter(function(d) {return d.age == ages[i];});
+		for(j = 0; j < tmp.length; j++) {
+				  if( tmp[j].race_eth == "White NH") { WH = tmp[j].population};
+				  if( tmp[j].race_eth == "Hispanic") { HP = tmp[j].population};
+				  if( tmp[j].race_eth == "Black NH") { BL = tmp[j].population};
+				  if( tmp[j].race_eth == "Asian/Pacific Islander NH") {AS = tmp[j].population};
+				  if( tmp[j].race_eth == "American Indian NH") {AM = tmp[j].population};
+				}
+		output.push({ 'age' : tmp[0].age, "Hisapnic" : HP, "White NH" : WH, "Black NH" : BL, "Asian/Pacific Islander NH" : AS, "American Indian" : AM});
+		};
+    return output;
+};
+
+
 //popDropdown populaates drop down boxes
 function popDropdown(level,ddid) {
    var dropdown = document.getElementById(ddid);
@@ -346,17 +369,17 @@ function includeHTML() {
 // runAccordion manages the accordion functionalits of the page
 function runAccordion(){
 
-var dropdown = document.getElementsByClassName("dropdown-btn");
+var accordion = document.getElementsByClassName("accordion-btn");
 var i;
 
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
+for (i = 0; i < accordion.length; i++) {
+  accordion[i].addEventListener("click", function() {
     this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
+    var accordionContent = this.nextElementSibling;
+    if (accordionContent.style.display === "block") {
+      accordionContent.style.display = "none";
     } else {
-      dropdownContent.style.display = "block";
+      accordionContent.style.display = "block";
     }
   });
 };
@@ -374,37 +397,56 @@ function transpose(data) {
   return result;
 }
 //exporttoCsv  downloads the a selected file
-function exportToCsv(cname, type, rows) {
+function exportToCsv(cname, type, rows, yr) {
         var csvFile = d3.csvFormat(rows);
 		if(type == 'estimate') {
-			var filename = "Population Estimates " + cname + ".csv";
+			var fileName = "Population Estimates " + cname + ".csv";
 		};
 		if(type == 'forecast') {
-			var filename = "Population Projections " + cname + ".csv";
+			var fileName = "Population Projections " + cname + ".csv";
 		};
 		if(type == 'coc') {
-			var filename = "Components of Change " + cname + ".csv";
+			var fileName = "Components of Change " + cname + ".csv";
 		};
 		if(type == 'netmig') {
-			var filename = "Net Migration by Age 2000-2010 " + cname + ".csv";
+			var fileName = "Net Migration by Age 2000-2010 " + cname + ".csv";
 		};
 		if(type == 'age') {
-			var filename = "Age Categories " + cname + ".csv";
+			var fileName = "Age Categories " + cname + ".csv";
 		};
 		if(type == 'popchng') {
-			var filename = "Population Change by Age Group " + cname + ".csv";
+			var fileName = "Population Change by Age Group " + cname + ".csv";
+		};
+		
+		if(type == 'line'){
+			var fileName = "Single Year of Age by Race " + cname +  " " + yr + ".csv";
+		};
+		if(type == 'white'){
+			var fileName = "Single Year of Age by Race White NH " + cname +  " " + yr + ".csv";
+		};
+		if(type == 'hisp'){
+			var fileName = "Single Year of Age by Race Hispanic " + cname +  " " + yr + ".csv";
+		};
+		if(type == 'black'){
+			var fileName = "Single Year of Age by Race Black NH " + cname +  " " + yr + ".csv";
+		};
+		if(type == 'asian'){
+			var fileName = "Single Year of Age by Race Asian NH " + cname +  " " + yr + ".csv";
+		};
+		if(type == 'amind'){
+			var fileName = "Single Year of Age by Race American Indian NH " + cname +  " " + yr + ".csv";
 		};
 		
         var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
         if (navigator.msSaveBlob) { // IE 10+
-            navigator.msSaveBlob(blob, filename);
+            navigator.msSaveBlob(blob, fileName);
         } else {
             var link = document.createElement("a");
             if (link.download !== undefined) { // feature detection
                 // Browsers that support HTML5 download attribute
                 var url = URL.createObjectURL(blob);
                 link.setAttribute("href", url);
-                link.setAttribute("download", filename);
+                link.setAttribute("download", fileName);
                 link.style.visibility = 'hidden';
                 document.body.appendChild(link);
                 link.click();
@@ -414,7 +456,7 @@ function exportToCsv(cname, type, rows) {
     };
 
 //exportToPng  Exports plotly trace and layout to PNG file
-function exportToPng(cname, type, graphDiv){
+function exportToPng(cname, type, graphDiv, yr){
 	
 	  	if(type == 'estimate') {
 			var fileName = "Population Estimates " + cname;
@@ -433,6 +475,25 @@ function exportToPng(cname, type, graphDiv){
 		};
 		if(type == 'popchng') {
 			var fileName = "Population Change by Age Group " + cname;
+		};
+		
+		if(type == 'line'){
+			var fileName = "Single Year of Age by Race " + cname +  " " + yr;
+		};
+		if(type == 'white'){
+			var fileName = "Single Year of Age by Race White NH " + cname +  " " + yr;
+		};
+		if(type == 'hisp'){
+			var fileName = "Single Year of Age by Race Hispanic " + cname +  " " + yr;
+		};
+		if(type == 'black'){
+			var fileName = "Single Year of Age by Race Black NH " + cname +  " " + yr;
+		};
+		if(type == 'asian'){
+			var fileName = "Single Year of Age by Race Asian NH " + cname +  " " + yr;
+		};
+		if(type == 'amind'){
+			var fileName = "Single Year of Age by Race American Indian NH " + cname +  " " + yr;
 		};
 	  Plotly.downloadImage(graphDiv, {format: 'png', width: 1000, height: 400, filename: fileName});
 };
@@ -2158,61 +2219,518 @@ Plotly.newPlot(POPCHNG, popchng_data, popchng_layout,config);
 var est_csv = document.getElementById('est_csv');
 var est_png = document.getElementById('est_png');
 est_csv.onclick = function() {
-	  exportToCsv(ctyName, 'estimate', est_flat);
+	  exportToCsv(ctyName, 'estimate', est_flat,0);
      }; 
 est_png.onclick = function() {
-	   exportToPng(ctyName, 'estimate', ESTIMATE);
+	   exportToPng(ctyName, 'estimate', ESTIMATE,0);
      };
 	 
 //Forecasts
 var forec_csv = document.getElementById('forec_csv');
 var forec_png = document.getElementById('forec_png');
 forec_csv.onclick = function() {
-	  exportToCsv(ctyName, 'forecast', forec_flat);
+	  exportToCsv(ctyName, 'forecast', forec_flat,0);
      }; 
 forec_png.onclick = function() {
-	   exportToPng(ctyName, 'forecast', FORECAST);
+	   exportToPng(ctyName, 'forecast', FORECAST,0);
      };
 	 
 //Components of Change
 var coc_csv = document.getElementById('coc_csv');
 var coc_png = document.getElementById('coc_png');
 coc_csv.onclick = function() {
-	  exportToCsv(ctyName, 'coc', coc_flat);
+	  exportToCsv(ctyName, 'coc', coc_flat,0);
      }; 
 coc_png.onclick = function() {
-	   exportToPng(ctyName, 'coc', COC);
+	   exportToPng(ctyName, 'coc', COC,0);
      };
 	 
 //Net Migration
 var mig_csv = document.getElementById('mig_csv');
 var mig_png = document.getElementById('mig_png');
 mig_csv.onclick = function() {
-	  exportToCsv(ctyName, 'netmig', netmig_flat);
+	  exportToCsv(ctyName, 'netmig', netmig_flat,0);
      }; 
 mig_png.onclick = function() {
-	   exportToPng(ctyName, 'netmig', MIGR);
+	   exportToPng(ctyName, 'netmig', MIGR,0);
      };
 	 
 //Age
 var age_csv = document.getElementById('age_csv');
 var age_png = document.getElementById('age_png');
 age_csv.onclick = function() {
-	  exportToCsv(ctyName, 'age', latestYr_flat);
+	  exportToCsv(ctyName, 'age', latestYr_flat,0);
      }; 
 age_png.onclick = function() {
-	   exportToPng(ctyName, 'age', AGE);
+	   exportToPng(ctyName, 'age', AGE,0);
      };
 	 
 //popchng
 var popchng_csv = document.getElementById('popchng_csv');
 var popchng_png = document.getElementById('popchng_png');
 popchng_csv.onclick = function() {
-	  exportToCsv(ctyName, 'popchng', popchng_flat);
+	  exportToCsv(ctyName, 'popchng', popchng_flat,0);
      }; 
 popchng_png.onclick = function() {
-	   exportToPng(ctyName, 'popchng', POPCHNG);
+	   exportToPng(ctyName, 'popchng', POPCHNG,0);
      };
 }); //end of promise
 } //end of genDEMO
 
+//genRACEVIS Generates the Race/Ethncity visualization
+function genRACEVIS(fips,ctyName, yrvalue) {
+	var fmt_comma = d3.format(",");
+
+//Specify fips_list
+var fips_list = parseInt(fips); 
+   
+//extract year value 
+ 
+var age_list = "0";
+for(i = 1; i<= 100; i++){
+   age_list = age_list + "," + i;
+  };
+  
+ //Generate url
+ if(fips == "000") {
+ fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
+ } 
+//estimates urls
+urlstr_hispest = "https://gis.dola.colorado.gov/lookups/sya-race-estimates?age="+ age_list + "&county="+ fips_list +"&year="+ yrvalue +"&race=1,2,3,4&ethnicity=1&sex=b";
+urlstr_nonhispest = "https://gis.dola.colorado.gov/lookups/sya-race-estimates?age="+ age_list + "&county="+ fips_list +"&year="+ yrvalue +"&race=1,2,3,4&ethnicity=2&sex=b";
+
+var hisp_est = [];
+var nonhisp_est = [];
+
+//Promise Structure
+var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest)];
+
+Promise.all(prom).then(function(data){
+	data[0].forEach(function(obj) {
+hisp_est.push({'year' : obj.year, 'age' : parseInt(obj.age), 'sex' : obj.sex, 'population' : parseInt(obj.count)});
+});
+    data[1].forEach(function(obj) {
+     nonhisp_est.push({'year' : obj.year, 'age' : parseInt(obj.age),'sex' : obj.sex, 'race' : obj.race, 'population' : parseInt(obj.count)});
+});
+
+//Rolling up the hispanic and non-hispanic datasets
+var hisp_total = d3.rollup(hisp_est, v => d3.sum(v, d => d.population), d => d.age);
+var nonhisp_total = d3.rollup(nonhisp_est, v => d3.sum(v, d => d.population), d => d.age, d=> d.race);
+
+//Flattening the datasets
+var hisp_flat = [];
+for (let [key, value] of hisp_total) {
+  hisp_flat.push({'age' : key, 'race_eth' : 'Hispanic',  'population' : value});
+    }
+var nonhisp_flat = [];
+for (let [key1, value] of nonhisp_total) {
+for (let[key2, value2] of value) {
+   nonhisp_flat.push({'age' : key1, 'race_eth' : key2 + ' NH', 'population' : value2});
+}
+}
+
+var race_flat = hisp_flat.concat(nonhisp_flat);
+
+//Plotting 
+var config = {responsive: true,
+              displayModeBar: false};
+//Clearing out divs
+var LINE = document.getElementById("line_output");
+var WHITE = document.getElementById("white_output");
+var HISPANIC = document.getElementById("hisp_output");
+var BLACK = document.getElementById("black_output");
+var ASIAN = document.getElementById("asian_output");
+var AMIND = document.getElementById("amind_output");
+LINE.innerHTML = "";
+WHITE.innerHTML = "";
+HISPANIC.innerHTML = "";
+BLACK.innerHTML = "";
+ASIAN.innerHTML = "";
+AMIND.innerHTML = "";
+
+//line chart
+
+var age_line_arr_w = [];
+var pop_line_arr_w = [];
+var age_line_arr_h = [];
+var pop_line_arr_h = [];
+var age_line_arr_b = [];
+var pop_line_arr_b = [];
+var age_line_arr_as = [];
+var pop_line_arr_as = [];
+var age_line_arr_ai = [];
+var pop_line_arr_ai = [];
+
+for(i = 0; i < race_flat.length; i++){
+	if(race_flat[i].race_eth == "White NH" && race_flat[i].age < 85){
+		age_line_arr_w.push(race_flat[i].age);
+		pop_line_arr_w.push(race_flat[i].population);
+	};
+	if(race_flat[i].race_eth == "Hispanic" && race_flat[i].age < 85){
+		age_line_arr_h.push(race_flat[i].age);
+		pop_line_arr_h.push(race_flat[i].population);
+	};
+	if(race_flat[i].race_eth == "Black NH" && race_flat[i].age < 85){
+		age_line_arr_b.push(race_flat[i].age);
+		pop_line_arr_b.push(race_flat[i].population);
+	};
+	if(race_flat[i].race_eth == "Asian/Pacific Islander NH" && race_flat[i].age < 85){
+		age_line_arr_as.push(race_flat[i].age);
+		pop_line_arr_as.push(race_flat[i].population);
+	};
+	if(race_flat[i].race_eth == "American Indian NH" && race_flat[i].age < 85){
+		age_line_arr_ai.push(race_flat[i].age);
+		pop_line_arr_ai.push(race_flat[i].population);
+	};
+};
+
+var white_line = { 
+               x: age_line_arr_w,
+               y : pop_line_arr_w,
+			   name : 'White, NH',
+			   mode : 'lines', 
+			   line : {
+					color: 'blue',
+					width : 3
+				}
+			};
+
+var hisp_line = { 
+               x: age_line_arr_h,
+               y : pop_line_arr_h,
+			   name : 'Hispanic',
+			   mode : 'lines', 
+			   line : {
+					color: 'orange',
+					width : 3
+				}
+			};
+
+var black_line = { 
+               x: age_line_arr_b,
+               y : pop_line_arr_b,
+			   name : 'Black, NH',
+			   mode : 'lines', 
+			   line : {
+					color: 'green',
+					width : 3
+				}
+			};
+
+var asian_line = { 
+               x: age_line_arr_as,
+               y : pop_line_arr_as,
+			   name : 'Asian/Pacific Islander, NH',
+			   mode : 'lines', 
+			   line : {
+					color: 'red',
+					width : 3
+				}
+			};
+			
+var amind_line = { 
+               x: age_line_arr_ai,
+               y : pop_line_arr_ai,
+			   name : 'American Indian, NH',
+			   mode : 'lines', 
+    		   line : {
+					color: 'purple',
+					width : 3
+				}
+			};
+			
+//Traces for Barcharts
+var white_bar = { 
+               x: age_line_arr_w,
+               y : pop_line_arr_w,
+			   type : 'bar',
+			   marker : { color: 'blue' }
+			};
+
+var hisp_bar = { 
+               x: age_line_arr_h,
+               y : pop_line_arr_h,
+			   type : 'bar',
+			   marker : { color : 'orange'}
+			};
+
+var black_bar = { 
+               x: age_line_arr_b,
+               y : pop_line_arr_b,
+			   type : 'bar',
+			   marker : { color: 'green' }
+			};
+
+var asian_bar = { 
+               x: age_line_arr_as,
+               y : pop_line_arr_as,
+			   type : 'bar',
+			   marker : { color : 'red' }
+			};
+			
+var amind_bar = { 
+               x: age_line_arr_ai,
+               y : pop_line_arr_ai,
+			   type : 'bar',
+			   marker : { color : 'purple' }
+			};
+			
+var line_data = [white_line, hisp_line, black_line, asian_line, amind_line];
+var white_trace = [white_bar];
+var hisp_trace = [hisp_bar];
+var black_trace = [black_bar];
+var asian_trace = [asian_bar];
+var amind_trace = [amind_bar];
+
+var line_layout = {
+		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Total Population',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  }
+		};
+ 
+Plotly.newPlot(LINE, line_data, line_layout,config);
+
+var white_layout = {
+		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " White, NH",
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Total Population',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  }
+		};
+ 
+Plotly.newPlot(WHITE, white_trace, white_layout,config);
+
+var hisp_layout = {
+		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Hispanic",
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Total Population',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  }
+		};
+ 
+Plotly.newPlot(HISPANIC, hisp_trace, hisp_layout,config);
+
+var black_layout = {
+		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Black, NH",
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Total Population',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  }
+		};
+ 
+Plotly.newPlot(BLACK, black_trace, black_layout,config);
+
+var asian_layout = {
+		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Asian/Pacific Islander, NH",
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Total Population',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  }
+		};
+ 
+Plotly.newPlot(ASIAN, asian_trace, asian_layout,config);
+
+var amind_layout = {
+		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " American Indian, NH",
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Total Population',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  }
+		};
+ 
+Plotly.newPlot(AMIND, amind_trace, amind_layout,config);
+
+//Download trigger events
+// Make race_flat wide
+var race_wide = restructure(race_flat);
+
+//Line Chart
+var line_csv = document.getElementById('line_csv');
+var line_png = document.getElementById('line_png');
+line_csv.onclick = function() {
+	  exportToCsv(ctyName, 'line', race_wide, yrvalue);
+     }; 
+line_png.onclick = function() {
+	   exportToPng(ctyName, 'line', LINE, yrvalue);
+     };
+	 
+//WhiteChart
+var white_csv = document.getElementById('white_csv');
+var white_png = document.getElementById('white_png');
+white_csv.onclick = function() {
+	  exportToCsv(ctyName, 'white', race_flat.filter(function(d) {return d.race_eth == "White NH";}), yrvalue);
+     }; 
+white_png.onclick = function() {
+	   exportToPng(ctyName, 'white', WHITE, yrvalue);
+     };
+	 
+//Hispanic Chart
+var hisp_csv = document.getElementById('hisp_csv');
+var hisp_png = document.getElementById('hisp_png');
+hisp_csv.onclick = function() {
+	  exportToCsv(ctyName, 'hisp', race_flat.filter(function(d) {return d.race_eth == "Hispanic";}), yrvalue);
+     }; 
+hisp_png.onclick = function() {
+	   exportToPng(ctyName, 'hisp', HISPANIC,yrvalue);
+     };
+	 
+//Black Chart
+var black_csv = document.getElementById('black_csv');
+var black_png = document.getElementById('black_png');
+black_csv.onclick = function() {
+	  exportToCsv(ctyName, 'black', race_flat.filter(function(d) {return d.race_eth == "Black NH";}), yrvalue);
+     }; 
+black_png.onclick = function() {
+	   exportToPng(ctyName, 'black', BLACK,yrvalue);
+     };
+	 
+
+//asian Chart
+var asian_csv = document.getElementById('asian_csv');
+var asian_png = document.getElementById('asian_png');
+asian_csv.onclick = function() {
+	  exportToCsv(ctyName, 'asian', race_flat.filter(function(d) {return d.race_eth == "Asian NH";}), yrvalue);
+     }; 
+asian_png.onclick = function() {
+	   exportToPng(ctyName, 'asian', ASIAN,yrvalue);
+     };
+	 
+//Amind Chart
+var amind_csv = document.getElementById('amind_csv');
+var amind_png = document.getElementById('amind_png');
+amind_csv.onclick = function() {
+	  exportToCsv(ctyName, 'amind', race_flat.filter(function(d) {return d.race_eth == "American Indiam NH";}), yrvalue);
+     }; 
+amind_png.onclick = function() {
+	   exportToPng(ctyName, 'amind', AMIND,yrvalue);
+     };
+}); //End of Promise
+}; //end of genRaceVis
