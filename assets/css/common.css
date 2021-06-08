@@ -269,16 +269,12 @@ a :hover {
 }
 /* Button Styles AB 6/2/2021
 /* Accordion Style the sidenav links and the dropdown button */
-p.dd {line-height: 80%;}
-br {
-        line-height: 80%;
-     }
+
 .accordion-btn {
-    border: 2px solid black;
+    border: none;
     font-size: 11pt;
     color: blue; 
     display: block;
-	border : none;
     background: none;
     width: 100%;
     text-align: left;
@@ -314,6 +310,7 @@ br {
 }
 
 ul.accordion-ul {
+	margin-top: -4px;
 	padding : 0;
 	list-style-type : disc;
 }
