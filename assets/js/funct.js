@@ -1749,6 +1749,7 @@ var netmig_flat = [];
                     'naturalincrease' : Number(obj.naturalincrease), 'netmigration' : Number(obj.netmigration)});
 });
 
+
 var est_flat = [];
 var coc_flat = [];
 //Rollup data
@@ -1781,6 +1782,8 @@ for(i = 1; i < coc_flat.length; i++){
 data[1].forEach(function(obj) {
     forec_data.push({'year' : obj.year,  'age' : Number(obj.age), 'totalpopulation' : Number(obj.totalpopulation)});
 	});
+	
+
 //Summing up forecast
 var forec_sum = d3.rollup(forec_data, v => d3.sum(v, d => d.totalpopulation), d => d.year); 
 //Flatten Arrays for output
@@ -1853,6 +1856,7 @@ data[2].forEach( function(obj) {
 	netmig_flat.push({'county' : parseInt(obj.countyfips), 'age' : Number(obj.age), 'netmigration' : Number(obj.netmigration)});
 });
 
+netmig_flat = netmig_flat.filter(function(d) {return d.age < 90;});
 
 //Plotting 
 var config = {responsive: true,
