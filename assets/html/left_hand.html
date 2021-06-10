@@ -13,11 +13,12 @@
 		<li><a class='accordion-link' href='https://demography.dola.colorado.gov/population/data/sya-county' target=_blank>Single Year of Age Lookup</a></li>
 		</ul>
 	</div>
-	<button class='accordion-btn'>Births, Deaths & Migration <i class='fas fa-angle-down'></i></button>
+	<button class='accordion-btn'>Births, Deaths, and Migration <i class='fas fa-angle-down'></i></button>
 	<div class='accordion-container'>
 	 <ul class='accordion-ul'>
+	 	 <li><a class='accordion-link' href='./assets/html/coc.html' target=_blank>Births, Deaths, and Migration Applications and Downloads</a></li>
 	 <li><a class='accordion-link' href='https://demography.dola.colorado.gov/births-deaths-migration/data/components-change/#components-of-change' target=_blank>Births, Deaths and Migration Lookup</a></li>
-	 <li><a class='accordion-link' href='https://demography.dola.colorado.gov/apps/netmigration_dashboard/' target=_blank>Net Migration Comparison</a></li>
+	 <li><a class='accordion-link' href='./assets/html/netmigcomp.html' target=_blank>Net Migration Comparison</a></li>
 	 </ul>
 	</div>
 	<button class='accordion-btn'>Housing & Households <i class='fas fa-angle-down'></i></button>
@@ -97,3 +98,20 @@
 	</ul>
 	</div>
 </div>
+
+<script>
+var accordion = document.getElementsByClassName("accordion-btn");
+var i;
+
+for (i = 0; i < accordion.length; i++) {
+  accordion[i].addEventListener("mousedown", function() {
+ //   this.classList.toggle("active");
+    var accordionContent = this.nextElementSibling;
+    if (accordionContent.style.display === "block") {
+      accordionContent.style.display = "none";
+    } else {
+      accordionContent.style.display = "block";
+    }
+  });
+};
+</script>
