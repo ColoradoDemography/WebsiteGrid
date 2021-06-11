@@ -336,6 +336,7 @@ d3.select(dropdown)
     .text(d => d.location);
 
 }; //end of popDropdown
+
 //includeHTML  taken from W3  https://www.w3schools.com/howto/howto_html_include.asp
 function includeHTML() {
   var z, i, elmnt, file, xhttp;
@@ -395,7 +396,10 @@ function transpose(data) {
     }
   }
   return result;
-}
+};
+
+
+
 //exporttoCsv  downloads the a selected file
 function exportToCsv(cname, type, rows, yr) {
         var csvFile = d3.csvFormat(rows);
@@ -436,7 +440,12 @@ function exportToCsv(cname, type, rows, yr) {
 		if(type == 'amind'){
 			var fileName = "Single Year of Age by Race American Indian NH " + cname +  " " + yr + ".csv";
 		};
-		
+		if(type == 'netmign'){
+			var fileName =  "Net Migration by Age " + cname + ".csv"
+		};
+		if(type == 'netmigrrate'){
+			var fileName =  "Net Migration by Age " + cname + ".csv"
+		};
         var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
         if (navigator.msSaveBlob) { // IE 10+
             navigator.msSaveBlob(blob, fileName);
@@ -495,6 +504,13 @@ function exportToPng(cname, type, graphDiv, yr){
 		if(type == 'amind'){
 			var fileName = "Single Year of Age by Race American Indian NH " + cname +  " " + yr;
 		};
+		if(type == 'netmign'){
+			var fileName =  "Net Migration by Age " + cname
+		};
+		if(type == 'netmigrrate'){
+			var fileName =  "Net Migration Rate by Age " + cname
+		};
+
 	  Plotly.downloadImage(graphDiv, {format: 'png', width: 1000, height: 400, filename: fileName});
 };
 
@@ -1700,9 +1716,11 @@ rows.append('td')
 }); //d3.json
 }; // End of genHousing
 
+//Plotting Fuctionc
 //genDEMO outputs Ploytly charts for the Demographic Dashboard
 function genDEMO(fips, ctyName, yrvalue){
 
+    const formatDate = d3.timeFormat("%B %d, %Y");
 	var fips_list; 
 	if(fips == "000") {
       fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
@@ -1920,9 +1938,16 @@ var est_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
- 
+ console.log(est_layout);
 Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
 
 	   
@@ -1972,7 +1997,14 @@ var forec_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(FORECAST, forec_data, forec_layout,config);
@@ -2065,7 +2097,14 @@ var coc_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(COC, coc_data, coc_layout,config);
@@ -2114,7 +2153,14 @@ var migr_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(MIGR, migr_data, migr_layout,config);
@@ -2163,7 +2209,14 @@ var age_layout = {
 			gridwidth: 2,
 			linecolor: 'black',
 			linewidth: 2
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(AGE, age_data, age_layout,config);
@@ -2213,7 +2266,14 @@ var popchng_layout = {
 			gridwidth: 2,
 			linecolor: 'black',
 			linewidth: 2
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(POPCHNG, popchng_data, popchng_layout,config);
@@ -2284,6 +2344,7 @@ popchng_png.onclick = function() {
 //genRACEVIS Generates the Race/Ethncity visualization
 function genRACEVIS(fips,ctyName, yrvalue) {
 	var fmt_comma = d3.format(",");
+    const formatDate = d3.timeFormat("%B %d, %Y");
 
 //Specify fips_list
 var fips_list = parseInt(fips); 
@@ -2512,7 +2573,14 @@ var line_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(LINE, line_data, line_layout,config);
@@ -2543,7 +2611,14 @@ var white_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(WHITE, white_trace, white_layout,config);
@@ -2574,7 +2649,14 @@ var hisp_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(HISPANIC, hisp_trace, hisp_layout,config);
@@ -2605,7 +2687,14 @@ var black_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(BLACK, black_trace, black_layout,config);
@@ -2636,7 +2725,14 @@ var asian_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(ASIAN, asian_trace, asian_layout,config);
@@ -2667,7 +2763,14 @@ var amind_layout = {
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
-		  }
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
 		};
  
 Plotly.newPlot(AMIND, amind_trace, amind_layout,config);
@@ -2738,3 +2841,277 @@ amind_png.onclick = function() {
      };
 }); //End of Promise
 }; //end of genRaceVis
+
+//genNETMIGCOMP generates the Net Migration Comparison charts 
+//Uses data from NetMigrationByAgeComparison Must be updated after Census 2020 is available
+
+function genNETMIGCOMP(fips, ctyName, yrvalue) {
+	 const formatDate = d3.timeFormat("%B %d, %Y");
+
+	var fipsNum = parseInt(fips);
+debugger;
+//Reading Raw data
+var data_csv = "../data/NetMigrationByAgeComparison.csv";
+d3.csv(data_csv).then(function(data){
+  var datafilt = data.filter(function(d) {return d.FIPS == fipsNum;});
+  var NetMigAge = [];
+  var NetMig9500 = [];
+  var NetMig0010 = [];
+  var NetMig1020 = [];
+  var Rate9500 = [];
+  var Rate0010 = [];
+  var Rate1020 = [];
+
+  datafilt.forEach(function(obj) {
+	  NetMigAge.push(Number(obj.FiveYearAgeGroups));
+	  NetMig9500.push(Number(obj.NetMig9500));
+	  NetMig0010.push(Number(obj.NetMig0010));
+	  NetMig1020.push(Number(obj.NetMig1020));
+	  Rate9500.push(Number(obj.Rate9500) * 1000);
+	  Rate0010.push(Number(obj.Rate0010) * 1000);
+	  Rate1020.push(Number(obj.Rate1020) * 1000);
+  });
+  
+var NetMig9500_line = { 
+               x: NetMigAge,
+               y : NetMig9500,
+			   name : '1995 to 2000',
+			   mode : 'lines+markers', 
+			    marker: {
+                  color: 'blue',
+				  symbol: 'circle',
+                  size: 8
+                },
+			   line : {
+					color: 'blue',
+					width : 3
+				}
+			};
+
+var NetMig0010_line = { 
+               x: NetMigAge,
+               y : NetMig0010,
+			   name : '2000 to 2010',
+			   mode : 'lines+markers', 
+			    marker: {
+                  color: 'orange',
+				  symbol: 'square',
+                  size: 8
+                },
+			   line : {
+					color: 'orange',
+					width : 3
+				}
+			};
+
+var NetMig1020_line = { 
+               x: NetMigAge,
+               y : NetMig1020,
+			   name : '1995 to 2000',
+			   mode : 'lines+markers', 
+			    marker: {
+                  color: 'green',
+				  symbol: 'diamond',
+                  size: 8
+                },
+			   line : {
+					color: 'green',
+					dash : 'dash',
+					width : 3
+				}
+			};
+			
+var NetMig_trace = [NetMig9500_line, NetMig0010_line, NetMig1020_line];
+
+var Rate9500_line = { 
+               x: NetMigAge,
+               y : Rate9500,
+			   name : '1995 to 2000',
+			   mode : 'lines+markers', 
+			    marker: {
+                  color: 'blue',
+				  symbol: 'circle',
+                  size: 8
+                },
+			   line : {
+					color: 'blue',
+					width : 3
+				}
+			};
+
+var Rate0010_line = { 
+               x: NetMigAge,
+               y : Rate0010,
+			   name : '2000 to 2010',
+			   mode : 'lines+markers', 
+			    marker: {
+                  color: 'orange',
+				  symbol: 'square',
+                  size: 8
+                },
+			   line : {
+					color: 'orange',
+					width : 3
+				}
+			};
+
+var Rate1020_line = { 
+               x: NetMigAge,
+               y : Rate1020,
+			   name : '2010 to 2020',
+			   mode : 'lines+markers', 
+			    marker: {
+                  color: 'green',
+				  symbol: 'diamond',
+                  size: 8
+                },
+			   line : {
+					color: 'green',
+					dash : 'dash',
+					width : 3
+				}
+			};
+			
+var Rate_trace = [Rate9500_line, Rate0010_line, Rate1020_line];
+
+var NetMig_layout = {
+		title: "Net Migration by Age -- Net Migrants " + ctyName,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Net Migration',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+ 
+ var Rate_layout = {
+		title: "Net Migration by Age -- Rates " + ctyName,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Net Migration Rate (per 1,000 Population)',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+		
+var config = {responsive: true,
+              displayModeBar: false};
+//Clearing out divs
+var NETMIG = document.getElementById("netmign_output");
+var NETMIGRATE = document.getElementById("netmigrrate_output");
+
+NETMIG.innerHTML = "";
+NETMIGRATE.innerHTML = "";
+
+Plotly.newPlot(NETMIG, NetMig_trace, NetMig_layout,config);
+Plotly.newPlot(NETMIGRATE, Rate_trace, Rate_layout,config);
+
+
+//Button Events
+//Net Migration Chart
+var netmign_csv = document.getElementById('netmign_csv');
+var netmign_png = document.getElementById('netmign_png');
+netmign_csv.onclick = function() {
+	  exportToCsv(ctyName, 'netmign', datafilt, 0);
+     }; 
+netmign_png.onclick = function() {
+	   exportToPng(ctyName, 'netmign', NETMIG, 0);
+     };
+	 
+// Net Migration Rate
+var netmigrrate_csv = document.getElementById('netmigrrate_csv');
+var netmigrrate_png = document.getElementById('netmigrrate_png');
+netmigrrate_csv.onclick = function() {
+	  exportToCsv(ctyName, 'netmigrrate', datafilt, 0);
+     }; 
+netmigrrate_png.onclick = function() {
+	   exportToPng(ctyName, 'netmigrrate', NETMIGRATE, 0);
+     };
+	 
+
+}); //End of d3.csv
+} //end of genNETMIGCOMP
+
+
+//genNETMIG1864 Histprical NetMigration charts, inclusing working age population was net_mig 1864
+function genNETMIG1864(fips, ctyName, yrvalue){
+
+    const formatDate = d3.timeFormat("%B %d, %Y");
+	var fips_list = parseInt(fips);
+		
+//Creating 
+   var sya_yrs = 1970;
+   	for(i = 1971; i <= yrvalue; i++){
+		sya_yrs = sya_yrs + "," + i;
+	};
+ 
+    if(fips == "000") {
+		var syaurl = "https://gis.dola.colorado.gov/lookups/sya_regions?reg_num=0&year=" + sya_yrs + "&choice=single"
+	} else {
+		var syaurl = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + sya_yrs + "&choice=single&group=3"
+	}; 
+
+//Net migration by age 
+   var netmigurl = 'https://gis.dola.colorado.gov/lookups/migbyage?county=' + parseInt(fips);
+
+var prom = [d3.json(syaurl),d3.json(netmigurl)];
+
+debugger;
+Promise.all(prom).then(function(data){
+	console.log(data[0]);
+	console.log(data[1]);
+	
+}); //end of Promise
+}; // end of genNETMIGWA
