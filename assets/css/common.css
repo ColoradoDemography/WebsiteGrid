@@ -356,7 +356,10 @@ ul.accordion-ul {
 	font-size : 10pt;
 	list-style-type : disc;
 }
-
+.accordion-link {
+	font-size : 10pt;
+	color : blue;
+}
 
 
 /* databutton, menu for downloading data and images
