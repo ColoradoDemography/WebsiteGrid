@@ -1,9 +1,9 @@
-<!-- Net Migration by Age Comparison Page A Bickford 6/2021 -->
+<!-- Net Migration Working Age Page A Bickford 6/2021 -->
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>SDO Net Migration by Age Comparison</title>
+<title>SDO Net Migration Working Age</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
 <!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
@@ -95,13 +95,13 @@ d3.json(urlstr).then(function(yeardata){
     var yrvalue = d3.max(yrsList);
 	
 //Generate Initial Tables
-genNETMIGCOMP("000","Colorado", yrvalue);
+genNETMIG1864("000","Colorado", yrvalue);
 
 d3.select("#county-dropdown").on("change", function(d,i) {
         var selectedfips = d3.select("#county-dropdown").property('value');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
 
-        genNETMIGCOMP(selectedfips,selectedcounty,yrvalue);
+        genNETMIG1864(selectedfips,selectedcounty,yrvalue);
     });
 }); //end of maximum year value
 
