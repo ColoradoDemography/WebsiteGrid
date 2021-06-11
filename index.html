@@ -104,7 +104,8 @@ d3.select("#county-dropdown").on("change", function(d,i) {
 
 //Function checks if selected div is loaded and runs Accordion
 
-window.onload = function() {
+window.addEventListener('load', runAccordion, false); 
+function runAccordion(){
  var gridPanel = document.getElementById('leftHand');
  var accItem = gridPanel.getElementsByClassName('accordionItem');
  var accHD = gridPanel.getElementsByClassName('accordionItemHeading');
