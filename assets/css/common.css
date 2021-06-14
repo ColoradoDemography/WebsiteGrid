@@ -273,9 +273,9 @@ a :hover {
 	padding:0px;
    background:white;
    float:left;
-   width:90%;
-   box-sizing:border-box;margin:10%;
-   box-shadow: 0 1.5em 85px 0 rgba(0, 0, 0, 0.2);
+   width:100%;
+   box-sizing:border-box;
+   margin:0%;
    }
 .accordionItem{
     float:left;
