@@ -271,7 +271,7 @@ a :hover {
 /* Accordion Style the sidenav links and the dropdown button */
 .accordionWrapper{
 	padding:0px;
-   background:#fff;
+   background:white;
    float:left;
    width:90%;
    box-sizing:border-box;margin:10%;
@@ -449,7 +449,8 @@ ul.accordion-ul {
   grid-row: 1 ;
   }
 /* Left Hand Panel */  
-.panel_2_1 {  
+.panel_2_1 { 
+   background = white; 
    grid-column: 1;
    grid-row: 5;
   }
@@ -500,6 +501,7 @@ ul.accordion-ul {
   }
 /* Left Hand Panel */  
 .panel2_2_1 {  
+   background : white;
    grid-column: 1/ span 2;
    grid-row: 8;
   }
@@ -607,6 +609,7 @@ ul.accordion-ul {
   }
 /* Left Hand Panel */  
 .panel_2_1 {  
+   background : white;
    grid-column: 1;
    grid-row: 2/ span 3;
   }
@@ -741,6 +744,7 @@ ul.accordion-ul {
 /* Layout for Application Page */
  /* Left Hand Panel */  
 .app-panel_2_1 {  
+   background : white;
    grid-column: 1;
    grid-row: 2/ span 7;
   }
