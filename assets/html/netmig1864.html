@@ -42,10 +42,10 @@
 	<div w3-include-html="../html/left_hand.html"></div>
   </div> <!-- Grid  panel2_2_1 -->
   <div class="grid-item app-panel_2_2">
-  <b>Net Migration by Age Comparison</b>
+  <b>Net Migration for Working Age Adults</b>
    <br><br>INSTRUCTIONS:
    <p>
-   The following page shows graphs and charts for various datasets by county. Select the county from the list below to view the graphs for that county. 
+   The following page shows graphs and charts for various datasets by county. Select the At least one county from the list below to view the graphs for the selected counties. 
    You can hover over specific data points on each graph to view the data for that specific point.
    </p>
    Click on the download icon on the left of each chart to download the chart and the underlying data.
@@ -53,17 +53,33 @@
    <b><i>This data visualization can only be viewed on a tablet or desktop.</i></b>
    <br><br>
  	 <label for="county-dropdown"><b>Select County:</b></label>
-	 <select class="county-dropdown" id="county-dropdown"></select>
+	 <select class="county-dropdown" id="county-dropdown" multiple></select>
+	 <label for="age-dropdown"><b>Select Age Group:</b></label>
+	 <select class="age-dropdown" id="chart-dropdown">
+		<option value="ageall">Total Population</option>
+		<option value="age1864">Working Age Population (Persons Age 18 to 64)</option>
+	 </select>
+	 <label for="data-dropdown"><b>Select Data Series:</b></label>
+	 <select class="data-dropdown" id="chart-dropdown">
+		<option value="tot">Totals</option>
+		<option value="rate">Rate (per 100 persons)</option>
+	 </select>
+	 <label for="chart-dropdown"><b>Select Chart Type:</b></label>
+	 <select class="chart-dropdown" id="chart-dropdown">
+		<option value="bar">Bar Chart</option>
+		<option value="lines">Line Chart</option>
+	 </select>
+
   </div>
   <div class="grid-item app-panel_3_2">
       <div class="dropdown AClass">
 		  <button class="dropbtn"  id="estimate"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 		  <div class="dropdown-content">
-			<a href="#" id='netmign_csv'>Download Data (CSV)</a>
-			<a href='#' id='netmign_png'>Download Image (PNG)</a>
+			<a href="#" id='netmigtot_csv'>Download Data (CSV)</a>
+			<a href='#' id='netmigtot_png'>Download Image (PNG)</a>
 		  </div>
 	  </div>
-	 <div id="netmign_output"></div>
+	 <div id="netmigtot_output"></div>
   </div>
   <div class="grid-item app-panel_4_2">
 	<div class="dropdown AClass">
@@ -95,19 +111,47 @@ d3.json(urlstr).then(function(yeardata){
     var yrvalue = d3.max(yrsList);
 	
 //Generate Initial Tables
-genNETMIG1864("000","Colorado", yrvalue);
+genNETMIG1864("000","Colorado", "ageall", "tot", "bar",yrvalue);
 
 d3.select("#county-dropdown").on("change", function(d,i) {
         var selectedfips = d3.select("#county-dropdown").property('value');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
+		var selecteddata = d3.select("#data-dropdown").property('value');
+        var selectedchart = d3.select("#chart-dropdown").property('value');
+        genNETMIG1864(selectedfips,selectedcounty,selectedage,selecteddata,selectedchart,yrvalue);
+    });
 
-        genNETMIG1864(selectedfips,selectedcounty,yrvalue);
+d3.select("#age-dropdown").on("change", function(d,i) {
+        var selectedfips = d3.select("#county-dropdown").property('value');
+		var selectedcounty = d3.select('#county-dropdown option:checked').text();
+		var selectedage = d3.select('#age-dropdown').property('value');
+		var selecteddata = d3.select("#data-dropdown").property('value');
+        var selectedchart = d3.select("#chart-dropdown").property('value');
+        genNETMIG1864(selectedfips,selectedcounty,selectedage,selecteddata,selectedchart,yrvalue);
+    });
+	
+d3.select("#data-dropdown").on("change", function(d,i) {
+        var selectedfips = d3.select("#county-dropdown").property('value');
+		var selectedcounty = d3.select('#county-dropdown option:checked').text();
+		var selectedage = d3.select('#age-dropdown').property('value');
+		var selecteddata = d3.select("#data-dropdown").property('value');
+        var selectedchart = d3.select("#chart-dropdown").property('value');
+        genNETMIG1864(selectedfips,selectedage,selectedcounty,selectedage,selecteddata,selectedchart,yrvalue);
+    });
+
+d3.select("#chart-dropdown").on("change", function(d,i) {
+        var selectedfips = d3.select("#county-dropdown").property('value');
+		var selectedcounty = d3.select('#county-dropdown option:checked').text();
+		var selectedage = d3.select('#age-dropdown').property('value');
+		var selecteddata = d3.select("#data-dropdown").property('value');
+        var selectedchart = d3.select("#chart-dropdown").property('value');
+        genNETMIG1864(selectedfips,selectedage,selectedcounty,selectedage,selecteddata,selectedchart,yrvalue);
     });
 }); //end of maximum year value
 
 //Function checks if selected div is loaded and runs Accordion
 
-window.onload = function() {
+window.addEventListener('load', (event) => {
  var gridPanel = document.getElementById('leftHand');
  var accItem = gridPanel.getElementsByClassName('accordionItem');
  var accHD = gridPanel.getElementsByClassName('accordionItemHeading');
@@ -123,7 +167,7 @@ window.onload = function() {
             this.parentNode.className = 'accordionItem open';
         }
     };
-}
+});
 </script>
 
 </body>

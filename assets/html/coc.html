@@ -96,9 +96,10 @@
 
 //Setting HTML include and Accordion
 includeHTML(); 
+
 //Function checks if selected div is loaded and runs Accordion
 
-window.onload = function() {
+window.addEventListener('load', (event) => {
  var gridPanel = document.getElementById('leftHand');
  var accItem = gridPanel.getElementsByClassName('accordionItem');
  var accHD = gridPanel.getElementsByClassName('accordionItemHeading');
@@ -114,7 +115,7 @@ window.onload = function() {
             this.parentNode.className = 'accordionItem open';
         }
     };
-}
+});
 </script>
 
 </body>

@@ -74,7 +74,7 @@ includeHTML();
 
 /* Populate County Dropdown */
 popDropdown('county','county-dropdown')
-	
+debugger;	
 //generating maximum year value for estimates
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
@@ -105,6 +105,7 @@ d3.select("#county-dropdown").on("change", function(d,i) {
 //Function checks if selected div is loaded and runs Accordion
 
 window.addEventListener('load', (event) => {
+
  var gridPanel = document.getElementById('leftHand');
  var accItem = gridPanel.getElementsByClassName('accordionItem');
  var accHD = gridPanel.getElementsByClassName('accordionItemHeading');
@@ -122,10 +123,7 @@ window.addEventListener('load', (event) => {
     };
 });
 
- 
-
-
-</script>
+ </script>
 
 </body>
 </html> 

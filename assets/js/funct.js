@@ -367,26 +367,6 @@ function includeHTML() {
   }
 }
 
-// runAccordion manages the accordion functionalits of the page
-function runAccordion(){
-
-var accordion = document.getElementsByClassName("accordion-btn");
-var i;
-
-for (i = 0; i < accordion.length; i++) {
-  accordion[i].addEventListener("mousedown", function() {
- //   this.classList.toggle("active");
-    var accordionContent = this.nextElementSibling;
-    if (accordionContent.style.display === "block") {
-      accordionContent.style.display = "none";
-    } else {
-      accordionContent.style.display = "block";
-    }
-  });
-};
-return;
-}
-
 function transpose(data) {
   let result = {};
   for (let row of data) {
@@ -2849,7 +2829,7 @@ function genNETMIGCOMP(fips, ctyName, yrvalue) {
 	 const formatDate = d3.timeFormat("%B %d, %Y");
 
 	var fipsNum = parseInt(fips);
-debugger;
+
 //Reading Raw data
 var data_csv = "../data/NetMigrationByAgeComparison.csv";
 d3.csv(data_csv).then(function(data){
@@ -3086,32 +3066,182 @@ netmigrrate_png.onclick = function() {
 
 
 //genNETMIG1864 Histprical NetMigration charts, inclusing working age population was net_mig 1864
-function genNETMIG1864(fips, ctyName, yrvalue){
+//Uses data from netmig_1864x Must be updated after Census 2020 is available
+function genNETMIG1864(fipsVal, ctyName, ageSeries, dataSeries, chartType, yrvalue){
 
-    const formatDate = d3.timeFormat("%B %d, %Y");
-	var fips_list = parseInt(fips);
-		
-//Creating 
-   var sya_yrs = 1970;
-   	for(i = 1971; i <= yrvalue; i++){
-		sya_yrs = sya_yrs + "," + i;
-	};
- 
-    if(fips == "000") {
-		var syaurl = "https://gis.dola.colorado.gov/lookups/sya_regions?reg_num=0&year=" + sya_yrs + "&choice=single"
+const formatDate = d3.timeFormat("%B %d, %Y");
+console.log(fipsVal);
+var data_csv = "../data/netmig_1864x.csv";
+
+	var year = [];
+	var netmigration_1864 = [];
+	var pop_1864 = [];
+	var rate_1864 = [];
+	var netmigration_total = [];
+	var pop_total = [];
+	var rate_total = [];
+
+//Building Chart Title and filename
+
+var titStr = "Net Migration by Year: ";
+
+if(ctyName.length == 1) {
+	titStr = titStr + ctyName[0];
+   } else { 
+	   for (i = 1; i < ctyName.length; i++){
+		 if(i == ctyName.length){
+			 titStr = titStr + " and " + ctyName[i];
+		 } else {
+		if (ctyName[0].length == 2){
+			titStr = titStr +  ctyName[i] + " ";
+		} else {
+          titStr = titStr +  ctyName[i] + ", ";
+		 }
+       }
+	   }
+   }; 
+   
+//Creating second line of title
+if(ageSeries == "ageall"){	   
+	 var titStrTot = titStr + "<br>Total Population Counts";
+	 var  titStrRate = titStr + "<br>Total Population Rate per 100";
 	} else {
-		var syaurl = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + sya_yrs + "&choice=single&group=3"
-	}; 
+		var titStrTot = titStr + "<br>Working Age Population Counts (Age 18-64)";
+		var titStrRate = titStr + "<br>Working Age Population Rate per 100 (Age 18-64)";
+	};
 
-//Net migration by age 
-   var netmigurl = 'https://gis.dola.colorado.gov/lookups/migbyage?county=' + parseInt(fips);
 
-var prom = [d3.json(syaurl),d3.json(netmigurl)];
-
-debugger;
-Promise.all(prom).then(function(data){
-	console.log(data[0]);
-	console.log(data[1]);
 	
-}); //end of Promise
+d3.csv(data_csv).then(function(data){
+	debugger;
+	console.log(data);
+	var datafilt = data.filter(function(d,i) {return fipsVal.indexOf(d.fips)  >= 0;});
+	for(i = 0; i < datafilt.length(); i++) {
+		  if(ageSeries == 'age1864'){
+			  if(datafilt[i].year >= 1990){
+		       year.push(Number(obj.year));
+		       netmigration_1864.push(Number(obj.netmigration_1864));
+		       rate_1864.push(Number(obj.rate_1864));
+			  }
+			} else {  
+		  year.push(Number(obj.year));
+		  netmigration_total.push(Number(obj.netmigration_total));
+		  rate_total.push(Number(obj.Rate1020));
+		};
+	};
+
+//Generating Chart	
+var config = {responsive: true,
+              displayModeBar: false};
+			  
+//Chart Specifics
+if(ageSeries == "ageall") {
+		var yDataTot = netmigration_total;
+		var yDataRate = rate_total;
+	} else {
+		var yDataTot = netmigration_1864;
+		var yDataRate = rate_1864;
+	};
+	
+
+	
+//Clearing out Divs
+var NETMIGTOT = document.getElementById("netmigtot_output");
+var NETMIGRATE = document.getElementById("netmigrrate_output");
+
+NETMIGTOT.innerHTML = "";
+NETMIGRATE.innerHTML = "";
+
+var tot_trace = { 
+			   x: year,
+			   y :  yDataTot,
+			   type : chartType
+			};
+var rate_trace = { 
+			   x: year,
+			   y : rate_total,
+			   type : chartType
+			};			
+
+
+var tot_layout = {
+		title: titStrTot,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Persons',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+
+
+   var rate_bar_layout = {
+		title: "Net Migration Rate by Year " + ctyName + "<br> Total Population Rate per 100",
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Rate per 100 Persons',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+		//Chart Call
+
+Plotly.newPlot(NETMIGTOT, tot_trace, tot_layout,config);
+Plotly.newPlot(NETMIGRATE, rate_trace, rate_layout,config);
+
+
+
+}); //end of d3 csv
 }; // end of genNETMIGWA
