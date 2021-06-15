@@ -286,7 +286,7 @@ ul.accordion-ul {
 	list-style-type : disc;
 }
 .accordion-link {
-	font-size : 10pt;
+	font-size : 11pt;
 	color : blue;
 }
 
@@ -300,6 +300,7 @@ details {
 }
 
 details summary {
+  font-size : 11pt;
   display: block;
   cursor: pointer;
   padding: .5em .5em .5em .7em;
