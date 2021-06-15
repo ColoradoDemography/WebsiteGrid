@@ -326,9 +326,11 @@ details[open] summary {
 }
 
 details main {
+	margin : 0%;
+  font-size : 10pt;	
   padding: 0;
-     background:white;
-  color:blue;
+  background : white;
+  color : green;
 }
 /* databutton, menu for downloading data and images
 /* Data Button Style */
