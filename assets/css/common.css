@@ -326,7 +326,7 @@ details[open] summary {
 }
 
 details main {
-  padding: 1em 2.2em;
+  padding: 0;
      background:white;
   color:blue;
 }
