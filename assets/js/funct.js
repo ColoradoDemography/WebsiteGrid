@@ -3073,14 +3073,7 @@ const formatDate = d3.timeFormat("%B %d, %Y");
 console.log(fipsVal);
 var data_csv = "../data/netmig_1864x.csv";
 
-	var year = [];
-	var netmigration_1864 = [];
-	var pop_1864 = [];
-	var rate_1864 = [];
-	var netmigration_total = [];
-	var pop_total = [];
-	var rate_total = [];
-
+	
 //Building Chart Title and filename
 
 var titStr = "Net Migration by Year: ";
@@ -3114,8 +3107,21 @@ if(ageSeries == "ageall"){
 	
 d3.csv(data_csv).then(function(data){
 	debugger;
+	var year = [];
+	var netmigration_1864 = [];
+	var pop_1864 = [];
+	var rate_1864 = [];
+	var netmigration_total = [];
+	var pop_total = [];
+	var rate_total = [];
+
 	console.log(data);
-	var datafilt = data.filter(function(d,i) {return fipsVal.indexOf(d.fips)  >= 0;});
+	if(fipsVal.length() == 0) {
+		var datafilt = data.filter(function(d,i) {return d.fips == fipsVal;});
+	} else {
+		var datafilt = data.filter(function(d,i) {return fipsVal.indexOf(d.fips)  >= 0;});
+	};
+
 	for(i = 0; i < datafilt.length(); i++) {
 		  if(ageSeries == 'age1864'){
 			  if(datafilt[i].year >= 1990){
@@ -3201,7 +3207,7 @@ var tot_layout = {
 		};
 
 
-   var rate_bar_layout = {
+   var rate_layout = {
 		title: "Net Migration Rate by Year " + ctyName + "<br> Total Population Rate per 100",
 		  autosize: false,
 		  width: 1000,

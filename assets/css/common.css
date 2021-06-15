@@ -277,81 +277,10 @@ a :hover {
    box-sizing:border-box;
    margin:0%;
    }
-.accordionItem{
-    float:left;
-    display:block;
-    width:100%;
-    box-sizing: border-box;
-    font-family:'Open-sans',Arial,sans-serif;
-}
-.accordionItemHeading{
-    cursor:pointer;
-	font-size: 10pt;
-    margin:0px 0px 10px 0px;
-    padding:10px;
-    background:#cfcdca;
-    color:blue;
-    width:100%;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-        box-sizing: border-box;
-}
-.close .accordionItemContent{
-    height:0px;
-    transition:height 1s ease-out;
-    -webkit-transform: scaleY(0);
-	-o-transform: scaleY(0);
-	-ms-transform: scaleY(0);
-	transform: scaleY(0);
-    float:left;
-    display:block;
-    
-    
-}
-.open .accordionItemContent{
-        padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    width: 100%;
-    margin: 0px 0px 10px 0px;
-    display:block;
-    -webkit-transform: scaleY(1);
-	-o-transform: scaleY(1);
-	-ms-transform: scaleY(1);
-	transform: scaleY(1);
-    -webkit-transform-origin: top;
-	-o-transform-origin: top;
-	-ms-transform-origin: top;
-	transform-origin: top;
-
-	-webkit-transition: -webkit-transform 0.4s ease-out;
-	-o-transition: -o-transform 0.4s ease;
-	-ms-transition: -ms-transform 0.4s ease;
-	transition: transform 0.4s ease;
-        box-sizing: border-box;
-}
-
-.open .accordionItemHeading{
-    margin:0px;
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-top-right-radius: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-topright: 3px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    background-color: #bdc3c7;
-    color: #7f8c8d;
-}
 
 ul.accordion-ul {
 	margin-top: 0px;
+	margin-left: 2px;
 	padding : 0;
 	font-size : 10pt;
 	list-style-type : disc;
@@ -361,7 +290,46 @@ ul.accordion-ul {
 	color : blue;
 }
 
+details {
+  overflow: hidden;
+  margin-top: 0.125em;
+  border: 1px solid #dddddd;
+  background:#D3D3D3;
+  color:blue;
+  border-radius: 3px;
+}
 
+details summary {
+  display: block;
+  cursor: pointer;
+  padding: .5em .5em .5em .7em;
+  background:#D3D3D3;
+  color:blue;
+  border-radius: 3px 3px 0 0;
+}
+
+details:not([open]) summary:hover,
+details:not([open]) summary:focus {      
+  background:#D3D3D3;
+  color:blue;
+}
+
+details:not([open]) summary {
+  border: 1px solid #003eff;
+   background:#D3D3D3;
+  color:blue;
+}
+details[open] summary {
+  border: 1px solid #003eff;
+   background:white;
+  color:blue;
+}
+
+details main {
+  padding: 1em 2.2em;
+     background:white;
+  color:blue;
+}
 /* databutton, menu for downloading data and images
 /* Data Button Style */
 .databutton { 
@@ -376,7 +344,7 @@ ul.accordion-ul {
 	  vertical-align: middle; 
 	  line-height: 0px; 
 	  text-align: center; 
-	  border: .25px solid white; 
+	  border: .25px solid black; 
 	  opacity: .9; 
 	  } 
 	  
