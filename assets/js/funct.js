@@ -448,6 +448,9 @@ function exportToCsv(cname, type, rows, yr) {
 		if(type == 'netmigrwa'){
 			var fileName =  "Net Migration by Year.csv"
 		};
+		if(type == 'nethist') {
+			var fileName = "Long Term Trend Birth Death Migration " + cname + ".csv"
+		};
         var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
         if (navigator.msSaveBlob) { // IE 10+
             navigator.msSaveBlob(blob, fileName);
@@ -517,6 +520,15 @@ function exportToPng(cname, type, graphDiv, yr){
 		};
 		if(type == 'netmigrwa'){
 			var fileName =  "Net Migration by Year "
+		};
+		if(type == 'birth') {
+			var fileName = "Long Term Trend Births " + cname + ".csv"
+		};
+		if(type == 'death') {
+			var fileName = "Long Term Trend Deaths " + cname + ".csv"
+		};
+		if(type == 'mig') {
+			var fileName = "Long Term Trend Net Migration " + cname + ".csv"
 		};
 
 	  Plotly.downloadImage(graphDiv, {format: 'png', width: 1000, height: 400, filename: fileName});
@@ -3313,7 +3325,284 @@ netmigrwa_png.onclick = function() {
 	   exportToPng(ctyName, 'netmigrwa', NETMIGRATE, 0);
      };
 	 
-
-
 }); //end of d3 csv
 }; // end of genNETMIGWA
+
+//genCOCHIST generates long-term COC charts
+function genCOCHIST(fipsVal, ctyName) {
+const formatDate = d3.timeFormat("%B %d, %Y");
+
+//Generating urls
+var ctyfips  = parseInt(fipsVal);
+var yrlist = 1970;
+for(i = 1971; i <= 2050; i++){
+	yrlist = yrlist + "," + i;
+};
+
+if(fipsVal == "000") {
+	 var dataurl = 'https://gis.dola.colorado.gov/lookups/components_region?reg_num=' + ctyfips + '&year=' + yrlist;
+} else {
+	var dataurl = 'https://gis.dola.colorado.gov/lookups/components?county=' + ctyfips + '&year=' + yrlist;
+}
+var year_est = [];
+var year_forc = [];
+var birth_est = [];
+var birth_forc = [];
+var death_est = [];
+var death_forc = [];
+var mig_est = [];
+var mig_forc = [];
+var out_data = [];
+
+d3.json(dataurl).then(function(data){
+	   for(i = 0; i < data.length; i++){
+		   out_data.push({'Year' : data[i].year, 'County' : ctyName, 'Births' : Number(data[i].births), 'Deaths' : Number(data[i].deaths), 
+		                  'Net Migration' : Number(data[i].netmig), 'Data Type' : data[i].datatype});
+		   if(data[i].datatype == "Estimate"){
+			year_est.push(data[i].year);
+		    birth_est.push(Number(data[i].births));
+			death_est.push(Number(data[i].deaths));
+			mig_est.push(Number(data[i].netmig));
+		   } else {
+			year_forc.push(data[i].year);
+		    birth_forc.push(Number(data[i].births));
+			death_forc.push(Number(data[i].deaths));
+			mig_forc.push(Number(data[i].netmig));
+		   };
+	   };
+//Traces
+var birth_tmp1 = { 
+					   x: year_est,
+					   y : birth_est,
+					   name : 'Estimate',
+					   mode : 'lines',
+					   line: {
+						dash: 'solid',
+						color : 'black',
+						width: 3
+						}
+					};
+
+var birth_tmp2 = { 
+					   x: year_forc,
+					   y : birth_forc,
+					   name : 'Forecast',
+					   mode : 'lines',
+					   line: {
+						dash: 'dash',
+						color : 'black',
+						width: 3
+						}
+					};
+var birth_trace = [birth_tmp1, birth_tmp2];
+
+var death_tmp1 = { 
+					   x: year_est,
+					   y : death_est,
+					   name : 'Estimate',
+					   mode : 'lines',
+					   line: {
+						dash: 'solid',
+						color : 'grey',
+						width: 3
+						}
+					};
+
+var death_tmp2 = { 
+					   x: year_forc,
+					   y : death_forc,
+					   name : 'Forecast',
+					   mode : 'lines',
+					   line: {
+						dash: 'dash',
+						color : 'grey',
+						width: 3
+						}
+					};
+var death_trace = [death_tmp1, death_tmp2];
+
+var mig_tmp1 = { 
+					   x: year_est,
+					   y : mig_est,
+					   name : 'Estimate',
+					   mode : 'lines',
+					   line: {
+						dash: 'solid',
+						color : 'green',
+						width: 3
+						}
+					};
+
+var mig_tmp2 = { 
+					   x: year_forc,
+					   y : mig_forc,
+					   name : 'Forecast',
+					   mode : 'lines',
+					   line: {
+						dash: 'dash',
+						color : 'green',
+						width: 3
+						}
+					};
+var mig_trace = [mig_tmp1, mig_tmp2];
+
+//Generating Chart	
+var config = {responsive: true,
+              displayModeBar: false};
+			  
+	
+//Clearing out Divs
+var BIRTH = document.getElementById("birth_output");
+var DEATH = document.getElementById("death_output");
+var MIG = document.getElementById("netmig_output");
+
+BIRTH.innerHTML = "";
+DEATH.innerHTML = "";
+MIG.innerHTML = "";
+
+var birth_layout = {
+		title: "Birth Estimate and Forecast " + ctyName,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Persons',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+		
+var death_layout = {
+		title: "Death Estimate and Forecast " + ctyName,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Persons',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+		
+var mig_layout = {
+		title: "Net Migration Estimate and Forecast " + ctyName,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			  title : 'Persons',
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+		
+
+Plotly.newPlot(BIRTH, birth_trace, birth_layout, config);
+Plotly.newPlot(DEATH, death_trace, death_layout, config);
+Plotly.newPlot(MIG, mig_trace, mig_layout, config);
+
+//Button Events
+//Net Migration Chart
+
+var birth_csv = document.getElementById('birth_csv');
+var birth_png = document.getElementById('birth_png');
+birth_csv.onclick = function() {
+	  exportToCsv(ctyName, 'nethist', out_data, 0);
+     }; 
+birth_png.onclick = function() {
+	   exportToPng(ctyName, 'birth', BIRTH, 0);
+     };
+	 
+
+var death_csv = document.getElementById('death_csv');
+var death_png = document.getElementById('death_png');
+death_csv.onclick = function() {
+	  exportToCsv(ctyName, 'nethist', out_data, 0);
+     }; 
+death_png.onclick = function() {
+	   exportToPng(ctyName, 'death', DEATH, 0);
+     };
+	 
+var mig_csv = document.getElementById('netmig_csv');
+var mig_png = document.getElementById('netmig_png');
+mig_csv.onclick = function() {
+	  exportToCsv(ctyName, 'nethist', out_data, 0);
+     }; 
+mig_png.onclick = function() {
+	   exportToPng(ctyName, 'mig', MIG, 0);
+     };
+	 
+}); //end of d3 json
+}; //end of genCOCHIST

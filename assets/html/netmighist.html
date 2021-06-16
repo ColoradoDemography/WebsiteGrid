@@ -1,9 +1,9 @@
-<!-- Demographic Dashboard Page A Bickford 6/2021 -->
+<!-- Net Migration Historical Page A Bickford 6/2021 -->
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>SDO Demographic Dashboard</title>
+<title>SDO Long Term Net Migraiton</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
 <!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
@@ -42,11 +42,10 @@
 	<div w3-include-html="../html/left_hand.html"></div>
   </div> <!-- Grid  panel2_2_1 -->
   <div class="grid-item app-panel_2_2">
-  <b>Demographic Dashboard</b>
+  <b>Long Term Net Migration by County</b>
    <br><br>INSTRUCTIONS:
    <p>
-   The following page shows graphs and charts for various datasets by county. Select the county from the list below to view the graphs for that county. 
-   You can hover over specific data points on each graph to view the data for that specific point.
+   The following page shows births, deaths, and net migration estimates and forecasts for counties from 1970 to 2050.
    </p>
    Click on the download icon on the left of each chart to download the chart and the underlying data.
    <br><br>
@@ -57,64 +56,34 @@
   </div>
   <div class="grid-item app-panel_3_2">
       <div class="dropdown AClass">
-		  <button class="dropbtn"  id="estimate"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		  <button class="dropbtn"  id="births"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 		  <div class="dropdown-content">
-			<a href="#" id='est_csv'>Download Data (CSV)</a>
-			<a href='#' id='est_png'>Download Image (PNG)</a>
+			<a href="#" id='birth_csv'>Download Data (CSV)</a>
+			<a href='#' id='birth_png'>Download Image (PNG)</a>
 		  </div>
 	  </div>
-	 <div id="est_output"></div>
+	 <div id="birth_output"></div>
   </div>
   <div class="grid-item app-panel_4_2">
 	<div class="dropdown AClass">
-		<button class="dropbtn" id="forecast"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		<button class="dropbtn" id="death"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
-		<a href="#" id='forec_csv'>Download Data (CSV)</a>
-		<a href='#' id='forec_png'>Download Image (PNG)</a>
+		<a href="#" id='death_csv'>Download Data (CSV)</a>
+		<a href='#' id='death_png'>Download Image (PNG)</a>
 	 </div>
 	</div>
-    <div id="forec_output"></div>
+    <div id="death_output"></div>
   </div>
   <div class="grid-item app-panel_5_2">
   	<div class="dropdown AClass">
-		<button class="dropbtn" id="coc"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		<button class="dropbtn" id="netmig"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
-		<a href="#" id='coc_csv'>Download Data (CSV)</a>
-		<a href='#' id='coc_png'>Download Image (PNG)</a>
+		<a href="#" id='netmig_csv'>Download Data (CSV)</a>
+		<a href='#' id='netmig_png'>Download Image (PNG)</a>
 	 </div>
 	</div>
-    <div id="coc_output"></div>
+    <div id="netmig_output"></div>
   </div>
-  <div class="grid-item app-panel_6_2">
-    <div class="dropdown AClass">
-		<button class="dropbtn" id="migr"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
-	<div class="dropdown-content">
-		<a href="#" id='mig_csv'>Download Data (CSV)</a>
-		<a href='#' id='mig_png'>Download Image (PNG)</a>
-	 </div>
-	</div>
-	<div id="mig_output"></div>
-  </div>
-  <div class="grid-item app-panel_7_2">
-    <div class="dropdown AClass">
-		<button class="dropbtn" id="age"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button> 
-	<div class="dropdown-content">
-		<a href="#" id='age_csv'>Download Data (CSV)</a>
-		<a href='#' id='age_png'>Download Image (PNG)</a>
-	 </div>
-	</div>
-    <div id="ageest_output"></div>
-  </div>  
-  <div class="grid-item app-panel_8_2">
-      <div class="dropdown AClass">
-		<button class="dropbtn" id="popchng"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
-	  <div class="dropdown-content">
-		<a href="#" id='popchng_csv'>Download Data (CSV)</a>
-		<a href='#' id='popchng_png'>Download Image (PNG)</a>
-	 </div>
-	</div>
-    <div id="popchng_output"></div> 
- </div>
 </div>  <!-- End of Grid -->
 
 
@@ -136,35 +105,16 @@ d3.json(urlstr).then(function(yeardata){
 	
 //Generate Initial Tables
 showButtons();
-genDEMO("000","Colorado", yrvalue);
+genCOCHIST("000","Colorado");
 
 d3.select("#county-dropdown").on("change", function(d,i) {
         var selectedfips = d3.select("#county-dropdown").property('value');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
 
-        genDEMO(selectedfips,selectedcounty,yrvalue);
+        genCOCHIST(selectedfips,selectedcounty);
     });
 }); //end of maximum year value
 
-//Function checks if selected div is loaded and runs Accordion
-
-window.addEventListener('load', (event) => {
- var gridPanel = document.getElementById('leftHand');
- var accItem = gridPanel.getElementsByClassName('accordionItem');
- var accHD = gridPanel.getElementsByClassName('accordionItemHeading');
-    for (i = 0; i < accHD.length; i++) {
-        accHD[i].addEventListener('click', toggleItem, false);
-    }
-    function toggleItem() {
-        var itemClass = this.parentNode.className;
-        for (i = 0; i < accItem.length; i++) {
-            accItem[i].className = 'accordionItem close';
-        }
-        if (itemClass == 'accordionItem close') {
-            this.parentNode.className = 'accordionItem open';
-        }
-    };
-});
 </script>
 
 </body>
