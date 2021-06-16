@@ -426,6 +426,12 @@ function exportToCsv(cname, type, rows, yr) {
 		if(type == 'netmigrrate'){
 			var fileName =  "Net Migration by Age " + cname + ".csv"
 		};
+		if(type == 'netmigwa'){
+			var fileName =  "Net Migration by Year.csv"
+		};
+		if(type == 'netmigrwa'){
+			var fileName =  "Net Migration by Year.csv"
+		};
         var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
         if (navigator.msSaveBlob) { // IE 10+
             navigator.msSaveBlob(blob, fileName);
@@ -489,6 +495,12 @@ function exportToPng(cname, type, graphDiv, yr){
 		};
 		if(type == 'netmigrrate'){
 			var fileName =  "Net Migration Rate by Age " + cname
+		};
+		if(type == 'netmigwa'){
+			var fileName =  "Net Migration by Year "
+		};
+		if(type == 'netmigrwa'){
+			var fileName =  "Net Migration by Year "
 		};
 
 	  Plotly.downloadImage(graphDiv, {format: 'png', width: 1000, height: 400, filename: fileName});
@@ -3015,7 +3027,7 @@ var NetMig_layout = {
 			gridwidth: 2,
 			linecolor: 'black',
 			linewidth: 2,
-			 tickformat: ','
+			 tickformat:  '.2f'
 		  },
 			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
                xref : 'paper', 
@@ -3065,12 +3077,12 @@ netmigrrate_png.onclick = function() {
 } //end of genNETMIGCOMP
 
 
-//genNETMIG1864 Histprical NetMigration charts, inclusing working age population was net_mig 1864
+//genNETMIG1864 Historical NetMigration charts, inclusing working age population was net_mig 1864
 //Uses data from netmig_1864x Must be updated after Census 2020 is available
-function genNETMIG1864(fipsVal, ctyName, ageSeries, dataSeries, chartType, yrvalue){
+function genNETMIG1864(fipsVal, ctyName, ageSeries, chartType, yrvalue){
 
 const formatDate = d3.timeFormat("%B %d, %Y");
-console.log(fipsVal);
+
 var data_csv = "../data/netmig_1864x.csv";
 
 	
@@ -3081,11 +3093,11 @@ var titStr = "Net Migration by Year: ";
 if(ctyName.length == 1) {
 	titStr = titStr + ctyName[0];
    } else { 
-	   for (i = 1; i < ctyName.length; i++){
-		 if(i == ctyName.length){
+	   for (i = 0; i < ctyName.length; i++){
+		 if(i == (ctyName.length -1)){
 			 titStr = titStr + " and " + ctyName[i];
 		 } else {
-		if (ctyName[0].length == 2){
+		if (ctyName.length == 2){
 			titStr = titStr +  ctyName[i] + " ";
 		} else {
           titStr = titStr +  ctyName[i] + ", ";
@@ -3106,50 +3118,77 @@ if(ageSeries == "ageall"){
 
 	
 d3.csv(data_csv).then(function(data){
-	debugger;
-	var year = [];
-	var netmigration_1864 = [];
-	var pop_1864 = [];
-	var rate_1864 = [];
-	var netmigration_total = [];
-	var pop_total = [];
-	var rate_total = [];
 
-	console.log(data);
-	if(fipsVal.length() == 0) {
-		var datafilt = data.filter(function(d,i) {return d.fips == fipsVal;});
+
+	var tot_trace = [];
+	var rate_trace = [];
+
+	if(fipsVal.length == 1) {
+		var datafilt = data.filter(function(d,i) {return d.fips == fipsVal[0];});
 	} else {
 		var datafilt = data.filter(function(d,i) {return fipsVal.indexOf(d.fips)  >= 0;});
 	};
 
-	for(i = 0; i < datafilt.length(); i++) {
-		  if(ageSeries == 'age1864'){
-			  if(datafilt[i].year >= 1990){
-		       year.push(Number(obj.year));
-		       netmigration_1864.push(Number(obj.netmigration_1864));
-		       rate_1864.push(Number(obj.rate_1864));
-			  }
-			} else {  
-		  year.push(Number(obj.year));
-		  netmigration_total.push(Number(obj.netmigration_total));
-		  rate_total.push(Number(obj.Rate1020));
-		};
-	};
+
+		for(i = 0; i < fipsVal.length; i++) {
+			var datafilt_multi = datafilt.filter(function(d) {return d.fips == fipsVal[i];});
+			var xDataYear = [];
+			var yDataTot = [];
+			var yDataRate = [];
+			for(j = 0; j < datafilt_multi.length; j++) {
+			  if(ageSeries == 'age1864'){
+				  if(datafilt_multi[j].year >= 1990){
+				   xDataYear.push(Number(datafilt_multi[j].year));
+				   yDataTot.push(Number(datafilt_multi[j].netmigration_1864));
+				   yDataRate.push(Number(datafilt_multi[j].rate_1864));
+				  }
+				} else {  
+				  xDataYear.push(Number(datafilt_multi[j].year));
+				  yDataTot.push(Number(datafilt_multi[j].netmigration_total));
+				  yDataRate.push(Number(datafilt_multi[j].rate_total));
+			};
+			};
+
+if(chartType == 'bar'){
+		var tot_tmp = { 
+					   x: xDataYear,
+					   y :  yDataTot,
+					   name : ctyName[i],
+					   type : 'bar'
+					};
+		var rate_tmp = { 
+					   x: xDataYear,
+					   y : yDataRate,
+					   name : ctyName[i],
+					   type : 'bar'
+					};			
+	} else {
+		var tot_tmp = { 
+					   x: xDataYear,
+					   y : yDataTot,
+					   name : ctyName[i],
+					   mode : 'lines+markers'
+					};
+		var rate_tmp = { 
+					   x: xDataYear,
+					   y : yDataRate,
+					   name : ctyName[i],
+					   mode : 'lines+markers'
+					};			
+};
+
+tot_trace.push(tot_tmp);
+rate_trace.push(rate_tmp);
+};
+
+
+	
+
 
 //Generating Chart	
 var config = {responsive: true,
               displayModeBar: false};
 			  
-//Chart Specifics
-if(ageSeries == "ageall") {
-		var yDataTot = netmigration_total;
-		var yDataRate = rate_total;
-	} else {
-		var yDataTot = netmigration_1864;
-		var yDataRate = rate_1864;
-	};
-	
-
 	
 //Clearing out Divs
 var NETMIGTOT = document.getElementById("netmigtot_output");
@@ -3157,18 +3196,6 @@ var NETMIGRATE = document.getElementById("netmigrrate_output");
 
 NETMIGTOT.innerHTML = "";
 NETMIGRATE.innerHTML = "";
-
-var tot_trace = { 
-			   x: year,
-			   y :  yDataTot,
-			   type : chartType
-			};
-var rate_trace = { 
-			   x: year,
-			   y : rate_total,
-			   type : chartType
-			};			
-
 
 var tot_layout = {
 		title: titStrTot,
@@ -3207,8 +3234,8 @@ var tot_layout = {
 		};
 
 
-   var rate_layout = {
-		title: "Net Migration Rate by Year " + ctyName + "<br> Total Population Rate per 100",
+var rate_layout = {
+		title: titStrRate,
 		  autosize: false,
 		  width: 1000,
 		  height: 400, 
@@ -3232,7 +3259,7 @@ var tot_layout = {
 			gridwidth: 2,
 			linecolor: 'black',
 			linewidth: 2,
-			 tickformat: ','
+			 tickformat:  '.2f'
 		  },
 			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
                xref : 'paper', 
@@ -3244,9 +3271,32 @@ var tot_layout = {
 		};
 		//Chart Call
 
-Plotly.newPlot(NETMIGTOT, tot_trace, tot_layout,config);
-Plotly.newPlot(NETMIGRATE, rate_trace, rate_layout,config);
+Plotly.newPlot(NETMIGTOT, tot_trace, tot_layout, config);
+Plotly.newPlot(NETMIGRATE, rate_trace, rate_layout, config);
 
+//Button Events
+//Net Migration Chart
+
+var netmigwa_csv = document.getElementById('netmigwa_csv');
+var netmigwa_png = document.getElementById('netmigwa_png');
+netmigwa_csv.onclick = function() {
+	  exportToCsv(ctyName, 'netmigwa', datafilt, 0);
+     }; 
+netmigwa_png.onclick = function() {
+	   exportToPng(ctyName, 'netmigwa', NETMIGTOT, 0);
+     };
+	 
+// Net Migration Rate
+
+var netmigrwa_csv = document.getElementById('netmigrwa_csv');
+var netmigrwa_png = document.getElementById('netmigrwa_png');
+netmigrwa_csv.onclick = function() {
+	  exportToCsv(ctyName, 'netmigrwa', datafilt, 0);
+     }; 
+netmigrwa_png.onclick = function() {
+	   exportToPng(ctyName, 'netmigrwa', NETMIGRATE, 0);
+     };
+	 
 
 
 }); //end of d3 csv

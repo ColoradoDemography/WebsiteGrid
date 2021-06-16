@@ -51,22 +51,17 @@
    Click on the download icon on the left of each chart to download the chart and the underlying data.
    <br><br>
    <b><i>This data visualization can only be viewed on a tablet or desktop.</i></b>
-   <br><br>
- 	 <label for="county-dropdown"><b>Select County:</b></label>
+   <br>
+   	 <label for="county-dropdown"><b>Select County:</b></label>
 	 <select class="county-dropdown" id="county-dropdown" multiple></select>
 	 <label for="age-dropdown"><b>Select Age Group:</b></label>
-	 <select class="age-dropdown" id="chart-dropdown">
-		<option value="ageall">Total Population</option>
+	 <select class="age-dropdown" id="age-dropdown">
+		<option value="ageall" selected>Total Population</option>
 		<option value="age1864">Working Age Population</option>
-	 </select>
-	 <label for="data-dropdown"><b>Select Data Series:</b></label>
-	 <select class="data-dropdown" id="data-dropdown">
-		<option value="tot">Totals</option>
-		<option value="rate">Rate (per 100 persons)</option>
 	 </select>
 	 <label for="chart-dropdown"><b>Select Chart Type:</b></label>
 	 <select class="chart-dropdown" id="chart-dropdown">
-		<option value="bar">Bar Chart</option>
+		<option value="bar" selected>Bar Chart</option>
 		<option value="lines">Line Chart</option>
 	 </select>
     <button class='databutton' id='genchart'>Generate Chart</button>
@@ -75,8 +70,8 @@
       <div class="dropdown AClass">
 		  <button class="dropbtn"  id="estimate"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 		  <div class="dropdown-content">
-			<a href="#" id='netmigtot_csv'>Download Data (CSV)</a>
-			<a href='#' id='netmigtot_png'>Download Image (PNG)</a>
+			<a href="#" id='netmigwa_csv'>Download Data (CSV)</a>
+			<a href='#' id='netmigwa_png'>Download Image (PNG)</a>
 		  </div>
 	  </div>
 	 <div id="netmigtot_output"></div>
@@ -85,8 +80,8 @@
 	<div class="dropdown AClass">
 		<button class="dropbtn" id="forecast"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
-		<a href="#" id='netmigrrate_csv'>Download Data (CSV)</a>
-		<a href='#' id='netmigrrate_png'>Download Image (PNG)</a>
+		<a href="#" id='netmigrwa_csv'>Download Data (CSV)</a>
+		<a href='#' id='netmigrwa_png'>Download Image (PNG)</a>
 	 </div>
 	</div>
     <div id="netmigrrate_output"></div>
@@ -110,42 +105,29 @@ d3.json(urlstr).then(function(yeardata){
 	var yrsList = maxest.map(function(d){return d.year;});
     var yrvalue = d3.max(yrsList);
 	
-//Generate Initial Tables
-genNETMIG1864("000","Colorado", "ageall", "tot", "bar",yrvalue);
 
-d3.select("#genchart").on("click", function(d,i) {
-      var selectedfips = d3.select(this)
-    .selectAll("option")
-    .filter(function (d, i) { 
-        return this.selected; 
-    });
-		var selectedcounty = d3.select('#county-dropdown option:checked').text();
-		var selecteddata = d3.select("#data-dropdown").property('value');
+document.getElementById('genchart').onclick = function changeContent() {
+
+	var selectedcounty = [];
+	var selectedfips = [];
+    for (var option of document.getElementById('county-dropdown').options)  {
+        if (option.selected) {
+		    selectedfips.push(option.value);
+            selectedcounty.push(option.text);
+        }
+    };
+	    var selectedage = d3.select("#age-dropdown").property('value');
         var selectedchart = d3.select("#chart-dropdown").property('value');
-        genNETMIG1864(selectedfips,selectedcounty,selectedage,selecteddata,selectedchart,yrvalue);
-    });
+		if(selectedfips.length == 0) {
+		  selectedcounty.push("Colorado");
+		  selectedfips.push("000");
+		  };
+        genNETMIG1864(selectedfips,selectedcounty,selectedage,selectedchart,yrvalue);
+    };
 
 }); //end of maximum year value
 
-//Function checks if selected div is loaded and runs Accordion
 
-window.addEventListener('load', (event) => {
- var gridPanel = document.getElementById('leftHand');
- var accItem = gridPanel.getElementsByClassName('accordionItem');
- var accHD = gridPanel.getElementsByClassName('accordionItemHeading');
-    for (i = 0; i < accHD.length; i++) {
-        accHD[i].addEventListener('click', toggleItem, false);
-    }
-    function toggleItem() {
-        var itemClass = this.parentNode.className;
-        for (i = 0; i < accItem.length; i++) {
-            accItem[i].className = 'accordionItem close';
-        }
-        if (itemClass == 'accordionItem close') {
-            this.parentNode.className = 'accordionItem open';
-        }
-    };
-});
 </script>
 
 </body>
