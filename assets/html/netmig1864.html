@@ -68,7 +68,7 @@
   </div>
   <div class="grid-item app-panel_3_2">
       <div class="dropdown AClass">
-		  <button class="dropbtn"  id="estimate"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		  <button class="dropbtn"  id="totals"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 		  <div class="dropdown-content">
 			<a href="#" id='netmigwa_csv'>Download Data (CSV)</a>
 			<a href='#' id='netmigwa_png'>Download Image (PNG)</a>
@@ -78,13 +78,16 @@
   </div>
   <div class="grid-item app-panel_4_2">
 	<div class="dropdown AClass">
-		<button class="dropbtn" id="forecast"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		<button class="dropbtn" id="rates"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
 		<a href="#" id='netmigrwa_csv'>Download Data (CSV)</a>
 		<a href='#' id='netmigrwa_png'>Download Image (PNG)</a>
 	 </div>
 	</div>
     <div id="netmigrrate_output"></div>
+  </div>
+  <div class="grid-item app-panel_5_2">
+  <p></p>
   </div>
  </div>  <!-- End of Grid -->
 
@@ -93,7 +96,8 @@
 
 //Setting HTML include and Accordion
 includeHTML(); 
-
+//Button Hide
+hideButtons();
 
 /* Populate County Dropdown */
 popDropdown('county','county-dropdown')
@@ -122,6 +126,8 @@ document.getElementById('genchart').onclick = function changeContent() {
 		  selectedcounty.push("Colorado");
 		  selectedfips.push("000");
 		  };
+       showButtons();
+
         genNETMIG1864(selectedfips,selectedcounty,selectedage,selectedchart,yrvalue);
     };
 

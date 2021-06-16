@@ -122,7 +122,8 @@
 
 //Setting HTML include and Accordion
 includeHTML(); 
-//Function checks if selected div is loaded and runs Accordion
+//Hide Buttons
+hideButtons();
 
 /* Populate County Dropdown */
 popDropdown('county','county-dropdown')
@@ -135,6 +136,7 @@ d3.json(urlstr).then(function(yeardata){
     var yrvalue = d3.max(yrsList);
 	
 //Generate Initial Tables
+showButtons();
 genDEMO("000","Colorado", yrvalue);
 
 d3.select("#county-dropdown").on("change", function(d,i) {

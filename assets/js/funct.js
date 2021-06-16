@@ -4,7 +4,23 @@
 //list of lookup statements  https://github.com/ColoradoDemography/MS_Demog_Lookups/tree/master/doc
 //Utility Function
 
+//hideButtons  selects and hides all "dropbtn" class buttons
+function hideButtons() {
+	btn = document.getElementsByClassName("dropbtn"); 
+	for(i = 0; i < btn.length; i++){
+		btn[i].style.display = "none";
+	};
+}; //end of hideButtons
 
+//showButtons  selects and shows all "dropbtn" class buttons
+function showButtons() {
+	btn = document.getElementsByClassName("dropbtn"); 
+	for(i = 0; i < btn.length; i++){
+		if(btn[i].style.display = "none") {
+		btn[i].style.display = "block";
+		}
+	};
+}; //end of showButtons
 
 function restructure(inData) {
     var output = [];
@@ -1939,7 +1955,7 @@ var est_layout = {
 			   align : 'left', 
 			   showarrow : false}]
 		};
- console.log(est_layout);
+
 Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
 
 	   
