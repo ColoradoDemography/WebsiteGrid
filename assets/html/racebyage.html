@@ -148,9 +148,9 @@ d3.json(urlstr).then(function(yeardata){
 
 	
 //Generate Initial Tables
-showButtons();
-genRACEVIS("000","Colorado", yrvalue);
 
+genRACEVIS("000","Colorado", yrvalue);
+showButtons();
 d3.select("#county-dropdown").on("change", function(d,i) {
         var selectedfips = d3.select("#county-dropdown").property('value');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
