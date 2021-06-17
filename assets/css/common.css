@@ -288,6 +288,12 @@ ul.accordion-ul {
 	font-size : 11pt;
 	color : blue;
 }
+/* Link for secondary pages */
+.accordion-sec {
+	font-size : 11pt;
+	font-weight : bold;
+	color : blue;
+}
 
 details {
   overflow: hidden;
