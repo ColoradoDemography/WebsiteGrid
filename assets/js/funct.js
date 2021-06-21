@@ -3627,9 +3627,13 @@ function genHOUSEAGE(fipsVal,ctyName, varType, seriesType){
 	const formatDate = d3.timeFormat("%B %d, %Y");
 
 	var fips_list = parseInt(fipsVal);
+	debugger;
+   var yr_trace = [2010];
+
  	var yr_list = 2010;
 	for(i = 2011; i <= 2050; i++){
 		yr_list = yr_list + "," + i;
+		yr_trace.push(Number(i));
 	};
 
 
@@ -3711,35 +3715,35 @@ for(i = 0; i < hh_arr.length; i++){
 		};	
 debugger;
 	if(j == 0){
-   	tr_0 = {x: yr_list,
+   	tr_0 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
 			mode : 'lines+markers'
 			};
 	};
 	if(j == 1){
-   	tr_1 = {x: yr_list,
+   	tr_1 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
 			mode : 'lines+markers'
 			};
 	};
 	if(j == 2){
-   	tr_2 = {x: yr_list,
+   	tr_2 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
 			mode : 'lines+markers'
 			};
 	};	
 	if(j == 3){
-   	tr_3 = {x: yr_list,
+   	tr_3 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
 			mode : 'lines+markers'
 			};
 	};
 	if(j == 4){
-   	tr_4 = {x: yr_list,
+   	tr_4 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
 			mode : 'lines+markers'
@@ -3768,35 +3772,35 @@ debugger;
 		};	
 
 	if(j == 0){
-   	tr_0 = {x: yr_list,
+   	tr_0 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
 			mode : 'lines+markers'
 			};
 	};
 	if(j == 1){
-   	tr_1 = {x: yr_list,
+   	tr_1 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
 			mode : 'lines+markers'
 			};
 	};
 	if(j == 2){
-   	tr_2 = {x: yr_list,
+   	tr_2 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
 			mode : 'lines+markers'
 			};
 	};	
 	if(j == 3){
-   	tr_3 = {x: yr_list,
+   	tr_3 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
 			mode : 'lines+markers'
 			};
 	};
 	if(j == 4){
-   	tr_4 = {x: yr_list,
+   	tr_4 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
 			mode : 'lines+markers'
@@ -3843,7 +3847,8 @@ for(i = 0; i < hh_arr.length; i++){
 			gridcolor: '#bdbdbd',
 			gridwidth: 2,
 			linecolor: 'black',
-			linewidth: 2
+			linewidth: 2,
+			type: 'date'
 		  },
 		  yaxis: {
 			title : y_title,
