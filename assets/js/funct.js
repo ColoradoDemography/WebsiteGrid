@@ -451,6 +451,13 @@ function exportToCsv(cname, type, rows, yr) {
 		if(type == 'nethist') {
 			var fileName = "Long Term Trend Birth Death Migration " + cname + ".csv"
 		};
+		if(type == 'hhchart') {
+			var fileName = "Household Projections Age Group x Household Type " + cname + ".csv"
+		};
+		if(type == 'agechart') {
+			var fileName = "Household Projections Household Type x Age Group " + cname + ".csv"
+		};
+
         var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
         if (navigator.msSaveBlob) { // IE 10+
             navigator.msSaveBlob(blob, fileName);
@@ -522,15 +529,21 @@ function exportToPng(cname, type, graphDiv, yr){
 			var fileName =  "Net Migration by Year "
 		};
 		if(type == 'birth') {
-			var fileName = "Long Term Trend Births " + cname + ".csv"
+			var fileName = "Long Term Trend Births " + cname 
 		};
 		if(type == 'death') {
-			var fileName = "Long Term Trend Deaths " + cname + ".csv"
+			var fileName = "Long Term Trend Deaths " + cname 
 		};
 		if(type == 'mig') {
-			var fileName = "Long Term Trend Net Migration " + cname + ".csv"
+			var fileName = "Long Term Trend Net Migration " + cname 
 		};
-
+		if(type == 'hhchart') {
+			var fileName = "Household Projections Age Group x Household Type " + cname 
+		};
+		if(type == 'agechart') {
+			var fileName = "Household Projections Household Type x Age Group " + cname 
+		};
+		
 	  Plotly.downloadImage(graphDiv, {format: 'png', width: 1000, height: 400, filename: fileName});
 };
 
@@ -3606,3 +3619,367 @@ mig_png.onclick = function() {
 	 
 }); //end of d3 json
 }; //end of genCOCHIST
+
+//genHOUSEDASH Housing Dashboard
+
+//genHOUSEAGE  Household forecast by age and hh type
+function genHOUSEAGE(fipsVal,ctyName, varType, seriesType){
+	const formatDate = d3.timeFormat("%B %d, %Y");
+
+	var fips_list = parseInt(fipsVal);
+ 	var yr_list = 2010;
+	for(i = 2011; i <= 2050; i++){
+		yr_list = yr_list + "," + i;
+	};
+
+
+var urlstr = "https://gis.dola.colorado.gov/lookups/household?county="+ fips_list + "&year=" + yr_list + "&age=0,1,2,3,4&household=0,1,2,3,4";
+
+
+var dataplot = [];
+var datahh = [];
+var dataage = [];
+var hh_arr = ["All Households", "One adult with no children", "One adult with children", "More than one adult with no children", "More than one adult with children"]
+var age_arr = ["Total", "18-24", "25-44", "45-64","65 and Older"]
+d3.json(urlstr).then(function(data){
+   data.forEach(function(obj) {
+    obj.household = hh_arr[obj.household_type_id];
+    obj.age = age_arr[obj.age_group_id];
+    dataplot.push({'year' : obj.year, 'household' : obj.household, 'age' : obj.age, 'total_households' : Number(obj.total_households)});
+ });
+ //Calculating Age by Housing Type percentage
+
+for(i = 2010; i <= 2050;i++){
+	var tmp = dataplot.filter(function(d) {return d.year == i;});
+
+	for(j = 0; j < 5;j++){
+		var tmp2 = tmp.filter(function(d) {return d.household == hh_arr[j];});
+		for(k = 0; k < tmp2.length; k++){
+			if(tmp2[k].age == age_arr[0]) {
+			  var base_total = tmp2[k].total_households;
+			} else {
+			  var age_pct = tmp2[k].total_households/base_total;
+			  datahh.push({'year' : tmp2[k].year, 'household' : tmp2[k].household, 'age' : tmp2[k].age, 'total_households' : Math.round(tmp2[k].total_households), 'age_pct' : age_pct});
+		};
+		};
+    };
+};
+
+ //Calculating Housing Type by Age Group percenage
+
+for(i = 2010; i <= 2050;i++){
+	var tmp = dataplot.filter(function(d) {return d.year == i;});
+
+	for(j = 0; j < 5;j++){
+		var tmp2 = tmp.filter(function(d) {return d.age == age_arr[j];});
+		for(k = 0; k < tmp2.length; k++){
+			if(tmp2[k].household == hh_arr[0]) {
+			  var base_total = tmp2[k].total_households;
+			} else {
+			  var hh_pct = tmp2[k].total_households/base_total;
+			  dataage.push({'year' : tmp2[k].year, 'household' : tmp2[k].household, 'age' : tmp2[k].age, 'total_households' : Math.round(tmp2[k].total_households), 'hh_pct' : hh_pct});
+		};
+		};
+    };
+};
+
+//Preparing charts
+
+var tr_0 = [];  //These are the individual traces
+var tr_1 = [];
+var tr_2 = [];
+var tr_3 = [];
+var tr_4 = [];
+
+var ch_0 = [];  //These are the chart traces 5 lines per chart
+var ch_1 = [];
+var ch_2 = [];
+var ch_3 = [];
+var ch_4 = [];
+
+if(varType == "hhold") { //Age by HH
+for(i = 0; i < hh_arr.length; i++){
+	for(j = 1; j < age_arr.length; j++) {
+		var tmphh = datahh.filter(function(d) {return d.household == hh_arr[i] && d.age == age_arr[j];});
+		var yData = [];
+		for(k = 0; k < tmphh.length; k++){
+			if(seriesType == "num"){
+		       yData.push(tmphh[k].total_households);
+			} else {
+		       yData.push(tmphh[k].age_pct);
+			};	
+		};	
+debugger;
+	if(j == 0){
+   	tr_0 = {x: yr_list,
+			y :  yData,
+			name : age_arr[j],
+			mode : 'lines+markers'
+			};
+	};
+	if(j == 1){
+   	tr_1 = {x: yr_list,
+			y :  yData,
+			name : age_arr[j],
+			mode : 'lines+markers'
+			};
+	};
+	if(j == 2){
+   	tr_2 = {x: yr_list,
+			y :  yData,
+			name : age_arr[j],
+			mode : 'lines+markers'
+			};
+	};	
+	if(j == 3){
+   	tr_3 = {x: yr_list,
+			y :  yData,
+			name : age_arr[j],
+			mode : 'lines+markers'
+			};
+	};
+	if(j == 4){
+   	tr_4 = {x: yr_list,
+			y :  yData,
+			name : age_arr[j],
+			mode : 'lines+markers'
+			};
+	};
+   	} //J loop
+	//Making the compined Traces
+	if(i == 0) { ch_0 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+	if(i == 1) { ch_1 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+	if(i == 2) { ch_2 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+	if(i == 3) { ch_3 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+	if(i == 4) { ch_4 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+} //I Loop
+} else {  //HH by Age
+	for(i = 0; i < age_arr.length; i++){
+	for(j = 1; j < hh_arr.length; j++) {
+		
+		var tmpage = dataage.filter(function(d) {return d.household == hh_arr[j] && d.age == age_arr[i];});
+		var yData = [];
+		for(k = 0; k < tmpage.length; k++){
+			if(seriesType == "num"){
+		       yData.push(tmpage[k].total_households);
+			} else {
+		       yData.push(tmpage[k].hh_pct);
+			};	
+		};	
+
+	if(j == 0){
+   	tr_0 = {x: yr_list,
+			y :  yData,
+			name : hh_arr[j],
+			mode : 'lines+markers'
+			};
+	};
+	if(j == 1){
+   	tr_1 = {x: yr_list,
+			y :  yData,
+			name : hh_arr[j],
+			mode : 'lines+markers'
+			};
+	};
+	if(j == 2){
+   	tr_2 = {x: yr_list,
+			y :  yData,
+			name : hh_arr[j],
+			mode : 'lines+markers'
+			};
+	};	
+	if(j == 3){
+   	tr_3 = {x: yr_list,
+			y :  yData,
+			name : hh_arr[j],
+			mode : 'lines+markers'
+			};
+	};
+	if(j == 4){
+   	tr_4 = {x: yr_list,
+			y :  yData,
+			name : hh_arr[j],
+			mode : 'lines+markers'
+			};
+	};
+   	} //J loop
+	//Making the compined Traces
+	if(i == 0) { ch_0 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+	if(i == 1) { ch_1 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+	if(i == 2) { ch_2 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+	if(i == 3) { ch_3 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+	if(i == 4) { ch_4 = [tr_0, tr_1, tr_2, tr_3, tr_4];};
+} //I Loop
+}; //Trace 	
+
+//Titles
+var ch_layout = [];
+
+if(varType == "hhold") {
+for(i = 0; i < hh_arr.length; i++){
+	var tit_str = "Projected Households by Age and Household Type " + ctyName + " 2010 to 2050<br>Household Type: " + hh_arr[i];
+	if(seriesType == "num") {
+		tit_str = tit_str + " Number of Housing Units";
+		y_title = "Households";
+		y_ticks = ',';
+    } else {
+		tit_str = tit_str + " Percentage of Housing Units";
+		y_title = "Percentage";
+		y_ticks = ',.0%';
+	};
+	
+//layouts
+  var layout = {
+		title: tit_str,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			title : y_title,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			tickformat: y_ticks
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+ch_layout.push(layout);
+};
+} else {
+	for(i = 0; i < age_arr.length; i++){
+	var tit_str = "Projected Households by Household Type and Age " + ctyName + " 2010 to 2050<br> Age Group: " + age_arr[i];
+	if(seriesType == "num") {
+		tit_str = tit_str + " Number of Housing Units";
+		y_title = "Households";
+		y_ticks = ',';
+    } else {
+		tit_str = tit_str + " Percentage of Housing Units";
+		y_title = "Percentage";
+		y_ticks = ',.0%';
+	};
+	
+//layouts
+  var layout = {
+		title: tit_str,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			title : y_title,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			tickformat: y_ticks
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+ch_layout.push(layout);
+};
+};
+
+//Generating Chart	
+var config = {responsive: true,
+              displayModeBar: false};
+			  
+	
+//Clearing out Divs
+var CHART0 = document.getElementById("chart0_output");
+var CHART1 = document.getElementById("chart1_output");
+var CHART2 = document.getElementById("chart2_output");
+var CHART3 = document.getElementById("chart3_output");
+var CHART4 = document.getElementById("chart4_output");
+
+CHART0.innerHTML = "";
+CHART1.innerHTML = "";
+CHART2.innerHTML = "";
+CHART3.innerHTML = "";
+CHART4.innerHTML = "";
+
+Plotly.newPlot(CHART0, ch_0, ch_layout[0], config);
+Plotly.newPlot(CHART1, ch_1, ch_layout[1], config);
+Plotly.newPlot(CHART2, ch_2, ch_layout[2], config);
+Plotly.newPlot(CHART3, ch_3, ch_layout[3], config);
+Plotly.newPlot(CHART4, ch_4, ch_layout[4], config);
+
+//Button Events
+
+var chart0_csv = document.getElementById('chart0_csv');
+var chart0_png = document.getElementById('chart0_png');
+var chart1_csv = document.getElementById('chart1_csv');
+var chart1_png = document.getElementById('chart1_png');
+var chart2_csv = document.getElementById('chart2_csv');
+var chart2_png = document.getElementById('chart2_png');
+var chart3_csv = document.getElementById('chart3_csv');
+var chart3_png = document.getElementById('chart3_png');
+var chart4_csv = document.getElementById('chart4_csv');
+var chart4_png = document.getElementById('chart4_png');
+if(varType == "hhold") { 
+	chart0_csv.onclick = function() { exportToCsv(ctyName, 'hhchart', datahh, 0); }; 
+	chart1_csv.onclick = function() { exportToCsv(ctyName, 'hhchart', datahh, 0); }; 
+	chart2_csv.onclick = function() { exportToCsv(ctyName, 'hhchart', datahh, 0); }; 
+	chart3_csv.onclick = function() { exportToCsv(ctyName, 'hhchart', datahh, 0); }; 
+	chart4_csv.onclick = function() { exportToCsv(ctyName, 'hhchart', datahh, 0); }; 
+	
+	chart0_png.onclick = function() { exportToPng(ctyName, 'hhchart', CHART0, 0); }; 
+	chart1_png.onclick = function() { exportToPng(ctyName, 'hhchart', CHART1, 0); }; 
+	chart2_png.onclick = function() { exportToPng(ctyName, 'hhchart', CHART2, 0); }; 
+	chart3_png.onclick = function() { exportToPng(ctyName, 'hhchart', CHART3, 0); }; 
+	chart4_png.onclick = function() { exportToPng(ctyName, 'hhchart', CHART4, 0); }; 
+} else {
+	chart0_csv.onclick = function() { exportToCsv(ctyName, 'agechart', dataage, 0); }; 
+	chart1_csv.onclick = function() { exportToCsv(ctyName, 'agechart', dataage, 0); }; 
+	chart2_csv.onclick = function() { exportToCsv(ctyName, 'agechart', dataage, 0); }; 
+	chart3_csv.onclick = function() { exportToCsv(ctyName, 'agechart', dataage, 0); }; 
+	chart4_csv.onclick = function() { exportToCsv(ctyName, 'agechart', dataage, 0); }; 
+
+	chart0_png.onclick = function() { exportToPng(ctyName, 'agechart', CHART0, 0); }; 
+	chart1_png.onclick = function() { exportToPng(ctyName, 'agechart', CHART1, 0); }; 
+	chart2_png.onclick = function() { exportToPng(ctyName, 'agechart', CHART2, 0); }; 
+	chart3_png.onclick = function() { exportToPng(ctyName, 'agechart', CHART3, 0); }; 
+	chart4_png.onclick = function() { exportToPng(ctyName, 'agechart', CHART4, 0); }; 
+};	
+
+}); //end of d3 json
+}; //end of genHOUSEAGE

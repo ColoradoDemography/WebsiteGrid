@@ -1,9 +1,9 @@
-<!-- Race by Age Page A Bickford 6/2021 -->
+<!-- Household Forecast by Age Page A Bickford 6/2021 -->
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>SDO Race by Age Visualization</title>
+<title>SDO Household Forecast by Age Visualization</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
 <!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
@@ -42,10 +42,10 @@
 	<div w3-include-html="../html/left_hand.html"></div>
   </div> <!-- Grid  panel2_2_1 -->
   <div class="grid-item app-panel_2_2">
-  <b>Race by Age Visualization</b>
+  <b>Household Projections by Age Visualization</b>
    <br><br>INSTRUCTIONS:
    <p>
-   The following page provides charts showing single year estimates of age by racial and ethnic groups for counties from 2010 to the current year.
+   The following page provides charts showing SDO household projections by age and household type from 2010 to 2050.
    For your convenience, you are able to download the graphs by clicking on the camera icon in the upper right of the graph while hovering over the chart. 
    This will download an exact copy, including zooming, of the chart on the page.
    </p>
@@ -55,69 +55,68 @@
    <br><br>
  	 <label for="county-dropdown"><b>Select County:</b></label>
 	 <select class="county-dropdown" id="county-dropdown"></select>
-	 <label for="year-dropdown"><b>Select Year:</b></label>
-	 <select class="year-dropdown" id="year-dropdown"></select>
+	 <label for="var-dropdown"><b>Select Variable:</b></label>
+	 <select class="var-dropdown" id="var-dropdown">
+	 	<option value="age" selected>Household Type by Age</option>
+		<option value="hhold">Age by Household Type</option>
+	 </select>
+	 <label for="series-dropdown"><b>Select Data Series:</b></label>
+	 <select class="series-dropdown" id="series-dropdown">
+	 	<option value="num" selected>Numbers</option>
+		<option value="pct">Percentages</option>
+	 </select>
+	   <button class='databutton' id='genchart'>Generate Chart</button> 
   </div>
   <div class="grid-item app-panel_3_2">
       <div class="dropdown AClass">
-		  <button class="dropbtn"  id="line"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		  <button class="dropbtn"  id="chart0"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 		  <div class="dropdown-content">
-			<a href="#" id='line_csv'>Download Data (CSV)</a>
-			<a href="#" id='line_png'>Download Image (PNG)</a>
+			<a href="#" id='chart0_csv'>Download Data (CSV)</a>
+			<a href="#" id='chart0_png'>Download Image (PNG)</a>
 		  </div>
 	  </div>
-	 <div id="line_output"></div>
+	 <div id="chart0_output"></div>
   </div>
   <div class="grid-item app-panel_4_2">
 	<div class="dropdown AClass">
-		<button class="dropbtn" id="white"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		<button class="dropbtn" id="chart1"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
-		<a href="#" id='white_csv'>Download Data (CSV)</a>
-		<a href="#" id='white_png'>Download Image (PNG)</a>
+		<a href="#" id='chart1_csv'>Download Data (CSV)</a>
+		<a href="#" id='chart1_png'>Download Image (PNG)</a>
 	 </div>
 	</div>
-    <div id="white_output"></div>
+    <div id="chart1_output"></div>
   </div>
   <div class="grid-item app-panel_5_2">
   	<div class="dropdown AClass">
-		<button class="dropbtn" id="hisp"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		<button class="dropbtn" id="chart2"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
-		<a href="#" id='hisp_csv'>Download Data (CSV)</a>
-		<a href="#" id='hisp_png'>Download Image (PNG)</a>
+		<a href="#" id='chart2_csv'>Download Data (CSV)</a>
+		<a href="#" id='chart2_png'>Download Image (PNG)</a>
 	 </div>
 	</div>
-    <div id="hisp_output"></div>
+    <div id="chart2_output"></div>
   </div>
   <div class="grid-item app-panel_6_2">
     <div class="dropdown AClass">
-		<button class="dropbtn" id="black"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+		<button class="dropbtn" id="chart3"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
-		<a href="#" id='black_csv'>Download Data (CSV)</a>
-		<a href="#" id='black_png'>Download Image (PNG)</a>
+		<a href="#" id='chart3_csv'>Download Data (CSV)</a>
+		<a href="#" id='chart3png'>Download Image (PNG)</a>
 	 </div>
 	</div>
-	<div id="black_output"></div>
+	<div id="chart3_output"></div>
   </div>
-  <div class="grid-item app-panel_7_2">
-    <div class="dropdown AClass">
-		<button class="dropbtn" id="asian"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
+	<div class="grid-item app-panel_6_2">
+	<div class="dropdown AClass">
+		<button class="dropbtn" id="chart4"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
-		<a href="#" id='asian_csv'>Download Data (CSV)</a>
-		<a href="#" id='asian_png'>Download Image (PNG)</a>
+		<a href="#" id='chart4_csv'>Download Data (CSV)</a>
+		<a href="#" id='chart4_png'>Download Image (PNG)</a>
 	 </div>
 	</div>
-    <div id="asian_output"></div>
-  </div>  
-  <div class="grid-item app-panel_8_2">
-      <div class="dropdown AClass">
-		<button class="dropbtn" id="amind"><i class="fas fa-arrow-circle-down fa-2x" style='color: black;'></i></button>
-	  <div class="dropdown-content">
-		<a href="#" id='amind_csv'>Download Data (CSV)</a>
-		<a href="#" id='amind_png'>Download Image (PNG)</a>
-	 </div>
+	<div id="chart4_output"></div>
 	</div>
-    <div id="amind_output"></div> 
- </div>
 </div>  <!-- End of Grid -->
 
 
@@ -134,36 +133,16 @@ popDropdown('county','county-dropdown')
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
 
-    var yrsList = yeardata.filter(function(d){return (d.datatype == 'Estimate') && (d.year >= 2010);});
-	var yrList = yrsList.map(function(d){return d.year;});
-	var yrvalue = d3.min(yrList);
-
-	d3.select('#year-dropdown')
-    .selectAll('option')
-    .data(yrsList)
-    .enter()
-    .append('option')
-    .attr('value', d => d.year) 
-    .text(d => d.year);
-
-	
 //Generate Initial Tables
 
-genRACEVIS("000","Colorado", yrvalue);
+document.getElementById('genchart').onclick = function changeContent() {
 showButtons();
-d3.select("#county-dropdown").on("change", function(d,i) {
         var selectedfips = d3.select("#county-dropdown").property('value');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
-		var yrvalue = d3.select("#year-dropdown").property('value');
-        genRACEVIS(selectedfips,selectedcounty,yrvalue);
-    });
-	
-d3.select("#year-dropdown").on("change", function(d,i) {
-        var selectedfips = d3.select("#county-dropdown").property('value');
-		var selectedcounty = d3.select('#county-dropdown option:checked').text();
-		var yrvalue = d3.select("#year-dropdown").property('value');
-        genRACEVIS(selectedfips,selectedcounty,yrvalue);
-    });
+		var selectedvar = d3.select("#var-dropdown").property('value');
+		var selectedseries = d3.select("#series-dropdown").property('value');
+        genHOUSEAGE(selectedfips,selectedcounty, selectedvar, selectedseries);
+    };
 }); //end of maximum year value
 
 </script>
