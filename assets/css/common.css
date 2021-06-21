@@ -279,10 +279,11 @@ a :hover {
    }
 
 ul.accordion-ul {
-	margin: 0%;
-	padding : 0;
+	margin-left: 10px;
+	padding : 5px;
 	font-size : 10pt;
 	list-style-type : disc;
+	display: list-item;
 }
 .accordion-link {
 	font-size : 11pt;
