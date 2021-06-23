@@ -110,16 +110,32 @@ button {
 .logoSDO {
 	width : 200px;
 	height: 50px;
+/*	padding-top: 0;
+    padding-right : 0;
+    padding-bottom :  0;
+    padding-left : 50px;
+*/
 }
-
+/* Style for SDO title */
+.sdotitle {
+	  font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
+      line-height: 0;
+	  margin-top : 0px;
+	  margin-bottom: 10px;
+	  font-size : 15pt;
+	  font-weight : bold;
+}
 
 /* New Horizontal Rule */
 .horiz {
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding-top: 0;
+  padding-right : 0;
+  padding-bottom :  0;
+  padding-left : 400px;
   overflow: hidden;
-  background-color: grey;
+  background-color: #5c666f;
 }
 .horiz_item {
   float: left;
@@ -128,7 +144,7 @@ button {
 .horiz_item a {
   display: block;
   color: white;
-  text-align: left;
+  text-align: right;
   padding: 14px 16px;
   text-decoration: none;
 }
@@ -442,6 +458,11 @@ details main {
    grid-column: 1;
    grid-row: 4 ;
   }
+
+.panel_2_5 {  
+   grid-column: 1;
+   grid-row: 5 ;
+  }
   
  /* Bottom panels */ 
 .panel_4_2 {
@@ -577,7 +598,7 @@ details main {
 }
 /* Top Row */
 .panel_1_1 {  
-  grid-column: 1 / span 7;
+  grid-column: 1 / span 4;
   grid-row: 1 ;
   }
 /* Left Hand Panel */  
@@ -588,20 +609,24 @@ details main {
   }
  /* Table Panel on Homepage*/ 
 .panel_2_2 {  
+   grid-column: 2/span 3;
+   grid-row: 2;
+  }
+
+.panel_3_2 {  
    grid-column: 2;
-   grid-row: 2 /span 2;
+   grid-row: 3;
   }
 
-.panel_2_3 {  
+.panel_3_3 {  
    grid-column: 3;
-   grid-row: 2 /span 2;
+   grid-row: 3;
   }
-
-.panel_2_4 {  
+ 
+ .panel_3_4 {  
    grid-column: 4;
-   grid-row: 2 /span 2;
+   grid-row: 3;
   }
-  
  /* Bottom panels */ 
 .panel_4_2 {
    grid-column: 2;
@@ -757,3 +782,36 @@ details main {
 /* end of app-panels */
  
 } /* Layout for Desktops */
+
+/* Breadcrumb Styles 6/23/2021 */
+/* Style the list */
+ul.breadcrumb {
+  padding: 10px 16px;
+  list-style: none;
+  background-color: white;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+  display: inline;
+  font-size: 10pt;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}

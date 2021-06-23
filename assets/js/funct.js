@@ -1426,7 +1426,7 @@ var tbl_arr = [];
 var censstub = "https://data.census.gov/cedsci/table?q=";
 
 var tabno = ["B06012","B15003","B19013","B25097","B25064"];
-var tabname = ["% living in Poverty","% with BA+",
+var tabname = ["% living in Poverty","% with Bachelor's Degree+",
               "Median Household Income", "Median Home Value", "Median Gross Rent"];
 
 if(fips == "000") {
@@ -1523,7 +1523,7 @@ var tblcolumns1 = [
 	];
 
 if(fips == "000"){	
-     var tblcolumns2 = ['Topic', 'Value', 'Change from ' + prevyr4 + "-" + prevyr + " ACS","U. S. Rank"];
+     var tblcolumns2 = ['Topic', 'Number', 'Change from ' + prevyr4 + "-" + prevyr + " ACS","U. S. Rank"];
 } else {
 	 var tblcolumns2 = ['Topic', 'Value', 'Change from ' + prevyr4 + "-" + prevyr + " ACS","County Rank"];
 };
@@ -1679,7 +1679,11 @@ for(i = 1; i < housing_fint.length; i++){
 													   };
 	if(housing_fint[i][0][0].name == 'censusbuildingpermits') { out_name = "Annual Building Permits";
 	                                                     cVal = fmt_comma(currentVal);
-														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
+														 if(prevVal != 0) {
+														   pctVal = fmt_pct((currentVal - prevVal)/prevVal);
+														 } else {
+														   pctVal = " ";
+														 };
 													   };
 	tbl_arr.push({ 'row_name' : out_name,
 	               'curval' : cVal, 
@@ -1691,7 +1695,7 @@ var tblcolumns1 = [
     {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>SDO County Profile Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Housing Type', 'Value', 'Change from ' + prevyear];
+var tblcolumns2 = ['Housing Type', 'Number', 'Change from ' + prevyear];
 // Output table 
 d3.select('#HousTab').html("");
 var syatab = d3.select('#HousTab')
