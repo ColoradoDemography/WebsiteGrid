@@ -877,7 +877,7 @@ for (let[key2, value2] of value) {
 
 // Create table array for output
 var tbl_arr = []
-tbl_arr.push({'age_cat' : 'Total', 'curval' : fmt_comma(total_ann_flat[1].totalpopulation), 'pct_chg' : fmt_pct((total_ann_flat[1].totalpopulation - total_ann_flat[0].totalpopulation)/total_ann_flat[0].totalpopulation), 'forval' : fmt_comma(total_ann_flat[2].totalpopulation)});
+tbl_arr.push({'age_cat' : '<b>Total</b>', 'curval' : "<b>"+ fmt_comma(total_ann_flat[1].totalpopulation) + "</b>", 'pct_chg' : "<b>"+fmt_pct((total_ann_flat[1].totalpopulation - total_ann_flat[0].totalpopulation)/total_ann_flat[0].totalpopulation) + "</b>", 'forval' : "<b>" + fmt_comma(total_ann_flat[2].totalpopulation) +"</b>"});
 
 var ages = [... new Set(total_age_flat.map(tag => tag.age_cat))];
 for(i = 0; i < ages.length; i++) {
