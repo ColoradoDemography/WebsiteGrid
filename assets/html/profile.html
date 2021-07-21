@@ -1,0 +1,202 @@
+<!-- Community Profile Secondary Page A Bickford 7/2021 -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>SDO Community Profile Page</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
+<!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+<!-- SDO CSS -->
+<link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
+<!-- adding d3.js  for data manipulation-->
+ <script src="https://d3js.org/d3.v6.min.js"></script>
+
+<!-- SDO functions -->
+<script src="../js/funct.js"></script>
+
+</head>
+<body>
+<div>
+<a href="https://cdola.colorado.gov/"><img class="logoSDO" src="../img/SDO-1600x400.jpg" alt="Department of Local Affairs Homepage"></a>
+</div>
+<div w3-include-html="../html/navheader.html"></div>
+<!-- First Grid, linked images -->
+<div class="profile-container">
+  <div class="grid-item panel2_1_1">
+	<div w3-include-html="../html/sdotitle.html"></div>
+  </div>
+  <div class="grid-item panel_2_1" id="leftHand">
+	<div id="profileDiv">
+		<ul class="breadcrumb">
+		  <li><a href="https://coloradodemography.github.io/WebsiteGrid">Home</a></li>
+		</ul>
+		<p>
+			<label class="prolabel" for="profile-dropdown">Select Profile Type:</label>
+			<select id="profile-dropdown"></select>
+		</p>
+		<p>
+			<label class="prolabel" for="location-dropdown" id="location-label"></label>
+			<select id="location-dropdown"></select>
+		</p>
+		<table>
+		<tr>
+		<td>
+			<input class="proInput" type="checkbox" id="sel1" name="sel1" value="sel1">
+		</td>
+		<td>
+			<label class="prolabel" for="sel1" >Basic Statistics</label>
+		</td>
+		</tr>
+		<tr>
+		<td>
+			<input class="proInput" type="checkbox" id="sel2" name="sel2" value="sel2">
+		</td>
+		<td>
+			<label class="prolabel" for="sel2" >Population Trends</label>
+		</td>
+		</tr>
+		<td>
+			<input class="proInput" type="checkbox" id="sel3" name="sel3" value="sel3">
+		</td>
+		<td>
+			<label class="prolabel" for="sel3" >Population Characteristics: Age</label>
+		</td>
+		</tr>
+		<tr>
+		<td>
+			<input class="proInput" type="checkbox" id="sel4" name="sel4" value="sel4">
+		</td>
+		<td>
+			<label class="prolabel" for="sel4" >Population Characteristics:<br>Income, Education and Race</label>
+		</td>
+		</tr>
+		<tr>
+		<td>
+			<input class="proInput" type="checkbox" id="sel5" name="sel5" value="sel5">
+		</td>
+		<td>
+			<label class="prolabel" for="sel5" >Housing and Households</label>
+		</td>
+		</tr>
+		<tr>
+		<td>
+			<input class="proInput" type="checkbox" id="sel6" name="sel6" value="sel6">
+		</td>
+		<td>
+			<label class="prolabel" for="sel6" >Commuting and Job Growth</label>
+		</td>
+		</tr>
+		<tr>
+		<td>
+			<input class="proInput" type="checkbox" id="sel7" name="sel7" value="sel7">
+		</td>
+		<td>
+			<label class="prolabel" for="sel7" >Employment by Industry</label>
+		</td>
+		</tr>
+		<tr>
+		<td>
+			<input class="proInput" type="checkbox" id="sel8" name="sel8" value="sel8">
+		</td>
+		<td>
+		    <label class="prolabel" for="sel8" >Employment Forecast and Wage Information</label>
+		<td>
+		</tr>
+		</table>
+		<p>
+		<button class='databutton' id='genprofile'>Generate Profile</button>
+	</div> <!-- Profile Div -->
+  </div> <!-- Grid  panel_2_1 -->
+  <div class="profile-item profile_2">
+   	<div id='tab-container'>
+	<p id="profileoutput"></p>
+	</div>
+  </div> <!-- Grid  panel2_2 -->
+</div>  <!-- End of Grid -->
+
+
+<script>
+
+//Setting HTML include and Accordion
+
+
+includeHTML();
+
+//Initial set up
+document.getElementById("location-dropdown").style.display = "none";
+document.getElementById('sel1').checked = true;
+document.getElementById('sel2').checked = true;
+document.getElementById('sel3').checked = true;
+document.getElementById('sel4').checked = true;
+document.getElementById('sel5').checked = true;
+document.getElementById('sel6').checked = true;
+document.getElementById('sel7').checked = true;
+document.getElementById('sel8').checked = true;
+
+popDropdown('profile','profile-dropdown');
+
+d3.select("#profile-dropdown").on("change", function(d,i) {
+       document.getElementById('location-dropdown').style.display = "block";
+	   document.getElementById('location-dropdown').innerHTML = null;
+	   var selectedtype = d3.select('#profile-dropdown option:checked').text();
+	   var selectedfips = d3.select("#profile-dropdown").property('value');
+	   // changing dropdown to multiple
+	   if(selectedtype.includes("Comparison")) {
+	      if(selectedfips == "region"){
+	              document.getElementById("location-label").innerHTML = "Select Regions:";
+				  };
+		  if(selectedfips == "countypro"){
+	              document.getElementById("location-label").innerHTML = "Select Counties:";
+				  };
+		  if(selectedfips == "municipality"){
+	              document.getElementById("location-label").innerHTML = "Select Municipalities:";
+				  };
+		  if(selectedfips == "place"){
+	              document.getElementById("location-label").innerHTML = "Select Places:";
+				  };
+	      document.getElementById("location-dropdown").multiple = true;
+		  } else {
+	      	      if(selectedfips == "region"){
+	              document.getElementById("location-label").innerHTML = "Select Region:";
+				  };
+		  if(selectedfips == "countypro"){
+	              document.getElementById("location-label").innerHTML = "Select County:";
+				  };
+		  if(selectedfips == "municipality"){
+	              document.getElementById("location-label").innerHTML = "Select Municipality:";
+				  };
+		  if(selectedfips == "place"){
+	              document.getElementById("location-label").innerHTML = "Select Place:";
+				  };
+		  document.getElementById("location-dropdown").multiple = false;
+       }
+
+       popDropdown(selectedfips,'location-dropdown'); 
+ });
+
+document.getElementById('genprofile').onclick = function changeContent() {
+     var selectedlevel = d3.select('#profile-dropdown option:checked').text();
+     var selected = document.querySelectorAll('#location-dropdown option:checked');
+     var selectedloc = Array.from(selected).map(el => el.value);
+	 var selectedname = Array.from(selected).map(el => el.text);
+
+     
+
+//Checking for complete inputs
+	 if(selectedloc == ""){
+	      document.getElementById("profileoutput").innerHTML = "Please select a Profile Type and Location";
+		  } else {
+	      document.getElementById("profileoutput").innerHTML = "";
+		 } 
+//Creating tabs
+
+     var proDiv = document.querySelectorAll('input[type="checkbox"]:checked');
+      addMainTabs(proDiv);
+	}
+</script>
+
+</body>
+</html> 
