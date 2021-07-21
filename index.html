@@ -54,6 +54,7 @@
    </div>
    <div class="grid-item panel_3_4">
 	 <div id="ACSTab"></div>
+	 <div id="TenureTab"></div>
    </div>
 
 <div class="grid-item panel_4_2">
@@ -84,6 +85,7 @@ d3.json(urlstr).then(function(yeardata){
 genSYA("000",yrvalue);
 genCOC("000",yrvalue);
 genACS("000",yrvalue);
+genTenure("000",yrvalue);
 genRaceEth("000",yrvalue);
 genHousing("000",yrvalue);
 
@@ -95,6 +97,7 @@ d3.select("#county-dropdown").on("change", function(d,i) {
         genSYA(selectedfips,yrvalue);
 		genCOC(selectedfips,yrvalue);
 		genACS(selectedfips,yrvalue);
+		genTenure(selectedfips,yrvalue);
 		genRaceEth(selectedfips,yrvalue);
 		genHousing(selectedfips,yrvalue);
     });
