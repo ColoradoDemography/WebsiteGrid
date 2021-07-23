@@ -23,67 +23,74 @@ function showButtons() {
 	};
 }; //end of showButtons
 
+//profileContent provides descriptive names for checked profile boxes...
+function profileContent(invalue) {
+	var outname;
+	switch(invalue) {
+	case "sel1" :
+	  outname = "Basic Statistics";
+	  break;
+	case "sel2":
+	   outname = "Population Trends";
+	   break;
+	case "sel3" :
+	   outname = "Population Characteristics: Age";
+	   break;
+	case "sel4" :
+	   outname = "Population Characteristics: Income, Education and Race";
+	   break;
+	case "sel5" :
+	   outname = "Housing and Households";
+	   break;
+	case "sel6" : 
+		outname = "Commuting and Job Growth";
+		break;
+	case "sel7" :
+		outname = "Employment by Industry";
+		break;
+	case "sel8" :
+		outname = "Employment Forecast and Wage Information";
+		break;
+	}
+	return(outname);
+}; //end of profileContent
+
+//removeAllChildNodes  taken from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
+function deleteElems() {
+        var e = document.querySelector("#tab-container");
+        e.remove();
+		var tablist = document.createElement('p');
+		tablist.id = 'tab-list';
+		var profilelist = document.createElement('p');
+		profilelist.id = "profileoutput"
+		
+		e.appendChild(tablist);
+		e.appendChils(profilelist);
+    }
 //addMainTabs  Adds the profile tabls to the selected tab container
 function addMainTabs(tabArr){
+	
+//Build ul list...
+      // Create an unordered list
 
-	    var tabName;
-		var tabidx;
-		var evntStr;
-		//Adding div within container
-		  var container = document.querySelector('#tab-container');
-          var topic = document.createElement('div');
-		  topic.id = 'topicpanel';
-		  topic.classList = 'tab';
-		  container.append(topic)
-		 for(i = 0; i < tabArr.length; i++){
-			tabidx = tabArr[i].name;
-			evntStr = "openTabs(event, '" + tabidx + "')";
-	    switch(tabArr[i].name) {
-		  case "sel1": 
-		    tabName = "Basic Statistics";
-			break;
-		  case "sel2":
-		    tabName = "Population Trends";
-			break;
-		 case "sel3":
-		   tabName = "Population Characteristics: Age";
-			break;
-		 case "sel4":
-		    tabName = "Population Characteristics; Income, Education  and Race";
-			break;
-		case "sel5":
-		    tabName = "Housing and Households";
-			break;
-		case "sel6":
-		    tabName = "Commuting and Job Growth";
-			break;
-        case "sel7":
-		    tabName = "Employment by Industry";
-			break;
-		case "sel8":
-		    tabName = "Employment Forecast and Wage Information";
-			break;
-        };  //Switch
-		//Building the tab interface
-		var listItem = document.createElement("button");
-		listItem.classList = "tablinks";
-		listItem.setAttribute("onclick", evntStr);
-		listItem.id = tabidx;
-		listItem.innerHTML = tabName;
-		topic.append(listItem);
-		};  //For Loop the list of buttons
-
-		for(i = 0; i < tabArr.length; i++) {
-			var tabContent = document.createElement('div');
-			tabContent.id  = tabArr[i].name;
-			tabContent.classList = 'tabcontent';
-			var para = document.createElement('p');   //This will be the array of charts and content...
-			para.innerHTML = tabArr[i].name + " Content";
-			tabContent.append(para);
-			container.append(tabContent);
-			
+	  var container = document.querySelector("#tab-list");
+	  
+	  
+      var list = document.createElement('ul');
+		// Create a list item for each wizard
+		// and append it to the list
+		for(i = 0; i < tabArr.length; i++){
+		    var li = document.createElement('li');
+			li.textContent = profileContent(tabArr[i].value);
+			list.appendChild(li);
+			if(i == 3){
+				list.className = "profilelist";
+		        container.appendChild(list);
+				var list = document.createElement('ul');
+		      }; //i == 5
 		}; //for loop
-
+		list.className = "profilelist";
+		container.appendChild(list);
      }; //End of addMainTabs
 	 
 	 
@@ -1069,12 +1076,12 @@ for (let[key2, value2] of value) {
 
 // Create table array for output
 var tbl_arr = []
-tbl_arr.push({'age_cat' : '<b>Total</b>', 'curval' : "<b>"+ fmt_comma(total_ann_flat[1].totalpopulation) + "</b>", 'pct_chg' : "<b>"+fmt_pct((total_ann_flat[1].totalpopulation - total_ann_flat[0].totalpopulation)/total_ann_flat[0].totalpopulation) + "</b>", 'forval' : "<b>" + fmt_comma(total_ann_flat[2].totalpopulation) +"</b>"});
+tbl_arr.push({'age_cat' : '<b>Total</b>', 'prevval' : "<b>"+ fmt_comma(total_ann_flat[0].totalpopulation) + "</b>", 'curval' : "<b>"+fmt_comma(total_ann_flat[1].totalpopulation) + "</b>", 'forval' : "<b>" + fmt_comma(total_ann_flat[2].totalpopulation) +"</b>"});
 
 var ages = [... new Set(total_age_flat.map(tag => tag.age_cat))];
 for(i = 0; i < ages.length; i++) {
 	var filt = total_age_flat.filter(function(d) {return d.age_cat == ages[i]});
-	tbl_arr.push({'age_cat' : ages[i], 'curval' : fmt_comma(filt[1].totalpopulation), 'pct_chg' : fmt_pct((filt[1].totalpopulation - filt[0].totalpopulation)/filt[0].totalpopulation), 'forval' : fmt_comma(filt[2].totalpopulation)});
+	tbl_arr.push({'age_cat' : ages[i], 'prevval' : fmt_comma(filt[0].totalpopulation), 'curval' : fmt_comma(filt[1].totalpopulation), 'forval' : fmt_comma(filt[2].totalpopulation)});
   };
 
 //Generate Table
@@ -1082,7 +1089,7 @@ var tblcolumns1 = [
     {'text' :'Population Estimates by Age: '+ yrvalue, 'colspan' : 2},
 	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>SDO Single Year of Age Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Ages','Number','Change from '+ prevyear,'2030 forecast'];
+var tblcolumns2 = ['Ages','Number, '+ prevyear,'Number, '+ yrvalue,'2030 Forecast'];
 // Output table 
 d3.select('#PopTab').html("");
 var syatab = d3.select('#PopTab')
@@ -1130,12 +1137,12 @@ rows.append('td')
       .style("text-align", "right")
 	  .style('font-size','10pt')
 	  .attr("border-spacing","0")
-      .html(function(m) { return m.curval; });
+      .html(function(m) { return m.prevval; });
 rows.append('td')
        .style("text-align", "right") 
 	   .style('font-size','10pt')
 	   .attr("border-spacing","0")
-       .html(function(m) { return m.pct_chg; });
+       .html(function(m) { return m.curval; });
 rows.append('td')
       .style("text-align", "right")
 	  .style('font-size','10pt')
@@ -1472,7 +1479,7 @@ if(fips == "000"){
 	oo_tab = oo_val.filter(function(d) {return d.fips == Number(fips);});
 	rental_tab = rental_val.filter(function(d) {return d.fips == Number(fips);});
    };
- debugger;  
+
 
     out_tab = oo_tab.concat(rental_tab)
 
@@ -4362,3 +4369,4 @@ if(varType == "hhold") {
 function genProfile(fipsVal,ctyName, varType, seriesType){
 	const formatDate = d3.timeFormat("%B %d, %Y");
 }
+
