@@ -23,6 +23,8 @@ function showButtons() {
 	};
 }; //end of showButtons
 
+
+//Profile functions
 //profileContent provides descriptive names for checked profile boxes...
 function profileContent(invalue) {
 	var outname;
@@ -55,68 +57,29 @@ function profileContent(invalue) {
 	return(outname);
 }; //end of profileContent
 
-//removeAllChildNodes  taken from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
-function deleteElems() {
-        var e = document.querySelector("#tab-container");
-        e.remove();
-		var tablist = document.createElement('p');
-		tablist.id = 'tab-list';
-		var profilelist = document.createElement('p');
-		profilelist.id = "profileoutput"
+//clearElems  taken from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
+function clearElems() {
+
+		var tablist = document.getElementById('tab-list');
+        var pro = document.getElementById('profile-output');
 		
-		e.appendChild(tablist);
-		e.appendChils(profilelist);
+		tablist.innerHTML = "";
+		pro.innerHTML = "";
     }
-//addMainTabs  Adds the profile tabls to the selected tab container
-function addMainTabs(tabArr){
-	
-//Build ul list...
-      // Create an unordered list
+//end of clearElems
+//selGeo selects Municipalities and CDPs formatting in sel1 of profile
+function selGeo(fipsArr,ctyData,type){
+	 if(type == "county") {
+		    var chkval =  ctyData.properties.COUNTYFP;
+	 } else {
+	 	  var ckkval = ctyData.placefp; 
+	 };
+ 	return (fipsArr.includes(chkval))
+}
+//end selGeo
 
-	  var container = document.querySelector("#tab-list");
-	  
-	  
-      var list = document.createElement('ul');
-		// Create a list item for each wizard
-		// and append it to the list
-		for(i = 0; i < tabArr.length; i++){
-		    var li = document.createElement('li');
-			li.textContent = profileContent(tabArr[i].value);
-			list.appendChild(li);
-			if(i == 3){
-				list.className = "profilelist";
-		        container.appendChild(list);
-				var list = document.createElement('ul');
-		      }; //i == 5
-		}; //for loop
-		list.className = "profilelist";
-		container.appendChild(list);
-     }; //End of addMainTabs
-	 
-	 
-function openTabs(evt, tabName) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
-}; //End of Open Tabs
-
-
-function restructure(inData) {
+//restructureRace restructures race data 
+function restructureRace(inData) {
     var output = [];
    var WH, HP, BL, AS, AM
    var ages = [... new Set(inData.map(tag => tag.age))];
@@ -134,7 +97,7 @@ function restructure(inData) {
 		};
     return output;
 };
-
+// end restructureRace
 
 //popDropdown populaates drop down boxes
 function popDropdown(level,ddid) {
@@ -1086,8 +1049,8 @@ for(i = 0; i < ages.length; i++) {
 
 //Generate Table
 var tblcolumns1 = [
-    {'text' :'Population Estimates by Age: '+ yrvalue, 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>SDO Single Year of Age Lookup</a>", 'colspan' : 2}
+    {'text' :'Population Estimates by Age', 'colspan' : 2},
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>Single Year of Age Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Ages','Number, '+ prevyear,'Number, '+ yrvalue,'2030 Forecast'];
 // Output table 
@@ -1197,7 +1160,7 @@ for(i = 2; i <= 4; i++){
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Components of Change', 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/births-deaths-migration/data/components-change/#components-of-change' target=_blank>SDO Components of Change Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://demography.dola.colorado.gov/births-deaths-migration/data/components-change/#components-of-change' target=_blank>Components of Change Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Component','Number,  ' + prevyear,'Number,  ' + yrvalue,'Change'];
 // Output table 
@@ -1359,7 +1322,7 @@ for(i = 0; i < raceth.length; i++) {
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Race/ Ethnicity: '+ yrvalue, 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>SDO Race/Ethnicity Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>Race/Ethnicity Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Race/ Ethnicity','Percentage, ' + yrvalue,'Number,  '+ yrvalue,year10 + ' forecast'];
 // Output table 
@@ -2042,7 +2005,7 @@ for(i = 1; i < housing_fint.length; i++){
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>SDO County Profile Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>County Profile Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Housing Type', 'Number', 'Change from ' + prevyear];
 // Output table 
@@ -3175,7 +3138,7 @@ Plotly.newPlot(AMIND, amind_trace, amind_layout,config);
 
 //Download trigger events
 // Make race_flat wide
-var race_wide = restructure(race_flat);
+var race_wide = restructureRace(race_flat);
 
 //Line Chart
 var line_csv = document.getElementById('line_csv');
@@ -3526,8 +3489,6 @@ if(ageSeries == "ageall"){
 
 	
 d3.csv(data_csv).then(function(data){
-
-
 	var tot_trace = [];
 	var rate_trace = [];
 
@@ -4364,9 +4325,114 @@ if(varType == "hhold") {
 }; //end of genHOUSEAGE
 
 //Community Profile Functions
-//genProfile is the base profile function
 
-function genProfile(fipsVal,ctyName, varType, seriesType){
+
+	
+//genSel1 The first tab, map and table
+function genSel1(level, fipsArr,nameArr,outputProfile){
+
 	const formatDate = d3.timeFormat("%B %d, %Y");
+
+	const ctyList = ['Region', 'County', 'Region Comparison', 'County Comparison']	
+    const muniList = ['Municipality', 'Municipality Comparison'];
+	const placeList = ['Census Designated Place', 'Census Designated Place Comparison'];
+	const ctyPath = '../data/County_GEN_2014.geojson';
+	const placecentroid = '../data/place_centroids.csv';
+
+	//Set up projections and other mappy stuff
+	
+	
+	var width = 600;
+    var height = 300;
+	
+
+var prom = [d3.json(ctyPath),d3.csv(placecentroid)]
+
+Promise.all(prom).then(function(data){
+	let projection = d3.geoMercator();
+    projection.fitSize([width, height], data[0]);
+    let geoGenerator = d3.geoPath().projection(projection);
+	
+
+
+var centData = []
+for(i = 0; i < data[1].length; i++){
+if(fipsArr.includes(data[1][i].placefp)){
+	centData.push({'placefp' : data[1][i].placefp, 'name' : data[1][i].namelsad, 'long' : +data[1][i].x, 'lat' :+data[1][i].y});
+	};
 }
+
+//Appending the svg
+var div = d3.select(outputProfile).append("div").attr("class","tooltip").style("opacity",0);
+var coMap = d3.select(outputProfile).append('svg').attr('width', width).attr('height', height);
+    
+
+if(ctyList.includes(level)) {
+  //Plotting County Map
+ coMap.append("g")
+      .selectAll("path")
+	  .data(data[0].features)
+	  .enter()
+      .append("path")
+	  .attr('class','cty')
+	  .attr('d', geoGenerator) 
+	  .attr('stroke', '#000')
+	  .attr('fill',function(d){ return selGeo(fipsArr,d,"county") ? "#008000" : "#FFFFFF";})
+      .on("mouseover", function(event,d,i) {  
+            div.transition()        
+                .duration(200)      
+                .style("opacity", function() {return selGeo(fipsArr,d,"county") ? 1 : 0;}); 
+            div.text(function() {return selGeo(fipsArr,d,"county") ? d.properties.NAMELSAD : "";}) 
+                .style("left", (event.pageX) + "px")     
+                .style("top", (event.pageY - 28) + "px");    
+            })                  
+        .on("mouseout", function() {       
+            div.transition(d)        
+                .duration(500)      
+                .style("opacity", 0);   
+        });
+} else { //Muni and CDP map
+		 coMap.append("g")
+			  .selectAll("path")
+			  .data(data[0].features)
+			  .enter()
+			  .append("path")
+			  .attr('class','cty')
+			  .attr('d', geoGenerator) 
+			  .attr('stroke', '#000')
+			  .attr('fill','#FFFFFF');
+			  
+	coMap.selectAll("myCircles")
+		  .data(centData)
+		  .enter()
+		  .append("circle")
+			.attr("cx", function(d){ return projection([d.long, d.lat])[0];})
+			.attr("cy", function(d){ return projection([d.long, d.lat])[1];})
+			.attr("r", 5)
+			.style("fill", '#008000')
+			.attr("stroke",  '#000000')
+			.attr('stroke-width', 2)
+			.style("opacity", 1 ) 
+			.on("mouseover", function(event,d,i) {
+					div.transition()        
+						.duration(200)      
+						.style("opacity", 1 ); 
+					div.text(d.name) 
+						.style("left", (event.pageX) + "px")     
+						.style("top", (event.pageY - 28) + "px");    
+			})                  
+           .on("mouseout", function(d) {       
+					div.transition(d)        
+						.duration(500)      
+						.style("opacity", 0);  			
+            });	
+};
+
+
+//Generating Tables
+
+}); //end of Promise
+ 
+ 
+}; //end of genSel1
 
