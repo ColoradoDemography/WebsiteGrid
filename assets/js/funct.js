@@ -23,82 +23,6 @@ function showButtons() {
 	};
 }; //end of showButtons
 
-
-//Profile functions
-//profileContent provides descriptive names for checked profile boxes...
-function profileContent(invalue) {
-	var outname;
-	switch(invalue) {
-	case "sel1" :
-	  outname = "Basic Statistics";
-	  break;
-	case "sel2":
-	   outname = "Population Trends";
-	   break;
-	case "sel3" :
-	   outname = "Population Characteristics: Age";
-	   break;
-	case "sel4" :
-	   outname = "Population Characteristics: Income, Education and Race";
-	   break;
-	case "sel5" :
-	   outname = "Housing and Households";
-	   break;
-	case "sel6" : 
-		outname = "Commuting and Job Growth";
-		break;
-	case "sel7" :
-		outname = "Employment by Industry";
-		break;
-	case "sel8" :
-		outname = "Employment Forecast and Wage Information";
-		break;
-	}
-	return(outname);
-}; //end of profileContent
-
-//clearElems  taken from https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
-function clearElems() {
-
-		var tablist = document.getElementById('tab-list');
-        var pro = document.getElementById('profile-output');
-		
-		tablist.innerHTML = "";
-		pro.innerHTML = "";
-    }
-//end of clearElems
-//selGeo selects Municipalities and CDPs formatting in sel1 of profile
-function selGeo(fipsArr,ctyData,type){
-	 if(type == "county") {
-		    var chkval =  ctyData.properties.COUNTYFP;
-	 } else {
-	 	  var ckkval = ctyData.placefp; 
-	 };
- 	return (fipsArr.includes(chkval))
-}
-//end selGeo
-
-//restructureRace restructures race data 
-function restructureRace(inData) {
-    var output = [];
-   var WH, HP, BL, AS, AM
-   var ages = [... new Set(inData.map(tag => tag.age))];
-
-    for(i = 0; i < ages.length; i++) {
-		var tmp = inData.filter(function(d) {return d.age == ages[i];});
-		for(j = 0; j < tmp.length; j++) {
-				  if( tmp[j].race_eth == "White NH") { WH = tmp[j].population};
-				  if( tmp[j].race_eth == "Hispanic") { HP = tmp[j].population};
-				  if( tmp[j].race_eth == "Black NH") { BL = tmp[j].population};
-				  if( tmp[j].race_eth == "Asian/Pacific Islander NH") {AS = tmp[j].population};
-				  if( tmp[j].race_eth == "American Indian NH") {AM = tmp[j].population};
-				}
-		output.push({ 'age' : tmp[0].age, "Hisapnic" : HP, "White NH" : WH, "Black NH" : BL, "Asian/Pacific Islander NH" : AS, "American Indian" : AM});
-		};
-    return output;
-};
-// end restructureRace
-
 //popDropdown populaates drop down boxes
 function popDropdown(level,ddid) {
    var dropdown = document.getElementById(ddid);
@@ -152,15 +76,15 @@ var region =  [{'location' : 'Denver PMSA', 'fips' : ['001', '005', '014', '031'
 				  {'location' : 'Front Range', 'fips' : ['001', '005', '013', '014', '031', '035', '041', '059', '069', '101','119','123']},
 				  {'location' : 'San Luis Valley', 'fips' : ['003', '021', '023', '079', '105', '109']},
 				  {'location' : 'Western Slope', 'fips' : ['007', '029', '033', '037', '045', '049', '051', '053', '057', '067', '077', '081', '083', '085', '091', '097', '103', '107', '111', '113', '117']},
-				  {'location' : 'Region  1: Northern Eastern Plains', 'fips' : ['075','087','095','115','121','125']},
-				  {'location' : 'Region  2: Northern Front Range', 'fips' : ['069','123']},
-				  {'location' : 'Region  3: Denver Metropolitan Area', 'fips' : ['001','005','013','014','019','031','035','047','059']},
-				  {'location' : 'Region  4: Southern Front Range', 'fips' : ['041','093','119']},
-				  {'location' : 'Region  5: Central Eastern Plains', 'fips' : ['017','039','063','073']},
-				  {'location' : 'Region  6: Southern Eastern Plains', 'fips' : ['009','011','025','061','089','099']},
-				  {'location' : 'Region  7: Pueblo County', 'fips' : ['101']},
-				  {'location' : 'Region  8: San Juan Valley', 'fips' : ['003','021','023','079','105','109']},
-				  {'location' : 'Region  9: Southern Western Slope', 'fips' : ['007','033','067','083','111']},
+				  {'location' : 'Region 1: Northern Eastern Plains', 'fips' : ['075','087','095','115','121','125']},
+				  {'location' : 'Region 2: Northern Front Range', 'fips' : ['069','123']},
+				  {'location' : 'Region 3: Denver Metropolitan Area', 'fips' : ['001','005','013','014','019','031','035','047','059']},
+				  {'location' : 'Region 4: Southern Front Range', 'fips' : ['041','093','119']},
+				  {'location' : 'Region 5: Central Eastern Plains', 'fips' : ['017','039','063','073']},
+				  {'location' : 'Region 6: Southern Eastern Plains', 'fips' : ['009','011','025','061','089','099']},
+				  {'location' : 'Region 7: Pueblo County', 'fips' : ['101']},
+				  {'location' : 'Region 8: San Juan Valley', 'fips' : ['003','021','023','079','105','109']},
+				  {'location' : 'Region 9: Southern Western Slope', 'fips' : ['007','033','067','083','111']},
 				  {'location' : 'Region 10: Central Western Slope', 'fips' : ['029','051','053','085','091','113']},
 				  {'location' : 'Region 11: Northern Western Slope', 'fips' : ['045','077','081','103','107']},
 				  {'location' : 'Region 12: Northern Mountains', 'fips' : ['037','049','057','097','117']},
@@ -184,7 +108,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Brookside' , 'fips' : '09115'}, {'location' :  'Broomfield' , 'fips' : '09280'},
 		{'location' :  'Brush' , 'fips' : '09555'}, {'location' :  'Buena Vista' , 'fips' : '10105'},
 		{'location' :  'Burlington' , 'fips' : '10600'}, {'location' :  'Calhan' , 'fips' : '11260'},
-		{'location' :  'Campo' , 'fips' : '11645'}, {'location' :  'Cañon City' , 'fips' : '11810'},
+		{'location' :  'Campo' , 'fips' : '11645'}, {'location' :  'Ca\u00f1on City' , 'fips' : '11810'},
 		{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines North' , 'fips' : '12390'},
 		{'location' :  'Castle Rock' , 'fips' : '12415'}, {'location' :  'Cedaredge' , 'fips' : '12635'},
 		{'location' :  'Centennial' , 'fips' : '12815'}, {'location' :  'Center' , 'fips' : '12855'},
@@ -401,9 +325,9 @@ var place =[{'location' :  'Acres Green CDP' , 'fips' : '00320'}, {'location' : 
 
 //Profile selection
 var profile = [{'location' :  'Select Profile' , 'fips' : ''},{'location' :  'Region' , 'fips' : 'region'}, {'location' :  'County' , 'fips' : 'countypro'},
-		{'location' :  'Municipality', 'fips' : 'municipality'}, {'location' :  'Census Defined Place' , 'fips' : 'place'},
-		{'location' :  'Region Comparison' , 'fips' : 'region'}, {'location' :  'County Comparison' , 'fips' : 'countypro'},
-		{'location' :  'Municipal Comparison', 'fips' : 'municipality'}, {'location' :  'Census Defined Place Comparison' , 'fips' : 'place'}]
+		{'location' :  'Municipality', 'fips' : 'municipality'}, {'location' :  'Census Designated Place' , 'fips' : 'place'},
+		{'location' :  'Regional Comparison' , 'fips' : 'region'}, {'location' :  'County Comparison' , 'fips' : 'countypro'},
+		{'location' :  'Municipal Comparison', 'fips' : 'municipality'}, {'location' :  'Census Designated Place Comparison' , 'fips' : 'place'}]
 		
 
 if(level == 'county') { var locarr = county};
@@ -421,7 +345,30 @@ d3.select(dropdown)
     .attr('value', d => d.fips) 
     .text(d => d.location);
 
-}; //end of popDropdown
+}; //end of popDropdown	
+
+
+//restructureRace restructures race data 
+function restructureRace(inData) {
+    var output = [];
+   var WH, HP, BL, AS, AM;
+   var ages = [... new Set(inData.map(tag => tag.age))];
+
+    for(i = 0; i < ages.length; i++) {
+		var tmp = inData.filter(function(d) {return d.age == ages[i];});
+		for(j = 0; j < tmp.length; j++) {
+				  if( tmp[j].race_eth == "White NH") { WH = tmp[j].population};
+				  if( tmp[j].race_eth == "Hispanic") { HP = tmp[j].population};
+				  if( tmp[j].race_eth == "Black NH") { BL = tmp[j].population};
+				  if( tmp[j].race_eth == "Asian/Pacific Islander NH") {AS = tmp[j].population};
+				  if( tmp[j].race_eth == "American Indian NH") {AM = tmp[j].population};
+				}
+		output.push({ 'age' : tmp[0].age, "Hisapnic" : HP, "White NH" : WH, "Black NH" : BL, "Asian/Pacific Islander NH" : AS, "American Indian" : AM});
+		};
+    return output;
+};
+// end restructureRace
+
 
 //includeHTML  taken from W3  https://www.w3schools.com/howto/howto_html_include.asp
 function includeHTML() {
@@ -1922,20 +1869,22 @@ var fips_list = parseInt(fips);
  fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
  } 
 //estimates urls
-urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalhousingunits,householdpopulation,groupquarterspopulation,households,censusbuildingpermits";
+urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalhousingunits,householdpopulation,groupquarterspopulation,households,censusbuildingpermits,vacanthousingunits";
 
 var hous_tmp = [];
 d3.json(urlstr).then(function(data){
+
  data.forEach(function(obj) {
  hous_tmp.push({'year' : obj.year,  'county' : obj.county,
      'totalhousingunits' : parseInt(obj.totalhousingunits),
      'householdpopulation' : parseInt(obj.householdpopulation),
 	 'groupquarterspopulation' : parseInt(obj.groupquarterspopulation),
 	 'households' : parseInt(obj.households),
-	 'censusbuildingpermits' : parseInt(obj.censusbuildingpermits)});
+	 'censusbuildingpermits' : parseInt(obj.censusbuildingpermits),
+	 'vacanthousingunits' : parseInt(obj.vacanthousingunits)});
  });
-
- var columnsToSum = ['totalhousingunits','householdpopulation','groupquarterspopulation', 'households', 'censusbuildingpermits']
+ 
+var columnsToSum = ['totalhousingunits','householdpopulation','groupquarterspopulation', 'households', 'censusbuildingpermits', 'vacanthousingunits']
  
       //  Totals
 var housing_temp = d3.rollup(hous_tmp,
@@ -1949,7 +1898,8 @@ for (let [key, obj] of housing_temp) {
 	                    'groupquarterspopulation' : obj.groupquarterspopulation,
 	                    'households' : obj.households,
 						'household_size' : obj.householdpopulation/obj.households,
-	                    'censusbuildingpermits' : obj.censusbuildingpermits});
+	                    'censusbuildingpermits' : obj.censusbuildingpermits,
+						'vacanthousingunits' : obj.vacanthousingunits});
  };
 
 
@@ -1985,6 +1935,14 @@ for(i = 1; i < housing_fint.length; i++){
 	                                                     cVal = fmt_comma(currentVal);
 														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
 													   };
+	if(housing_fint[i][0][0].name == 'vacanthousingunits') { out_name = "Vacant Housing Units";
+	                                                     cVal = fmt_comma(currentVal);
+														 if(prevVal != 0) {
+														   pctVal = fmt_pct((currentVal - prevVal)/prevVal);
+														 } else {
+														   pctVal = " ";
+														 };
+													   };												   
 	if(housing_fint[i][0][0].name == 'household_size') { out_name = "Household Size";
 	                                                     cVal = fmt_dec(currentVal);
 														 pctVal = "";
@@ -1997,6 +1955,7 @@ for(i = 1; i < housing_fint.length; i++){
 														   pctVal = " ";
 														 };
 													   };
+
 	tbl_arr.push({ 'row_name' : out_name,
 	               'curval' : cVal, 
 	               'pct_chg' : pctVal});
@@ -2069,7 +2028,7 @@ rows.append('td')
 //genDEMO outputs Plotly charts for the Demographic Dashboard
 function genDEMO(fips, ctyName, yrvalue){
 
-    const formatDate = d3.timeFormat("%B %d, %Y");
+    const fmt_date = d3.timeFormat("%B %d, %Y");
 	var fips_list; 
 	if(fips == "000") {
       fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
@@ -2289,7 +2248,7 @@ var est_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -2349,7 +2308,7 @@ var forec_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -2450,7 +2409,7 @@ var coc_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -2507,7 +2466,7 @@ var migr_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -2564,7 +2523,7 @@ var age_layout = {
 			linecolor: 'black',
 			linewidth: 2
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -2622,7 +2581,7 @@ var popchng_layout = {
 			linecolor: 'black',
 			linewidth: 2
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -2699,7 +2658,7 @@ popchng_png.onclick = function() {
 //genRACEVIS Generates the Race/Ethncity visualization
 function genRACEVIS(fips,ctyName, yrvalue) {
 	var fmt_comma = d3.format(",");
-    const formatDate = d3.timeFormat("%B %d, %Y");
+    const fmt_date = d3.timeFormat("%B %d, %Y");
 
 //Specify fips_list
 var fips_list = parseInt(fips); 
@@ -2930,7 +2889,7 @@ var line_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -2969,7 +2928,7 @@ var white_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3008,7 +2967,7 @@ var hisp_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3047,7 +3006,7 @@ var black_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3086,7 +3045,7 @@ var asian_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3125,7 +3084,7 @@ var amind_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3207,7 +3166,7 @@ amind_png.onclick = function() {
 //Uses data from NetMigrationByAgeComparison Must be updated after Census 2020 is available
 
 function genNETMIGCOMP(fips, ctyName, yrvalue) {
-	 const formatDate = d3.timeFormat("%B %d, %Y");
+	 const fmt_date = d3.timeFormat("%B %d, %Y");
 
 	var fipsNum = parseInt(fips);
 
@@ -3363,7 +3322,7 @@ var NetMig_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3400,7 +3359,7 @@ var NetMig_layout = {
 			linewidth: 2,
 			 tickformat:  '.2f'
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3452,7 +3411,7 @@ netmigrrate_png.onclick = function() {
 //Uses data from netmig_1864x Must be updated after Census 2020 is available
 function genNETMIG1864(fipsVal, ctyName, ageSeries, chartType, yrvalue){
 
-const formatDate = d3.timeFormat("%B %d, %Y");
+const fmt_date = d3.timeFormat("%B %d, %Y");
 
 var data_csv = "../data/netmig_1864x.csv";
 
@@ -3594,7 +3553,7 @@ var tot_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3632,7 +3591,7 @@ var rate_layout = {
 			linewidth: 2,
 			 tickformat:  '.2f'
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3673,7 +3632,7 @@ netmigrwa_png.onclick = function() {
 
 //genCOCHIST generates long-term COC charts
 function genCOCHIST(fipsVal, ctyName) {
-const formatDate = d3.timeFormat("%B %d, %Y");
+const fmt_date = d3.timeFormat("%B %d, %Y");
 
 //Generating urls
 var ctyfips  = parseInt(fipsVal);
@@ -3831,7 +3790,7 @@ var birth_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3868,7 +3827,7 @@ var death_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3905,7 +3864,7 @@ var mig_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -3957,7 +3916,7 @@ mig_png.onclick = function() {
 
 //genHOUSEAGE  Household forecast by age and hh type
 function genHOUSEAGE(fipsVal,ctyName, varType, seriesType){
-	const formatDate = d3.timeFormat("%B %d, %Y");
+	const fmt_date = d3.timeFormat("%B %d, %Y");
 
 	var fips_list = parseInt(fipsVal);
 
@@ -4002,7 +3961,7 @@ for(i = 2010; i <= 2050;i++){
     };
 };
 
- //Calculating Housing Type by Age Group percenage
+ //Calculating Housing Type by Age Group percentage
 
 for(i = 2010; i <= 2050;i++){
 	var tmp = dataplot.filter(function(d) {return d.year == i;});
@@ -4195,7 +4154,7 @@ for(i = 0; i < hh_arr.length; i++){
 			linewidth: 2,
 			tickformat: y_ticks
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -4247,7 +4206,7 @@ ch_layout.push(layout);
 			linewidth: 2,
 			tickformat: y_ticks
 		  },
-			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  formatDate(new Date) , 
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
@@ -4323,116 +4282,3 @@ if(varType == "hhold") {
 
 }); //end of d3 json
 }; //end of genHOUSEAGE
-
-//Community Profile Functions
-
-
-	
-//genSel1 The first tab, map and table
-function genSel1(level, fipsArr,nameArr,outputProfile){
-
-	const formatDate = d3.timeFormat("%B %d, %Y");
-
-	const ctyList = ['Region', 'County', 'Region Comparison', 'County Comparison']	
-    const muniList = ['Municipality', 'Municipality Comparison'];
-	const placeList = ['Census Designated Place', 'Census Designated Place Comparison'];
-	const ctyPath = '../data/County_GEN_2014.geojson';
-	const placecentroid = '../data/place_centroids.csv';
-
-	//Set up projections and other mappy stuff
-	
-	
-	var width = 600;
-    var height = 300;
-	
-
-var prom = [d3.json(ctyPath),d3.csv(placecentroid)]
-
-Promise.all(prom).then(function(data){
-	let projection = d3.geoMercator();
-    projection.fitSize([width, height], data[0]);
-    let geoGenerator = d3.geoPath().projection(projection);
-	
-
-
-var centData = []
-for(i = 0; i < data[1].length; i++){
-if(fipsArr.includes(data[1][i].placefp)){
-	centData.push({'placefp' : data[1][i].placefp, 'name' : data[1][i].namelsad, 'long' : +data[1][i].x, 'lat' :+data[1][i].y});
-	};
-}
-
-//Appending the svg
-var div = d3.select(outputProfile).append("div").attr("class","tooltip").style("opacity",0);
-var coMap = d3.select(outputProfile).append('svg').attr('width', width).attr('height', height);
-    
-
-if(ctyList.includes(level)) {
-  //Plotting County Map
- coMap.append("g")
-      .selectAll("path")
-	  .data(data[0].features)
-	  .enter()
-      .append("path")
-	  .attr('class','cty')
-	  .attr('d', geoGenerator) 
-	  .attr('stroke', '#000')
-	  .attr('fill',function(d){ return selGeo(fipsArr,d,"county") ? "#008000" : "#FFFFFF";})
-      .on("mouseover", function(event,d,i) {  
-            div.transition()        
-                .duration(200)      
-                .style("opacity", function() {return selGeo(fipsArr,d,"county") ? 1 : 0;}); 
-            div.text(function() {return selGeo(fipsArr,d,"county") ? d.properties.NAMELSAD : "";}) 
-                .style("left", (event.pageX) + "px")     
-                .style("top", (event.pageY - 28) + "px");    
-            })                  
-        .on("mouseout", function() {       
-            div.transition(d)        
-                .duration(500)      
-                .style("opacity", 0);   
-        });
-} else { //Muni and CDP map
-		 coMap.append("g")
-			  .selectAll("path")
-			  .data(data[0].features)
-			  .enter()
-			  .append("path")
-			  .attr('class','cty')
-			  .attr('d', geoGenerator) 
-			  .attr('stroke', '#000')
-			  .attr('fill','#FFFFFF');
-			  
-	coMap.selectAll("myCircles")
-		  .data(centData)
-		  .enter()
-		  .append("circle")
-			.attr("cx", function(d){ return projection([d.long, d.lat])[0];})
-			.attr("cy", function(d){ return projection([d.long, d.lat])[1];})
-			.attr("r", 5)
-			.style("fill", '#008000')
-			.attr("stroke",  '#000000')
-			.attr('stroke-width', 2)
-			.style("opacity", 1 ) 
-			.on("mouseover", function(event,d,i) {
-					div.transition()        
-						.duration(200)      
-						.style("opacity", 1 ); 
-					div.text(d.name) 
-						.style("left", (event.pageX) + "px")     
-						.style("top", (event.pageY - 28) + "px");    
-			})                  
-           .on("mouseout", function(d) {       
-					div.transition(d)        
-						.duration(500)      
-						.style("opacity", 0);  			
-            });	
-};
-
-
-//Generating Tables
-
-}); //end of Promise
- 
- 
-}; //end of genSel1
-
