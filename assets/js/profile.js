@@ -1546,7 +1546,7 @@ var linkpdf = document.createElement('a');
 
 dlBtn.appendChild(btnImg);
 
-btnDiv2.appendChild(linkpdf);
+btnDiv2.appendChild(linkpng);
 
 newDiv.appendChild(dlBtn);
 newDiv.appendChild(btnDiv2);
