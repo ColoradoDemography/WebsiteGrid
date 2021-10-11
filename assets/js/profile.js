@@ -1161,7 +1161,7 @@ function selGeo(fipsArr,ctyData,type){
 function selColor(fipsArr,names,ctyData,type){
 	var outColor = '#FFFFFF';
 	var chkval =  ctyData.properties.COUNTYFP;
-debugger;
+
 if(type == "Regional Comparison"){
 	for(i = 0; i < names.length; i ++){
 		 var regionSel = regionCOL(names[i]);
@@ -1482,7 +1482,7 @@ return region;
 
 //regCombine Combines regional comparisons data
 function regCombine(regData,ctyData) {
-	debugger;
+
 	var outData = [];
 	for(i = 0; i < regData.length; i++){
 		var seldata = regData[i];
@@ -1545,7 +1545,7 @@ var linkpdf = document.createElement('a');
 
 
 dlBtn.appendChild(btnImg);
-btnDiv2.appendChild(linkpng);
+
 btnDiv2.appendChild(linkpdf);
 
 newDiv.appendChild(dlBtn);
@@ -1559,7 +1559,7 @@ btnDiv.appendChild(newDiv);
 // Below are the functions that handle actual exporting:
 // getSVGString ( svgNode ) and svgString2Image( svgString, width, height, format, callback )
 function getSVGString( svgNode ) {
-	debugger;
+
 	svgNode.setAttribute('xmlns','http://www.w3.org/2000/svg');
 	svgNode.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
 	var cssStyleText = getCSSStyles( svgNode );
@@ -1669,33 +1669,22 @@ function saveSVG(svgdiv) {
 return outSVG;
 };
 
-//export2word... from https://stackoverflow.com/questions/36330859/export-html-table-as-word-file-and-change-file-orientation
-function export2Word( element ) {
+//genWordTbl... from https://stackoverflow.com/questions/36330859/export-html-table-as-word-file-and-change-file-orientation
 
-   var html, link, blob, url, css;
-
-   css = (
-     '<style>' +
-     '@page WordSection1{size: 841.95pt 595.35pt;mso-page-orientation: landscape;}' +
-     'div.WordSection1 {page: WordSection1;}' +
-     '</style>'
-   );
-
-   html = element.innerHTML;
-   blob = new Blob(['\ufeff', css + html], {
-     type: 'application/msword'
-   });
-   url = URL.createObjectURL(blob);
-   link = document.createElement('A');
-   link.href = url;
-   link.download = 'Document';  // default name without extension 
-   document.body.appendChild(link);
-   if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'Document.doc'); // IE10-11
-       else link.click();  // other browsers
-   document.body.removeChild(link);
- };
  
-
+ //Data Table WordButton creator
+ /*
+$.fn.dataTable.ext.buttons.word = {
+    className: 'buttons-word',
+ 
+   action: function ( e, dt, node, config ) {
+	            var colhead = dt.columns().header().toArray().map(x => x.innerText);
+				var colfooter = dt.footer().toArray().map(x => x.innerText);
+				var table = dt.rows().data();
+            genWordTbl(colhead, colfooter, table, "test")
+			} //action function....
+   };//Data Table WordButton creator
+*/
 
 function genProfile(lvl,fipsArr,valSec, names,outputMap,outputTab) {
 var descript = "Colorado Demographic Profile "+ lvl + ": ";
@@ -2334,6 +2323,7 @@ if(muniList.includes(level) || placeList.includes(level)){
 		{
 		extend: 'copyHtml5',
 		 title: fileName,
+//		 text : "Word",
 		 footer : true
 		},
             {  
@@ -2370,11 +2360,12 @@ if(muniList.includes(level) || placeList.includes(level)){
 	$('#summtab').DataTable( {
 				dom: 'Bfrtip',
         buttons: [
-		{
-		extend: 'copyHtml5',
+		{ 
+    	 extend: 'copyHtml5',
 		 title: fileName,
+//		 text: "Word",
 		 footer : true
-		},
+		}, //button
             {  
                 extend: 'excelHtml5',
                 title: fileName,
