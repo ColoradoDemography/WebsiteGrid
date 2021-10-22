@@ -27,6 +27,7 @@ hr {
     margin: 1em 0;
 }
 
+
 /* Table Styles */
 table {
 	table-layout : auto;
@@ -391,6 +392,8 @@ details main {
 .dropdown-content {
   display: none;
   position: absolute;
+  width:250px;  
+  line-height : 1;
   background-color : #d9d5d4;
   z-index: 1;
   right : 10px;
