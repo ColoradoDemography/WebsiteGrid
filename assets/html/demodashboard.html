@@ -35,7 +35,7 @@
    The following page shows graphs and charts for various datasets by county. Select the county from the list below to view the graphs for that county. 
    You can hover over specific data points on each graph to view the data for that specific point.
    </p>
-   Click on the download icon on the left of each chart to download the chart and the underlying data.
+   Click on the download icon on the left of each chart to download the chart, the underlying data, and links to the data source.
    <br><br>
    <b><i>This data visualization can only be viewed on a tablet or desktop.</i></b>
    <br><br>
@@ -46,8 +46,9 @@
       <div class="dropdown AClass">
 		  <button class="dropbtn"  id="estimate"><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
 		  <div class="dropdown-content">
-			<a href="#" id='est_csv'>Download Data (CSV)</a>
+			<a href='#' id='est_csv'>Download Data (CSV)</a>
 			<a href='#' id='est_png'>Download Image (PNG)</a>
+			<a href='https://demography.dola.colorado.gov/population/data/county-data-lookup/' id='est_src'><u>Data Source:</u>County Total Population Lookup</a>
 		  </div>
 	  </div>
 	 <div id="est_output"></div>
@@ -58,6 +59,7 @@
 	<div class="dropdown-content">
 		<a href="#" id='forec_csv'>Download Data (CSV)</a>
 		<a href='#' id='forec_png'>Download Image (PNG)</a>
+		<a href='https://demography.dola.colorado.gov/population/data/sya-county/' id='fore_src'><u>Data Source:</u>County Single Year of Age Lookup</a>
 	 </div>
 	</div>
     <div id="forec_output"></div>
@@ -68,6 +70,7 @@
 	<div class="dropdown-content">
 		<a href="#" id='coc_csv'>Download Data (CSV)</a>
 		<a href='#' id='coc_png'>Download Image (PNG)</a>
+		<a href='https://demography.dola.colorado.gov/births-deaths-migration/data/components-change/#components-of-change' id='coc_src'><u>Data Source:</u>County Births, Deaths, and Migration Lookup</a>
 	 </div>
 	</div>
     <div id="coc_output"></div>
@@ -88,6 +91,7 @@
 	<div class="dropdown-content">
 		<a href="#" id='age_csv'>Download Data (CSV)</a>
 		<a href='#' id='age_png'>Download Image (PNG)</a>
+		<a href='https://demography.dola.colorado.gov/population/data/sya-county/' id='age_src'><u>Data Source:</u>County Single Year of Age Lookup</a>
 	 </div>
 	</div>
     <div id="ageest_output"></div>
@@ -98,6 +102,7 @@
 	  <div class="dropdown-content">
 		<a href="#" id='popchng_csv'>Download Data (CSV)</a>
 		<a href='#' id='popchng_png'>Download Image (PNG)</a>
+		<a href='https://demography.dola.colorado.gov/population/data/sya-county/' id='popchng_src'><u>Data Source:</u>County Single Year of Age Lookup</a>
 	 </div>
 	</div>
     <div id="popchng_output"></div> 
