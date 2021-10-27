@@ -79,7 +79,7 @@ var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
-    var yrvalue = d3.max(yrsList);
+    var yrvalue = d3.max(yrsList) - 1;  ///CHANGE THIS WHEN 2020 ACS is available
 	
 //Generate Initial Tables
 genSYA("000",yrvalue);
