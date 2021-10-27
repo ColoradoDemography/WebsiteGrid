@@ -28,7 +28,7 @@ function popDropdown(level,ddid) {
 
    
    //Counties
-var county = [{'location':'Adams County', 'fips': '001'},
+var county = [ {'location': 'Colorado', 'fips' : '000'}, {'location':'Adams County', 'fips': '001'},
                 {'location':'Alamosa County', 'fips': '003'},{'location':'Arapahoe County', 'fips': '005'},
 				{'location':'Archuleta County', 'fips': '007'},{'location':'Baca County', 'fips': '009'},
 				{'location':'Bent County', 'fips': '011'},{'location':'Boulder County', 'fips': '013'},
