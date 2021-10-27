@@ -1669,22 +1669,109 @@ function saveSVG(svgdiv) {
 return outSVG;
 };
 
-//genWordTbl... from https://stackoverflow.com/questions/36330859/export-html-table-as-word-file-and-change-file-orientation
+//Export2Word  from https://www.codexworld.com/export-html-to-word-doc-docx-using-javascript/
+function Export2Word(intab, filename = ''){
 
- 
+	filename = filename.replace(".docx","");
+    var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+    var postHtml = "</body></html>";
+    var html = preHtml+intab+postHtml;
+
+    var blob = new Blob(['\ufeff', html], {
+        type: 'application/msword'
+    });
+    
+    // Specify link url
+    var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+    
+    // Specify file name
+    filename = filename?filename+'.doc':'document.doc';
+    
+    // Create download link element
+    var downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob ){
+        navigator.msSaveOrOpenBlob(blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = url;
+        
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+    
+    document.body.removeChild(downloadLink);
+	};
+//End of Export2Word
+//generateTab creates html table and the passes table to the Export2Word function
+
+function generateTab(header, body,footer, tabTitle, fileName) {
+
+
+//Header
+var table = "<table border= '1'><thead><tr align='center'>";
+for(i = 0; i < header[0].length; i++){
+	table = table + '<th>' + header[0][i] + '</th>';
+}
+table = table + "</tr></thead>";
+
+//body
+
+table = table + "<tbody><tr>";
+for(i = 0; i < body.length; i++){
+	for(j = 0; j < body[i].length;j++){
+		if(j == 0){
+		  table = table + "<td>" + body[i][j] + "</td>";
+		} else {
+		  table = table + "<td align='right'>" + body[i][j] + "</td>";
+		}
+	}
+	table = table + '</tr>';
+}
+table = table + '</tbody>';
+
+//footer
+
+table = table + "<tfoot>>";
+for(a = 0; a < footer.length; a++){
+	table = table + '<tr><td colspan = ' + body[0].length + '>' + footer[a] + '</td></tr>';
+}
+table = table + "</tfoot></table>";
+
+Export2Word(table, filename = fileName);
+
+ }; //end of generateTab
+
+
  //Data Table WordButton creator
- /*
+ 
 $.fn.dataTable.ext.buttons.word = {
     className: 'buttons-word',
  
    action: function ( e, dt, node, config ) {
-	            var colhead = dt.columns().header().toArray().map(x => x.innerText);
-				var colfooter = dt.footer().toArray().map(x => x.innerText);
+	            var colhd = dt.columns().header().toArray().map(x => x.innerText);
+				var colft = dt.footer().toArray().map(x => x.innerText);
+				
 				var table = dt.rows().data();
-            genWordTbl(colhead, colfooter, table, "test")
+				var tabTitle = config.titleAttr;
+				var fileName = tabTitle + ".docx";
+			
+			//flattening the table componets
+            var colHead =[];
+			colHead[0] = colhd;
+				
+			
+			var colFoot = colft.toString().split("\t");
+
+			generateTab(colHead,table,colFoot,tabTitle,fileName);
 			} //action function....
    };//Data Table WordButton creator
-*/
+
 
 function genProfile(lvl,fipsArr,valSec, names,outputMap,outputTab) {
 var descript = "Colorado Demographic Profile "+ lvl + ": ";
@@ -1703,7 +1790,7 @@ var yrstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(yrstr).then(function(yeardata){
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
-    var curyear = d3.max(yrsList);
+    var curyear = d3.max(yrsList) - 1;  //THIS is for testing, to insure the results are for 2019 ACS
 
 //Triggering the first button  Expand these for each button...
 var firstbtn = valSec[0];
@@ -1871,7 +1958,7 @@ function genSel1tab(level, fipsArr, nameArr, fileName, outputPro, curYr) {
     const fmt_dollar = d3.format("$,.0f");
     const fmt_yr = d3.format("00");
 	
-	
+
 	var curACS = "acs" + fmt_yr(curYr - 2004) + fmt_yr(curYr - 2000);
 	var prevACS = "acs0610";
     const yrlist = "2010,"+curYr;
@@ -1880,6 +1967,7 @@ function genSel1tab(level, fipsArr, nameArr, fileName, outputPro, curYr) {
 	const ctyList = ['County', 'County Comparison'];
     const muniList = ['Municipality', 'Municipal Comparison'];
 	const placeList = ['Census Designated Place', 'Census Designated Place Comparison'];
+
 
     var fips_list = [];
 		for(i = 0; i < fipsArr.length; i++) {
@@ -2320,12 +2408,12 @@ if(muniList.includes(level) || placeList.includes(level)){
 	$('#summtab').DataTable( {
 		dom: 'Bfrtip',
        buttons: [
-		{
-		extend: 'copyHtml5',
-		 title: fileName,
-//		 text : "Word",
-		 footer : true
-		},
+		{  
+                extend: 'word',
+				text :'Word',
+                titleAttr: fileName,
+				footer : true
+            },
             {  
                 extend: 'excelHtml5',
                 title: fileName,
@@ -2360,12 +2448,12 @@ if(muniList.includes(level) || placeList.includes(level)){
 	$('#summtab').DataTable( {
 				dom: 'Bfrtip',
         buttons: [
-		{ 
-    	 extend: 'copyHtml5',
-		 title: fileName,
-//		 text: "Word",
-		 footer : true
-		}, //button
+		{  
+                extend: 'word',
+				text :'Word',
+                titleAttr: fileName,
+				footer : true
+            },
             {  
                 extend: 'excelHtml5',
                 title: fileName,

@@ -25,10 +25,10 @@ function showButtons() {
 
 //popDropdown populaates drop down boxes
 function popDropdown(level,ddid) {
-   var dropdown = document.getElementById(ddid);
+
    
    //Counties
-var county = [{'location': 'Colorado', 'fips': '000'},{'location':'Adams County', 'fips': '001'},
+var county = [{'location':'Adams County', 'fips': '001'},
                 {'location':'Alamosa County', 'fips': '003'},{'location':'Arapahoe County', 'fips': '005'},
 				{'location':'Archuleta County', 'fips': '007'},{'location':'Baca County', 'fips': '009'},
 				{'location':'Bent County', 'fips': '011'},{'location':'Boulder County', 'fips': '013'},
@@ -62,10 +62,7 @@ var county = [{'location': 'Colorado', 'fips': '000'},{'location':'Adams County'
 				{'location':'Washington County', 'fips': '121'},{'location':'Weld County', 'fips': '123'},
 				{'location':'Yuma County', 'fips': '125'}];
 
-var countypro = [];
-for(i = 1; i < county.length; i++){
-   countypro.push({'location' : county[i].location, 'fips' : county[i].fips});
-   }
+
 //regions
 var region =  [{'location' : 'Denver PMSA', 'fips' : ['001', '005', '014', '031', '035', '059']},
 				  {'location' : 'Denver-Boulder Metro Area', 'fips' : ['001', '005', '013', '014', '031', '035', '059']},
@@ -324,27 +321,29 @@ var place =[{'location' :  'Acres Green CDP' , 'fips' : '00320'}, {'location' : 
 		{'location' :  'Wolcott CDP' , 'fips' : '85760'}, {'location' :  'Woodmoor CDP' , 'fips' : '86117'}]
 
 //Profile selection
-var profile = [{'location' :  'Select Profile' , 'fips' : ''},{'location' :  'Region' , 'fips' : 'region'}, {'location' :  'County' , 'fips' : 'countypro'},
+var profile = [{'location' :  'Select Profile' , 'fips' : ''},{'location' :  'Region' , 'fips' : 'region'}, {'location' :  'County' , 'fips' : 'county'},
 		{'location' :  'Municipality', 'fips' : 'municipality'}, {'location' :  'Census Designated Place' , 'fips' : 'place'},
-		{'location' :  'Regional Comparison' , 'fips' : 'region'}, {'location' :  'County Comparison' , 'fips' : 'countypro'},
-		{'location' :  'Municipal Comparison', 'fips' : 'municipality'}, {'location' :  'Census Designated Place Comparison' , 'fips' : 'place'}]
+		{'location' :  'Regional Comparison' , 'fips' : 'regioncomp'}, {'location' :  'County Comparison' , 'fips' : 'countycomp'},
+		{'location' :  'Municipal Comparison', 'fips' : 'municipalitycomp'}, {'location' :  'Census Designated Place Comparison' , 'fips' : 'placecomp'}]
 		
 
-if(level == 'county') { var locarr = county};
-if(level == 'countypro') {var locarr = countypro};
 if(level == 'region') { var locarr = region};
+if(level == 'county') {var locarr = county};
 if(level == 'municipality') { var locarr = municipality};
 if(level == 'place') { var locarr = place};
-if(level == 'profile'){ var locarr = profile};
+if(level == 'regioncomp') {var locarr = region};
+if(level == 'countycomp') {var locarr = county};
+if(level == 'municipalitycomp') { var locarr = municipality};
+if(level == 'placecomp') { var locarr = place};
+if(level == 'profile') { var locarr = profile};
 
-d3.select(dropdown)
-    .selectAll('option')
-    .data(locarr)
-    .enter()
-    .append('option')
-    .attr('value', d => d.fips) 
-    .text(d => d.location);
-
+ var sel = document.getElementById(ddid);
+for(var i = 0; i < locarr.length; i++) {
+    var el = document.createElement("option");
+    el.textContent = locarr[i].location;
+    el.value = locarr[i].fips;
+    sel.appendChild(el);
+}
 }; //end of popDropdown	
 
 
