@@ -2028,6 +2028,8 @@ rows.append('td')
 function genDEMO(fips, ctyName, yrvalue){
 
     const fmt_date = d3.timeFormat("%B %d, %Y");
+
+	yrvalue = yrvalue -1;  //REMOVE THIS AFTER ALL UPDATES ARE DONE
 	var fips_list; 
 	if(fips == "000") {
       fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
@@ -2035,6 +2037,7 @@ function genDEMO(fips, ctyName, yrvalue){
 		fips_list = parseInt(fips);
 	};		
 //Estimates and components of change chart
+
 	var yr_list = 1985;
 	for(i = 1986; i <= yrvalue; i++){
 		yr_list = yr_list + "," + i;
@@ -2047,7 +2050,7 @@ function genDEMO(fips, ctyName, yrvalue){
    	for(i = 2011; i <= 2050; i++){
 		forc_yrs = forc_yrs + "," + i;
 	};
- 
+
     if(fips == "000") {
 		var forcurl = "https://gis.dola.colorado.gov/lookups/sya_regions?reg_num=0&year=" + forc_yrs + "&choice=single"
 	} else {
@@ -2056,6 +2059,7 @@ function genDEMO(fips, ctyName, yrvalue){
 
 //Net migration by age 
    var netmigurl = 'https://gis.dola.colorado.gov/lookups/migbyage?county=' + parseInt(fips);
+
 
 var prom = [d3.json(esturl),d3.json(forcurl),d3.json(netmigurl)];
 
