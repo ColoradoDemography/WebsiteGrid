@@ -2023,197 +2023,50 @@ rows.append('td')
 }); //d3.json
 }; // End of genHousing
 
-//Plotting Fuctionc
-//genDEMO outputs Plotly charts for the Demographic Dashboard
-function genDEMO(fips, ctyName, yrvalue){
+//Component Functions for Demograpic Dashboard and Profile....
+function estPlot(inData, plotdiv, yrvalue, fips, ctyName){
 
     const fmt_date = d3.timeFormat("%B %d, %Y");
-
-	yrvalue = yrvalue -1;  //REMOVE THIS AFTER ALL UPDATES ARE DONE
-	var fips_list; 
-	if(fips == "000") {
-      fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
-    } else {
-		fips_list = parseInt(fips);
-	};		
-//Estimates and components of change chart
-
-	var yr_list = 1985;
-	for(i = 1986; i <= yrvalue; i++){
-		yr_list = yr_list + "," + i;
-	};
-	
-	var esturl = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalpopulation,naturalincrease,netmigration";
-	
-//forecasts and age projections
-   var forc_yrs = 2010;
-   	for(i = 2011; i <= 2050; i++){
-		forc_yrs = forc_yrs + "," + i;
-	};
-
-    if(fips == "000") {
-		var forcurl = "https://gis.dola.colorado.gov/lookups/sya_regions?reg_num=0&year=" + forc_yrs + "&choice=single"
-	} else {
-		var forcurl = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + forc_yrs + "&choice=single&group=3"
-	}; 
-
-//Net migration by age 
-   var netmigurl = 'https://gis.dola.colorado.gov/lookups/migbyage?county=' + parseInt(fips);
-
-
-var prom = [d3.json(esturl),d3.json(forcurl),d3.json(netmigurl)];
-
-
-Promise.all(prom).then(function(data){
-var est_data = [];
-var coc_data = [];
-var forec_data = [];
-var popchng_data = [];
-var netmig_flat = [];
-//ESTIMATES AND COC DATA
 //push out vars 
- data[0].forEach(function(obj) {
+	
+var est_data = [];
+inData.forEach(function(obj) {
 	 est_data.push({'year' : obj.year, 'county' : parseInt(obj.countyfips), 'totalpopulation' : Number(obj.totalpopulation)});
-	 coc_data.push({'year' : obj.year, 'county' : parseInt(obj.countyfips), 'totalpopulation' : Number(obj.totalpopulation),
-                    'naturalincrease' : Number(obj.naturalincrease), 'netmigration' : Number(obj.netmigration)});
 });
 
 
 var est_flat = [];
-var coc_flat = [];
+
 //Rollup data
 if(fips == "000") {
 	var est_sum = d3.rollup(est_data, v => d3.sum(v, d => d.totalpopulation), d => d.year);
-    var columnsToSum = ['totalpopulation', 'naturalincrease', 'netmigration']
-	var coc_sum = d3.rollup(coc_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
 	
 	//Flatten Arrays for output
 
 	for (let [key, value] of est_sum) {
 	  est_flat.push({'year' : key, 'totalpopulation' : value});
 		};
-
-	for (let [key, value] of coc_sum) {
-		coc_flat.push({'year' :key, 'totalpopulation' : value['totalpopulation'], 'naturalincrease' : value['naturalincrease'], 'netmigration' : value['netmigration']});
-	};
 } else {
 	var est_flat = est_data;
-	var coc_flat = coc_data;
 };
-
-//Calculating total population change for coc_flat
-for(i = 1; i < coc_flat.length; i++){
-    coc_flat[i].popchng = coc_flat[i].totalpopulation - coc_flat[i-1].totalpopulation;
-    };
-//END ESTIMATES AND COC DATA
-
-//FORECASTS AND POPULATION  CHANGE DATA
-data[1].forEach(function(obj) {
-    forec_data.push({'year' : obj.year,  'age' : Number(obj.age), 'totalpopulation' : Number(obj.totalpopulation)});
-	});
 	
-
-//Summing up forecast
-var forec_sum = d3.rollup(forec_data, v => d3.sum(v, d => d.totalpopulation), d => d.year); 
-//Flatten Arrays for output
-var forec_flat = [];
-for (let [key, value] of forec_sum) {
-  forec_flat.push({'year' : key, 'totalpopulation' : value});
-    };
-;
-// creating pop_chng data
-data[1].forEach(function(obj) {
-    if(obj.age >=  0 && obj.age <= 17) {obj.age_cat = "0 to 17"; }
-    if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24";}
-    if(obj.age >= 25 && obj.age <= 44) {obj.age_cat = "25 to 44"; }
-    if(obj.age >= 45 && obj.age <= 64) {obj.age_cat = "45 to 64"; }
-    if(obj.age >= 65 && obj.age <= 74) {obj.age_cat = "65 to 74";}
-	if(obj.age >= 75 && obj.age <= 84) {obj.age_cat = "75 to 84";}
-	if(obj.age >= 85) {obj.age_cat = "85 and Older";}
-    popchng_data.push({'year' : obj.year, 'age_cat' : obj.age_cat, 'totalpopulation' : parseInt(obj.totalpopulation)});
-});
-//Rolling up by year and agecat
-var popchng_sum = d3.rollup(popchng_data, v => d3.sum(v, d => d.totalpopulation), d => d.year, d => d.age_cat);
-
-//Flatten Arrays for output
-
-var popchng_temp = [];
-for (let [key1, value] of popchng_sum) {
-for (let[key2, value2] of value) {
-   popchng_temp.push({'year' : key1, 'age_cat' : key2, 'totalpopulation' : value2});
-}
-};
-//Creating data for Pop by Age latest year chart
-
-var latestYr_flat = [];
-var latestYr_sum2 = [];
-var latestYr_tmp = popchng_temp.filter(function(d) {return d.year == yrvalue});
-
-var latestYr_sum = d3.rollup(latestYr_tmp, v => d3.sum(v, d => d.totalpopulation));
-latestYr_sum2.push({'year' : yrvalue, 'age_cat' : 'All Ages', 'totalpopulation' : latestYr_sum});
-
-latestYr_flat = latestYr_sum2.concat(latestYr_tmp);
-
-//Creating data for Pop Chng chart
-var popchng_long = popchng_temp.filter(function(d) {return (d.year == 2020 || d.year == 2025)});
-
-var popchng_tmp = [];
-var popchng_flat = [];
-var ages = [... new Set(popchng_long.map(tag => tag.age_cat))];
-
-for(i = 0; i < ages.length; i++){
-	var tmp = popchng_long.filter(function(d) {return d.age_cat == ages[i]});
-    popchng_tmp.push({'age_cat' : ages[i], '2020' : tmp[0].totalpopulation, '2025' : tmp[1].totalpopulation}); 
-}
-
-// Rollup to creare total
- var columnsToSum = ['2020', '2025']
- var popchng_sum = d3.rollup(popchng_tmp, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])));
- var popchng_sum2 = [];
- 
-	popchng_sum2.push({'age_cat' : 'All Ages', '2020' : popchng_sum['2020'], '2025' : popchng_sum['2025']});
-
- var popchng_f = popchng_sum2.concat(popchng_tmp)
- var popchng_flat = [];
- popchng_f.forEach(function(obj){
-	    popchng_flat.push({'age_cat' : obj.age_cat, '2020' : obj['2020'], '2025' : obj['2025'], 'pct_chng' : ((obj['2025']/obj['2020'])-1)});
- });
- //END FORECASTS AND POPULATON CHANGE DATA
- 
-//NET MIGRATION DATA
-data[2].forEach( function(obj) {
-	netmig_flat.push({'county' : parseInt(obj.countyfips), 'age' : Number(obj.age), 'netmigration' : Number(obj.netmigration)});
-});
-
-netmig_flat = netmig_flat.filter(function(d) {return d.age < 90;});
-
 //Plotting 
 var config = {responsive: true,
               displayModeBar: false};
 //Clearing out divs
-var ESTIMATE = document.getElementById("est_output");
-var FORECAST = document.getElementById("forec_output");
-var COC = document.getElementById("coc_output");
-var MIGR = document.getElementById("mig_output");
-var AGE = document.getElementById("ageest_output");
-var POPCHNG = document.getElementById("popchng_output");
+var ESTIMATE = document.getElementById(plotdiv);
 ESTIMATE.innerHTML = "";
-FORECAST.innerHTML = "";
-COC.innerHTML = "";
-MIGR.innerHTML = "";
-AGE.innerHTML = "";
-POPCHNG.innerHTML = "";
 
-//Estimates
+
+//Prepping Plot
 
 
 var year_est_arr =[];
 var pop_est_arr = [];
 
-for(i = 0; i < est_flat.length; i++){
-	year_est_arr.push(est_flat[i].year);
-	pop_est_arr.push(est_flat[i].totalpopulation);
-};
+est_flat = est_flat.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+year_est_arr = est_flat.map(item => item.year);
+pop_est_arr = est_flat.map(item => item.totalpopulation);
 
 var est_trace = { 
                x: year_est_arr,
@@ -2261,8 +2114,35 @@ var est_layout = {
 		};
 
 Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
+};
 
-	   
+//Forecasts
+function forecastPlot(inData,plotdiv,yrvalue,fips,ctyName) {
+
+    const fmt_date = d3.timeFormat("%B %d, %Y");
+
+var forec_data = [];
+inData.forEach(function(obj) {
+    forec_data.push({'year' : obj.year,  'age' : Number(obj.age), 'totalpopulation' : Number(obj.totalpopulation)});
+	});
+	
+
+//Summing up forecast
+
+var forec_sum = d3.rollup(forec_data, v => d3.sum(v, d => d.totalpopulation), d => d.year); 
+//Flatten Arrays for output
+
+var forec_flat = [];
+for (let [key, value] of forec_sum) {
+  forec_flat.push({'year' : key, 'totalpopulation' : value});
+    };
+
+	var config = {responsive: true,
+              displayModeBar: false};
+//Clearing out divs
+var FORECAST = document.getElementById(plotdiv);
+
+FORECAST.innerHTML = "";
 
 //Population Projections
 
@@ -2270,10 +2150,9 @@ Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
 var year_forec_arr =[];
 var pop_forec_arr = [];
 
-for(i = 0; i < forec_flat.length; i++){
-	year_forec_arr.push(forec_flat[i].year);
-	pop_forec_arr.push(forec_flat[i].totalpopulation);
-};
+forec_flat = forec_flat.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+year_forec_arr = forec_flat.map(item => item.year);
+pop_forec_arr = forec_flat.map(item => item.totalpopulation);
 
 var forec_trace = { 
                x: year_forec_arr,
@@ -2321,6 +2200,48 @@ var forec_layout = {
 		};
  
 Plotly.newPlot(FORECAST, forec_data, forec_layout,config);
+};
+
+//Coc Plot
+function cocPlot(inData,plotdiv,yrvalue,fips,ctyName) {
+	    const fmt_date = d3.timeFormat("%B %d, %Y");
+//ESTIMATES AND COC DATA
+//push out vars 
+
+var coc_data = [];
+inData.forEach(function(obj) {
+	 coc_data.push({'year' : obj.year, 'county' : parseInt(obj.countyfips), 'totalpopulation' : Number(obj.totalpopulation),
+                    'naturalincrease' : Number(obj.naturalincrease), 'netmigration' : Number(obj.netmigration)});
+});
+
+var coc_flat = [];
+//Rollup data
+if(fips == "000") {
+    var columnsToSum = ['totalpopulation', 'naturalincrease', 'netmigration']
+	var coc_sum = d3.rollup(coc_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
+	
+	//Flatten Arrays for output
+
+	for (let [key, value] of coc_sum) {
+		coc_flat.push({'year' :key, 'totalpopulation' : value['totalpopulation'], 'naturalincrease' : value['naturalincrease'], 'netmigration' : value['netmigration']});
+	};
+} else {
+	var coc_flat = coc_data;
+};
+
+//Calculating total population change for coc_flat
+for(i = 1; i < coc_flat.length; i++){
+    coc_flat[i].popchng = coc_flat[i].totalpopulation - coc_flat[i-1].totalpopulation;
+    };
+
+	
+//Plotting 
+var config = {responsive: true,
+              displayModeBar: false};
+//Clearing out divs
+var COC = document.getElementById(plotdiv);
+
+COC.innerHTML = "";
 
 //Components of Change
 var year_coc_arr =[];
@@ -2328,12 +2249,12 @@ var pop_coc_arr = [];
 var incr_coc_arr = [];
 var migr_coc_arr = [];
 
-for(i = 0; i < coc_flat.length; i++){
-	year_coc_arr.push(coc_flat[i].year);
-	pop_coc_arr.push(coc_flat[i].popchng);
-	incr_coc_arr.push(coc_flat[i].naturalincrease);
-	migr_coc_arr.push(coc_flat[i].netmigration);
-};
+
+coc_flat = coc_flat.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+year_coc_arr = coc_flat.map(item => item.year);
+pop_coc_arr = coc_flat.map(item => item.popchng);
+incr_coc_arr = coc_flat.map(item => item.naturalincrease);
+migr_coc_arr = coc_flat.map(item => item.netmigration);
 
 var coc_trace1 = { 
                x: year_coc_arr,
@@ -2421,7 +2342,141 @@ var coc_layout = {
 			   showarrow : false}]
 		};
  
-Plotly.newPlot(COC, coc_data, coc_layout,config);
+Plotly.newPlot(COC, coc_data, coc_layout,config);	
+};
+
+//genDEMO outputs Plotly charts for the Demographic Dashboard
+function genDEMO(fips, ctyName, yrvalue){
+
+    const fmt_date = d3.timeFormat("%B %d, %Y");
+
+	// yrvalue = yrvalue - 1;  //REMOVE THIS AFTER ALL UPDATES ARE DONE
+	var fips_list; 
+	if(fips == "000") {
+      fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
+    } else {
+		fips_list = parseInt(fips);
+	};		
+//Estimates and components of change chart
+
+	var yr_list = 1985;
+	for(i = 1986; i <= yrvalue; i++){
+		yr_list = yr_list + "," + i;
+	};
+	
+	var esturl = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalpopulation,naturalincrease,netmigration";
+	
+//forecasts and age projections
+   var forc_yrs = 2010;
+   	for(i = 2011; i <= 2050; i++){
+		forc_yrs = forc_yrs + "," + i;
+	};
+
+    if(fips == "000") {
+		var forcurl = "https://gis.dola.colorado.gov/lookups/sya_regions?reg_num=0&year=" + forc_yrs + "&choice=single"
+	} else {
+		var forcurl = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + forc_yrs + "&choice=single&group=3"
+	}; 
+
+//Net migration by age 
+   var netmigurl = 'https://gis.dola.colorado.gov/lookups/migbyage?county=' + parseInt(fips);
+
+
+var prom = [d3.json(esturl),d3.json(forcurl),d3.json(netmigurl)];
+
+
+Promise.all(prom).then(function(data){
+	
+var popchng_data = [];
+var netmig_flat = [];
+
+
+// creating pop_chng data
+data[1].forEach(function(obj) {
+    if(obj.age >=  0 && obj.age <= 17) {obj.age_cat = "0 to 17"; }
+    if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24";}
+    if(obj.age >= 25 && obj.age <= 44) {obj.age_cat = "25 to 44"; }
+    if(obj.age >= 45 && obj.age <= 64) {obj.age_cat = "45 to 64"; }
+    if(obj.age >= 65 && obj.age <= 74) {obj.age_cat = "65 to 74";}
+	if(obj.age >= 75 && obj.age <= 84) {obj.age_cat = "75 to 84";}
+	if(obj.age >= 85) {obj.age_cat = "85 and Older";}
+    popchng_data.push({'year' : obj.year, 'age_cat' : obj.age_cat, 'totalpopulation' : parseInt(obj.totalpopulation)});
+});
+//Rolling up by year and agecat
+var popchng_sum = d3.rollup(popchng_data, v => d3.sum(v, d => d.totalpopulation), d => d.year, d => d.age_cat);
+
+//Flatten Arrays for output
+
+var popchng_temp = [];
+for (let [key1, value] of popchng_sum) {
+for (let[key2, value2] of value) {
+   popchng_temp.push({'year' : key1, 'age_cat' : key2, 'totalpopulation' : value2});
+}
+};
+//Creating data for Pop by Age latest year chart
+
+var latestYr_flat = [];
+var latestYr_sum2 = [];
+var latestYr_tmp = popchng_temp.filter(function(d) {return d.year == yrvalue});
+
+var latestYr_sum = d3.rollup(latestYr_tmp, v => d3.sum(v, d => d.totalpopulation));
+latestYr_sum2.push({'year' : yrvalue, 'age_cat' : 'All Ages', 'totalpopulation' : latestYr_sum});
+
+latestYr_flat = latestYr_sum2.concat(latestYr_tmp);
+
+//Creating data for Pop Chng chart
+var popchng_long = popchng_temp.filter(function(d) {return (d.year == 2020 || d.year == 2025)});
+
+var popchng_tmp = [];
+var popchng_flat = [];
+var ages = [... new Set(popchng_long.map(tag => tag.age_cat))];
+
+for(i = 0; i < ages.length; i++){
+	var tmp = popchng_long.filter(function(d) {return d.age_cat == ages[i]});
+    popchng_tmp.push({'age_cat' : ages[i], '2020' : tmp[0].totalpopulation, '2025' : tmp[1].totalpopulation}); 
+}
+
+// Rollup to creare total
+ var columnsToSum = ['2020', '2025']
+ var popchng_sum = d3.rollup(popchng_tmp, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])));
+ var popchng_sum2 = [];
+ 
+	popchng_sum2.push({'age_cat' : 'All Ages', '2020' : popchng_sum['2020'], '2025' : popchng_sum['2025']});
+
+ var popchng_f = popchng_sum2.concat(popchng_tmp)
+ var popchng_flat = [];
+ popchng_f.forEach(function(obj){
+	    popchng_flat.push({'age_cat' : obj.age_cat, '2020' : obj['2020'], '2025' : obj['2025'], 'pct_chng' : ((obj['2025']/obj['2020'])-1)});
+ });
+ //END FORECASTS AND POPULATON CHANGE DATA
+ 
+//NET MIGRATION DATA
+data[2].forEach( function(obj) {
+	netmig_flat.push({'county' : parseInt(obj.countyfips), 'age' : Number(obj.age), 'netmigration' : Number(obj.netmigration)});
+});
+
+netmig_flat = netmig_flat.filter(function(d) {return d.age < 90;});
+
+//Plotting 
+
+	estPlot(data[0],"est_output",yrvalue, fips, ctyName);
+	forecastPlot(data[1], "forec_output", yrvalue, fips, ctyName);
+	cocPlot(data[0],"coc_output", yrvalue, fips, ctyName);
+
+//Plotting 
+var config = {responsive: true,
+              displayModeBar: false};
+			  
+var ESTIMATE = document.getElementById("est_output");
+var FORECAST = document.getElementById("forec_output");
+var COC = document.getElementById("coc_output");
+var MIGR = document.getElementById("mig_output");
+var AGE = document.getElementById("ageest_output");
+var POPCHNG = document.getElementById("popchng_output");
+
+MIGR.innerHTML = "";
+AGE.innerHTML = "";
+POPCHNG.innerHTML = "";
 
 //Net Migration
 
