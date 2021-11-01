@@ -401,9 +401,9 @@ details main {
 }
 
 .dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
+  color: blue;
+  padding: 6px 6px;
+  text-decoration: underline;
   display: block;
 }
 .dropdown-content a {font-size : 10pt;}
@@ -413,6 +413,11 @@ details main {
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
+.dd-list {
+ list-style-type: none;
+  margin: 0;
+  padding : 0;
+}
 
 
 /* Grid Styles  Panel number designation: panel_row_column*/
