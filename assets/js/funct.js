@@ -1661,7 +1661,7 @@ function exportToCsv(cname, type, rows, yr) {
 			var fileName = "Components of Change " + cname + ".csv";
 		};
 		if(type == 'netmig') {
-			var fileName = "Net Migration by Age 2000-2010 " + cname + ".csv";
+			var fileName = "Net Migration by Age " + cname + ".csv";
 		};
 		if(type == 'age') {
 			var fileName = "Age Categories " + cname + ".csv";
@@ -3625,43 +3625,10 @@ var popchng_layout = {
 		};
  Plotly.newPlot(POPCHNG, popchng_data, popchng_layout,config);
  
- //changing vname and preparing out files
 
- var agedata_names = {
-	        age_cat : "Age Group",
-			totalpopulation : "Total Population " + yrvalue,
-            percent : "Percent"
-			};
- 
-var agedata_shift =[];
-for(i = 0; i < ageplot_flat.length; i++){
-	agedata_shift.push({ age_cat : ageplot_flat[i].age_cat,
-	                     totalpopulation : fmt_comma(ageplot_flat[i].totalpopulation),
-	                     percent : fmt_pct1(ageplot_flat[i].percent) });
-};
-
- var agedata_out  = changeKeyObjects(agedata_shift, agedata_names);
-
- var popchng_names = {
-	        age_cat : "Age Group",
-			p0 : "Population " + yrvalue,
-			p1 : "Population " + endyr,
-            pctchng : "Percent Change"
-			};
-
-
- var popchng_shift = [];
- for(i = 0; i < popchng_flat.length;  i++){
-	 popchng_shift.push({age_cat : popchng_flat[i].age_cat,
-	                   p0 : fmt_comma(popchng_flat[i].p0),
-					   p1 : fmt_comma(popchng_flat[i].p1),
-	                   pctchng: (popchng_flat[i].pctchng < 0) ? "-" + fmt_pct1(popchng_flat[i].pctchng * -1) : fmt_pct1(popchng_flat[i].pctchng)
-	 })
- };
- 
- var popchng_out = changeKeyObjects(popchng_shift,popchng_names);
- 
-return([agedata_out, popchng_out]);
+return([forec_flat, ageplot_flat, popchng_flat]);
+} else {
+	return([forec_flat]);
 }; //Dashboard
 
 }; //forecast plot
@@ -3937,7 +3904,9 @@ Plotly.newPlot(COC, coc_data, coc_layout,config);
 function genDEMO(geotype, fips, ctyName, yrvalue){
 
     const fmt_date = d3.timeFormat("%B %d, %Y");
-
+	const fmt_pct1 = d3.format(".1%");
+	const fmt_comma = d3.format(",");
+    var endyr = yrvalue + 10;
 	var fips_list; 
 	
 	if(geotype == "region"){
@@ -4081,8 +4050,139 @@ var	fore_Data = forecastPlot(forecast_data, "dashboard", fore_output, yrvalue, f
 	netmigPlot(netmig_data, "mig_output", fips, ctyName);
 	cocPlot(est_data,"coc_output", yrvalue, fips, ctyName);
 
+//Preparing final datafiles
+//Estimates
+var est_names = {
+	   fips : "FIPS",
+	   name : "Location",
+	   year : "Year",
+	   totalpopulation : "Population Estimate"
+       };
+ 
+var est_shift =[];  
+for(i = 0; i < est_data.length; i++){
+    est_shift.push({ fips : fips,
+                     name : ctyName,
+					 year : est_data[i].year,
+					 totalpopulation : fmt_comma(est_data[i].totalpopulation)
+	})
+}
+
+var est_out = changeKeyObjects(est_shift, est_names);
+
+//Forecasts
+var forecast_names = {
+	       fips : 'FIPS',
+		   name : 'Location',
+		   year : 'Year',
+		   totalpopulation : "Population"
+         };
+		 
+var forecast_shift = [];
+ for(i = 0; i < fore_Data[0].length; i++){
+	 forecast_shift.push({fips : fips,
+	                      name : ctyName,
+						  year : fore_Data[0][i].year,
+						  totalpopulation : fmt_comma(fore_Data[0][i].totalpopulation)
+	 });
+ }
+var forecast_out = changeKeyObjects(forecast_shift,forecast_names);
+
+//Coc
+var coc_names = {
+	    fips : 'FIPS',
+		name : 'Location',
+		year : 'Year',
+		totalpopulation : 'Total Population',
+		births : 'Births',
+		death : 'Deaths',
+		naturalincrease : 'Natural Increase',
+		netmigration : 'Net Migration'
+}
+
+var coc_shift = [];
+for(i = 0; i < est_data.length; i++){
+	coc_shift.push({
+		   fips : fips,
+		   name : ctyName,
+		   year : est_data[i].year,
+		   totalpopulation : fmt_comma(est_data[i].totalpopulation),
+		   births : fmt_comma(est_data[i].births),
+		   deaths : fmt_comma(est_data[i].deaths),
+           naturalincrease : fmt_comma(est_data[i].naturalincrease),
+		   netmigration : fmt_comma(est_data[i].netmigration)
+	})
+}	
+var coc_out = changeKeyObjects(coc_shift,coc_names);
+	
+//Netmig 
+var netmig_names = {
+			fips : "FIPS",
+			loc : "Location",
+	        age : "Age Group",
+			NetMig9500 : "Net Migration 1995-2000",
+			NetMig0010 : "Net Migration 2000 -2010",
+			NetMig1020 : "Net Migration 2010-2020"
+		}
+var netmig_shift = [];
+for(i = 0; i < netmig_data.length; i++){
+    netmig_shift.push({ fips : fips,
+	                    loc : ctyName,
+	                    age : netmig_data[i].age,
+						NetMig9500 : fmt_comma(netmig_data[i].NetMig9500),
+						NetMig0010 : fmt_comma(netmig_data[i].NetMig0010),
+						NetMig1020 : fmt_comma(netmig_data[i].NetMig1020)
+	})
+	}
+	var netmig_out = changeKeyObjects(netmig_shift, netmig_names);
+	
+//Age change
+
+ var agedata_names = {
+	        fips : "FIPS",
+			loc : "Location",
+	        age_cat : "Age Group",
+			totalpopulation : "Total Population " + yrvalue,
+            percent : "Percent"
+			};
+ 
+var agedata_shift =[];
+for(i = 0; i < fore_Data[1].length; i++){
+	agedata_shift.push({ fips : fips,
+	                     loc : ctyName,
+	                     age_cat : fore_Data[1][i].age_cat,
+	                     totalpopulation : fmt_comma(fore_Data[1][i].totalpopulation),
+	                     percent : fmt_pct1(fore_Data[1][i].percent) 
+						 });
+};
+
+ var agedata_out  = changeKeyObjects(agedata_shift, agedata_names);
+ 
+//Popchng
+ var popchng_names = {
+	        fips : "FIPS",
+			loc : "Location",
+	        age_cat : "Age Group",
+			p0 : "Population " + yrvalue,
+			p1 : "Population " + endyr,
+            pctchng : "Percent Change"
+			};
 
 
+ var popchng_shift = [];
+ for(i = 0; i < fore_Data[2].length;  i++){
+	 popchng_shift.push({
+		               fips : fips,
+					   loc : ctyName,
+		               age_cat : fore_Data[2][i].age_cat,
+	                   p0 : fmt_comma(fore_Data[2][i].p0),
+					   p1 : fmt_comma(fore_Data[2][i].p1),
+	                   pctchng: (fore_Data[2][i].pctchng < 0) ? "-" + fmt_pct1(fore_Data[2][i].pctchng * -1) : fmt_pct1(fore_Data[2][i].pctchng)
+	 })
+ };
+ 
+ var popchng_out = changeKeyObjects(popchng_shift,popchng_names);
+ 
 //Download trigger events
 //Generating DOM links
 var ESTIMATE = document.getElementById("est_output");
@@ -4096,7 +4196,7 @@ var COC = document.getElementById("coc_output");
 var est_csv = document.getElementById('est_csv');
 var est_png = document.getElementById('est_png');
 est_csv.onclick = function() {
-	  exportToCsv(ctyName, 'estimate', est_data,0);
+	  exportToCsv(ctyName, 'estimate', est_out,0);
      }; 
 est_png.onclick = function() {
 	   exportToPng(ctyName, 'estimate', ESTIMATE,0);
@@ -4106,7 +4206,7 @@ est_png.onclick = function() {
 var forec_csv = document.getElementById('forec_csv');
 var forec_png = document.getElementById('forec_png');
 forec_csv.onclick = function() {
-	  exportToCsv(ctyName, 'forecast', forecast_data,0);
+	  exportToCsv(ctyName, 'forecast', forecast_out,0);
      }; 
 forec_png.onclick = function() {
 	   exportToPng(ctyName, 'forecast', FORECAST,0);
@@ -4116,7 +4216,7 @@ forec_png.onclick = function() {
 var coc_csv = document.getElementById('coc_csv');
 var coc_png = document.getElementById('coc_png');
 coc_csv.onclick = function() {
-	  exportToCsv(ctyName, 'coc', est_data,0);
+	  exportToCsv(ctyName, 'coc', coc_out,0);
      }; 
 coc_png.onclick = function() {
 	   exportToPng(ctyName, 'coc', COC,0);
@@ -4126,17 +4226,17 @@ coc_png.onclick = function() {
 var mig_csv = document.getElementById('mig_csv');
 var mig_png = document.getElementById('mig_png');
 mig_csv.onclick = function() {
-	  exportToCsv(ctyName, 'netmig', netmig_data,0);
+	  exportToCsv(ctyName, 'netmig', netmig_out,0);
      }; 
 mig_png.onclick = function() {
-	   exportToPng(ctyName, 'netmig', MIGR,0);
+	   exportToPng(ctyName, 'netmig', NETMIG,0);
      };
 	 
 //Age
 var age_csv = document.getElementById('age_csv');
 var age_png = document.getElementById('age_png');
 age_csv.onclick = function() {
-	  exportToCsv(ctyName, 'age', fore_Data[0],0);
+	  exportToCsv(ctyName, 'age', agedata_out,0);
      }; 
 age_png.onclick = function() {
 	   exportToPng(ctyName, 'age', AGEPLOT,0);
@@ -4146,7 +4246,7 @@ age_png.onclick = function() {
 var popchng_csv = document.getElementById('popchng_csv');
 var popchng_png = document.getElementById('popchng_png');
 popchng_csv.onclick = function() {
-	  exportToCsv(ctyName, 'popchng', fore_Data[1],0);
+	  exportToCsv(ctyName, 'popchng', popchng_out,0);
      }; 
 popchng_png.onclick = function() {
 	   exportToPng(ctyName, 'popchng', POPCHNG,0);
