@@ -4116,7 +4116,7 @@ forec_png.onclick = function() {
 var coc_csv = document.getElementById('coc_csv');
 var coc_png = document.getElementById('coc_png');
 coc_csv.onclick = function() {
-	  exportToCsv(ctyName, 'coc', netmig_data,0);
+	  exportToCsv(ctyName, 'coc', est_data,0);
      }; 
 coc_png.onclick = function() {
 	   exportToPng(ctyName, 'coc', COC,0);
