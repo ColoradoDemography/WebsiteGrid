@@ -7,12 +7,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
 <!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+     integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" 
+	 crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- SDO CSS -->
 <link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
 <!-- adding d3.js  for data manipulation-->
  <script src="https://d3js.org/d3.v6.min.js"></script>
 <!-- Adding Plotly.js for  charting -->
+
+<!-- Adding jquery and datatables for table production -->
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous">
+</script>
  <script src="https://cdn.plot.ly/plotly-2.2.0.min.js" charset="utf-8"></script>
 <!-- SDO suport functions, genSYA, insertHTML, -->
 <script src="../js/funct.js"></script>
@@ -32,16 +41,42 @@
   <b>Demographic Dashboard</b>
    <br><br>INSTRUCTIONS:
    <p>
-   The following page shows graphs and charts for various datasets by county. Select the county from the list below to view the graphs for that county. 
+   The following page shows graphs and charts for various datasets by county and multi-county region. 
+   Select the geography type and geography from the list below to view the graphs for that county. 
+   Selected graphs can be modified to show custom age ranges.
    You can hover over specific data points on each graph to view the data for that specific point.
    </p>
    Click on the download icon on the left of each chart to download the chart, the underlying data, and links to the data source.
    <br><br>
    <b><i>This data visualization can only be viewed on a tablet or desktop.</i></b>
    <br><br>
- 	 <label for="county-dropdown"><b>Select County:</b></label>
-	 <select class="county-dropdown" id="county-dropdown"></select>
-  </div>
+   <table style="border-collapse: collapse; border : none;">
+   <tr>
+ 	<td style="border : none; width: 25%;">
+	<p class="entry_text">Select Geography Type:</p>
+	</td>
+	<td style="border : none; width: 37%;">
+	 <p class="entry_text">Select Geography:</p> 
+	 </td>
+	 <td style="border : none; width: 37%;">
+    <p class="entry_text" id="county-lbl">Select County in Region:</p>
+	</td>
+	</tr>
+	<tr>
+	<td style="border : none; width: 25%;">
+	<select class="geo-dropdown" id="geo-dropdown">
+		<option value="county">County</option>
+		<option value = "region">Region</option>
+	 </select>
+	</td>
+	<td style="border : none; width: 37%;"> 
+	 <select class="location-dropdown" id="location-dropdown"></select>
+	 </td>
+	<td style="border : none; width: 37%;">
+    <select class="county-dropdown" id="county-dropdown"></select>
+    </td>
+	</tr>
+	</table>
   <div class="grid-item app-panel_3_2">
       <div class="dropdown AClass">
 		  <button class="dropbtn"  id="estimate"><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
@@ -129,7 +164,11 @@ includeHTML();
 hideButtons();
 
 /* Populate County Dropdown */
-popDropdown('county','county-dropdown')
+var ctyDrop = document.getElementById("county-dropdown");
+var ctyDroplbl = document.getElementById("county-lbl");
+ctyDroplbl.style.display = 'none';
+ctyDrop.style.display = 'none';
+popDropdown('county','location-dropdown')
 
 //generating maximum year value for estimates
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
@@ -139,19 +178,52 @@ d3.json(urlstr).then(function(yeardata){
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
     var yrvalue = d3.max(yrsList); 
-console.log(yrvalue);
 
 //Generate Initial Tables
 showButtons();
 
-genDEMO("000","Colorado", yrvalue);
-
+genDEMO("county", "000","Colorado", yrvalue);
+d3.select("#geo-dropdown").on("change", function(d,i) {
+      var selectedGeo = d3.select("#geo-dropdown").property('value');
+	  popDropdown(selectedGeo,'location-dropdown');
+	  var selectedfips = d3.select("#location-dropdown").property('value');
+	  var selectedregion = d3.select("#location-dropdown option:checked").text();
+	  genDEMO(selectedGeo,selectedfips,selectedregion,yrvalue);
+//Display drilldown boxes
+	  if(selectedGeo == 'region') {
+	    if (ctyDrop.style.display === "none") {
+		    ctyDroplbl.style.display = "block";
+			ctyDrop.style.display = "block";
+			popCtyDrop(selectedfips,'county-dropdown');
+		} else {
+		    ctyDroplbl.style.display = "none";
+			ctyDrop.style.display = "none";
+		}
+	  } else {
+	  	 ctyDroplbl.style.display = "none";
+	     ctyDrop.style.display = "none";
+		}
+	  });
+	  
+d3.select("#location-dropdown").on("change", function(d,i) {
+	    var selectedGeo = d3.select("#geo-dropdown").property('value');
+        var selectedfips = d3.select("#location-dropdown").property('value');
+		var selectedcounty = d3.select('#location-dropdown option:checked').text();
+        genDEMO(selectedGeo,selectedfips,selectedcounty,yrvalue);
+		if(selectedGeo == 'region') {
+		   popCtyDrop(selectedfips,'county-dropdown');
+		}
+    });
+//Drill down for region...
 d3.select("#county-dropdown").on("change", function(d,i) {
         var selectedfips = d3.select("#county-dropdown").property('value');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
-
-        genDEMO(selectedfips,selectedcounty,yrvalue);
-    });
+		if(selectedcounty.includes("County")){
+             genDEMO("county",selectedfips,selectedcounty,yrvalue); 
+			 } else {
+			  genDEMO("region",selectedfips,selectedcounty,yrvalue); 
+			  }
+		});
 }); //end of maximum year value
 
 </script>
