@@ -5,13 +5,15 @@
 
 //Utility Function
 
+
+
 //hideButtons  selects and hides all "dropbtn" class buttons
 function hideButtons() {
 	btn = document.getElementsByClassName("dropbtn"); 
 	for(i = 0; i < btn.length; i++){
 		btn[i].style.display = "none";
 	};
-}; //end of h3648ideButtons
+}; //end of hideButtons
 
 //changeKeyObjects 
 function changeKeyObjects(arr, replaceKeys) {
@@ -1574,7 +1576,7 @@ if(regnum == 31) {fips.push({'fips' : ['037'], 'color' :  '#191970'})};
 if(regnum == 32) {fips.push({'fips' : ['087'], 'color' :  '#000080'})};
 if(regnum == 33) {fips.push({'fips' : ['045','097'], 'color' :  '#E7FEFF'})};
 if(regnum == 34) {fips.push({'fips' : ['085','091'], 'color' :  '#BCD4E6'})};
-if(regnum == 35) {fips.push({'fips' : ['107'], 'color' :  '#ABCDEF'})};
+if(regnum == 35) {fips.push({'fips' : ['107'], 'color' :  '#AcBCDEF'})};
 if(regnum == 36) {fips.push({'fips' : ['075'], 'color' :  '#8A2BE2'})};
 if(regnum == 37) {fips.push({'fips' : ['001', '005', '014', '031', '035', '059'], 'color' :  '#35647E'})};
 if(regnum == 38) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035', '059'], 'color' :  '#427D9E'})};
