@@ -20,7 +20,8 @@
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
+  crossorigin="anonymous">
+</script>
  
 <!-- Datatables -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.6.0/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.css"/>
@@ -236,8 +237,6 @@ document.getElementById('genprofile').onclick = function changeContent() {
 
 	 var fips_arr = selectedloc.toString().split(',');
 	 var fips_name = selectedname.toString().split(',');
-	 var PROFILE_MAP = document.getElementById('profile-content1');
-	 var PROFILE_TAB = document.getElementById('profile-content2');
 	 
 	 
 //Prepping selected topics
@@ -254,8 +253,7 @@ document.getElementById('genprofile').onclick = function changeContent() {
 	 for(j = 0; j < btns.length;j++){
 		    btns[j].style.display = "none";
 		}; //j loop 1
-PROFILE_MAP.innerHTML = "";
-PROFILE_TAB.innerHTML = "";
+
      var btnval;
 	 for(i = 0; i < proVal.length;i++){
 	    btnval = proVal[i] + 'btn';
@@ -267,7 +265,7 @@ PROFILE_TAB.innerHTML = "";
 		}; //j loop 2
 	 }; // i loop
 
-genProfile(selectedlevel, fips_arr,proVal, fips_name,PROFILE_MAP, PROFILE_TAB);
+genProfile(selectedlevel, fips_arr,proVal, fips_name);
 
 } //End
 </script>
