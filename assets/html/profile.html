@@ -179,16 +179,20 @@ document.getElementById('sel8').checked = true;
 popDropdown('profile','profile-dropdown');
 
 d3.select("#profile-dropdown").on("change", function(d,i) {
+document.getElementById("location-label").innerHTML = "";
        document.getElementById('location-dropdown').style.display = "block";
 	   document.getElementById('location-dropdown').innerHTML = null;
+	   document.getElementById("location-label").innerHTML = null;
+
 	   var selectedtype = d3.select('#profile-dropdown option:checked').text();
 	   var selectedfips = d3.select("#profile-dropdown").property('value');
 	   // changing dropdown to multiple
 	   if(selectedtype.includes("Comparison")) {
+	      
 	      if(selectedfips == "region"){
 	              document.getElementById("location-label").innerHTML = "Select Regions:";
 				  };
-		  if(selectedfips == "countypro"){
+		  if(selectedfips == "county"){
 	              document.getElementById("location-label").innerHTML = "Select Counties:";
 				  };
 		  if(selectedfips == "municipality"){
@@ -202,7 +206,7 @@ d3.select("#profile-dropdown").on("change", function(d,i) {
 	      	      if(selectedfips == "region"){
 	              document.getElementById("location-label").innerHTML = "Select Region:";
 				  };
-		  if(selectedfips == "countypro"){
+		  if(selectedfips == "county"){
 	              document.getElementById("location-label").innerHTML = "Select County:";
 				  };
 		  if(selectedfips == "municipality"){
