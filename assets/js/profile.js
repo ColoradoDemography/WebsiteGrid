@@ -63,12 +63,21 @@ function profileContent(invalue) {
 
 //selGeo selects Municipalities and CDPs formatting in sel1 of profile
 function selGeo(fipsArr,ctyData,type){
-	 if(type == "county") {
-	var chkval =  ctyData.properties.COUNTYFP;
+	debugger;
+		const regList = ['Region', 'Regional Comparison'];
+		const ctyList = ['County', 'County Comparison']	
+
+	 if(ctyList.includes(type) || regList.includes(type)) {
+		var chkval =  ctyData.properties.COUNTYFP;
 	 } else {
 	 	  var ckkval = ctyData.placefp; 
 	 };
- 	return (fipsArr.includes(chkval))
+	if (regList.includes(type)) {
+		var regFips = regionCol(fipsArr);
+		return (regFips[0].fips.includes(ckval));
+	  } else {
+ 	    return (fipsArr.includes(chkval));
+	  }
 }
 //end selGeo
 
@@ -718,7 +727,7 @@ if(fipsArr.includes(data[1][i].placefp)){
 //Appending the svg
 var div = d3.select(outputProfile).append("div").attr("class","tooltip").style("opacity",0);
 var coMap = d3.select(outputProfile).append('svg').attr('width', width).attr('height', height);
-    
+    	
 
 if(ctyList.includes(level)) {
 
@@ -735,8 +744,8 @@ if(ctyList.includes(level)) {
       .on("mouseover", function(event,d,i) {  
             div.transition()        
                 .duration(200)      
-                .style("opacity", function() {return selGeo(fipsArr,d,"county") ? 1 : 0;}); 
-            div.text(function() {return selGeo(fipsArr,d,"county") ? d.properties.NAMELSAD : "";}) 
+                .style("opacity", function() {return selGeo(fipsArr,d,level) ? 1 : 0;}); 
+            div.text(function() {return selGeo(fipsArr,d,level) ? d.properties.NAMELSAD : "";}) 
                 .style("left", (event.pageX) + "px")     
                 .style("top", (event.pageY - 28) + "px");    
             })                  
@@ -1248,7 +1257,7 @@ if(muniList.includes(level) || placeList.includes(level)){
 				footer : true
             }
         ],
-		"bSort" : false,
+		"bSort" : true,
 		data: outtab,
 		columns : labels,
 		columnDefs: [
@@ -1288,7 +1297,7 @@ if(muniList.includes(level) || placeList.includes(level)){
 				footer: true
             }
         ],
-		"bSort" : false,
+		"bSort" : true,
 		data: outtab,
 		columns : labels,
 		columnDefs: [

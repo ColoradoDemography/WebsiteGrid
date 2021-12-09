@@ -1459,12 +1459,16 @@ var place =[{'location' :  'Acres Green CDP' , 'fips' : '00320'}, {'location' : 
 		{'location' :  'Westcreek CDP' , 'fips' : '83500'}, {'location' :  'Weston CDP' , 'fips' : '84000'},
 		{'location' :  'Wolcott CDP' , 'fips' : '85760'}, {'location' :  'Woodmoor CDP' , 'fips' : '86117'}]
 
-//Profile selection
+//Profile selection -- Removing Comparisons and CDPs  
 var profile = [{'location' :  'Select Profile' , 'fips' : ''},{'location' :  'Region' , 'fips' : 'region'}, {'location' :  'County' , 'fips' : 'county'},
-		{'location' :  'Municipality', 'fips' : 'municipality'}, {'location' :  'Census Designated Place' , 'fips' : 'place'},
+		{'location' :  'Municipality', 'fips' : 'municipality'}
+	/*
+        {'location' :  'Census Designated Place' , 'fips' : 'place'},
 		{'location' :  'Regional Comparison' , 'fips' : 'regioncomp'}, {'location' :  'County Comparison' , 'fips' : 'countycomp'},
-		{'location' :  'Municipal Comparison', 'fips' : 'municipalitycomp'}, {'location' :  'Census Designated Place Comparison' , 'fips' : 'placecomp'}]
-		
+        {'location' :  'Municipal Comparison', 'fips' : 'municipalitycomp'}
+	,   {'location' :  'Census Designated Place Comparison' , 'fips' : 'placecomp'}
+	*/
+	]	
 
 if(level == 'region') { var locarr = region};
 if(level == 'county') {var locarr = county};
