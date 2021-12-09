@@ -1556,7 +1556,7 @@ if(regnum == 11) {fips.push({'fips' : ['009','011','025','061','089','099'],  'c
 if(regnum == 12) {fips.push({'fips' : ['101'],  'color' : '#DDCC77'})};
 if(regnum == 13) {fips.push({'fips' : ['003','021','023','079','105','109'],  'color' : '#999933'})};
 if(regnum == 14) {fips.push({'fips' : ['007','033','067','083','111'],  'color' : '#CC6677'})};
-if(regnum == 15) {fips.push({'fips' : ['029','051','053','085','091','113'], 'color' : '#882255'})};
+if(regnum == 15) {fips.push({'fips' : ['029','051','053','085','091','113'], 'color' : '#F8F8F8'})};
 if(regnum == 16) {fips.push({'fips' : ['045','077','081','103','107'],  'color' : '#AA4499'})};
 if(regnum == 17) {fips.push({'fips' : ['037','049','057','097','117'], 'color' : '#DDDDDD'})};
 if(regnum == 18) {fips.push({'fips' : ['015','027','043','065'], 'color' : '#BBCC33'})};
