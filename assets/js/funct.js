@@ -539,7 +539,7 @@ if(nam[i] == 'Fort Collins') {regionNum = 23};
 if(nam[i] == 'Grand Junction') {regionNum = 24};
 if(nam[i] == 'Greeley') {regionNum = 25};
 if(nam[i] == 'Pueblo') {regionNum = 26};
-if(nam[i] == 'Breckenridge') {regionNum = 26};
+if(nam[i] == 'Breckenridge') {regionNum = 27};
 if(nam[i] == 'Ca\u00f1on City') {regionNum = 28};
 if(nam[i] == 'Craig') {regionNum = 29};
 if(nam[i] == 'Durango') {regionNum = 30};
@@ -585,7 +585,7 @@ if(reg == 23) {name =  'Fort Collins'};
 if(reg == 24) {name =  'Grand Junction'};
 if(reg == 25) {name =  'Greeley'};
 if(reg == 26) {name =  'Pueblo'};
-if(reg == 26) {name =  'Breckenridge'};
+if(reg == 27) {name =  'Breckenridge'};
 if(reg == 28) {name =  'Ca\u00f1on City'};
 if(reg == 29) {name =  'Craig'};
 if(reg == 30) {name =  'Durango'};
@@ -1212,7 +1212,7 @@ var region =  [
 				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Grand Junction', 'regnum' : '24'},
 				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Greeley', 'regnum' : '25'},
 				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Pueblo', 'regnum' : '26'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Breckenridge', 'regnum' : '26'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Breckenridge', 'regnum' : '27'},
 				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Ca\u00f1on City', 'regnum' : '28'},
 				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Craig', 'regnum' : '29'},
 				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Durango', 'regnum' : '30'},
@@ -1571,7 +1571,7 @@ if(regnum == 22) {fips.push({'fips' : ['001','005','014','019','031','035','039'
 if(regnum == 23) {fips.push({'fips' : ['069'],  'color' : '#FFAABB'})};
 if(regnum == 24) {fips.push({'fips' : ['077'],  'color' : '#99DDFF'})};
 if(regnum == 25) {fips.push({'fips' : ['123'],  'color' : '#44BB99'})};
-if(regnum == 26) {fips.push({'fips' : ['101'],  'color' : '#DDDDDD'})};
+if(regnum == 26) {fips.push({'fips' : ['101'],  'color' : '#DDCC77'})};
 if(regnum == 27) {fips.push({'fips' : ['117'], 'color' : '#E69F00'})};
 if(regnum == 28) {fips.push({'fips' : ['043'],  'color' : '#56B4E9'})};
 if(regnum == 29) {fips.push({'fips' : ['081'],  'color' : '#009E73'})};

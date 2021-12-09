@@ -63,7 +63,7 @@ function profileContent(invalue) {
 
 //selGeo selects Municipalities and CDPs formatting in sel1 of profile
 function selGeo(fipsArr,ctyData,type){
-	debugger;
+	
 		const regList = ['Region', 'Regional Comparison'];
 		const ctyList = ['County', 'County Comparison']	
 
@@ -73,8 +73,8 @@ function selGeo(fipsArr,ctyData,type){
 	 	  var ckkval = ctyData.placefp; 
 	 };
 	if (regList.includes(type)) {
-		var regFips = regionCol(fipsArr);
-		return (regFips[0].fips.includes(ckval));
+		var regFips = regionCOL(fipsArr);
+		return (regFips[0].fips.includes(chkval));
 	  } else {
  	    return (fipsArr.includes(chkval));
 	  }
@@ -1257,6 +1257,7 @@ if(muniList.includes(level) || placeList.includes(level)){
 				footer : true
             }
         ],
+		"order": [],
 		"bSort" : true,
 		data: outtab,
 		columns : labels,
@@ -1297,6 +1298,7 @@ if(muniList.includes(level) || placeList.includes(level)){
 				footer: true
             }
         ],
+		"order": [],
 		"bSort" : true,
 		data: outtab,
 		columns : labels,
