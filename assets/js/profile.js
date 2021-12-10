@@ -184,9 +184,9 @@ for(i = 0; i < uniqids.length; i++) {
 	var id = outtab.filter(d => d.fips == uniqids[i]);
 	var est1 = id[0].estimate;
 	var est2 = id[1].estimate;
-	var diff = est2 - est1;
-	var pctdiff = diff/est1;
-    output.push({'fips' : id[0].fips, "name" : id[0].name, yr1 : est1, yr2 : est2, "popch" : diff, "growth" : pctdiff});
+	var numdiff = est2 - est1;
+	var pctdiff = numdiff/est1;
+    output.push({'fips' : id[0].fips, 'name' : id[0].name, 'yr1' : est1, 'yr2' : est2, 'popch' : numdiff, 'growth' : pctdiff});
 }
 
 
@@ -227,10 +227,9 @@ if(regList.includes(geog)){
 		var med_tmp = [];
 		var regionDat = []
 		var fipslist = regionCOL(fipsArr[i]);
-		var tmp_list = [];
-		 for(j = 0; j < fipslist[0].fips.length; j++) {
-			 tmp_list.push(parseInt(fipslist[0].fips[j]));
-		 }
+		var tmp_list = fipslist[0].fips.map(function (x) { 
+					return parseInt(x, 10); 
+			});
 		var filtvalue = medvalue.filter(function(d) {return tmp_list.includes(d.fips)});
 		var rangeArr = [];
 		for(l = 0; l < filtvalue.length; l++){
@@ -283,10 +282,9 @@ if(regList.includes(geog)){
 		var pct_tmp = [];
 		var regionDat = []
 		var fipslist = regionCOL(fipsArr[i]);
-		var tmp_list = [];
-		 for(j = 0; j < fipslist[0].fips.length; j++) {
-			 tmp_list.push(parseInt(fipslist[0].fips[j]));
-		 }
+		var tmp_list = fipslist[0].fips.map(function (x) { 
+					return parseInt(x, 10); 
+			});
 		var filtvalue = pctvalue.filter(function(d) {return tmp_list.includes(d.fips)});
 		var columnsToSum = ['dem', 'num'];
 		var regSum = d3.rollup(filtvalue,
@@ -820,13 +818,13 @@ function genSel1tab(level, fipsArr, nameArr, fileName, outputPro, curYr) {
 
 
 if(regList.includes(level)) {
-    var fips_list = [];
+
 		for(i = 0; i < fipsArr.length; i++) {
 		  var regNum = parseInt(fipsArr[i]);
 		  var tmplist = regionCOL(regNum);
-		  for(j = 0; j < tmplist[0].fips.length; j++){
-			  fips_list.push(tmplist[0].fips[j]);
-		  }
+		  var fips_list =  tmplist[0].fips.map(function (x) { 
+					return parseInt(x, 10); 
+			});
 		}
 }
 if(ctyList.includes(level)) {
@@ -869,12 +867,13 @@ if(ctyList.includes(level)) {
 	
   //Generate urls
   if(regList.includes(level))  { 
+
 	var jobs_list = [];
 	var fipsACS = [];
 
 	for(i = 0; i < fips_list.length; i++){
-	  jobs_list.push(parseInt(fips_list[i]));
-	  fipsACS.push("08" + fips_list[i]);
+	  jobs_list.push(fips_list[i]);
+	  fipsACS.push("08" + tmplist[0].fips[i]);
     };
 
 	 fipsACS.unshift('08');
@@ -994,9 +993,9 @@ if(muniList.includes(level)){
 			 var jobs_reg = d3.rollup(cty_jobs, v => d3.sum(v, d => d.total_jobs));
 			 reg_jobs.push({area_code : reg_val, population_year : pop_year, total_jobs : jobs_reg});
 			 var tmp_jobs = reg_jobs.concat(cty_jobs);
-			 cty_jobs = cty_jobs.concat(tmp_jobs);
+			 cty_jobs = tmp_jobs;
 		 } //i loop
-		 
+
 		 var median_income = procMedian(data[2].data,fipsArr,'b19013001',level,nameArr);
 		 //Median House Value
 		 var median_home = procMedian(data[3].data,fipsArr,'b25077001',level,nameArr);
@@ -1173,35 +1172,41 @@ if(muniList.includes(level) || placeList.includes(level)){
   };
 
 var outtab = [];
+
 if(muniList.includes(level) || placeList.includes(level)){
-	for(i = 0; i < tabgr.length; i++){ 
-	   outtab.push([ tabgr[i].name,
-					 fmt_comma(tabgr[i].yr2),
-					 fmt_comma(tabgr[i].popch),
-					 fmt_pct(tabgr[i].growth),
-					 fmt_dollar(median_income[i].value),
-					 fmt_dollar(median_home[i].value),
-					 fmt_pct(poverty[i].pct),
-					 fmt_pct(coNative[i].pct)
+	for(k = 0; k < tabgr.length; k++){ 
+	   outtab.push([ tabgr[k].name,
+					 tabgr[k].yr2,
+					 tabgr[k].popch,
+					 tabgr[k].growth *100,
+					 median_income[k].value,
+					 median_home[k].value,
+					 poverty[k].pct *100,
+					 coNative[k].pct * 100
 	   ]);
 	};
-} else {
-	for(i = 0; i < tabgr.length; i++){ 
-        outtab.push([ tabgr[i].name,
-                 fmt_comma(tabgr[i].yr2),
-                 fmt_comma(tabgr[i].popch),
-				 fmt_pct(tabgr[i].growth),
-                 fmt_comma(cty_jobs[i].total_jobs),
-                 fmt_dollar(median_income[i].value),
-                 fmt_dollar(median_home[i].value),
-                 fmt_pct(poverty[i].pct),
-                 fmt_pct(coNative[i].pct)
-   ]);
+} else {  //FIX THIS
+
+	for(var k = 0; k < tabgr.length; k++){ 
+	
+        outtab.push([ tabgr[k].name,
+                 tabgr[k].yr2,
+                 tabgr[k].popch ,
+				 tabgr[k].growth * 100,
+                 cty_jobs[k].total_jobs,
+                 median_income[k].value,
+                 median_home[k].value,
+                 poverty[k].pct * 100,
+                 coNative[k].pct * 100
+		]);
+
 	};
 }; 
 
-//Processing Table Rows for regions
 
+   
+//Processing Table Rows for regions
+/*
 if(regList.includes(level)) {
 	 for(k = 0; k < outtab.length; k++){
 		 if(nameArr.includes(outtab[k][0])) {
@@ -1211,7 +1216,7 @@ if(regList.includes(level)) {
 		 };
 	 };
 };
-
+*/
 //Creating Footer
 
 var tblfoot = [
@@ -1233,6 +1238,21 @@ $(outputPro).append("<table id='summtab' class='DTTable' width='100%'></table>")
 if(muniList.includes(level) || placeList.includes(level)){
 	$('#summtab').append(ftrString);
 	$('#summtab').DataTable( {
+		"columnDefs" : [
+		{'targets' : [1, 2], 'type' : 'num',
+		render: DataTable.render.number( ',', '.', 0, '' )},
+		{'targets' : [4,5], 'type' : 'num',
+		render: DataTable.render.number( ',', '.', 0,  '$' )},
+		{'targets' : [3,6,7], 'type' : 'num',
+		render: DataTable.render.number( ',', '.', 1, '','%' )},
+		{   
+			'targets': 0, 'className': 'dt-body-left',
+			'targets' : [1,2,3,4,5,6,7], 'className': 'dt-body-right'
+		},
+		{ 'targets': 0, 'width': '20%' ,
+		  'targets' : [1, 2,3,4,5,6,7], 'width' :'10%'
+		}  
+		],
 		dom: 'Bfrtip',
        buttons: [
 		{  
@@ -1258,23 +1278,28 @@ if(muniList.includes(level) || placeList.includes(level)){
             }
         ],
 		"order": [],
-		"bSort" : true,
 		data: outtab,
-		columns : labels,
-		columnDefs: [
-		{   
-			'targets': 0, 'className': 'dt-body-left',
-			'targets' : [1,2,3,4,5,6,7], 'className': 'dt-body-right' 
-		},
-		{ 'targets': 0, 'width': '20%' ,
-		  'targets' : [1,2,3,4,5,6,7], 'width' :'10%'
-		}  
-		]
+		columns : labels
 	} );
 } else {
 	$('#summtab').append(ftrString);
 	$('#summtab').DataTable( {
-				dom: 'Bfrtip',
+		"columnDefs" : [
+		{'targets' : [1, 2,4], 'type' : 'num',
+		render: DataTable.render.number( ',', '.', 0, '' )},
+		{'targets' : [5,6], 'type' : 'num',
+		render: DataTable.render.number( ',', '.', 0,  '$' )},
+		{'targets' : [3,7,8], 'type' : 'num',
+		render: DataTable.render.number( ',', '.', 1, '','%' )},
+		{   
+			'targets': 0, 'className': 'dt-body-left',
+			'targets' : [1,2,3,4,5,6,7,8], 'className': 'dt-body-right'
+		},
+		{ 'targets': 0, 'width': '20%' ,
+		  'targets' : [1, 2,3,4,5,6,7,8], 'width' :'10%'
+		}  
+		],
+		dom: 'Bfrtip',
         buttons: [
 		{  
                 extend: 'word',
@@ -1299,18 +1324,8 @@ if(muniList.includes(level) || placeList.includes(level)){
             }
         ],
 		"order": [],
-		"bSort" : true,
 		data: outtab,
-		columns : labels,
-		columnDefs: [
-		{   
-			'targets': 0, 'className': 'dt-body-left',
-			'targets' : [1,2,3,4,5,6,7,8], 'className': 'dt-body-right' 
-		},
-		{ 'targets': 0, 'width': '20%' ,
-		  'targets' : [1,2,3,4,5,6,7,8], 'width' :'10%'
-		}  
-		]
+		columns : labels
 	} );
 };
 
@@ -1326,41 +1341,38 @@ function genSel2display(geotype, fipsArr, names, curyear, PRO_1, PRO_2, PRO_3, P
     const fmt_dollar = d3.format("$,.0f");
     const fmt_yr = d3.format("00");
 
-
-
-	if(geotype == "region"){
-		var fips_tmp = regionCOL(parseInt(fips));
-	    fips_list = fips_tmp[0].fips;
-		for(i = 0; i < fips_list.length; i++){
-			 fips_list[i] = parseInt(fips_list[i]);
-		}
+	const regList = ['Region', 'Regional Comparison'];
+	const ctyList = ['County', 'County Comparison'];
+    const muniList = ['Municipality', 'Municipal Comparison'];
+	const placeList = ['Census Designated Place', 'Census Designated Place Comparison'];
+debugger;
+//Charts are not avaialble for Municiplities...
+if(regList.includes(geotype)){
+		var fips_tmp = regionCOL(parseInt(fipsArr));
+	    var fips_list =  fips_tmp[0].fips.map(function (x) { 
+					return parseInt(x, 10); 
+			});
 	} else {
-	if(fips == "000") {
+	if(fipsArr == "000") {
       fips_list = [1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125];
     } else {
 		fips_list = [parseInt(fips)];
 	};		
 	};
 
-	var fips_list; 
-	if(fipsArr == "000") {
-      fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
-    } else {
-		fips_list = parseInt(fipsArr);
-	};		
 //Estimates and components of change chart
 
-	var yr_list = 1985;
-	for(i = 1986; i <= yrvalue; i++){
-		yr_list = yr_list + "," + i;
+	var yr_list = [];
+	for(i = 1985; i <= yrvalue; i++){
+		yr_list.push[i];
 	};
 	
 	var esturl = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalpopulation,naturalincrease,netmigration";
 	
 //forecasts and age projections
-   var forc_yrs = 2010;
-   	for(i = 2011; i <= 2050; i++){
-		forc_yrs = forc_yrs + "," + i;
+   var forc_yrs = [];
+   	for(i = 2010; i <= 2050; i++){
+		forc_yrs.push[i];
 	};
 
     if(fips == "000") {
@@ -1373,7 +1385,9 @@ var prom = [d3.json(esturl),d3.json(forcurl)];
 
 
 Promise.all(prom).then(function(data){
-
+debugger;
+console.log(data[0]);
+console.log(data[1]);
 // Generate data set for output Table
 var sel_yr = []
 for(i = 1990; i <= yrvalue;i++){
