@@ -1206,17 +1206,11 @@ if(muniList.includes(level) || placeList.includes(level)){
 
    
 //Processing Table Rows for regions
-/*
+
 if(regList.includes(level)) {
-	 for(k = 0; k < outtab.length; k++){
-		 if(nameArr.includes(outtab[k][0])) {
-			 for(l = 0; l < outtab[k].length; l++){
-				 outtab[k][l] = "<b>"+outtab[k][l]+"</b>";
-			 };
-		 };
+	outtab[0][0] = "<b>"+outtab[0][0]+"</b>";
 	 };
-};
-*/
+
 //Creating Footer
 
 var tblfoot = [
