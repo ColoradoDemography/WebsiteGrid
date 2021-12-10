@@ -1147,6 +1147,7 @@ var curyr = yrlistARR[1];
 var prevyr = yrlistARR[0];
 if(muniList.includes(level) || placeList.includes(level)){
 		var labels = [
+		       {'title' : 'Index'},
 			   {'title' : 'Geography'},
 			   {'title': 'Population ('+curyr+')*'},
 			   {'title': 'Population Change (' + prevyr + ' to ' + curyr + ')*'},
@@ -1159,6 +1160,7 @@ if(muniList.includes(level) || placeList.includes(level)){
 		
   } else {
 	  var labels = [
+	   {'title' : 'Index'},
        {'title' : 'Geography'},
        {'title': 'Population ('+curyr+')*'},
        {'title': 'Population Change (' + prevyr + ' to ' + curyr + ')*'},
@@ -1175,7 +1177,8 @@ var outtab = [];
 
 if(muniList.includes(level) || placeList.includes(level)){
 	for(k = 0; k < tabgr.length; k++){ 
-	   outtab.push([ tabgr[k].name,
+	   outtab.push([ k,
+	                 tabgr[k].name,
 					 tabgr[k].yr2,
 					 tabgr[k].popch,
 					 tabgr[k].growth *100,
@@ -1185,11 +1188,12 @@ if(muniList.includes(level) || placeList.includes(level)){
 					 coNative[k].pct * 100
 	   ]);
 	};
-} else {  //FIX THIS
+} else { 
 
 	for(var k = 0; k < tabgr.length; k++){ 
 	
-        outtab.push([ tabgr[k].name,
+        outtab.push([ k,
+		         tabgr[k].name,
                  tabgr[k].yr2,
                  tabgr[k].popch ,
 				 tabgr[k].growth * 100,
@@ -1208,7 +1212,7 @@ if(muniList.includes(level) || placeList.includes(level)){
 //Processing Table Rows for regions
 
 if(regList.includes(level)) {
-	outtab[0][0] = "<b>"+outtab[0][0]+"</b>";
+	outtab[0][1] = "<b>"+outtab[0][1]+"</b>";
 	 };
 
 //Creating Footer
@@ -1233,18 +1237,18 @@ if(muniList.includes(level) || placeList.includes(level)){
 	$('#summtab').append(ftrString);
 	$('#summtab').DataTable( {
 		"columnDefs" : [
-		{'targets' : [1, 2], 'type' : 'num',
+		{'targets' : [2, 3], 'type' : 'num',
 		render: DataTable.render.number( ',', '.', 0, '' )},
-		{'targets' : [4,5], 'type' : 'num',
+		{'targets' : [5,6], 'type' : 'num',
 		render: DataTable.render.number( ',', '.', 0,  '$' )},
-		{'targets' : [3,6,7], 'type' : 'num',
+		{'targets' : [4,7,8], 'type' : 'num',
 		render: DataTable.render.number( ',', '.', 1, '','%' )},
 		{   
-			'targets': 0, 'className': 'dt-body-left',
-			'targets' : [1,2,3,4,5,6,7], 'className': 'dt-body-right'
+			'targets': [0,1], 'className': 'dt-body-left',
+			'targets' : [2,3,4,5,6,7,8], 'className': 'dt-body-right'
 		},
-		{ 'targets': 0, 'width': '20%' ,
-		  'targets' : [1, 2,3,4,5,6,7], 'width' :'10%'
+		{ 'targets': 1, 'width': '20%' ,
+		  'targets' : [2, 3,4,5,6,7,8], 'width' :'10%'
 		}  
 		],
 		dom: 'Bfrtip',
@@ -1279,18 +1283,18 @@ if(muniList.includes(level) || placeList.includes(level)){
 	$('#summtab').append(ftrString);
 	$('#summtab').DataTable( {
 		"columnDefs" : [
-		{'targets' : [1, 2,4], 'type' : 'num',
+		{'targets' : [2, 3,5], 'type' : 'num',
 		render: DataTable.render.number( ',', '.', 0, '' )},
-		{'targets' : [5,6], 'type' : 'num',
+		{'targets' : [6,7], 'type' : 'num',
 		render: DataTable.render.number( ',', '.', 0,  '$' )},
-		{'targets' : [3,7,8], 'type' : 'num',
+		{'targets' : [4,8,9], 'type' : 'num',
 		render: DataTable.render.number( ',', '.', 1, '','%' )},
 		{   
-			'targets': 0, 'className': 'dt-body-left',
-			'targets' : [1,2,3,4,5,6,7,8], 'className': 'dt-body-right'
+			'targets': [0,1], 'className': 'dt-body-left',
+			'targets' : [2,3,4,5,6,7,8,9], 'className': 'dt-body-right'
 		},
-		{ 'targets': 0, 'width': '20%' ,
-		  'targets' : [1, 2,3,4,5,6,7,8], 'width' :'10%'
+		{ 'targets': 1, 'width': '20%' ,
+		  'targets' : [2, 3,4,5,6,7,8,9], 'width' :'10%'
 		}  
 		],
 		dom: 'Bfrtip',
