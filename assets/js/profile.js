@@ -1225,7 +1225,11 @@ var tblfoot = [
 
 var ftrString = "<tfoot><tr>";
 for(i = 0; i < tblfoot.length; i++){
+	if(muniList.includes(level)){
 	    ftrString = ftrString + "<tr><td colspan='9'>" + tblfoot[i] + "</td></tr>";
+	} else {
+	    ftrString = ftrString + "<tr><td colspan='10'>" + tblfoot[i] + "</td></tr>";
+	}
 	};	
 ftrString = ftrString + "</tr></tfoot>";
 
