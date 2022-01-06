@@ -3406,10 +3406,6 @@ var pltSort = inData.sort(function(a, b){ return d3.ascending(a['year'], b['year
 
 var pltData = pltSort.filter(item => fipsList.includes(item.fips));
 
-
-
-
-	
 	var est_data = [];
 	var ctyNames;
 	for(i = 0; i < fipsList.length; i++) {
