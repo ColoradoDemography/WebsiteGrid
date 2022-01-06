@@ -61,6 +61,15 @@ td {
 tbody tr:nth-child(even){background-color: white}
 tbody tr:nth-child(odd){background-color: white}
 
+
+// profiletab
+/*
+profile-tab, profile-tr, profile-td {
+	    border-collapse: collapse;
+        border: 0px solid black;
+		vertical-align : top;
+}
+*/
 /* anchor tag hacks */
 
 h1:before { 
@@ -953,10 +962,20 @@ div.tooltip {
 /*Datatables font */
 .DTtable.dataTable td {
   font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
-  font-size: 10pt;
+  padding: 5px;
+  font-size: 9pt;
+  }
+}
 }
 
 .DTtable.dataTable tr.dtrg-level-0 td {
   font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
-  font-size: 10pt;
+  padding: 5px;
+  font-size: 9pt;
+}
+
+.entry_text {
+  font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
+  font-size: 9pt;
+  display : inline;
 }
