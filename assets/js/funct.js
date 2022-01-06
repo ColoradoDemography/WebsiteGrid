@@ -5,8 +5,6 @@
 
 //Utility Function
 
-
-
 //hideButtons  selects and hides all "dropbtn" class buttons
 function hideButtons() {
 	btn = document.getElementsByClassName("dropbtn"); 
@@ -36,6 +34,136 @@ function showButtons() {
 		}
 	};
 }; //end of showButtons
+
+
+//pgSetup  adds elements to grid
+
+function pgSetup(level, gridPanel,ctyFips,ctyName) {
+		var idxval = gridPanel.charAt(gridPanel.length - 1);
+		//Create objects
+			//Regional dropdown
+			var reglist = document.createElement('select');
+			reglist.id = 'RegSelect'+ idxval;
+			reglist.setAttribute('multiple',true);
+			reglist.setAttribute('fips','name');
+			for(j = 0; j < ctyFips.length; j++){
+				  var opt = document.createElement('option');
+				  opt.innerHTML = ctyName[j];
+				  opt.value = ctyFips[j];
+				  reglist.appendChild(opt);
+			} //i
+		   // Regional Button
+		   var regbtn = document.createElement('button');
+			  regbtn.id = 'RegBtn' + idxval;
+			  regbtn.className = 'databutton';
+			  regbtn.innerHTML = 'Generate Plot';
+			//Regional text
+		   var regtxt = document.createElement('p');
+		       regtxt.id = 'regtext' + idxval;
+			   regtxt.className = 'entry_text';
+			   regtxt.innerHTML = '<b>Select Geography</b><br>';
+
+
+			// Download Button
+			var dlbtn = document.createElement('button');
+			 dlbtn.id = 'profiledl' + idxval;
+			 dlbtn.className = 'dropbtn';
+			 dlbtn.innerHTML = '<i class="fas fas fa-download fa-2x" style="color: black;">';
+
+			 //Data Items
+			 var data_li = document.createElement('li');
+			 var data_link = document.createElement('a');
+				 data_link.href = '#';
+				 data_link.id = 'profileDat' + idxval;
+				 var data_Text = document.createTextNode("Download Data (CSV)");
+				 data_link.appendChild(data_Text);
+			     data_li.appendChild(data_link);
+			//Image Items
+			 var img_li = document.createElement('li');
+			 var img_link = document.createElement('a');
+				 img_link.href = '#';
+				 img_link.id = 'profileImg' + idxval;
+			 var img_Text = document.createTextNode("Download Image (PNG)");
+				 img_link.appendChild(img_Text);
+			     img_li.appendChild(img_link);
+			//Source Items
+			 var src_li = document.createElement('li');
+			 var src_link = document.createElement('a');
+			     
+				 if(level == "Region") {
+					var src_txt = document.createTextNode('Regional Total Population Lookup');
+					src_link.href = 'https://coloradodemography.github.io/population/data/regional-data-lookup/';
+				 } else {
+					var src_txt = document.createTextNode('County Total Population Lookup');
+				    src_link.href = 'https://coloradodemography.github.io/population/data/county-data-lookup/';
+				 }
+				 src_link.appendChild(src_txt);
+				 src_link.id = 'profileSrc' + idxval;
+			     src_li.appendChild(src_link);
+
+			 //Download List
+			 var dllist = document.createElement('ul');
+			     dllist.className = 'dd-list';
+				 
+           dllist.appendChild(data_li);
+		   dllist.appendChild(img_li)
+		   dllist.appendChild(src_li);
+
+		   var dlcontent = document.createElement('div');
+		       dlcontent.className = 'dropdown-content';
+			   dlcontent.appendChild(dllist);
+   //dropdown list wrapper
+       var dlwrap = document.createElement('div');
+		   dlwrap.className = "dropdown AClass";
+		   dlwrap.appendChild(dlbtn);
+		   dlwrap.appendChild(dlcontent);
+		   
+   //Creating table wrapper  
+		var tbl = document.createElement("table");
+		    tbl.style.width = "40%";
+			tbl.style.border = "0px solid black";
+			
+		var tblbody = document.createElement("tbody");
+		var tblrow = document.createElement("tr");
+			
+		var tabcell1 = document.createElement("td");
+			tabcell1.style.border = "0px solid black";
+			tabcell1.style.verticalAlign = "top";
+			tabcell1.style.align = 'left';
+			tabcell1.appendChild(dlwrap);
+			
+		var tabcell2 = document.createElement("td");
+			tabcell2.style.border = "0px solid black";
+			tabcell2.style.verticalAlign = "top";
+			tabcell2.style.align = 'left';
+			tabcell2.appendChild(regtxt)
+			tabcell2.appendChild(reglist);
+			
+		var tabcell3 = document.createElement("td");
+			tabcell3.style.border = "0px solid black";
+			tabcell3.style.verticalAlign = "top";
+			tabcell3.style.align = 'left';
+			tabcell3.appendChild(regbtn);
+		
+		tblrow.appendChild(tabcell1);
+		if(level == "Region") {
+			tblrow.appendChild(tabcell2);
+			tblrow.appendChild(tabcell3);
+		}
+		
+		tblbody.appendChild(tblrow);
+		tbl.appendChild(tblbody);
+		
+		//Plotdiv   
+			var plotdiv = document.createElement('div');
+			    plotdiv.id = 'PlotDiv' + idxval
+				
+//writing to DOM
+       var outDiv = document.getElementById(gridPanel);
+	   
+	   outDiv.appendChild(tbl);
+	   outDiv.appendChild(plotdiv);
+} //pgSetup
 
 //muni_county provides county designation for municiplaities (based oased on largest population for multi-county munis
 function muni_county(muni){
@@ -2238,7 +2366,7 @@ for(i = 0; i < ages.length; i++) {
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Population Estimates by Age', 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/sya-county/' target=_blank>Single Year of Age Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://coloradodemography.github.io/population/data/sya-county/' target=_blank>Single Year of Age Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Ages','Number, '+ prevyear,'Number, '+ yrvalue,'2030 Forecast'];
 // Output table 
@@ -2348,7 +2476,7 @@ for(i = 2; i <= 4; i++){
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Components of Change', 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/births-deaths-migration/data/components-change/#components-of-change' target=_blank>Components of Change Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://coloradodemography.github.io/births-deaths-migration/data/components-change/#components-of-change' target=_blank>Components of Change Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Component','Number,  ' + prevyear,'Number,  ' + yrvalue,'Change'];
 // Output table 
@@ -2510,7 +2638,7 @@ for(i = 0; i < raceth.length; i++) {
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Race/ Ethnicity: '+ yrvalue, 'colspan' : 2},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>Race/Ethnicity Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://coloradodemography.github.io/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>Race/Ethnicity Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Race/ Ethnicity','Percentage, ' + yrvalue,'Number,  '+ yrvalue,year10 + ' forecast'];
 // Output table 
@@ -3205,7 +3333,7 @@ for(i = 1; i < housing_fint.length; i++){
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
-	{'text' : "<a href='https://demography.dola.colorado.gov/population/data/profile-county/' target=_blank>County Profile Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://coloradodemography.github.io/population/data/profile-county/' target=_blank>County Profile Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Housing Type', 'Number', 'Change from ' + prevyear];
 // Output table 
@@ -3265,23 +3393,121 @@ rows.append('td')
 }); //d3.json
 }; // End of genHousing
 
+
+//Generates estimate plot for regions...
+function genEstPlot(inData,fipsList,estDiv) {
+	   const fmt_date = d3.timeFormat("%B %d, %Y");
+var config = {responsive: true,
+              displayModeBar: false};
+
+var pltSort = inData.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
+		.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
+	
+
+var pltData = pltSort.filter(item => fipsList.includes(item.fips));
+
+
+
+
+	
+	var est_data = [];
+	var ctyNames;
+	for(i = 0; i < fipsList.length; i++) {
+		var filtPlot = pltData.filter(item => item.fips == fipsList[i]);
+		var year_est_arr = filtPlot.map(item => item.year);
+		var pop_est_arr = filtPlot.map(item => item.totalpopulation);
+	 est_data.push({x : year_est_arr,
+	                y : pop_est_arr,
+					name : filtPlot[0].name,
+	                mode : 'lines+markers'});
+	 if(i == 0) {
+			ctyNames = filtPlot[0].name;
+		} else {
+			ctyNames = ctyNames + ", " + filtPlot[0].name;
+		}
+	} //i
+
+	var est_layout = {
+		title: "Population Estimates " + year_est_arr[0] + " to " + year_est_arr[(year_est_arr.length - 1)] + ", " + ctyNames,
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			title : 'Total Population',
+			automargin : true,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+		
+Plotly.newPlot(estDiv, est_data, est_layout,config);
+//Download Events
+
+var profileDat2 = document.getElementById('profileDat2');
+var profileImg2 = document.getElementById('profileImg2');
+profileDat2.onclick = function() {
+	  exportToCsv(ctyNames, 'estimate', filtPlot,0);
+     }; 
+profileImg2.onclick = function() {
+	   exportToPng(ctyNames, 'estimate', estDiv,0);
+     };	
+}; //genEstPlot			
+
+function genSelPlot(inData,sel, outDiv) {
+
+  var opts = [], opt;
+  var len = sel.options.length;
+  for (var i = 0; i < len; i++) {
+    opt = sel.options[i];
+
+    if (opt.selected) {
+      opts.push(+opt.value);
+    }
+  }
+
+  genEstPlot(inData,opts,outDiv);
+  
+  
+}			
 //Component Functions for Demograpic Dashboard and Profile....
-function estPlot(inData, plotdiv, yrvalue, fips, ctyName){
+function estPlot(inData, level, plotdiv, yrvalue, fips, ctyName){
     const fmt_date = d3.timeFormat("%B %d, %Y");
-//push out vars 
-	
-	
-//Plotting 
+
 var config = {responsive: true,
               displayModeBar: false};
 //Clearing out divs
+
 var ESTIMATE = document.getElementById(plotdiv);
 ESTIMATE.innerHTML = "";
 
 
 //Prepping Plot
 
-
+if(level === 'county'){
 var year_est_arr =[];
 var pop_est_arr = [];
 
@@ -3296,7 +3522,6 @@ var est_trace = {
 			};
 
 var est_data = [est_trace];
-
 var est_layout = {
 		title: "Population Estimates 1985 to "+ yrvalue + ", " + ctyName,
 		  autosize: false,
@@ -3333,9 +3558,30 @@ var est_layout = {
 			   align : 'left', 
 			   showarrow : false}]
 		};
-
+		
 Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
-};
+};  //level == county
+
+if(level === 'Region'){
+
+  pgSetup(level, ESTIMATE.id,fips, ctyName)
+
+   //Initial Plot
+    var dd = document.getElementById("RegSelect2");
+   var btn = document.getElementById("RegBtn2");
+   dd.selectedIndex = 0;
+   var selvalue = [];
+   selvalue.push(+dd.value);
+
+   genSelPlot(inData,dd, "PlotDiv2");
+
+   btn.addEventListener('click', function() {
+	   genSelPlot(inData,dd, "PlotDiv2")
+       });
+	   
+    }; //level == Region
+
+}; //end of estPlot
 
 //Forecasts
 function forecastPlot(inData,apptype, plotdiv,yrvalue,fips,ctyName) {
@@ -4052,10 +4298,11 @@ var netmig_data = [];
 
 var fore_output = ["forec_output","ageest_output", "popchng_output"];
 
-	estPlot(est_data,"est_output",yrvalue, fips, ctyName);
+	estPlot(est_data, "county", "est_output", yrvalue, fips, ctyName);
+	
 var	fore_Data = forecastPlot(forecast_data, "dashboard", fore_output, yrvalue, fips, ctyName);
 	netmigPlot(netmig_data, "mig_output", fips, ctyName);
-	cocPlot(est_data,"coc_output", yrvalue, fips, ctyName);
+	cocPlot(est_data,"dashboard","coc_output", yrvalue, fips, ctyName);
 
 //Preparing final datafiles
 //Estimates
