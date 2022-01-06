@@ -3425,6 +3425,7 @@ var pltData = pltSort.filter(item => fipsList.includes(item.fips));
 		} else {
 			ctyNames = ctyNames + ", " + filtPlot[0].name;
 		}
+
 	} //i
 
 	var est_layout = {
@@ -3470,7 +3471,7 @@ Plotly.newPlot(estDiv, est_data, est_layout,config);
 var profileDat2 = document.getElementById('profileDat2');
 var profileImg2 = document.getElementById('profileImg2');
 profileDat2.onclick = function() {
-	  exportToCsv(ctyNames, 'estimate', filtPlot,0);
+	  exportToCsv(ctyNames, 'estimate', pltData,0);
      }; 
 profileImg2.onclick = function() {
 	   exportToPng(ctyNames, 'estimate', estDiv,0);
