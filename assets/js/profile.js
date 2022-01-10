@@ -368,13 +368,17 @@ function pgSetup(level, gridPanel,headerTxt, multi, ctyFips,ctyName) {
 						var src_txt = document.createTextNode('Regional Total Population Estimates');
 						src_link.href = 'https://coloradodemography.github.io/population/data/regional-data-lookup/';
 					 }
-					 if(headerTxt = "Regional Population Forecast"){
+					 if(headerTxt == "Regional Population Forecast"){
 						var src_txt = document.createTextNode('Regional Total Population Forecasts');
 						src_link.href = 'https://coloradodemography.github.io/population/data/sya-regions/';
                      }
 					 if(headerTxt == "Regional Components of Change"){
 						var src_txt = document.createTextNode('Regional Components of Change');
 						src_link.href = 'https://coloradodemography.github.io/births-deaths-migration/data/components-change-regions/';
+                     }
+					 if(headerTxt == "Regional Age Estimates and Forecasts"){
+						var src_txt = document.createTextNode('Regional Age Estimates and Forecasts');
+						src_link.href = 'https://coloradodemography.github.io/population/data/sya-regions/';
                      }
 				 } else {
 					var src_txt = document.createTextNode('County Total Population Lookup');
@@ -711,7 +715,7 @@ var pltData = pltSort.filter(item => fipsList.includes(item.fips));
 
 	 birth_trace.push({x : year_coc_arr,
 	                y : birth_coc_arr,
-					name : filtPlot[0].name + " Births",
+					name : "Births",
 	                mode : 'lines+markers',
 					marker: {
 						symbol: 'circle',
@@ -719,7 +723,7 @@ var pltData = pltSort.filter(item => fipsList.includes(item.fips));
                 }});
 	 death_trace.push({x : year_coc_arr,
 	                y : death_coc_arr,
-					name : filtPlot[0].name + " Deaths",
+					name : "Deaths",
 	                mode : 'lines+markers',
 					marker: {
 						symbol: 'square',
@@ -727,7 +731,7 @@ var pltData = pltSort.filter(item => fipsList.includes(item.fips));
                 }});
 	 netmig_trace.push({x : year_coc_arr,
 	                y : netmig_coc_arr,
-					name : filtPlot[0].name + " Net Migration",
+					name : "Net Migration",
 	                mode : 'lines+markers',
 					marker: {
 						symbol: 'diamond',
@@ -808,6 +812,195 @@ function genRegcocSetup(level, inData, coc_div, fipsList, ctyNameList) {
        });
 	   
 };  //genRegcocSetup
+
+
+//genAgeEst Generates Age plot for regions...
+function genAgeEst(inData,DDsel,ageDiv) {
+	   const fmt_date = d3.timeFormat("%B %d, %Y");
+var config = {responsive: true,
+              displayModeBar: false};
+			  
+//Generates the list of selected places
+  var fipsList = [], opt;
+  var len = DDsel.options.length;
+  for (var i = 0; i < len; i++) {
+    opt = DDsel.options[i];
+    if (opt.selected) {
+      fipsList.push(+opt.value);
+    }
+  }
+
+var pltSort = inData.sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
+        .sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
+		.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
+	
+
+var pltData = pltSort.filter(item => fipsList.includes(item.fips));
+    var year_data = [...new Set(pltData.map(d => d.year))];
+	var age_data = [];
+	var ctyNames;
+	for(i = 0; i < year_data.length; i++) {
+		var filtPlot = pltData.filter(item => item.year == year_data[i]);
+		var age_est_arr = filtPlot.map(item => item.age);
+		var pop_est_arr = filtPlot.map(item => item.totalpopulation);
+	 if(i == 0){
+		age_data.push({x : age_est_arr,
+	                y : pop_est_arr,
+					name : year_data[i],
+	                type : 'bar'
+				})
+	 } else {
+	 age_data.push({x : age_est_arr,
+	                y : pop_est_arr,
+					name : year_data[i],
+	                type : 'bar',
+					xaxis : "x" + (i + 1),
+					yaxis : "y" + (i + 1)
+					});
+	}
+	} //i
+	 ctyNames = filtPlot[0].name;
+	
+	 
+	var age_layout = {
+		title: "Age Estimates and Forecasts: " + ctyNames,
+		  autosize: false,
+		  width: 1000,
+		  height: 1200, 
+		  xaxis: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			title : 'Total Population',
+			automargin : true,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+		  xaxis2: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis2: {
+			title : 'Total Population',
+			automargin : true,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+		  xaxis3: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis3: {
+			title : 'Total Population',
+			automargin : true,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+		  xaxis4: {
+			title : 'Age',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis4: {
+			title : 'Total Population',
+			automargin : true,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+		  grid: {
+				rows: 4,
+				columns: 1,
+				pattern: 'independent',
+				roworder: 'top to bottom'},
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+	Plotly.newPlot(ageDiv, age_data, age_layout,config);
+
+//Download Events
+
+var profileDat2 = document.getElementById('profileDat2');
+var profileImg2 = document.getElementById('profileImg2');
+profileDat2.onclick = function() {exportToCsv(ctyNames, 'age', pltData,0)};
+profileImg2.onclick = function() {exportToPng(ctyNames, 'age', ageDiv,0)};
+	
+}; //genAgeEst			
+
+//gerAgeSetup sets up the regional estimates plot
+function genAgeSetup(level, inData, age_div, fipsList, ctyNameList) {
+  pgSetup(level, age_div,"Regional Age Estimates and Forecasts",false,fipsList, ctyNameList)
+
+   //Initial Plot
+    var dd = document.getElementById("RegSelect2");
+   var btn = document.getElementById("RegBtn2");
+   dd.selectedIndex = 0;
+   var selvalue = [];
+   selvalue.push(+dd.value);
+
+   genAgeEst(inData,dd, "PlotDiv2");
+
+   btn.addEventListener('click', function() {
+	   genAgeEst(inData,dd, "PlotDiv2")
+       });
+	   
+};  //genAgeSetup
 
 //profileContent provides descriptive names for checked profile boxes...
 function profileContent(invalue) {
@@ -1483,7 +1676,15 @@ if(firstbtn == 'sel2') {
    genSel2display(lvl, fipsArr, names, curyear, PROFILE_1, PROFILE_2, PROFILE_3, PROFILE_4);
 }
 
-//Setting Event Listeners
+//Age Panel button
+if(firstbtn == 'sel3') { 
+   PROFILE_1.innerHTML = "";
+   PROFILE_2.innerHTML = "";
+   PROFILE_3.innerHTML = "";
+   PROFILE_4.innerHTML = "";
+   genSel3display(lvl, fipsArr, names, curyear, PROFILE_1, PROFILE_2, PROFILE_3, PROFILE_4);
+}
+//Setting Event Listeners  For a click on a section button...
 document.getElementById("sel1btn").addEventListener("click", function() {
   PROFILE_1.innerHTML = "";
    PROFILE_2.innerHTML = "";
@@ -1506,6 +1707,14 @@ document.getElementById("sel2btn").addEventListener("click", function() {
    PROFILE_3.innerHTML = "";
    PROFILE_4.innerHTML = "";
    genSel2display(lvl, fipsArr, names, curyear, PROFILE_1, PROFILE_2, PROFILE_3, PROFILE_4);
+}); //end of sel2btn listener
+
+document.getElementById("sel3btn").addEventListener("click", function() {
+   PROFILE_1.innerHTML = "";
+   PROFILE_2.innerHTML = "";
+   PROFILE_3.innerHTML = "";
+   PROFILE_4.innerHTML = "";
+   genSel3display(lvl, fipsArr, names, curyear, PROFILE_1, PROFILE_2, PROFILE_3, PROFILE_4);
 }); //end of sel2btn listener
 }); //End of Promise 
 }; //end of genProfile
@@ -2201,7 +2410,8 @@ if(muniList.includes(level) || placeList.includes(level)){
   }); //End of Promise
 };  //End of genSel1Tab
 
-//genSel2display  Outputs objects for the second panel of the profile... 
+//genSel2display  Outputs objects for the Population Trends panel of the profile... 
+// STILL NEED TO WWIRE UP COUNTIES
 function genSel2display(geotype, fipsArr, names, curyear, PRO_1, PRO_2, PRO_3, PRO_4) {
  	const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_dec = d3.format(".3");
@@ -2358,6 +2568,7 @@ genRegcocSetup(geotype,coc_data,PRO_4.id, fipsList, ctyNameList);
 }; //regList
 
 /*
+COUNTY Charts...To BE Completed
  	estPlot(est_data, geotype, PRO_2.id, curyear, fipsList, ctyNameList);
 	var	fore_Data = forecastPlot(data[1], "profile", PRO_3, yrvalue, fips, ctyName);
 	cocPlot(data[0],"profile",PRO_4, curyear, fips, ctyName);
@@ -2366,3 +2577,107 @@ genRegcocSetup(geotype,coc_data,PRO_4.id, fipsList, ctyNameList);
 }); //End of Promise
 
 }; //end genSel2display
+
+//genSel3 Display  Produces age panel charts
+//Age estimates and forecasts facet chart
+//Age Pyramid
+
+function genSel3display(geotype, fipsArr, names, curyear, PRO_1, PRO_2, PRO_3, PRO_4) {
+ 	const fmt_date = d3.timeFormat("%B %d, %Y");
+	const fmt_dec = d3.format(".3");
+	const fmt_pct = d3.format(".1%");
+	const fmt_comma = d3.format(",");
+    const fmt_dollar = d3.format("$,.0f");
+    const fmt_yr = d3.format("00");
+
+	const regList = ['Region', 'Regional Comparison'];
+	const ctyList = ['County', 'County Comparison'];
+    const muniList = ['Municipality', 'Municipal Comparison'];
+	const placeList = ['Census Designated Place', 'Census Designated Place Comparison'];
+
+//Charts are not avaialble for Municiplities...
+if(regList.includes(geotype)){
+	
+		var fips_tmp = regionCOL(parseInt(fipsArr));
+	    var fips_list =  fips_tmp[0].fips.map(function (x) { 
+					return parseInt(x, 10); 
+			});
+	} else {
+	if(fipsArr == "000") {
+      fips_list = [1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125];
+    } else {
+		fips_list = [parseInt(fipsArr)];
+	};		
+	};
+
+const range = (min, max) => Array.from({ length: max - min + 1 }, (_, i) => min + i);
+	
+//forecasts and age projections
+   var forc_yrs = range(2010,2050);	
+	var forcurlCO = "https://gis.dola.colorado.gov/lookups/sya_regions?reg_num=0&year=" + forc_yrs + "&choice=single"
+	var forcurlCty = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + forc_yrs + "&choice=single&group=3"
+
+
+var prom = [d3.json(forcurlCO), d3.json(forcurlCty)];
+
+Promise.all(prom).then(function(data){
+//Selecting year range
+//State data
+	var COagecuryr = data[0].filter(item => item.year == curyear);
+	var COage10 = data[0].filter(item => item.year%10 == 0).filter(item => item.year > curyear);
+	var COage = COagecuryr.concat(COage10);
+	var CO_age_data = [];
+	for(i = 0; i < COage.length; i++){
+	   CO_age_data.push({ fips : COage[i].reg_num,
+							geo_name : COage[i].region,
+							year : COage[i].year,
+							age : COage[i].age,
+							malepopulation : +COage[i].malepopulation,
+							femalepopulation : +COage[i].femalepopulation, 
+							totalpopulation : +COage[i].totalpopulation });
+	};
+	
+//County data
+	var Ctyagecuryr = data[1].filter(item => item.year == curyear);
+	var Ctyage10 = data[1].filter(item => item.year%10 == 0).filter(item => item.year > curyear);
+	var Ctyage = Ctyagecuryr.concat(Ctyage10);
+	var cty_age_data = [];
+	for(i = 0; i < Ctyage.length; i++){
+	   cty_age_data.push({ fips : Ctyage[i].countyfips,
+							name : Ctyage[i].county,
+							year : Ctyage[i].year,
+							age : Ctyage[i].age,
+							malepopulation : +Ctyage[i].malepopulation,
+							femalepopulation : +Ctyage[i].femalepopulation, 
+							totalpopulation : +Ctyage[i].totalpopulation });
+	};
+
+//Generating regional total
+if(regList.includes(geotype)) {
+var columnsToSum = ['malepopulation', 'femalepopulation', 'totalpopulation'];
+//Rolling up data for table
+var age_reg_sum =  d3.rollup(cty_age_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year, d => d.age)
+
+//Flatten Arrays for output
+var age_reg_data = [];
+var regionNum = -101;
+
+for (let [key1, value] of age_reg_sum) {
+for (let[key2, value2] of value) {
+   age_reg_data.push({'fips' : regionNum, 'name' : regionName(fipsArr), 'year' : key1, 'age' : key2,
+     'malepopulation' : value2.malepopulation, 'femalepopulation' : value2.femalepopulation, 'totalpopulation' : value2.totalpopulation});
+}
+};
+	
+var reg_age_data = age_reg_data.concat(cty_age_data) //This is single year data
+
+
+var fipsList = [...new Set(reg_age_data.map(d => d.fips))];
+var ctyNameList = [...new Set(reg_age_data.map(d => d.name))];
+//Sample SYA chart...
+
+genAgeSetup(geotype,reg_age_data,PRO_2.id, fipsList, ctyNameList);
+};
+	
+}); //End of Promise
+} // End of selGen3display
