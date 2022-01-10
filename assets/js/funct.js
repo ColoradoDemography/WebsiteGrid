@@ -3339,9 +3339,9 @@ Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
 
 }; //end of estPlot
 
-//Forecasts
+//Forecasts    
 function forecastPlot(inData, plotdiv,yrvalue,fips,ctyName) {
-//Apptype is 'dashboard' or 'profile', determines the number of charts to produce
+
 
     const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
@@ -3420,7 +3420,6 @@ var forec_layout = {
  
 Plotly.newPlot(FORECAST, forec_data, forec_layout,config);
 
-if(apptype == 'dashboard') {
 //Output for Age Plot (Current year by age categories...
 var AGEPLOT = document.getElementById(plotdiv[1]);
 
@@ -3636,9 +3635,6 @@ var popchng_layout = {
  
 
 return([forec_flat, ageplot_flat, popchng_flat]);
-} else {
-	return([forec_flat]);
-}; //Dashboard
 
 }; //forecast plot
 
@@ -4056,9 +4052,9 @@ var fore_output = ["forec_output","ageest_output", "popchng_output"];
 
 	estPlot(est_data, "county", "est_output", yrvalue, fips, ctyName);
 	
-var	fore_Data = forecastPlot(forecast_data, "dashboard", fore_output, yrvalue, fips, ctyName);
+var	fore_Data = forecastPlot(forecast_data, fore_output, yrvalue, fips, ctyName);
 	netmigPlot(netmig_data, "mig_output", fips, ctyName);
-	cocPlot(est_data,"dashboard","coc_output", yrvalue, fips, ctyName);
+	cocPlot(est_data,"coc_output", yrvalue, fips, ctyName);
 
 //Preparing final datafiles
 //Estimates
