@@ -102,9 +102,10 @@ genHousing("000",yrvalue);
 
 
 d3.select("#county-dropdown").on("change", function(d,i) {
+
         var selectedfips = d3.select("#county-dropdown").property('value');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
-
+		
         genSYA(selectedfips,yrvalue);
 		genCOC(selectedfips,yrvalue);
 		genACS(selectedfips,acsyr);
