@@ -1143,11 +1143,11 @@ return name;
 }; //end of cdpName
 
 //popDropdown populaates drop down boxes
-function popDropdown(level,ddid) {
+function popDropdown(level,ddid,callpg) {
 
    
    //Counties
-var county = [  {'location':'Adams County', 'fips': '001'},
+var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Adams County', 'fips': '001'},
                 {'location':'Alamosa County', 'fips': '003'},{'location':'Arapahoe County', 'fips': '005'},
 				{'location':'Archuleta County', 'fips': '007'},{'location':'Baca County', 'fips': '009'},
 				{'location':'Bent County', 'fips': '011'},{'location':'Boulder County', 'fips': '013'},
@@ -1469,7 +1469,16 @@ var profile = [{'location' :  'Select Profile' , 'fips' : ''},{'location' :  'Re
 	]	
 
 if(level == 'region') { var locarr = region};
-if(level == 'county') {var locarr = county};
+if(callpg == 'profile') {
+	debugger;
+	if(level == 'county') {
+		county.shift();
+		var locarr = county;
+	    console.log(locarr);
+	}
+} else {
+   if(level == 'county') {var locarr = county};
+}
 if(level == 'municipality') { var locarr = municipality};
 if(level == 'place') { var locarr = place};
 if(level == 'regioncomp') {var locarr = region};
