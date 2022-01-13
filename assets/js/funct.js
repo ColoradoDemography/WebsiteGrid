@@ -1469,12 +1469,11 @@ var profile = [{'location' :  'Select Profile' , 'fips' : ''},{'location' :  'Re
 	]	
 
 if(level == 'region') { var locarr = region};
-if(callpg == 'profile') {
-	debugger;
+if(callpg == 'profile') { //removes "Colorado" from the county array when called by the profile
 	if(level == 'county') {
-		county.shift();
-		var locarr = county;
-	    console.log(locarr);
+		var tmpcty = county;
+		tmpcty.shift();
+		var locarr = tmpcty;
 	}
 } else {
    if(level == 'county') {var locarr = county};
