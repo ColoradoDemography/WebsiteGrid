@@ -3,7 +3,7 @@
 
 //list of lookup statements  https://github.com/ColoradoDemography/MS_Demog_Lookups/tree/master/doc
 
-//Utility Function
+//Utility Functions
 
 //hideButtons  selects and hides all "dropbtn" class buttons
 function hideButtons() {
@@ -1147,7 +1147,7 @@ function popDropdown(level,ddid) {
 
    
    //Counties
-var county = [ {'location': 'Colorado', 'fips' : '000'}, {'location':'Adams County', 'fips': '001'},
+var county = [  {'location':'Adams County', 'fips': '001'},
                 {'location':'Alamosa County', 'fips': '003'},{'location':'Arapahoe County', 'fips': '005'},
 				{'location':'Archuleta County', 'fips': '007'},{'location':'Baca County', 'fips': '009'},
 				{'location':'Bent County', 'fips': '011'},{'location':'Boulder County', 'fips': '013'},
@@ -3269,20 +3269,22 @@ rows.append('td')
 }; // End of genHousing
 
 //Component Functions for Demograpic Dashboard 
-function estPlot(inData, level, plotdiv, yrvalue, fips, ctyName){
+function estPlot(inData, app, level, plotdiv, yrvalue, fips, ctyName){
     const fmt_date = d3.timeFormat("%B %d, %Y");
 
 var config = {responsive: true,
               displayModeBar: false};
 //Clearing out divs
-
 var ESTIMATE = document.getElementById(plotdiv);
 ESTIMATE.innerHTML = "";
 
+if(app == "profile") {
+	  pgSetup(level, plotdiv,"County Population Estimates",false,fips, ctyName);
+	  var ESTIMATE = document.getElementById('PlotDiv2');
+}
 
 //Prepping Plot
 
-if(level === 'county'){
 var year_est_arr =[];
 var pop_est_arr = [];
 
@@ -3335,12 +3337,16 @@ var est_layout = {
 		};
 		
 Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
-};  //level == county
-
+if(app == 'profile'){
+var profileDat2 = document.getElementById('profileDat2');
+var profileImg2 = document.getElementById('profileImg2');
+profileDat2.onclick = function() {exportToCsv(ctyName, 'estimate', est_flat,0)};
+profileImg2.onclick = function() {exportToPng(ctyName, 'estimate', ESTIMATE,0)};
+} //profile
 }; //end of estPlot
 
 //Forecasts    
-function forecastPlot(inData, plotdiv,yrvalue,fips,ctyName) {
+function forecastPlot(inData, app, plotdiv,yrvalue,fips,ctyName) {
 
 
     const fmt_date = d3.timeFormat("%B %d, %Y");
@@ -3350,8 +3356,9 @@ function forecastPlot(inData, plotdiv,yrvalue,fips,ctyName) {
 	var config = {responsive: true,
               displayModeBar: false};
 //Clearing out divs
-var FORECAST = document.getElementById(plotdiv[0]);
 
+if(app == "dashboard") {   //This indivates that the call is the dashboard...
+var FORECAST = document.getElementById(plotdiv[0]);
 FORECAST.innerHTML = "";
 
 
@@ -3445,7 +3452,7 @@ agedata.forEach(function(obj) {
     totaldata.push({'year' : obj.year, 'age_cat' : obj.age_cat, 'totalpopulation' : obj.totalpopulation});
 });
 
-      //  Totals
+//  Totals
 var total_ann = d3.rollup(totaldata, v => d3.sum(v, d => d.totalpopulation), d => d.year);
 var total_age = d3.rollup(totaldata, v => d3.sum(v, d => d.totalpopulation), d => d.year, d => d.age_cat);
 
@@ -3633,9 +3640,84 @@ var popchng_layout = {
 		};
  Plotly.newPlot(POPCHNG, popchng_data, popchng_layout,config);
  
+ return([forec_flat, ageplot_flat, popchng_flat]);
+}  //Dashboard
+if(app == "profile") {
+	var FORECAST = document.getElementById(plotdiv);
+	FORECAST.innerHTML = "";
+	
+//Population Projections  This data is a single Geo by age...
+pgSetup('County', plotdiv,"County Population Forecasts",false,fips, ctyName)
+var FORECAST = document.getElementById('PlotDiv3');
+//Rollup
+	var columnsFor = ['totalpopulation'];
+	var forecast_sum = d3.rollup(inData, v => Object.fromEntries(columnsFor.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
 
-return([forec_flat, ageplot_flat, popchng_flat]);
+	var forecast_data = [];
+		for (let[key, value] of forecast_sum) {
+		   forecast_data.push({'fips' : fips, 'name' : ctyName, 'year' :  key, 'totalpopulation' : value.totalpopulation});
+		}
 
+
+var year_forec_arr =[];
+var pop_forec_arr = [];
+
+forec_flat = forecast_data.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+year_forec_arr = forec_flat.map(item => item.year);
+pop_forec_arr = forec_flat.map(item => item.totalpopulation);
+
+var forec_trace = { 
+               x: year_forec_arr,
+               y : pop_forec_arr,
+			   mode : 'lines+markers'
+			};
+
+var forec_data = [forec_trace];
+
+var forec_layout = {
+		title: "Population Projections 2010 to 2050, " + ctyName ,
+		  autosize: false,
+		  width: 1000,
+		  height: 400,
+		  xaxis: {
+			title : 'Year',
+			showgrid: true,
+			zeroline: false,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			title : 'Total Population',
+			automargin: true,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat: ','
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+ 
+Plotly.newPlot(FORECAST, forec_data, forec_layout,config);
+var profileDat3 = document.getElementById('profileDat3');
+var profileImg3 = document.getElementById('profileImg3');
+profileDat3.onclick = function() {exportToCsv(ctyName, 'forecast', forec_flat,0)};
+profileImg3.onclick = function() {exportToPng(ctyName, 'forecast', FORECAST,0)};
+return([forec_flat]);
+}  //profile
 }; //forecast plot
 
 //netmigPlot  --Currently a place holder for a net mig by age plot...
@@ -3758,7 +3840,7 @@ Plotly.newPlot(NETMIG, NetMig_data, NetMig_layout,config);
 }; //netmigPlot
 
 //Coc Plot
-function cocPlot(inData,plotdiv,yrvalue,fips,ctyName) {
+function cocPlot(inData,app, plotdiv,yrvalue,fips,ctyName) {
 	    const fmt_date = d3.timeFormat("%B %d, %Y");
 
 var coc_flat = inData;
@@ -3777,6 +3859,10 @@ var COC = document.getElementById(plotdiv);
 
 COC.innerHTML = "";
 
+if(app == 'profile') {
+		  pgSetup('County', plotdiv,"County Components of Change",false,fips, ctyName);
+		  var COC = document.getElementById('PlotDiv4');
+}
 //Components of Change
 var year_coc_arr =[];
 var pop_coc_arr = [];
@@ -3903,7 +3989,13 @@ var coc_layout = {
 		};
  
 Plotly.newPlot(COC, coc_data, coc_layout,config);	
-};
+if(app == 'profile') {
+	var profileDat4 = document.getElementById('profileDat4');
+	var profileImg4 = document.getElementById('profileImg4');
+	profileDat4.onclick = function() {exportToCsv(ctyName, 'coc', coc_flat,0)};
+    profileImg4.onclick = function() {exportToPng(ctyName, 'coc', COC,0)};
+}
+}; //cocplot
 
 //genDEMO outputs Plotly charts for the Demographic Dashboard
 function genDEMO(geotype, fips, ctyName, yrvalue){
@@ -4050,11 +4142,11 @@ var netmig_data = [];
 
 var fore_output = ["forec_output","ageest_output", "popchng_output"];
 
-	estPlot(est_data, "county", "est_output", yrvalue, fips, ctyName);
+	estPlot(est_data, "dashboard", "County",  "est_output", yrvalue, fips, ctyName);
 	
-var	fore_Data = forecastPlot(forecast_data, fore_output, yrvalue, fips, ctyName);
+var	fore_Data = forecastPlot(forecast_data, "dashboard", fore_output, yrvalue, fips, ctyName);
 	netmigPlot(netmig_data, "mig_output", fips, ctyName);
-	cocPlot(est_data,"coc_output", yrvalue, fips, ctyName);
+	cocPlot(est_data, "dashboard","coc_output", yrvalue, fips, ctyName);
 
 //Preparing final datafiles
 //Estimates
