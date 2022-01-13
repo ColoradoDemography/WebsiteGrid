@@ -107,9 +107,8 @@ d3.select("#county-dropdown").on("change", function(d,i) {
 
         genSYA(selectedfips,yrvalue);
 		genCOC(selectedfips,yrvalue);
-		genACS(selectedfips,yrvalue);
-		genTenure(selectedfips,yrvalue);
-		genRaceEth(selectedfips,yrvalue);
+		genACS(selectedfips,acsyr);
+		genTenure(selectedfips,acsyr);
 		genHousing(selectedfips,yrvalue);
     });
 }); //end of maximum year value
