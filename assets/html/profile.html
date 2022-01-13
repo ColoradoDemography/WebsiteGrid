@@ -177,7 +177,7 @@ document.getElementById('sel6').checked = true;
 document.getElementById('sel7').checked = true;
 document.getElementById('sel8').checked = true;
 
-popDropdown('profile','profile-dropdown');
+popDropdown('profile','profile-dropdown','profile');
 
 d3.select("#profile-dropdown").on("change", function(d,i) {
 document.getElementById("location-label").innerHTML = "";
@@ -219,7 +219,7 @@ document.getElementById("location-label").innerHTML = "";
 		  document.getElementById("location-dropdown").multiple = false;
        }
 
-       popDropdown(selectedfips,'location-dropdown'); 
+       popDropdown(selectedfips,'location-dropdown','profile'); 
  });
 
 document.getElementById('genprofile').onclick = function changeContent() {
