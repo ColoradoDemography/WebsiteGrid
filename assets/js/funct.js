@@ -2523,7 +2523,7 @@ var tblcolumns1 = [
     {'text' :'Race/ Ethnicity: '+ yrvalue, 'colspan' : 2},
 	{'text' : "<a href='https://coloradodemography.github.io/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>Race/Ethnicity Lookup</a>", 'colspan' : 2}
 	 ];
-var tblcolumns2 = ['Race/ Ethnicity','Percentage, ' + yrvalue,'Number,  '+ yrvalue,year10 + ' forecast'];
+var tblcolumns2 = ['Race/ Ethnicity','Percentage, ' + yrvalue,'Number,  '+ yrvalue,year10 + ' Forecast'];
 // Output table 
 d3.select('#RaceTab').html("");
 var syatab = d3.select('#RaceTab')
