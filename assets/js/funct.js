@@ -2642,8 +2642,7 @@ if(fips == "000"){
 	rental_tab = rental_val.filter(function(d) {return d.fips == Number(fips);});
    };
 
-
-    out_tab = oo_tab.concat(rental_tab)
+ out_tab = oo_tab.concat(rental_tab)
 
 var tbl_arr = [];
 var censstub = "https://data.census.gov/cedsci/table?q=";
@@ -2652,9 +2651,9 @@ var tabno = "B07013";
 var tabname = ["Owner Occupied Housing Units", "Rental Housing Units"];
 
 if(fips == "000") {
-    var censgeo = "&g=0400000US08&tid=ACSDT5Y2019.";
+    var censgeo = "&g=0400000US08&tid=ACSDT5Y"+ yrvalue + ".";
 } else {
-	var censgeo = "&g=0500000US08"+ fips +"&tid=ACSDT5Y2019.";
+	var censgeo = "&g=0500000US08"+ fips +"&tid=ACSDT5Y"+ yrvalue + ".";
 };
 
 for(i = 0; i < tabname.length;i++) {
@@ -2940,9 +2939,9 @@ var tabname = ["% living in Poverty","% with Bachelor's Degree+",
               "Median Household Income", "Median Home Value", "Median Gross Rent"];
 
 if(fips == "000") {
-    var censgeo = "&g=0400000US08&tid=ACSDT5Y2019.";
+    var censgeo = "&g=0400000US08&tid=ACSDTS5Y" + yrvalue + ".";
 } else {
-	var censgeo = "&g=0500000US08"+ fips +"&tid=ACSDT5Y2019.";
+	var censgeo = "&g=0500000US08"+ fips +"&tid=ACSDTS5Y" + yrvalue + ".";
 };
 
 
