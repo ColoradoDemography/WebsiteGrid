@@ -2939,9 +2939,9 @@ var tabname = ["% living in Poverty","% with Bachelor's Degree+",
               "Median Household Income", "Median Home Value", "Median Gross Rent"];
 
 if(fips == "000") {
-    var censgeo = "&g=0400000US08&tid=ACSDTS5Y" + yrvalue + ".";
+    var censgeo = "&g=0400000US08&tid=ACSDT5Y" + yrvalue + ".";
 } else {
-	var censgeo = "&g=0500000US08"+ fips +"&tid=ACSDTS5Y" + yrvalue + ".";
+	var censgeo = "&g=0500000US08"+ fips +"&tid=ACSDT5Y" + yrvalue + ".";
 };
 
 
