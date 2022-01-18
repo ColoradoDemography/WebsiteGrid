@@ -985,6 +985,7 @@ profileImg2.onclick = function() {exportToPng(ctyNames, 'age', ageDiv,0)};
 
 //gerAgeSetup sets up the regional estimates plot
 function genAgeSetup(level, inData, age_div, fipsList, ctyNameList) {
+	age_div.innerHTML = "";
 if(level == "Region") {	
   pgSetup(level, age_div,"Regional Age Estimates and Forecasts",true,fipsList, ctyNameList)
 } 
