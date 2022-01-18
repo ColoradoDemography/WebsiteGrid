@@ -962,7 +962,7 @@ var PlaceNames = [...new Set(pltData.map(d => d.name))];
 			gridwidth: 2,
 			linecolor: 'black',
 			linewidth: 2,
-			 tickformat: '%'
+			 tickformat:  ',.0%'
 		  },
 			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
