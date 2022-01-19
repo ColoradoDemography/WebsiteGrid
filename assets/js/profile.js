@@ -12,11 +12,11 @@ function join(lookupTable, mainTable, lookupKey, mainKey, select) {
         m = mainTable.length,
         lookupIndex = [],
         output = [];
-    for (var i = 0; i < l; i++) { // loop through l items
+    for (var i = 0; i < l; i++) { // loop through l ds
         var row = lookupTable[i];
         lookupIndex[row[lookupKey]] = row; // create an index for lookup table
     }
-    for (var j = 0; j < m; j++) { // loop through m items
+    for (var j = 0; j < m; j++) { // loop through m ds
         var y = mainTable[j];
         var x = lookupIndex[y[mainKey]]; // get corresponding row from lookupTable
         output.push(select(y, x)); // select only the columns you need
@@ -344,7 +344,7 @@ function pgSetup(level, gridPanel,headerTxt, multi, ctyFips,ctyName) {
 			 dlbtn.className = 'dropbtn';
 			 dlbtn.innerHTML = '<i class="fas fas fa-download fa-2x" style="color: black;">';
 
-			 //Data Items
+			 //Data ds
 			 var data_li = document.createElement('li');
 			 var data_link = document.createElement('a');
 				 data_link.href = '#';
@@ -352,7 +352,7 @@ function pgSetup(level, gridPanel,headerTxt, multi, ctyFips,ctyName) {
 				 var data_Text = document.createTextNode("Download Data (CSV)");
 				 data_link.appendChild(data_Text);
 			     data_li.appendChild(data_link);
-			//Image Items
+			//Image ds
 			 var img_li = document.createElement('li');
 			 var img_link = document.createElement('a');
 				 img_link.href = '#';
@@ -360,7 +360,7 @@ function pgSetup(level, gridPanel,headerTxt, multi, ctyFips,ctyName) {
 			 var img_Text = document.createTextNode("Download Image (PNG)");
 				 img_link.appendChild(img_Text);
 			     img_li.appendChild(img_link);
-			//Source Items
+			//Source ds
 			 var src_li = document.createElement('li');
 			 var src_link = document.createElement('a');
 			     
@@ -377,10 +377,15 @@ function pgSetup(level, gridPanel,headerTxt, multi, ctyFips,ctyName) {
 						var src_txt = document.createTextNode('Regional Components of Change');
 						src_link.href = 'https://coloradodemography.github.io/births-deaths-migration/data/components-change-regions/';
                      }
-					 if(headerTxt === "Regional Age Estimates and Forecasts"){
-						var src_txt = document.createTextNode('Regional Age Estimates and Forecasts');
+					 if(headerTxt === "Regional Age Estimates"){
+						var src_txt = document.createTextNode('Regional Age Estimates');
 						src_link.href = 'https://coloradodemography.github.io/population/data/sya-regions/';
                      }
+					 if(headerTxt === "Regional Age Forecasts"){
+						var src_txt = document.createTextNode('Regional Age Forecasts');
+						src_link.href = 'https://coloradodemography.github.io/population/data/sya-regions/';
+                     }
+
 				 } else {  //counties
 					 if(headerTxt === "County Population Estimates"){
 						var src_txt = document.createTextNode('County Population Estimates');
@@ -436,17 +441,18 @@ if(level == "Region"){
 			tabcell2.style.border = "0px solid black";
 			tabcell2.style.verticalAlign = "top";
 			tabcell2.style.align = 'left';
-			tabcell2.appendChild(regtxt)
+			tabcell2.appendChild(regtxt);
 			tabcell2.appendChild(reglist);
-			
+					
 		var tabcell3 = document.createElement("td");
 			tabcell3.style.border = "0px solid black";
 			tabcell3.style.verticalAlign = "top";
 			tabcell3.style.align = 'left';
 			tabcell3.appendChild(regbtn);
-		
+		if(headerTxt != 'Regional Age Forecasts'){
 			tblrow.appendChild(tabcell2);
 			tblrow.appendChild(tabcell3);
+		}
 		}
 		
 		tblbody.appendChild(tblrow);
@@ -483,14 +489,14 @@ var pltSort = inData.sort(function(a, b){ return d3.ascending(a['year'], b['year
 		.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
 	
 
-var pltData = pltSort.filter(item => fipsList.includes(item.fips));
+var pltData = pltSort.filter(d => fipsList.includes(d.fips));
 
 	var est_data = [];
 	var ctyNames;
 	for(i = 0; i < fipsList.length; i++) {
-		var filtPlot = pltData.filter(item => item.fips == fipsList[i]);
-		var year_est_arr = filtPlot.map(item => item.year);
-		var pop_est_arr = filtPlot.map(item => item.totalpopulation);
+		var filtPlot = pltData.filter(d => d.fips == fipsList[i]);
+		var year_est_arr = filtPlot.map(d => d.year);
+		var pop_est_arr = filtPlot.map(d => d.totalpopulation);
 	 est_data.push({x : year_est_arr,
 	                y : pop_est_arr,
 					name : filtPlot[0].name,
@@ -596,14 +602,14 @@ var pltSort = inData.sort(function(a, b){ return d3.ascending(a['year'], b['year
 		.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
 	
 
-var pltData = pltSort.filter(item => fipsList.includes(item.fips));
+var pltData = pltSort.filter(d => fipsList.includes(d.fips));
 
 	var forec_data = [];
 	var ctyNames;
 	for(i = 0; i < fipsList.length; i++) {
-		var filtPlot = pltData.filter(item => item.fips == fipsList[i]);
-		var year_forec_arr = filtPlot.map(item => item.year);
-		var pop_forec_arr = filtPlot.map(item => item.totalpopulation);
+		var filtPlot = pltData.filter(d => d.fips == fipsList[i]);
+		var year_forec_arr = filtPlot.map(d => d.year);
+		var pop_forec_arr = filtPlot.map(d => d.totalpopulation);
 	 forec_data.push({x : year_forec_arr,
 	                y : pop_forec_arr,
 					name : filtPlot[0].name,
@@ -710,24 +716,24 @@ var pltSort = inData.sort(function(a, b){ return d3.ascending(a['year'], b['year
 		.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
 	
 
-var pltData = pltSort.filter(item => fipsList.includes(item.fips));
+var pltData = pltSort.filter(d => fipsList.includes(d.fips));
 
 //Components of Change
 
 
 	var ctyNames;
 	for(i = 0; i < fipsList.length; i++) {
-		var filtPlot = pltData.filter(item => item.fips == fipsList[i]);
+		var filtPlot = pltData.filter(d => d.fips == fipsList[i]);
 		//Fix for popchng
 		for(j = 1; j < filtPlot.length; j++) {
 				filtPlot[j].popchng = filtPlot[j].totalpopulation - filtPlot[j-1].totalpopulation;
 		}
-		var year_coc_arr = filtPlot.map(item => item.year);
-		var pop_coc_arr = pltData.map(item => item.popchng);
-        var birth_coc_arr = pltData.map(item => item.births);
-        var death_coc_arr = pltData.map(item => item.deaths);
-        var incr_coc_arr = pltData.map(item => item.naturalincrease);
-        var migr_coc_arr = pltData.map(item => item.netmigration);
+		var year_coc_arr = filtPlot.map(d => d.year);
+		var pop_coc_arr = pltData.map(d => d.popchng);
+        var birth_coc_arr = pltData.map(d => d.births);
+        var death_coc_arr = pltData.map(d => d.deaths);
+        var incr_coc_arr = pltData.map(d => d.naturalincrease);
+        var migr_coc_arr = pltData.map(d => d.netmigration);
 
 var coc_trace1 = { 
                x: year_coc_arr,
@@ -881,7 +887,7 @@ function genRegcocSetup(level, inData, coc_div, fipsList, ctyNameList) {
 };  //genRegcocSetup
 
 
-//genAgeEst Generates Age plot for regions...
+///genAgeEst Generates Age plot for regions...
 function genAgeEst(inData,DDsel,ageDiv) {
 	   const fmt_date = d3.timeFormat("%B %d, %Y");
 var config = {responsive: true,
@@ -900,18 +906,9 @@ if(fipsList.length == 1 && fipsList[0] == 0){ //the first run through
    fipsList.push(-101);
 }
 
-if(fipsList.length == 2 && fipsList[0] > fipsList[1]) {
-var pltSort = inData.sort(function(a, b){ return d3.ascending(a['age_cat'], b['age_cat']); })
-        .sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
-		.sort(function(a, b){ return d3.descending(a['fips'], b['fips']); });
-} else {
-	var pltSort = inData.sort(function(a, b){ return d3.ascending(a['age_cat'], b['age_cat']); })
-        .sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
-		.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
-}
 
-var year_data = [...new Set(pltSort.map(d => d.year))];	
-var pltData = pltSort.filter(item => fipsList.includes(item.fips) && item.year == year_data[0]);
+var year_data = [...new Set(inData.map(d => d.year))];	
+var pltData = inData.filter(item => fipsList.includes(item.fips) && item.year == year_data[0]);
 var PlaceNames = [...new Set(pltData.map(d => d.name))];
 
     var ctyNames = [];
@@ -983,11 +980,106 @@ profileImg2.onclick = function() {exportToPng(ctyNames, 'age', ageDiv,0)};
 	
 }; //genAgeEst			
 
-//gerAgeSetup sets up the regional estimates plot
-function genAgeSetup(level, inData, age_div, fipsList, ctyNameList) {
+///genAgeFor Generates Age plot for regions...
+function genAgeFor(inData,DDsel,ageDiv) {
+	   const fmt_date = d3.timeFormat("%B %d, %Y");
+var config = {responsive: true,
+              displayModeBar: false};
+			  
+//Generates the list of selected places
+  var fipsList = [], opt;
+  var len = DDsel.options.length;
+  for (var i = 0; i < len; i++) {
+    opt = DDsel.options[i];
+    if (opt.selected) {
+      fipsList.push(+opt.value);
+    }
+  }
+if(fipsList.length == 1 && fipsList[0] == 0){ //the first run through
+   fipsList.push(-101);
+}
+
+
+var year_data = [...new Set(inData.map(d => d.year))];	
+var pltData = inData.filter(item => fipsList.includes(item.fips) && item.year == year_data[1]);
+var PlaceNames = [...new Set(pltData.map(d => d.name))];
+
+    var ctyNames = [];
+	var age_data = [];
+	for(i = 0; i < PlaceNames.length; i++) {
+		var filtPlot = pltData.filter(item => item.name == PlaceNames[i]);
+		var age_for_arr = filtPlot.map(item => item.age_cat);
+		var pct_for_arr = filtPlot.map(item => item.pct_totalpopulation);
+		if(i == 0){
+           ctyNames = PlaceNames[i];
+		} else {
+			ctyNames = ctyNames + ", " + PlaceNames[i];
+		}
+		
+	 age_data.push({x : age_for_arr,
+	                y : pct_for_arr,
+					name : PlaceNames[i],
+	                type : 'bar'
+					});
+	} //i
+
+	
+	 
+	var age_layout = {
+		title: "Age Forecast: " + year_data[1],
+		  autosize: false,
+		  width: 1000,
+		  height: 400, 
+		  barmode : 'group',
+		  xaxis: {
+			title : 'Age Group',
+			showgrid: true,
+			zeroline: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2
+		  },
+		  yaxis: {
+			title : 'Percent',
+			automargin : true,
+			showgrid: true,
+			showline: true,
+			mirror: 'ticks',
+			gridcolor: '#bdbdbd',
+			gridwidth: 2,
+			linecolor: 'black',
+			linewidth: 2,
+			 tickformat:  '.1%'
+		  },
+			annotations : [{text :  'Data and Visualization by the Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
+               xref : 'paper', 
+			   x : 0, 
+			   yref : 'paper', 
+			   y : -0.35, 
+			   align : 'left', 
+			   showarrow : false}]
+		};
+	Plotly.newPlot(ageDiv, age_data, age_layout,config);
+
+//Download Events
+
+var profileDat3 = document.getElementById('profileDat3');
+var profileImg3 = document.getElementById('profileImg3');
+profileDat3.onclick = function() {exportToCsv(ctyNames, 'age', pltData,0)};
+profileImg3.onclick = function() {exportToPng(ctyNames, 'age', ageDiv,0)};
+	
+}; //genAgeFor			
+
+//genAgeSetup sets up the regional estimates plot
+function genAgeSetup(level, inData, age_div, age_div2, fipsList, ctyNameList) {
 	age_div.innerHTML = "";
+	age_div2.innerHTML = "";
 if(level == "Region") {	
-  pgSetup(level, age_div,"Regional Age Estimates and Forecasts",true,fipsList, ctyNameList)
+  pgSetup(level, age_div,"Regional Age Estimates",true,fipsList, ctyNameList)
+  pgSetup(level, age_div2,"Regional Age Forecasts",true,fipsList, ctyNameList)
 } 
 
 if(level == 'County'){
@@ -1004,9 +1096,11 @@ if(level == 'County'){
  
 
    genAgeEst(inData,dd, "PlotDiv2");
-
+   genAgeFor(inData,dd, "PlotDiv3");
+   
    btn.addEventListener('click', function() {
 	   genAgeEst(inData,dd, "PlotDiv2")
+	   genAgeFor(inData,dd, "PlotDiv3");
        });
 	   
 };  //genAgeSetup
@@ -2030,9 +2124,9 @@ if(muniList.includes(level)){
 		 //Population Growth
 		 var tabgr1 = calcpopGR(data[0],fipsArr,level,yrlistARR);
 		//Chnaging key names
-		 const popCOdata2 = popCOdata.map(item => {
-             return {countyfips: item.reg_num, year : item.year, estimate : item.estimate, births : item.births, 
-			        deaths : item.deaths, netmig : item.netmig, change : item.change, datatype : item.datatype};
+		 const popCOdata2 = popCOdata.map(d => {
+             return {countyfips: d.reg_num, year : d.year, estimate : d.estimate, births : d.births, 
+			        deaths : d.deaths, netmig : d.netmig, change : d.change, datatype : d.datatype};
            });
 		 var tabCO = calcpopGR(popCOdata2,0,'County',yrlistARR);
          var tabgr = tabCO.concat(tabgr1)
@@ -2882,8 +2976,8 @@ Promise.all(prom).then(function(data){
 	
 //Assigning age categories
   CO_age_raw.forEach(function(obj) {
-    if(obj.age >=  0 && obj.age <= 5) {obj.age_cat = "00 to 05"; }
-    if(obj.age >= 6 && obj.age <= 17) {obj.age_cat = "06 to 17";}
+    if(obj.age >=  0 && obj.age <= 5) {obj.age_cat = "0 to 5"; }
+    if(obj.age >= 6 && obj.age <= 17) {obj.age_cat = "6 to 17";}
     if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24"; }
     if(obj.age >= 25 && obj.age <= 54) {obj.age_cat = "25 to 54"; }
 	if(obj.age >= 55 && obj.age <= 64) {obj.age_cat = "55 to 64"; }
@@ -2910,8 +3004,8 @@ Promise.all(prom).then(function(data){
 
 //Assigning age categories
   cty_age_raw.forEach(function(obj) {
-    if(obj.age >=  0 && obj.age <= 5) {obj.age_cat = "00 to 05"; }
-    if(obj.age >= 6 && obj.age <= 17) {obj.age_cat = "06 to 17";}
+    if(obj.age >=  0 && obj.age <= 5) {obj.age_cat = "0 to 5"; }
+    if(obj.age >= 6 && obj.age <= 17) {obj.age_cat = "6 to 17";}
     if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24"; }
     if(obj.age >= 25 && obj.age <= 54) {obj.age_cat = "25 to 54"; }
 	if(obj.age >= 55 && obj.age <= 64) {obj.age_cat = "55 to 64"; }
@@ -3010,7 +3104,7 @@ var fipsList = [...new Set(fin_age_data.map(d => d.fips))];
 var ctyNameList = [...new Set(fin_age_data.map(d => d.name))];
 //A Group Age Chart
 
-genAgeSetup(geotype,fin_age_pct,PRO_2.id, fipsList, ctyNameList);
+genAgeSetup(geotype,fin_age_pct,PRO_2.id, PRO_3.id, fipsList, ctyNameList);
 };
 	
 }); //End of Promise
