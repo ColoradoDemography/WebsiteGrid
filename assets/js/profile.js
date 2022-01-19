@@ -951,6 +951,7 @@ var PlaceNames = [...new Set(pltData.map(d => d.name))];
 		  },
 		  yaxis: {
 			title : 'Percent',
+			range :[0, 0.5],
 			automargin : true,
 			showgrid: true,
 			showline: true,
@@ -1044,6 +1045,7 @@ var PlaceNames = [...new Set(pltData.map(d => d.name))];
 		  },
 		  yaxis: {
 			title : 'Percent',
+			range :[0, 0.5],
 			automargin : true,
 			showgrid: true,
 			showline: true,
