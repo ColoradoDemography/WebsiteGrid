@@ -1100,7 +1100,9 @@ if(level == 'County'){
    genAgeEst(inData,dd, "PlotDiv2");
    genAgeFor(inData,dd, "PlotDiv3");
    
-   btn.addEventListener('click', function() {
+   btn.addEventListener('click', function() {\
+   	   age_div.innerHTML = "";
+	   age_div2.innerHTML = "";
 	   genAgeEst(inData,dd, "PlotDiv2")
 	   genAgeFor(inData,dd, "PlotDiv3");
        });
