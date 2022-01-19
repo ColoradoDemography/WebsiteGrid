@@ -1100,9 +1100,14 @@ if(level == 'County'){
    genAgeEst(inData,dd, "PlotDiv2");
    genAgeFor(inData,dd, "PlotDiv3");
    
-   btn.addEventListener('click', function() {\
-   	   age_div.innerHTML = "";
+   btn.addEventListener('click', function() {
+	   age_div.innerHTML = "";
 	   age_div2.innerHTML = "";
+	   if(level == "Region") {	
+		pgSetup(level, age_div,"Regional Age Estimates",true,fipsList, ctyNameList)
+		pgSetup(level, age_div2,"Regional Age Forecasts",true,fipsList, ctyNameList)
+		} 
+
 	   genAgeEst(inData,dd, "PlotDiv2")
 	   genAgeFor(inData,dd, "PlotDiv3");
        });
