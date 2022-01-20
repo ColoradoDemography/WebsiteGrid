@@ -1082,6 +1082,7 @@ profileImg3.onclick = function() {exportToPng(ctyNames, 'age', ageDiv,0)};
 //genAgePyr  Generates age Pramid
 function genAgePyr(inData,DDsel,ageDiv){
 const fmt_date = d3.timeFormat("%B %d, %Y");
+const fmt_pct = d3.format(".1%")
 var config = {responsive: true,
               displayModeBar: false};
 			  
@@ -1096,21 +1097,25 @@ var config = {responsive: true,
   }
  
 var year_data = [...new Set(inData.map(d => d.year))];	
+var age_arr = [...new Set(inData.map(d => d.age_cat))];
 var pltData = inData.filter(d => fipsList.includes(d.fips));
 var ctyNames = [...new Set(pltData.map(d => d.name))]; 
  
 var year0 = pltData.filter(d => d.year == year_data[0]);
 var year1 = pltData.filter(d => d.year == year_data[1]); 
 
-var age_arr = year0.map(d => d.age_cat);
+
 var pct_male_0 = year0.map(d => d.pct_malepopulation * -1);
-var pct_male_0d = year0.map(d => d.pct_malepopulation);
+var pct_male_0d = year0.map(d => 'Men ' + year_data[0] + ', ' + fmt_pct(d.pct_malepopulation));
 var pct_female_0 = year0.map(d => d.pct_femalepopulation);
+var pct_female_0d = year0.map(d => 'Women ' + year_data[0] + ', ' + fmt_pct(d.pct_femalepopulation));
+
 
 var pct_male_1 = year1.map(d => d.pct_malepopulation * -1);
 var pct_male_1d = year1.map(d => d.pct_malepopulation);
+var pct_male_1d = year1.map(d => 'Men ' + year_data[1] + ', ' + fmt_pct(d.pct_malepopulation));
 var pct_female_1 = year1.map(d => d.pct_femalepopulation);
-
+var pct_female_1d = year1.map(d => 'Women ' + year_data[1] + ', ' + fmt_pct(d.pct_femalepopulation));
 
 
 trace1 = {
@@ -1119,7 +1124,7 @@ trace1 = {
   x: pct_male_0, 
   y: age_arr, 
   customdata : pct_male_0d,
-  hovertemplate : 'Men : %{customdata:0.1%}',
+  hovertemplate : '%{customdata}',
   marker: {
 	color : 'white',
     line: {
@@ -1134,7 +1139,8 @@ trace2 = {
   type: 'bar', 
   x: pct_female_0, 
   y: age_arr, 
-   hovertemplate : 'Women: %{x:0.1%}',
+  customdata : pct_female_0d,
+  hovertemplate : '%{customdata}',
    marker: {
 	   color : 'white',
     line: {
@@ -1151,7 +1157,7 @@ trace3 = {
   x: pct_male_1, 
   y: age_arr, 
   customdata : pct_male_1d,
-  hovertemplate : 'Men : %{customdata:0.1%}',
+  hovertemplate : '%{customdata}',
     marker: {
     color : 'blue',
 	opacity : 0.5,
@@ -1167,7 +1173,8 @@ trace4 = {
   type: 'bar', 
   x: pct_female_1, 
   y: age_arr, 
-   hovertemplate : 'Women: %{x:0.1%}',
+  customdata : pct_female_1d,
+  hovertemplate : '%{customdata}',
     marker: {
    color : 'brown',
    opacity : 0.5,
@@ -1186,7 +1193,7 @@ var pyr_data = [trace1, trace2, trace3, trace4];
 		  width: 500,
 		  height: 400, 
           barmode :'overlay',
-          bargap :0.0,
+          bargap : 0.0,
 		  xaxis: {
 			title : 'Men     Women',
 			range :[-0.6, 0.6],
@@ -1207,6 +1214,7 @@ var pyr_data = [trace1, trace2, trace3, trace4];
 			automargin : true,
 			showgrid: true,
 			showline: true,
+			tickvals : age_arr,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 2,
