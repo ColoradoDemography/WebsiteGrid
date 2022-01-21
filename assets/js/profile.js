@@ -1099,6 +1099,7 @@ var config = {responsive: true,
 var year_data = [...new Set(inData.map(d => d.year))];	
 var age_arr = [...new Set(inData.map(d => d.age_cat))];
 var pltData = inData.filter(d => fipsList.includes(d.fips));
+
 var ctyNames = [...new Set(pltData.map(d => d.name))]; 
  
 var year0 = pltData.filter(d => d.year == year_data[0]);
@@ -1125,6 +1126,7 @@ trace1 = {
   y: age_arr, 
   customdata : pct_male_0d,
   hovertemplate : '%{customdata}',
+  hoverlabel : {namelength :0},
   marker: {
 	color : 'white',
     line: {
@@ -1141,6 +1143,7 @@ trace2 = {
   y: age_arr, 
   customdata : pct_female_0d,
   hovertemplate : '%{customdata}',
+  hoverlabel : {namelength :0},
    marker: {
 	   color : 'white',
     line: {
@@ -1158,6 +1161,7 @@ trace3 = {
   y: age_arr, 
   customdata : pct_male_1d,
   hovertemplate : '%{customdata}',
+  hoverlabel : {namelength :0},
     marker: {
     color : 'blue',
 	opacity : 0.5,
@@ -1175,6 +1179,7 @@ trace4 = {
   y: age_arr, 
   customdata : pct_female_1d,
   hovertemplate : '%{customdata}',
+  hoverlabel : {namelength :0},
     marker: {
    color : 'brown',
    opacity : 0.5,
@@ -1188,14 +1193,13 @@ trace4 = {
 var pyr_data = [trace1, trace2, trace3, trace4];
 
 	var pyr_layout = {
-		title: "Age by Sex, " + year_data[0] + 'and ' + year_data[1] +'<br>' + ctyNames[0],
+		title: "Age by Sex, " + year_data[0] + ' and ' + year_data[1] +'<br>' + ctyNames[0],
 		  autosize: false,
 		  width: 500,
 		  height: 400, 
           barmode :'overlay',
           bargap : 0.0,
 		  xaxis: {
-			title : 'Men     Women',
 			range :[-0.6, 0.6],
 			tickvals : [-.6, -.4, -.2,0, .2,.4,.6],
 			ticktext : ['60%','40%', '20%', '0%', '20%','40%','60%'],
@@ -1221,11 +1225,20 @@ var pyr_data = [trace1, trace2, trace3, trace4];
 			linecolor: 'black',
 			linewidth: 2,
 		  },
-			annotations : [{text :  'Data and Visualization by the<br>Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
+			annotations : [
+			{text :  'Men          Women' , 
+               xref : 'paper', 
+			   x : 0.5, 
+			   yref : 'paper', 
+			   y : -0.2, 
+			   align : 'center', 
+			   font : { size : 14},
+			   showarrow : false},
+			   {text :  'Data and Visualization by the<br>Colorado State Demography Office.  Print Date: ' +  fmt_date(new Date) , 
                xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.5, 
+			   y : -0.37, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -3149,15 +3162,15 @@ Promise.all(prom).then(function(data){
 	
 //Assigning age categories
   CO_age_raw.forEach(function(obj) {
-    if(obj.age >=  0 && obj.age <= 5) {obj.age_cat = "0 to 5"; }
-    if(obj.age >= 6 && obj.age <= 17) {obj.age_cat = "6 to 17";}
-    if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24"; }
-    if(obj.age >= 25 && obj.age <= 54) {obj.age_cat = "25 to 54"; }
-	if(obj.age >= 55 && obj.age <= 64) {obj.age_cat = "55 to 64"; }
-	if(obj.age >= 65 && obj.age <= 74) {obj.age_cat = "65 to 74"; }
-	if(obj.age >= 75 && obj.age <= 84) {obj.age_cat = "75 to 84"; }
-    if(obj.age >= 85) {obj.age_cat = "85 +";}
-    CO_age_data.push({'fips' : obj.fips, 'year' : obj.year, 'age' : obj.age, 'age_cat' : obj.age_cat, 
+     if(obj.age >=  0 && obj.age <= 5) {obj.age_cat = "0 to 5"; obj.agecatno = 1;}
+    if(obj.age >= 6 && obj.age <= 17) {obj.age_cat = "6 to 17"; obj.agecatno = 2;}
+    if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24"; obj.agecatno = 3;}
+    if(obj.age >= 25 && obj.age <= 54) {obj.age_cat = "25 to 54"; obj.agecatno = 4;}
+	if(obj.age >= 55 && obj.age <= 64) {obj.age_cat = "55 to 64"; obj.agecatno = 5;}
+	if(obj.age >= 65 && obj.age <= 74) {obj.age_cat = "65 to 74"; obj.agecatno = 6;}
+	if(obj.age >= 75 && obj.age <= 84) {obj.age_cat = "75 to 84"; obj.agecatno = 7;}
+    if(obj.age >= 85) {obj.age_cat = "85 +"; obj.agecatno = 8;}
+    CO_age_data.push({'fips' : obj.fips, 'year' : obj.year, 'age' : obj.age, 'age_cat_no' : obj.agecatno, 'age_cat' : obj.age_cat, 
 	       'malepopulation' : obj.malepopulation, 'femalepopulation' : obj.femalepopulation, 'totalpopulation' : obj.totalpopulation});
  });
 
@@ -3177,15 +3190,15 @@ Promise.all(prom).then(function(data){
 
 //Assigning age categories
   cty_age_raw.forEach(function(obj) {
-    if(obj.age >=  0 && obj.age <= 5) {obj.age_cat = "0 to 5"; }
-    if(obj.age >= 6 && obj.age <= 17) {obj.age_cat = "6 to 17";}
-    if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24"; }
-    if(obj.age >= 25 && obj.age <= 54) {obj.age_cat = "25 to 54"; }
-	if(obj.age >= 55 && obj.age <= 64) {obj.age_cat = "55 to 64"; }
-	if(obj.age >= 65 && obj.age <= 74) {obj.age_cat = "65 to 74"; }
-	if(obj.age >= 75 && obj.age <= 84) {obj.age_cat = "75 to 84"; }
-    if(obj.age >= 85) {obj.age_cat = "85 +";}
-    cty_age_data.push({'fips' : obj.fips, 'year' : obj.year, 'age' : obj.age, 'age_cat' : obj.age_cat, 
+    if(obj.age >=  0 && obj.age <= 5) {obj.age_cat = "0 to 5"; obj.agecatno = 1;}
+    if(obj.age >= 6 && obj.age <= 17) {obj.age_cat = "6 to 17"; obj.agecatno = 2;}
+    if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24"; obj.agecatno = 3;}
+    if(obj.age >= 25 && obj.age <= 54) {obj.age_cat = "25 to 54"; obj.agecatno = 4;}
+	if(obj.age >= 55 && obj.age <= 64) {obj.age_cat = "55 to 64"; obj.agecatno = 5;}
+	if(obj.age >= 65 && obj.age <= 74) {obj.age_cat = "65 to 74"; obj.agecatno = 6;}
+	if(obj.age >= 75 && obj.age <= 84) {obj.age_cat = "75 to 84"; obj.agecatno = 7;}
+    if(obj.age >= 85) {obj.age_cat = "85 +"; obj.agecatno = 8;}
+    cty_age_data.push({'fips' : obj.fips, 'year' : obj.year, 'age' : obj.age, 'age_cat_no' : obj.agecatno, 'age_cat' : obj.age_cat, 
 	       'malepopulation' : obj.malepopulation, 'femalepopulation' : obj.femalepopulation, 'totalpopulation' : obj.totalpopulation});
  });
  
@@ -3195,18 +3208,20 @@ Promise.all(prom).then(function(data){
  
  var columnsToSum = ['malepopulation', 'femalepopulation', 'totalpopulation'];
  var age_CO_data = [];
- var CO_age_sum =  d3.rollup(CO_age_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year, d => d.age_cat)
+ var CO_age_sum =  d3.rollup(CO_age_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year,  d => d.age_cat_no, d => d.age_cat)
  //Flatten 
 for (let [key1, value] of CO_age_sum) {
 for (let[key2, value2] of value) {
-   age_CO_data.push({'fips' : 0, 'name' : 'Colorado', 'year' : key1, 'age_cat' : key2,
-     'malepopulation' : value2.malepopulation, 'femalepopulation' : value2.femalepopulation, 'totalpopulation' : value2.totalpopulation});
+for (let [key3, value3] of value2) {
+   age_CO_data.push({'fips' : 0, 'name' : 'Colorado', 'year' : key1, 'age_cat_no' : key2, 'age_cat' : key3,
+     'malepopulation' : value3.malepopulation, 'femalepopulation' : value3.femalepopulation, 'totalpopulation' : value3.totalpopulation});
 }
+};
 };
 
 
  var age_cty_data = [];
- var cty_age_sum =  d3.rollup(cty_age_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.fips, d => d.year, d => d.age_cat);
+ var cty_age_sum =  d3.rollup(cty_age_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.fips, d => d.year, d => d.age_cat_no, d => d.age_cat);
  
  
  
@@ -3214,32 +3229,42 @@ for (let[key2, value2] of value) {
 for (let [key1, value1] of cty_age_sum) {
 for (let [key2, value2] of value1) {
 for (let [key3, value3] of value2) {
-   age_cty_data.push({'fips' : key1, 'name' : countyName(key1), 'year' : key2, 'age_cat' : key3,
-     'malepopulation' : value3.malepopulation, 'femalepopulation' : value3.femalepopulation, 'totalpopulation' : value3.totalpopulation});
+for (let [key4, value4] of value3) {
+   age_cty_data.push({'fips' : key1, 'name' : countyName(key1), 'year' : key2, 'age_cat_no' : key3, 'age_cat' : key4,
+     'malepopulation' : value4.malepopulation, 'femalepopulation' : value4.femalepopulation, 'totalpopulation' : value4.totalpopulation});
 }
 }
 };
+};
+var age_cty_data_s = age_cty_data.sort(function(a, b){ return d3.ascending(a['age_cat_no'], b['age_cat_no']); })
+		.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
+		.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
 
+var age_cty_data = age_cty_data_s;
 
  //Generating regional total
 if(regList.includes(geotype)) {
 
 //Rolling up regional data for table
-var age_reg_sum =  d3.rollup(cty_age_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year, d => d.age_cat)
+var age_reg_sum =  d3.rollup(cty_age_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year, d => d.age_cat_no, d => d.age_cat)
 
 //Flatten Arrays for output
 var age_reg_data = [];
 var regionNum = -101;
-;
-
-
 
 for (let [key1, value] of age_reg_sum) {
 for (let[key2, value2] of value) {
-   age_reg_data.push({'fips' : regionNum, 'name' : regionName(fipsArr), 'year' : key1, 'age_cat' : key2,
-     'malepopulation' : value2.malepopulation, 'femalepopulation' : value2.femalepopulation, 'totalpopulation' : value2.totalpopulation});
+for (let[key3, value3] of value2) {
+   age_reg_data.push({'fips' : regionNum, 'name' : regionName(fipsArr), 'year' : key1, 'age_cat_no' : key2, 'age_cat' : key3,
+     'malepopulation' : value3.malepopulation, 'femalepopulation' : value3.femalepopulation, 'totalpopulation' : value3.totalpopulation});
 }
 };
+};
+
+var age_reg_data_s = age_reg_data.sort(function(a, b){ return d3.ascending(a['age_cat_no'], b['age_cat_no']); })
+		.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+
+var age_regdata = age_reg_data_s;
 
 var fin_age_data = age_CO_data.concat(age_reg_data).concat(age_cty_data) //This is grouped age data
 
@@ -3263,7 +3288,7 @@ for(i = 0; i < age_base.length;i++){
 	var age_tmp = fin_age_data.filter(d => (d.fips == selfips && d.year == selyear));
 
 	for(j = 0; j < age_tmp.length; j++){
-		  fin_age_pct.push({'fips' : age_tmp[j].fips, 'name' : age_tmp[j].name, 'year' : age_tmp[j].year, 'age_cat' : age_tmp[j].age_cat,
+		  fin_age_pct.push({'fips' : age_tmp[j].fips, 'name' : age_tmp[j].name, 'year' : age_tmp[j].year, 'age_cat_no' : age_tmp[j].age_cat_no, 'age_cat' : age_tmp[j].age_cat,
 		            'malepopulation' : age_tmp[j].malepopulation, 'femalepopulation' : age_tmp[j].femalepopulation, 
 					'totalpopulation' : age_tmp[j].totalpopulation,
 					'pct_malepopulation' : age_tmp[j].malepopulation/selmale, 'pct_femalepopulation' : age_tmp[j].femalepopulation/selfemale,
@@ -3275,7 +3300,6 @@ for(i = 0; i < age_base.length;i++){
 
 var fipsList = [...new Set(fin_age_data.map(d => d.fips))];
 var ctyNameList = [...new Set(fin_age_data.map(d => d.name))];
-//A Group Age Chart
 
 genAgeSetup(geotype,fin_age_pct,PRO_2.id, PRO_3.id, PRO_4.id, fipsList, ctyNameList);
 };
