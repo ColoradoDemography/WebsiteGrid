@@ -2249,7 +2249,7 @@ for(i = 0; i < ages.length; i++) {
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Population Estimates by Age', 'colspan' : 2},
-	{'text' : "<a href='https://coloradodemography.github.io/population/data/sya-county/' target=_blank>Single Year of Age Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://gis.dola.colorado.gov/population/data/sya-county/' target=_blank>Single Year of Age Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Ages','Number, '+ prevyear,'Number, '+ yrvalue,'2030 Forecast'];
 // Output table 
@@ -2359,7 +2359,7 @@ for(i = 2; i <= 4; i++){
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Components of Change', 'colspan' : 2},
-	{'text' : "<a href='https://coloradodemography.github.io/births-deaths-migration/data/components-change/#components-of-change' target=_blank>Components of Change Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://gis.dola.colorado.gov/births-deaths-migration/data/components-change/#components-of-change' target=_blank>Components of Change Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Component','Number,  ' + prevyear,'Number,  ' + yrvalue,'Change'];
 // Output table 
@@ -2521,7 +2521,7 @@ for(i = 0; i < raceth.length; i++) {
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Race/ Ethnicity: '+ yrvalue, 'colspan' : 2},
-	{'text' : "<a href='https://coloradodemography.github.io/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>Race/Ethnicity Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://gis.dola.colorado.gov/population/data/race-estimate/#county-race-by-age-estimates' target=_blank>Race/Ethnicity Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Race/ Ethnicity','Percentage, ' + yrvalue,'Number,  '+ yrvalue,year10 + ' Forecast'];
 // Output table 
@@ -3215,7 +3215,7 @@ for(i = 1; i < housing_fint.length; i++){
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
-	{'text' : "<a href='https://coloradodemography.github.io/population/data/profile-county/' target=_blank>County Profile Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://gis.dola.colorado.gov/population/data/profile-county/' target=_blank>County Profile Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Housing Type', 'Number', 'Change from ' + prevyear];
 // Output table 
