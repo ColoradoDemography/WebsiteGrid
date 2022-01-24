@@ -166,6 +166,8 @@ button {
   background-color: #111;
 }
 
+
+
 .banner-image-container {
   position: relative;
   padding-bottom: 15.72794899%; /* ratio of image height to width */
@@ -439,7 +441,47 @@ details main {
     font-style: italic;
 	}
 /* Layout for Mobile Devices */
+/* top navigation 'horiz'*/
 
+.horiz {
+  list-style-type: none;
+  margin: 0;
+  padding-top: 0;
+  padding-right : 0;
+  padding-bottom :  0;
+  padding-left : 400px;
+  overflow: hidden;
+  background-color: #001970;
+}
+.horiz_item {
+  float: left;
+}
+
+.horiz_item a {
+  display: block;
+  color: white;
+  text-align: right;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.horiz_item a:hover {
+  background-color: #111;
+}
+.horiz .responsive {position: relative;}
+  .horiz.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .horiz.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+ 
+
+/* Grid layout Specifics*/ 
 .grid-container {
   display: grid;
   grid-template-columns: 100%;
@@ -451,18 +493,18 @@ details main {
   background-color: white;
   text-align: left;
   padding: 20px;
-  font-size: 12pt;
+  font-size: 10pt;
 }
 /* Top Row */
 .panel_1_1 {  
-  grid-column: 1 / span 2;
+  grid-column: 1; 
   grid-row: 1 ;
   }
 /* Left Hand Panel */  
 .panel_2_1 { 
-   background = white; 
+   background : white; 
    grid-column: 1;
-   grid-row: 5;
+   grid-row: 7;
   }
  /* Table Panel on Homepage*/ 
 .panel_2_2 {  
@@ -484,20 +526,23 @@ details main {
    grid-column: 1;
    grid-row: 5 ;
   }
-  
+ .panel_3_4 {  
+   grid-column: 1;
+   grid-row: 6;
+  }
  /* Bottom panels */ 
 .panel_4_2 {
    grid-column: 1;
-   grid-row: 6
+   grid-row: 8;
   }
 .panel_4_3 {
    grid-column: 1;
-   grid-row: 7;
+   grid-row: 9;
   }
   
 .panel_4_4 {
   grid-column: 1;
-  grid-row: 8;
+  grid-row: 10;
 }
 
 /* Secondary Page Grid styles  This is has 7 columns and 4 rows*/
@@ -613,6 +658,7 @@ details main {
 }
 .grid-item {
   background-color: white;
+  grid-area : content;
   text-align: left;
   padding: 20px;
   font-size: 12pt;
