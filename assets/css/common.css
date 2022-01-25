@@ -810,18 +810,13 @@ details main {
 /* Layout for Spreadsheet page */
 /* Image Panels */
   .spreadsheet2_2_2 {  
-   grid-column: 3/ span 3;
+   grid-column: 2/ span 3;
    grid-row: 2 / span 2;   
   }
   
-  .spreadsheet2_2_3 {  
-   grid-column: 2/ span 3;
-   grid-row: 2/ span 3;   
-  }
-  
-  .spreadsheet2_2_5 {  
+   .spreadsheet2_2_5 {  
    grid-column: 5/ span 3;
-   grid-row: 2/ span 3;   
+   grid-row: 2/ span 2;   
   }
 /* Layout for Application Page */
  /* Left Hand Panel */  
