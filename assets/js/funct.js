@@ -3215,7 +3215,7 @@ for(i = 1; i < housing_fint.length; i++){
 //Generate Table
 var tblcolumns1 = [
     {'text' :'Housing Characteristics: '+ yrvalue, 'colspan' : 1},
-	{'text' : "<a href='https://gis.dola.colorado.gov/population/data/profile-county/' target=_blank>County Profile Lookup</a>", 'colspan' : 2}
+	{'text' : "<a href='https://gis.dola.colorado.gov/population/data/county-data-lookup/' target=_blank>County Profile Lookup</a>", 'colspan' : 2}
 	 ];
 var tblcolumns2 = ['Housing Type', 'Number', 'Change from ' + prevyear];
 // Output table 
