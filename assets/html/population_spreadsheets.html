@@ -1,40 +1,6 @@
 <!-- Population Spreadsheets Secondary Page A Bickford 5/2021 -->
-
-<!DOCTYPE html>
-<html>
-<head>
-<title>SDO Population Spreadsheets Page</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
-<!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-<!-- SDO CSS -->
-<link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
-<!-- adding d3.js  for data manipulation-->
- <script src="https://d3js.org/d3.v6.min.js"></script>
-<!-- SDO suport functions, genSYA, insertHTML, -->
-<script src="../js/funct.js"></script>
-</head>
-<body>
-<div class="alert__bar--covid-19" style="text-color:black;font-size:12px;">
-    <h2 style="background-color:#8fc6e8;text-align:center;">
-      Visit <a href="https://covid19.colorado.gov/for-coloradans/vaccine/where-can-i-get-vaccinated">"Where can I get vaccinated"</a> or call 1-877-COVAXCO (1-877-268-2926) for vaccine information.
-    </h2>
-</div>    
-<div>
-<a href="https://cdola.colorado.gov/"><img class="logoSDO" src="../img/SDO-1600x400.jpg" alt="Department of Local Affairs Homepage"></a>
-</div>
-	<div w3-include-html="./navheader.html"></div>
-<!-- First Grid, linked images -->
-<div class="grid-container2">
-  <div class="grid-item panel2_1_1">
-	<div w3-include-html="./sdotitle.html"></div>
-  </div>
-  <div class="grid-item panel2_2_1" id="leftHand">
-	<div w3-include-html="./left_hand_pop.html"></div>
-  </div> <!-- Grid  panel2_2_1 -->
-  <div class="grid-item spreadsheet2_2_2">
+<div class= "sect-container">
+  <div class="grid-item sect-spread_1">
   <b>State and Regional Spreadsheets</b>
   <ul>
 	  <li><a href='https://docs.google.com/spreadsheets/d/172B86LhQ1mgIEsSd5ApA4a1zL5nYoz5F/export?format=xlsx' title='State, Substate Regions, County Population Estimates, 2000 to Current Year: Population estimates Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">State, Substate Regions, County Population Estimates, 2000 to Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>	
@@ -43,7 +9,7 @@
      <!--li><a  href='https://drive.google.com/uc?export=download&id=1cWbxANu01mg-f6aRv7rBJr1X0bNgIu9D' title='State Race and Ethnicity Forecast, 2000 to 2050: Population forecasts Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">State Race and Ethnicity Forecast, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li -->
   </ul>
   </div>
-  <div class="grid-item spreadsheet2_2_5">
+  <div class="grid-item sect-spread_4">
   <b>County Spreadsheets</b>
    <ul>
      <li><a  href='https://docs.google.com/spreadsheets/d/1IV_IajwuUXdhL4frdzz7-t0fJeJ8aGTF/export?format=xlsx' title='County Population Estimates, 2010 to Current Year: Population estimates Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">County Population Estimates, 2010 to Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
@@ -59,24 +25,4 @@
     <li><a  href='https://docs.google.com/spreadsheets/d/1kaTwrh965lblcjccFtsWPe3UAFn_0IHf/export?format=xlsx' title='Municipalities Ranked by Population, Current Year: Population estimates Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">Municipalities Ranked by Population, Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
    </ul>
   </div>
- <div class="grid-item panel2_4_2">
-		<div w3-include-html="./bodycontent1.html"></div>
 </div>
-	<div class="grid-item panel2_4_4">
-		<div w3-include-html="./bodycontent2.html"></div>
-</div>
-<div class="grid-item panel2_4_6">
-	<div w3-include-html="./bodycontent3.html"></div>
-</div>
-</div>  <!-- End of Grid -->
-
-
-<script>
-
-//Setting HTML include and Accordion
-includeHTML(); 
-popspreadPopup();
-</script>
-
-</body>
-</html> 
