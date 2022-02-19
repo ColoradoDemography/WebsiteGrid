@@ -1,81 +1,39 @@
-<!-- Population Secondary Page A Bickford 5/2021 -->
-
-<!DOCTYPE html>
-<html>
-<head>
-<title>SDO Population Resource Page</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
-<!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-<!-- SDO CSS -->
-<link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
-<!-- adding d3.js  for data manipulation-->
- <script src="https://d3js.org/d3.v6.min.js"></script>
-<!-- SDO suport functions, genSYA, insertHTML, -->
-<script src="../js/funct.js"></script>
-</head>
-<body>
-<div class="alert__bar--covid-19" style="text-color:black;font-size:12px;">
-    <h2 style="background-color:#8fc6e8;text-align:center;">
-      Visit <a href="https://covid19.colorado.gov/for-coloradans/vaccine/where-can-i-get-vaccinated">"Where can I get vaccinated"</a> or call 1-877-COVAXCO (1-877-268-2926) for vaccine information.
-    </h2>
-</div>    
-<div>
-<a href="https://cdola.colorado.gov/"><img class="logoSDO" src="../img/SDO-1600x400.jpg" alt="Department of Local Affairs Homepage"></a>
-</div>
-	<div w3-include-html="./navheader.html"></div>
-<!-- First Grid, linked images -->
-<div class="grid-container2">
-  <div class="grid-item panel2_1_1">
-	<div w3-include-html="./sdotitle.html"></div>
-  </div>
-  <div class="grid-item panel2_2_1" id="leftHand">
-	<div w3-include-html="./left_hand_pop.html"></div>
-  </div>
+<!-- Population Spreadsheets Secondary Page A Bickford 5/2021 -->
+<div class= "sect-container">
   <div class="grid-item sect-spread_1">
   <b>State and Regional Spreadsheets</b>
   <ul>
-	  <li><a href='https://docs.google.com/spreadsheets/d/17AMEavtc8baGlXMjn_tsG81E9Y8j5nrE/export?format=xlsx' title='State, Substate Regions, County Population Estimates, 2000 to Current Year: Population estimates Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">State, Substate Regions, County Population Estimates, 2000 to Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>	
-      <li><a href='https://docs.google.com/spreadsheets/d/1dFZzn0el1bhx2goNRvOMH0_fWM9tFQDI/export?format=xlsx' title='State, Substate Regions, County Population 5-year Forecasts, 2000 to 2050: Population forecasts Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">State, Substate Regions, County Population 5-year Forecasts, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
-      <li><a href='https://docs.google.com/spreadsheets/d/1ufiwbWmdWrMDuE1KxHtwgbUI3FPx0K2F/export?format=xlsx' title='State, Substate Regions, County Population 1-year Forecasts, 2000 to 2050: Population forecast Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">State, Substate Regions, County Population 1-year Forecasts, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
-  </ul>
+	  <li><a href='https://docs.google.com/spreadsheets/d/17AMEavtc8baGlXMjn_tsG81E9Y8j5nrE/export?format=xlsx' title='State, Substate Regions, County Population Estimates, 2000 to Current Year: Population estimates Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">State, Substate Regions, County Population Estimates, 2000 to Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>	
+      <li><a href='https://docs.google.com/spreadsheets/d/1dFZzn0el1bhx2goNRvOMH0_fWM9tFQDI/export?format=xlsx' title='State, Substate Regions, County Population 5-year Forecasts, 2000 to 2050: Population forecasts Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">State, Substate Regions, County Population 5-year Forecasts, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+      <li><a href='https://docs.google.com/spreadsheets/d/1ufiwbWmdWrMDuE1KxHtwgbUI3FPx0K2F/export?format=xlsx' title='State, Substate Regions, County Population 1-year Forecasts, 2000 to 2050: Population forecast Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">State, Substate Regions, County Population 1-year Forecasts, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+      <li><a href='https://storage.googleapis.com/co-publicdata/profiles-region.csv' title='State and Regional Population Profiles, 1985 to 2020: Population forecasts Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">State and Regional Population Profiles, 1985 to 2020<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+      <li><a href='https://storage.googleapis.com/co-publicdata/race-estimates-region.csv' title='State and Regional Population Estimates by Race/Ethnicity, Age and Sex, 2010 to 2020 Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">State and Regional Population Estimates by Race/Ethnicity, Age and Sex, 2010 to 2020<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+      <li><a href='https://storage.googleapis.com/co-publicdata/race-forecast-region.csv' title='State and Regional Population Forecasts by Race/Ethnicity, Age Group, 2010 to 2050 Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">State and Regional Population Forecasts by Race/Ethnicity, Age Group, 2010 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+      <li><a href='https://storage.googleapis.com/co-publicdata/sya-region.csv' title='State and Regional Population Estimates by Single Year of Age, 1990 to 2050: Population forecasts Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">State and Regional Population Estimates by Single Year of Age, 1990 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+ </ul>
   </div>
   <div class="grid-item sect-spread_4">
   <b>County Spreadsheets</b>
    <ul>
-     <li><a  href='https://docs.google.com/spreadsheets/d/1iucr0j8l6rbWbqIAGaCpXoDM3pg_RapI/export?format=xlsx' title='County Population Estimates, 2010 to Current Year: Population estimates Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">County Population Estimates, 2010 to Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
-     <li><a  href='https://docs.google.com/spreadsheets/d/1266g_Jg3b7OE60e9AR1QPwi6BT3J7_I_/export?format=xlsx' title='County Population 5-year Forecasts, 2000 to 2050: Population forecast Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">County Population 5-year Forecasts, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
-     <li><a  href='https://docs.google.com/spreadsheets/d/1QDKPeR_mU_gEdBwl9rThugP7tLq-r3yu/export?format=xlsx' title='County Population 1-year Forecasts, 2000 to 2050: Population forecast Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">County Population 1-year Forecasts, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
-     <li><a  href='https://docs.google.com/spreadsheets/d/1CeQX76xPx7DcXNZQzKPy3d4rWI3up6vI/export?format=xlsx' title='County Race and Ethnicity Estimates by Age Group, Current Year: Population estimates and percentages Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">County Race and Ethnicity Estimates by Age Group, Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
-     <li><a  href='https://docs.google.com/spreadsheets/d/11rd492Az-U6v8PYMm568oGBHN2fnmuRl/export?format=xlsx' title='County Estimates by Age Group, Current Year: Population counts and percentages for Colorado & Counties for the total population, persons less than 18, 18 to 24, 25 to 44, 45 to 64, and 65 and over. Population forecasts Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">County Estimates by Age Group, Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
-     <li><a  href='https://docs.google.com/spreadsheets/d/1dkMzqRTA5jYamm5MZu6ZT8oUoCBLrpeF/export?format=xlsx' title='Median Age by County, 1990 to 2050: Estimates and Forecasts Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">Median Age by County, 1990 to 2050<<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+     <li><a href='https://docs.google.com/spreadsheets/d/1iucr0j8l6rbWbqIAGaCpXoDM3pg_RapI/export?format=xlsx' title='County Population Estimates, 2010 to Current Year: Population estimates Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Population Estimates, 2010 to Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+     <li><a href='https://docs.google.com/spreadsheets/d/1266g_Jg3b7OE60e9AR1QPwi6BT3J7_I_/export?format=xlsx' title='County Population 5-year Forecasts, 2000 to 2050: Population forecast Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Population 5-year Forecasts, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+     <li><a href='https://docs.google.com/spreadsheets/d/1QDKPeR_mU_gEdBwl9rThugP7tLq-r3yu/export?format=xlsx' title='County Population 1-year Forecasts, 2000 to 2050: Population forecast Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Population 1-year Forecasts, 2000 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+     <li><a href='https://docs.google.com/spreadsheets/d/1CeQX76xPx7DcXNZQzKPy3d4rWI3up6vI/export?format=xlsx' title='County Race and Ethnicity Estimates by Age Group, Current Year: Population estimates and percentages Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Race and Ethnicity Estimates by Age Group, Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+     <li><a href='https://docs.google.com/spreadsheets/d/11rd492Az-U6v8PYMm568oGBHN2fnmuRl/export?format=xlsx' title='County Estimates by Age Group, Current Year: Population counts and percentages for Colorado & Counties for the total population, persons less than 18, 18 to 24, 25 to 44, 45 to 64, and 65 and over. Population forecasts Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Estimates by Age Group, Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+     <li><a href='https://docs.google.com/spreadsheets/d/1dkMzqRTA5jYamm5MZu6ZT8oUoCBLrpeF/export?format=xlsx' title='Median Age by County, 1990 to 2050: Estimates and Forecasts Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">Median Age by County, 1990 to 2050<<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+     <li><a href='https://storage.googleapis.com/co-publicdata/profiles-county.csv' title='County Population Profiles, 1985 to 2020: Population forecasts Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Population Profiles, 1985 to 2020<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+      <li><a href='https://storage.googleapis.com/co-publicdata/race-estimates-county.csv' title='County Population Estimates by Race/Ethnicity, Age and Sex, 2010 to 2020 Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Population Estimates by Race/Ethnicity, Age and Sex, 2010 to 2020<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+      <li><a href='https://storage.googleapis.com/co-publicdata/race-forecast-county.csv' title='County Population Forecasts by Race/Ethnicity, Age Group, 2010 to 2050 Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Population Forecasts by Race/Ethnicity, Age Group, 2010 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+      <li><a href='https://storage.googleapis.com/co-publicdata/sya-county.csv' title='County Population Estimates by Single Year of Age, 1990 to 2050: Population forecasts Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County Population Estimates by Single Year of Age, 1990 to 2050<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+	 <li><a href='https://docs.google.com/spreadsheets/d/18fy7ZD8iku-PFpV3NaDz7trsQkAmK_Hl/export?format=xlsx' title='Land Density by County Questions? Click on the "Contact Us" link to contact a SDO Demographer.'>Land Density by County <i class='fas fa-file-excel' style="color:green;"></i></a></li>
    </ul>
    <b>Municipal Spreadsheets</b>
    <ul>
- 	<li><a  href='https://docs.google.com/spreadsheets/d/1-2TMYuZsJIudKxcgnXz-zLBbtg-vJf5G/export?format=xlsx' title='Municipalities within County Estimates, 2010 to Current Year: Population estimates Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">Municipalities within County Estimates, 2010 to Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
-    <li><a  href='https://docs.google.com/spreadsheets/d/1CKxsUuVUMW8egWme-NjfGLqUQHmh2RGg/export?format=xlsx' title='Municipalities Ranked by Population, Current Year: Population estimates Questions? Click on the "Contact Us" link below to contact a SDO Demographer.'><p style="font-size:11pt;">Municipalities Ranked by Population, Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+ 	<li><a href='https://docs.google.com/spreadsheets/d/1-2TMYuZsJIudKxcgnXz-zLBbtg-vJf5G/export?format=xlsx' title='Municipalities within County Estimates, 2010 to Current Year: Population estimates Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">Municipalities within County Estimates, 2010 to Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+    <li><a href='https://docs.google.com/spreadsheets/d/1CKxsUuVUMW8egWme-NjfGLqUQHmh2RGg/export?format=xlsx' title='Municipalities Ranked by Population, Current Year: Population estimates Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">Municipalities Ranked by Population, Current Year<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+    <li><a href='https://storage.googleapis.com/co-publicdata/county-muni-timeseries.csv' title='County and Municipal Timeseries, 1985 to 2020. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County and Municipal Timeseries, 1980 to 2020<i class="fas fa-file-excel" style="color:green;"></i></a></li -->
+    <li><a href='https://storage.googleapis.com/co-publicdata/muni-pop-housing.csv' title='Municipal Population and Housing, 2010 to 2020. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">Municipal Population and Housing Timeseries, 2010 to 2020<i class="fas fa-file-excel" style="color:green;"></i></a></li>
+    <li><a href='https://storage.googleapis.com/co-publicdata/historical-census.csv' title='County and Municipal Population Totals 1870-2010. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:11pt;">County and Municipal Population Totals 1870-2010<i class="fas fa-file-excel" style="color:green;"></i></a></li>
    </ul>
   </div>
- <div class="grid-item panel2_4_2">
-		<div w3-include-html="./bodycontent1.html"></div>
 </div>
-	<div class="grid-item panel2_4_4">
-		<div w3-include-html="./bodycontent2.html"></div>
-</div>
-<div class="grid-item panel2_4_6">
-	<div w3-include-html="./bodycontent3.html"></div>
-</div>
-</div>  <!-- End of Grid -->
-
-
-<script>
-
-//Setting HTML include and Accordion
-includeHTML(); 
-
-</script>
-
-</body>
-</html> 

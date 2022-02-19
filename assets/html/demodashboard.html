@@ -25,6 +25,8 @@
  <script src="https://cdn.plot.ly/plotly-2.2.0.min.js" charset="utf-8"></script>
 <!-- SDO suport functions, genSYA, insertHTML, -->
 <script src="../js/funct.js"></script>
+<!-- GoogleAnalytics Script -->
+<script defer src="../js/googleAnalytics.js"></script>
 </head>
 <body>
 <div class="alert__bar--covid-19" style="text-color:black;font-size:12px;">
@@ -43,15 +45,14 @@
 		<div w3-include-html="./sdotitle.html"></div>  
   </div>
    <div class="grid-item app-panel_2_1" id="leftHand">
-	<div w3-include-html="./left_hand.html"></div>
+	<div w3-include-html="./left_hand_index.html"></div>
   </div> <!-- Grid  panel2_2_1 -->
   <div class="grid-item app-panel_2_2">
   <b>Demographic Dashboard</b>
    <br><br>INSTRUCTIONS:
    <p>
-   The following page shows graphs and charts for various datasets by county and multi-county region. 
-   Select the geography type and geography from the list below to view the graphs for that county. 
-   Selected graphs can be modified to show custom age ranges.
+   The following page shows graphs and charts for various datasets for Colorado, multi-county regions, and counties. 
+   Select the geography type and geography from the list below. 
    You can hover over specific data points on each graph to view the data for that specific point.
    </p>
    Click on the download icon on the left of each chart to download the chart, the underlying data, and links to the data source.
