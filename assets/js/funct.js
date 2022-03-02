@@ -507,53 +507,50 @@ return cty;
 
 
 //RegionNum takes the names of selected regions and returns a list of region numbers
-function RegionNumber(nam) {
-	   var regionlst = '0';
-	   var regNum;
-for(i = 0; i < nam.length; i++) {
-if(nam[i] == 'Central Mountains') {regionNum = 1};
-if(nam[i] == 'Eastern Plains') {regionNum = 2};
-if(nam[i] == 'Front Range') {regionNum = 3};
-if(nam[i] == 'San Luis Valley') {regionNum = 4};
-if(nam[i] == 'Western Slope') {regionNum = 5};
-if(nam[i] == 'Region 1: Northern Eastern Plains') {regionNum = 6};
-if(nam[i] == 'Region 2: Northern Front Range') {regionNum = 7};
-if(nam[i] == 'Region 3: Denver Metropolitan Area') {regionNum = 8};
-if(nam[i] == 'Region 4: Southern Front Range') {regionNum = 9};
-if(nam[i] == 'Region 5: Central Eastern Plains') {regionNum = 10};
-if(nam[i] == 'Region 6: Southern Eastern Plains') {regionNum = 11};
-if(nam[i] == 'Region 7: Pueblo County') {regionNum = 12};
-if(nam[i] == 'Region 8: San Juan Valley') {regionNum = 13};
-if(nam[i] == 'Region 9: Southern Western Slope') {regionNum = 14};
-if(nam[i] == 'Region 10: Central Western Slope') {regionNum = 15};
-if(nam[i] == 'Region 11: Northern Western Slope') {regionNum = 16};
-if(nam[i] == 'Region 12: Northern Mountains') {regionNum = 17};
-if(nam[i] == 'Region 13: Central Mountains') {regionNum = 18};
-if(nam[i] == 'Region 14: Southern Mountains') {regionNum = 19};
-if(nam[i] == 'Boulder') {regionNum = 20};
-if(nam[i] == 'Colorado Springs') {regionNum = 21};
-if(nam[i] == 'Denver-Aurora-Lakewood') {regionNum = 22};
-if(nam[i] == 'Fort Collins') {regionNum = 23};
-if(nam[i] == 'Grand Junction') {regionNum = 24};
-if(nam[i] == 'Greeley') {regionNum = 25};
-if(nam[i] == 'Pueblo') {regionNum = 26};
-if(nam[i] == 'Breckenridge') {regionNum = 27};
-if(nam[i] == 'Ca\u00f1on City') {regionNum = 28};
-if(nam[i] == 'Craig') {regionNum = 29};
-if(nam[i] == 'Durango') {regionNum = 30};
-if(nam[i] == 'Edwards') {regionNum = 31};
-if(nam[i] == 'Fort Morgan') {regionNum = 32};
-if(nam[i] == 'Glenwood Springs') {regionNum = 33};
-if(nam[i] == 'Montrose') {regionNum = 34};
-if(nam[i] == 'Steamboat Springs') {regionNum = 35};
-if(nam[i] == 'Sterling') {regionNum = 36};
-if(nam[i] == 'Denver PMSA') {regionNum = 37};
-if(nam[i] == 'Denver-Boulder Metro Area') {regionNum = 38};
-if(nam[i] == 'Denver-Boulder-Greely CMSA') {regionNum = 39};
-regionlst = regionlst + "," + regionNum;
-};
-return(regionlst);
-}; //End of RegionNumber
+function RegionNum(nam) {
+var regionNum = 0;
+if(nam == 'Central Mountains') {regionNum = 1};
+if(nam == 'Eastern Plains') {regionNum = 2};
+if(nam == 'Front Range') {regionNum = 3};
+if(nam == 'San Luis Valley') {regionNum = 4};
+if(nam == 'Western Slope') {regionNum = 5};
+if(nam == 'Region 1: Northern Eastern Plains') {regionNum = 6};
+if(nam == 'Region 2: Northern Front Range') {regionNum = 7};
+if(nam == 'Region 3: Denver Metropolitan Area') {regionNum = 8};
+if(nam == 'Region 4: Southern Front Range') {regionNum = 9};
+if(nam == 'Region 5: Central Eastern Plains') {regionNum = 10};
+if(nam == 'Region 6: Southern Eastern Plains') {regionNum = 11};
+if(nam == 'Region 7: Pueblo County') {regionNum = 12};
+if(nam == 'Region 8: San Juan Valley') {regionNum = 13};
+if(nam == 'Region 9: Southern Western Slope') {regionNum = 14};
+if(nam == 'Region 10: Central Western Slope') {regionNum = 15};
+if(nam == 'Region 11: Northern Western Slope') {regionNum = 16};
+if(nam == 'Region 12: Northern Mountains') {regionNum = 17};
+if(nam == 'Region 13: Central Mountains') {regionNum = 18};
+if(nam == 'Region 14: Southern Mountains') {regionNum = 19};
+if(nam == 'Boulder') {regionNum = 20};
+if(nam == 'Colorado Springs') {regionNum = 21};
+if(nam == 'Denver-Aurora-Lakewood') {regionNum = 22};
+if(nam == 'Fort Collins') {regionNum = 23};
+if(nam == 'Grand Junction') {regionNum = 24};
+if(nam == 'Greeley') {regionNum = 25};
+if(nam == 'Pueblo') {regionNum = 26};
+if(nam == 'Breckenridge') {regionNum = 27};
+if(nam == 'Ca\u00f1on City') {regionNum = 28};
+if(nam == 'Craig') {regionNum = 29};
+if(nam == 'Durango') {regionNum = 30};
+if(nam == 'Edwards') {regionNum = 31};
+if(nam == 'Fort Morgan') {regionNum = 32};
+if(nam == 'Glenwood Springs') {regionNum = 33};
+if(nam == 'Montrose') {regionNum = 34};
+if(nam == 'Steamboat Springs') {regionNum = 35};
+if(nam == 'Sterling') {regionNum = 36};
+if(nam == 'Denver PMSA') {regionNum = 37};
+if(nam == 'Denver-Boulder Metro Area') {regionNum = 38};
+if(nam == 'Denver-Boulder-Greely CMSA') {regionNum = 39};
+
+return(regionNum);
+}; //End of RegionNum
 
 //RegionName takes the region number and returns the name
 function regionName(reg) {
@@ -4484,7 +4481,12 @@ popchng_png.onclick = function() {
 function genRACEVIS(geotype, fips,ctyName, yrvalue) {
 	const fmt_comma = d3.format(",");
     const fmt_date = d3.timeFormat("%B %d, %Y");
+	//Verifying if region is input
 	
+	if(RegionNum(ctyName) == 0) {
+		geotype == 'county'
+	}
+
 
 //Specify fips_list
  var fips_list; 
