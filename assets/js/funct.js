@@ -2235,6 +2235,67 @@ function chkDiff(curpct,curmoe, prevpct, prevmoe) {
 return(outcome);
 }; //end of chkDiff
 
+//genACSUrl  Generates ACS call from the Census API
+function genACSUrl(acsyear, table, startidx, endidx, geotype,geolist){
+	if(geotype == "Region"){
+		var geoName = 'county';
+	} else {
+		if(geotype == 'Municipality'){
+		  var geoName = 'place';
+		} else {
+		  var geoName = geotype.toLowerCase();
+		}
+	}
+	
+	//ACS Call has a different structure for tables with more thn 50 vars
+	var acshead = 'https://api.census.gov/data/'+ acsyear;
+	var varArr = ['NAME'];
+	// Geneerating lists of varibles  If table is an array  -- for special cases
+	if(Array.isArray(table)) {
+		for(i = 0; i < table.length; i++){	
+           if(table[i] == "B19051"){ //expand for special cases
+ 		      varArr.push(table[i] + "_001" + "E");
+		      varArr.push(table[i] + "_001" + "M");
+ 		      varArr.push(table[i] + "_002" + "E");
+		      varArr.push(table[i] + "_002" + "M");
+			}  else {
+               if(i > 8){ //This is the B19061 - B19070 series
+				varArr.push(table[i] + "_001" + "E");
+				varArr.push(table[i] + "_001"  + "M");
+			   } else {
+				varArr.push(table[i] + "_002" + "E");
+				varArr.push(table[i] + "_002"  + "M");
+			}
+			}
+		}
+		var varList = varArr.toString();
+	} else {
+		for(i = startidx; i <= endidx; i++){
+		 var idx3 = ('000'+i).slice(-3);
+	     varArr.push(table + "_" + idx3 + "E");
+	     varArr.push(table + "_" + idx3 + "M");
+		}
+		var varList = varArr.toString();
+	}
+//Generating final acstail	
+if(endidx >= 24) {
+	if(geoName == 'state'){
+		var acstail = '/acs/acs5?get=group(' + table +')&for=state:08&key=08fe07c2a7bf781b7771d7cccb264fe7ff8965ce';
+	} else {
+	  var acstail = '/acs/acs5?get=group(' + table +')&for=' + geoName + ':' + geolist + '&in=state:08&key=08fe07c2a7bf781b7771d7cccb264fe7ff8965ce';
+	}
+	} else {
+	if(geotype == 'state'){
+		var acstail = '/acs/acs5?get=' + varList +'&for=state:08&key=08fe07c2a7bf781b7771d7cccb264fe7ff8965ce';
+	} else {
+	  var acstail = '/acs/acs5?get=' + varList +'&for=' + geoName + ':' + geolist + '&in=state:08&key=08fe07c2a7bf781b7771d7cccb264fe7ff8965ce';
+	}
+	}
+
+var acsUrl = acshead + acstail;
+return(acsUrl)
+}; //end of genACSUrl
+
 //Data Aqusition functions
 
 //genSYA creates the single year of age data sets for inclusion in table and outputs table to DOM
@@ -4420,12 +4481,27 @@ popchng_png.onclick = function() {
 } //end of genDEMO
 
 //genRACEVIS Generates the Race/Ethncity visualization
-function genRACEVIS(fips,ctyName, yrvalue) {
-	var fmt_comma = d3.format(",");
+function genRACEVIS(geotype, fips,ctyName, yrvalue) {
+	const fmt_comma = d3.format(",");
     const fmt_date = d3.timeFormat("%B %d, %Y");
+	
 
 //Specify fips_list
-var fips_list = parseInt(fips); 
+ var fips_list; 
+	
+	if(geotype == "region"){
+		var fips_tmp = regionCOL(parseInt(fips));
+	    fips_list = fips_tmp[0].fips;
+		for(i = 0; i < fips_list.length; i++){
+			 fips_list[i] = parseInt(fips_list[i]);
+		}
+	} else {
+	if(fips == "000") {
+      fips_list = [1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125];
+    } else {
+		fips_list = [parseInt(fips)];
+	};		
+	};
    
 //extract year value 
  
@@ -4434,45 +4510,73 @@ for(i = 1; i<= 100; i++){
    age_list = age_list + "," + i;
   };
   
- //Generate url
- if(fips == "000") {
- fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
- } 
+ 
 //estimates urls
 urlstr_hispest = "https://gis.dola.colorado.gov/lookups/sya-race-estimates?age="+ age_list + "&county="+ fips_list +"&year="+ yrvalue +"&race=1,2,3,4&ethnicity=1&sex=b";
 urlstr_nonhispest = "https://gis.dola.colorado.gov/lookups/sya-race-estimates?age="+ age_list + "&county="+ fips_list +"&year="+ yrvalue +"&race=1,2,3,4&ethnicity=2&sex=b";
-
-var hisp_est = [];
-var nonhisp_est = [];
 
 //Promise Structure
 var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest)];
 
 Promise.all(prom).then(function(data){
-	data[0].forEach(function(obj) {
-hisp_est.push({'year' : obj.year, 'age' : parseInt(obj.age), 'sex' : obj.sex, 'population' : parseInt(obj.count)});
-});
-    data[1].forEach(function(obj) {
-     nonhisp_est.push({'year' : obj.year, 'age' : parseInt(obj.age),'sex' : obj.sex, 'race' : obj.race, 'population' : parseInt(obj.count)});
-});
+	var hisp_est = [];
+    var nonhisp_est = [];
+
+	
+if(fips == "000") {	
+	data[0].forEach(obj => {
+		 hisp_est.push({'fips' : 0,'year' : obj.year, 'age' : parseInt(obj.age), 'sex' : obj.sex, 'population' : parseInt(obj.count)}); 
+	    });
+    data[1].forEach(obj => {
+		nonhisp_est.push({'fips' : 0, 'year' : obj.year, 'age' : parseInt(obj.age),'sex' : obj.sex, 'race' : obj.race, 'population' : parseInt(obj.count)}); 
+	    });
+} else {
+	data[0].forEach(obj => {
+		 hisp_est.push({'fips' : obj.county_fips,'year' : obj.year, 'age' : parseInt(obj.age), 'sex' : obj.sex, 'population' : parseInt(obj.count)}); 
+	    });
+    data[1].forEach(obj => {
+		nonhisp_est.push({'fips' : obj.county_fips, 'year' : obj.year, 'age' : parseInt(obj.age),'sex' : obj.sex, 'race' : obj.race, 'population' : parseInt(obj.count)}); 
+	    });
+};
 
 //Rolling up the hispanic and non-hispanic datasets
-var hisp_total = d3.rollup(hisp_est, v => d3.sum(v, d => d.population), d => d.age);
-var nonhisp_total = d3.rollup(nonhisp_est, v => d3.sum(v, d => d.population), d => d.age, d=> d.race);
-
+var hisp_total = d3.rollup(hisp_est, v => d3.sum(v, d => d.population), d => d.fips, d => d.age);
+var nonhisp_total = d3.rollup(nonhisp_est, v => d3.sum(v, d => d.population), d => d.fips,  d => d.age, d=> d.race);
+	
 //Flattening the datasets
 var hisp_flat = [];
 for (let [key, value] of hisp_total) {
-  hisp_flat.push({'age' : key, 'race_eth' : 'Hispanic',  'population' : value});
-    }
-var nonhisp_flat = [];
-for (let [key1, value] of nonhisp_total) {
 for (let[key2, value2] of value) {
-   nonhisp_flat.push({'age' : key1, 'race_eth' : key2 + ' NH', 'population' : value2});
+        hisp_flat.push({'fips' : key, 'name' : countyName(key), 'age' : key2, 'race_eth' : 'Hispanic',  'population' : value2});
+    }
+}
+var nonhisp_flat = [];
+for (let [key, value] of nonhisp_total) {
+for (let[key2, value2] of value) {
+for (let[key3, value3] of value2) { 
+   nonhisp_flat.push({'fips' : key, 'name' : countyName(key), 'age' : key2, 'race_eth' : key3 + ' NH', 'population' : value3});
+}
 }
 }
 
-var race_flat = hisp_flat.concat(nonhisp_flat);
+var race_flat = hisp_flat.concat(nonhisp_flat).sort(function(a, b){ return d3.ascending(a['race_eth'], b['race_eth']); })
+                .sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
+				.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
+
+if(geotype == 'region') {
+	var race_reg = d3.rollup(race_flat, v => d3.sum(v, d => d.population),  d => d.age, d=> d.race_eth);
+	var race_flat = [];
+	for (let [key, value] of race_reg) {
+	for (let[key2, value2] of value) {
+        race_flat.push({'fips' : -101, 'name' : ctyName, 'age' : key, 'race_eth' : key2,  'population' : value2});
+    }
+    }
+
+	var race_flat = race_flat.sort(function(a, b){ return d3.ascending(a['race_eth'], b['race_eth']); })
+                .sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
+				.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
+};
+
 
 //Plotting 
 var config = {responsive: true,
