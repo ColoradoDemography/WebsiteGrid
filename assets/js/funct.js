@@ -6037,11 +6037,11 @@ ch_layout.push(layout);
 	for(i = 0; i < age_arr.length; i++){
 	var tit_str = "Projected Households by Household Type and Age " + ctyName + " 2010 to 2050<br> Age Group: " + age_arr[i];
 	if(seriesType == "num") {
-		tit_str = tit_str + " Number of Housing Units";
+		tit_str = tit_str + " Number of Households";
 		y_title = "Households";
 		y_ticks = ',';
     } else {
-		tit_str = tit_str + " Percentage of Housing Units";
+		tit_str = tit_str + " Percentage of Households";
 		y_title = "Percentage";
 		y_ticks = ',.0%';
 	};
