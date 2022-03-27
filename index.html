@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Colorado State Demography Office Home Page</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,15 +74,7 @@
 			<div w3-include-html="./assets/html/bodycontent3.html"></div>
 	</div>
 </div>  <!-- End Grid -->
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W27DQ8VRCX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-W27DQ8VRCX');
-</script>
 <script>
 //Setting HTML include and Accordion
 includeHTML(); 
@@ -97,9 +89,10 @@ d3.json(urlstr).then(function(yeardata){
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
     var yrvalue = d3.max(yrsList) 
-	var acsyr = 2019;  ///CHANGE THIS WHEN 2020 ACS is available
+	var acsyr = 2020;  ///CHANGE THIS WHEN 2020 ACS is available
 	
 //Generate Initial Tables
+
 genSYA("000",yrvalue);
 genCOC("000",yrvalue);
 genACS("000",acsyr);
@@ -112,7 +105,7 @@ d3.select("#county-dropdown").on("change", function(d,i) {
 
         var selectedfips = d3.select("#county-dropdown").property('value');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
-		
+
         genSYA(selectedfips,yrvalue);
 		genCOC(selectedfips,yrvalue);
 		genACS(selectedfips,acsyr);
