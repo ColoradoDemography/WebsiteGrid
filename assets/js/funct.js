@@ -4178,10 +4178,12 @@ var forec_layout = {
  
 Plotly.newPlot(FORECAST, forec_tr, forec_layout,config);
 //Data formatting
+
 var forecast_shift  = [];
 forecast_data.forEach(item => {
-    forecast_shift.push({'fips' : item.fips, 'name' : item.ctyName, 'year' :  item.year, 'totalpopulation' : fmt_comma(item.totalpopulation)});
+    forecast_shift.push({'fips' : fips, 'name' : ctyName, 'year' :  item.year, 'totalpopulation' : fmt_comma(item.totalpopulation)});
 });
+
 
 //Forecasts
 var forecast_names = {
@@ -4564,7 +4566,7 @@ var popchng_layout = {
 	                   p0 : fmt_comma(d.p0),
 					   p1 : fmt_comma(d.p1),
 					   popchng : d.popchng < 0 ? ("-" + fmt_comma(Math.abs(d.popchng))) : fmt_comma(d.popchng),
-	                   pctchng: d.pctchng <0 ? ("-" + fmt_pct1(Math.abs(d.pctchng))) : fmt_pct1(d.pctchng)
+	                   pctchng: d.pctchng < 0 ? ("-" + fmt_pct1(Math.abs(d.pctchng))) : fmt_pct1(d.pctchng)
 	 })
  });
  
@@ -4726,7 +4728,7 @@ if(app == 'dashboard') {
     netmig_shift.push({ fips : fips,
 	                    loc : ctyName,
 	                    age : d.age,
-						NetMig0010 : fmt_comma(d.NetMig0010)
+						NetMig0010 : d.NetMig0010 < 0 ?  ("-" + fmt_comma(Math.abs(d.NetMig0010))) : fmt_comma(d.NetMig0010)
 	})
 	}) 
 } else {
@@ -4734,9 +4736,9 @@ if(app == 'dashboard') {
     netmig_shift.push({ fips : fips,
 	                    loc : ctyName,
 	                    age : d.age,
-						NetMig9500 : fmt_comma(d.NetMig9500),
-						NetMig0010 : fmt_comma(d.NetMig0010),
-						NetMig1020 : fmt_comma(d.NetMig1020)
+						NetMig9500 : d.NetMig9500 < 0 ?  ("-" + fmt_comma(Math.abs(d.NetMig9500))) : fmt_comma(d.NetMig9500),
+						NetMig0010 : d.NetMig0010 < 0 ?  ("-" + fmt_comma(Math.abs(d.NetMig0010))) : fmt_comma(d.NetMig0010),
+						NetMig1020 : d.NetMig1020 < 0 ?  ("-" + fmt_comma(Math.abs(d.NetMig1020))) : fmt_comma(d.NetMig1020)
 	})
 	})
 	}
