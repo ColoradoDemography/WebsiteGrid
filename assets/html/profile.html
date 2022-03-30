@@ -239,6 +239,7 @@ document.getElementById("location-label").innerHTML = "";
  });
 
 document.getElementById('genprofile').onclick = function changeContent() {
+
      var selectedlevel = d3.select('#profile-dropdown option:checked').text();
      var selected = document.querySelectorAll('#location-dropdown option:checked');
      var selectedloc = Array.from(selected).map(el => el.value);
@@ -250,14 +251,17 @@ document.getElementById('genprofile').onclick = function changeContent() {
           document.getElementById("profile-content4").innerHTML = "";
 
 //Checking for complete inputs and Clearing out divs
-	 if(selectedlevel == "Select Profile"){
-	      document.getElementById("profile-content1").innerHTML = "<h2>Please select a Profile Type and Location</h2>";
+	 if(selectedloc == ""){
+	      document.getElementById("profile-content1").innerHTML = "Please select a Profile Type and Location";
 		  } else {
 	      document.getElementById("profile-content1").innerHTML = "";
 		  document.getElementById("profile-content2").innerHTML = "";
           document.getElementById("profile-content3").innerHTML = "";
           document.getElementById("profile-content4").innerHTML = "";
-		  
+		 } 
+		 
+
+
 //Creating tabs
 
 	 var fips_arr = selectedloc.toString().split(',');
@@ -291,8 +295,6 @@ document.getElementById('genprofile').onclick = function changeContent() {
 	 }; // i loop
 
 genProfile(selectedlevel, fips_arr,proVal, fips_name);
-		 } 
-		 
 
 } //End
 </script>
