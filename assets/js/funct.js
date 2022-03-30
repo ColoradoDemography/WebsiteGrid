@@ -4927,11 +4927,11 @@ coc_flat.forEach( d => {
 		   fips : fips,
 		   name : ctyName,
 		   year : d.year,
-		   totalpopulation : fmt_comma(d.totalpopulation),
-		   births : fmt_comma(d.births),
-		   deaths : fmt_comma(d.deaths),
-           naturalincrease : fmt_comma(d.naturalincrease),
-		   netmigration : fmt_comma(d.netmigration)
+		   totalpopulation : d.totapopulation < 0 ?  ("-" + fmt_comma(Math.abs(d.totalpopulation))) : fmt_comma(d.totalpopulation),
+		   births : d.births < 0 ?  ("-" + fmt_comma(Math.abs(d.births))) : fmt_comma(d.births),
+		   deaths : d.deaths < 0 ?  ("-" + fmt_comma(Math.abs(d.deaths))) : fmt_comma(d.deaths),
+           naturalincrease : d.naturalincrease < 0 ?  ("-" + fmt_comma(Math.abs(d.naturalincrease))) : fmt_comma(d.naturalincrease),
+		   netmigration : d.netmigration < 0 ?  ("-" + fmt_comma(Math.abs(d.netmigration))) : fmt_comma(d.netmigration)
 	})
 });
 	
