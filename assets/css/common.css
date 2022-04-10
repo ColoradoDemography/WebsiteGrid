@@ -25,14 +25,57 @@ hr {
     border-top: 1px solid #cbcbcb;
     margin: 1em 0;
 }
-/* Paragraph Style for crosstabs*/
-.crosstext {
+/* Styles for crosstabs  blog entries*/
+.crosstab_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows : 2fr;
+  	column-gap : 2rem;
+}
+
+.crosstab_content_row {
+   grid-column : 1/ span 2;
+   margin-left: 2em;
+   margin-right: 2em;
+   }
+.crosstab_content_head1 {
+    grid-column-start  : 1;
+	grid-column-end : 1;
+	column-gap : 2rem;
+ }
+ .crosstab_content_head2 {
+    grid-column-start  : 2;
+	grid-column-end : 2;
+	margin-right: 4em;
+ }
+ 
+ p.crosstext {
 	color : black;
 	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
 	font-size: 11pt;
 	text-align: justify;
 }
 
+li.crosstext {
+	color : black;
+	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
+	font-size: 11pt;
+	text-align: justify;
+}
+
+p.crosstitle {
+	color : black;
+	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
+	font-size: 12pt;
+	font-weight : bold;
+	text-align: center;
+	}
+.crossimg {
+	display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 .crosshead {
 	color : black;
 	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
@@ -40,12 +83,6 @@ hr {
 	font-weight : bold;
 }
 
-.crossimg {
-	float: left; 
-    padding: 0 10px 0 0;
-	width : auto;
-	height : auto
-}
 /* Table Styles */
 table {
 	table-layout : auto;
