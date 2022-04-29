@@ -4281,7 +4281,7 @@ var est_layout = {
 			   xref : 'paper',  
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -4386,7 +4386,7 @@ var forec_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -4551,7 +4551,7 @@ var age_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		}; 
@@ -4761,7 +4761,7 @@ var popchng_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -4933,7 +4933,7 @@ var NetMig_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -5134,7 +5134,7 @@ var coc_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -5191,7 +5191,7 @@ function genDEMO(geotype, fips, unit, ctyName, yrvalue){
 	const fmt_comma = d3.format(",");
     var endyr = yrvalue + 10;
 	var fips_list; 
-	
+
 	if(geotype == "region"){
 		var fips_tmp = regionCOL(parseInt(fips));
 	    fips_list = fips_tmp[0].fips;
@@ -5626,7 +5626,7 @@ var line_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -5669,7 +5669,7 @@ var white_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -5712,7 +5712,7 @@ var hisp_layout = {
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -5755,7 +5755,7 @@ var black_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -5798,7 +5798,7 @@ var asian_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -5841,7 +5841,7 @@ var amind_layout = {
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6083,7 +6083,7 @@ var NetMig_layout = {
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6124,7 +6124,7 @@ var NetMig_layout = {
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6322,7 +6322,7 @@ var tot_layout = {
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6364,7 +6364,7 @@ var rate_layout = {
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6567,7 +6567,7 @@ var birth_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6608,7 +6608,7 @@ var death_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6649,7 +6649,7 @@ var mig_layout = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6943,7 +6943,7 @@ for(i = 0; i < hh_arr.length; i++){
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -6999,7 +6999,7 @@ ch_layout.push(layout);
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};
@@ -7362,7 +7362,7 @@ var config = {responsive: true,
 			   xref : 'paper',
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};	
@@ -7404,7 +7404,7 @@ var layout1 = {
 			   xref : 'paper', 
 			   x : 0, 
 			   yref : 'paper', 
-			   y : -0.45, 
+			   y : -0.35, 
 			   align : 'left', 
 			   showarrow : false}]
 		};	
@@ -7447,7 +7447,7 @@ var layout2 = {
 			   xref : 'paper',
 		   x : 0, 
 		   yref : 'paper', 
-		   y : -0.45, 
+		   y : -0.35, 
 		   align : 'left', 
 		   showarrow : false}]
 	};
