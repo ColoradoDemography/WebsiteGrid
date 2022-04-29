@@ -3849,7 +3849,7 @@ Promise.all(prom).then(function(data){
      var  rent_rank = rent_tmp.sort(function(a, b){ return parseInt(b.inc_est) - parseInt(a.inc_est); })        
    } else {
 	   rent_rank = rent_cur.sort(function(a, b){ return d3.ascending(b['inc_est'], a['inc_est']); });
- 
+   }
  
 	rentRank = returnRank(rent_rank,fips);
 	
