@@ -456,6 +456,12 @@ details main {
   border: 2px solid black; 
 }
 
+.incbtn {
+  color: #efefef;
+  /*width: 40px; 
+  height: 40px; */
+  border: 2px solid black; 
+}
 .dropdown {
   display: inline-block;
 }
@@ -954,6 +960,15 @@ details main {
    grid-column: 2 / span 6;
    grid-row: 8;   
   }  
+  .app-panel_9_2 {  
+   grid-column: 2 / span 6;
+   grid-row: 9;   
+  }  
+  .app-panel_10_2 {  
+   grid-column: 2 / span 6;
+   grid-row: 10;   
+  }  
+ 
   /* Age Animation Panel */
    .app-ageani {  
    grid-column: 2 / span 6;
@@ -1086,7 +1101,7 @@ details main {
    grid-row: 2 / span 3;
      padding: 0px;
   }
-/*Special container for pyramids*/
+*Special container for pyramids*/
 
 .pyramid-container{
   display: grid;
@@ -1151,6 +1166,10 @@ details main {
      padding: 0px;
   }
 
+/* Multip plot Style*/
+.multi_plot{
+     padding: 0px;
+  }
 
 } /* Layout for Desktops*/
 
@@ -1472,3 +1491,19 @@ div.tooltip {
     grid-column: 6;
     grid-row: 7;   
    }
+   
+   
+/* Classes for lookups */
+/* Add a background color on hover */
+.lookup_cell {
+	border: none; 
+	width: 25%;
+	vertical-align: top;
+	text-align: left;
+}
+.lookup_p {
+	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
+    line-height: 1;
+	color : black;
+	font-size: 11pt;
+}
