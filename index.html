@@ -13,9 +13,9 @@
 <!-- adding d3.js  for data manipulation-->
  <script src="https://d3js.org/d3.v6.min.js"></script>
 <!-- SDO suport functions, genSYA, insertHTML, -->
-<script src="./assets/js/funct.js"></script>
+<script src="https://demography.dola.colorado.gov/assets/js/funct.js"></script>
 <!-- GoogleAnalytics Script -->
-<script defer src="./assets/js/googleAnalytics.js"></script>
+<script defer src="https://demography.dola.colorado.gov/assets/js/googleAnalytics.js"></script>
 </head>
 
 <body>
@@ -96,9 +96,9 @@ d3.json(urlstr).then(function(yeardata){
 
 genSYA("000",yrvalue);
 genCOC("000",yrvalue);
+genRaceEth("000",yrvalue);
 genACS("000",acsyr);
 genTenure("000",acsyr);
-genRaceEth("000",yrvalue);
 genHousing("000",yrvalue);
 
 
