@@ -54,6 +54,8 @@ hr {
 	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
 	font-size: 12pt;
 	text-align: justify;
+	margin-left: 10px;
+	margin-right: 20px;
 }
 
 li.crosstext {
