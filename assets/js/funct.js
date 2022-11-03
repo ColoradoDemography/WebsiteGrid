@@ -5089,6 +5089,8 @@ function cocPlot(inData,app, level, plotdiv, bkmark,yrvalue,fips,ctyName) {
 	var config = {responsive: true,
               displayModeBar: false};
 
+
+
 var coc_flat = inData;
 
 //Calculating total population change for coc_flat
@@ -5233,7 +5235,7 @@ var coc_names = {
 		year : 'Year',
 		totalpopulation : 'Total Population',
 		births : 'Births',
-		death : 'Deaths',
+		deaths : 'Deaths',
 		naturalincrease : 'Natural Increase',
 		netmigration : 'Net Migration'
 }
@@ -5253,6 +5255,8 @@ coc_flat.forEach( d => {
 });
 	
 var coc_out = changeKeyObjects(coc_shift,coc_names);
+
+
 if(app == 'profile') {
 	var profileDat4 = document.getElementById('profileDat4');
 	var profileImg4 = document.getElementById('profileImg4');
@@ -5398,6 +5402,7 @@ var netmig_data = [];
 }; 
 
 //Plotting 
+
 	estPlot(est_data, "dashboard", "County",  "est_output", "", yrvalue, fips, ctyName);
 	forecastPlot(forecast_data, "dashboard", "County", "forec_output", "", yrvalue, fips, ctyName);
 	cocPlot(est_data, "dashboard","County", "coc_output", "", yrvalue, fips, ctyName);
