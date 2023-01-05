@@ -558,6 +558,7 @@ details main {
   padding: 1px;
 }
 .grid-item {
+  position : relative;
   background-color: white;
   text-align: left;
   padding: 20px;
@@ -1315,41 +1316,43 @@ div.tooltip {
 .gis-container {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr repeat(2, auto) 1fr repeat(3, auto) 1fr auto 1fr auto 1fr auto 1fr auto;
   grid-gap: 1px;
   background-color: #7a853b; 
   padding: 1px;
 }
-.gis-panel_main {  
+.gis-panel_main_a {  
+ gap : 0;
+  grid-column: 1 / span 6;
+  grid-row: 1;
+  }
+ .gis-panel_main_b {  
   gap : 0;
-  grid-column: 2 / span 7;
-  grid-row: 2 / span 2;
+  grid-column: 1 / span 6;
+  grid-row: 4;
+  } 
+  .gis-panel_main_c {  
+  gap : 0;
+  grid-column: 1 / span 6;
+  grid-row: 8;
+  }
+  .gis-panel_main_d {  
+  gap : 0;
+  grid-column: 1 / span 6;
+  grid-row: 10;
+  }
+  .gis-panel_main_e {  
+  gap : 0;
+  grid-column: 1 / span 6;
+  grid-row: 12;
+  }
+  .gis-panel_main_f {  
+  gap : 0;
+  grid-column: 1 / span 6;
+  grid-row: 14;
   }
   
- .gis-panel_1_1 {  
-   grid-column: 1;
-   grid-row: 1;   
-  }  
-  .gis-panel_1_2 {  
-   grid-column: 2;
-   grid-row: 1;   
-  }  
-  .gis-panel_1_3 {  
-   grid-column: 3;
-   grid-row: 1;   
-  }  
-  .gis-panel_1_4 {  
-   grid-column: 4;
-   grid-row: 1;   
-  }  
-  .gis-panel_1_5 {  
-   grid-column: 5;
-   grid-row: 1;   
-  }  
-  .gis-panel_1_6 {  
-   grid-column: 6;
-   grid-row: 1;   
-  }  
-  .gis-panel_2_1 {  
+ .gis-panel_2_1 {  
    grid-column: 1;
    grid-row: 2;   
   }  
@@ -1396,30 +1399,6 @@ div.tooltip {
    .gis-panel_3_6 {  
     grid-column: 6;
     grid-row: 3;   
-   }  
-   .gis-panel_4_1 {  
-    grid-column: 1;
-    grid-row: 4;   
-   }  
-   .gis-panel_4_2 {  
-    grid-column: 2;
-    grid-row: 4;   
-   }  
-   .gis-panel_4_3 {  
-    grid-column: 3;
-    grid-row: 4;   
-   }  
-   .gis-panel_4_4 {  
-    grid-column: 4;
-    grid-row: 4;   
-   }  
-   .gis-panel_4_5 {  
-    grid-column: 5;
-    grid-row: 4;   
-   }  
-   .gis-panel_4_6 {  
-    grid-column: 6;
-    grid-row: 4;   
    }  
    .gis-panel_5_1 {  
     grid-column: 1;
@@ -1493,7 +1472,102 @@ div.tooltip {
     grid-column: 6;
     grid-row: 7;   
    }
-   
+     .gis-panel_9_1 {  
+    grid-column: 1;
+    grid-row: 9;   
+   }  
+   .gis-panel_9_2 {  
+    grid-column: 2;
+    grid-row: 9;   
+   }  
+   .gis-panel_9_3 {  
+    grid-column: 3;
+    grid-row: 9;   
+   }  
+   .gis-panel_9_4 {  
+    grid-column: 4;
+    grid-row: 9;   
+   }  
+   .gis-panel_9_5 {  
+    grid-column: 5;
+    grid-row: 9;   
+   }  
+   .gis-panel_9_6 {  
+    grid-column: 6;
+    grid-row: 9;   
+   }
+  .gis-panel_11_1 {  
+    grid-column: 1;
+    grid-row: 11;   
+   }  
+   .gis-panel_11_2 {  
+    grid-column: 2;
+    grid-row: 11;   
+   }  
+   .gis-panel_11_3 {  
+    grid-column: 3;
+    grid-row: 11;   
+   }  
+   .gis-panel_11_4 {  
+    grid-column: 4;
+    grid-row: 11;   
+   }  
+   .gis-panel_11_5 {  
+    grid-column: 5;
+    grid-row: 11;   
+   }  
+   .gis-panel_11_6 {  
+    grid-column: 6;
+    grid-row: 11;   
+   }
+  .gis-panel_13_1 {  
+    grid-column: 1;
+    grid-row: 13;   
+   }  
+   .gis-panel_13_2 {  
+    grid-column: 2;
+    grid-row: 13;   
+   }  
+   .gis-panel_13_3 {  
+    grid-column: 3;
+    grid-row: 13;   
+   }  
+   .gis-panel_13_4 {  
+    grid-column: 4;
+    grid-row: 13;   
+   }  
+   .gis-panel_13_5 {  
+    grid-column: 5;
+    grid-row: 13;   
+   }  
+   .gis-panel_13_6 {  
+    grid-column: 6;
+    grid-row: 13;   
+   }
+  .gis-panel_15_1 {  
+    grid-column: 1;
+    grid-row: 15;   
+   }  
+   .gis-panel_15_2 {  
+    grid-column: 2;
+    grid-row: 15;   
+   }  
+   .gis-panel_15_3 {  
+    grid-column: 3;
+    grid-row: 15;   
+   }  
+   .gis-panel_15_4 {  
+    grid-column: 4;
+    grid-row: 15;   
+   }  
+   .gis-panel_15_5 {  
+    grid-column: 5;
+    grid-row: 15;   
+   }  
+   .gis-panel_15_6 {  
+    grid-column: 6;
+    grid-row: 15;   
+   }
    
 /* Classes for lookups */
 /* Add a background color on hover */
@@ -1562,3 +1636,14 @@ li:hover>nava{
 .subMenu li:hover>.SuperSubMenu{
     display: block;
 }
+
+/* Loader Styles  to dim panels during processing */
+#loader {  
+    position: fixed;  
+    left: 0px;  
+    top: 0px;  
+    width: 100%;  
+    height: 100%;  
+    z-index: 9999;  
+    background-color: rgb(137, 148, 153);  
+}  
