@@ -1,4 +1,41 @@
 <!-- Main Applications Page T Bless A Bickford 1/2023-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>SDO Population Resource Page</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
+<!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+<!-- SDO CSS -->
+<link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
+<!-- adding d3.js  for data manipulation-->
+ <script src="https://d3js.org/d3.v6.min.js"></script>
+<!-- SDO suport functions, genSYA, insertHTML, -->
+<script src="https://demography.dola.colorado.gov/assets/js/funct.js"></script>
+<!-- GoogleAnalytics Script -->
+<script defer src="https://demography.dola.colorado.gov/assets/js/googleAnalytics.js"></script>
+</head>
+<body>
+<div>
+<a href="https://cdola.colorado.gov/"><img class="logoSDO" src="../img/SDO-1600x400.jpg" alt="Department of Local Affairs Homepage"></a>
+</div>
+	<div w3-include-html="./navheader.html"></div>
+<!-- First Grid, linked images -->
+<div class="grid-container2">
+  <div class="grid-item panel2_1_1">
+	<div w3-include-html="./sdotitle.html"></div>
+  </div>
+  <div class="grid-item panel2_2_1" id="leftHand">
+	<div w3-include-html="./left_hand_index.html"></div>
+  </div> <!-- Grid  panel2_2_1 -->
+
+
+<div class="grid-item app-panel_2_span">
+Visualizations and Interactive Maps produced by the State Demography Office.<br>
+
+
 <div class= "gis-container">
 <div class="grid-item gis-panel_main_a">
 <H4 id="program">Program Applications</H4>
@@ -135,17 +172,20 @@
 	<a href="https://gis.dola.colorado.gov/CensusAPI_Map_2021" title='Interactive Map of American Community Survey results using current 5-year data sets. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><img class="map-thumbnail" alt="ACS 2017-2021 Interactive Map" src="../../map_gallery/img/acs1519.png"></a>
 	<a href="https://gis.dola.colorado.gov/CensusAPI_Map_2021" title='Interactive Map of American Community Survey results using current 5-year data sets. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:9pt;text-align:center;">ACS 2017-2021 Interactive Map</p></a>
 </div>
-<div class='grid-item gis-panel_9_4'>
+<!-- div class='grid-item gis-panel_9_4'>
 	<a href="acsmaps.html" title='Collection of past ACS Interactive Maps. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><img class="map-thumbnail" alt="ACS Interactive Maps 2010 to 2018" src="../../map_gallery/img/acs1418.png"></a>
 	<a href="acsmaps.html" title='Collection of past ACS Interactive Maps. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:9pt;text-align:center;">Prior ACS Interactive Maps</p></a>
-</div>
-<div class='grid-item gis-panel_9_5'>
+</div -->
+<div class='grid-item gis-panel_9_4'>
 	<a href="https://gis.dola.colorado.gov/Density_2020/" title='Interactive Map showing population density based on the 2020 Census. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><img class="map-thumbnail" alt="2020 Census Population Density Map" src="../../map_gallery/img/density.png"></a>
 	<a href="https://gis.dola.colorado.gov/Density_2020/" title='Interactive Map showing population density based on the 2020 Census. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:9pt;text-align:center;">2020 Census Population Density Map</p></a>
 </div>
-<div class='grid-item gis-panel_9_6'>
+<div class='grid-item gis-panel_9_5'>
 	<a href="https://gis.dola.colorado.gov/CensusAPI/" title='API to download Census data. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><img class="map-thumbnail" alt="Query Census Data" src="../../map_gallery/img/censusapi.png"></a>
 	<a href="https://gis.dola.colorado.gov/CensusAPI/" title='API to download Census data. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:9pt;text-align:center;">Query Census Data</p></a>
+</div>
+<div class='grid-item gis-panel_9_6'>
+<p></p>
 </div>
 <div class="grid-item gis-panel_main_d">
 <H4 id="coc">Births, Deaths, & Migration Applications</H4>
@@ -225,3 +265,26 @@
 	<a href="https://gis.dola.colorado.gov/Job_Sector_County" title='Job Sectors Map. Questions? Click on the "Contact Us" link to contact a SDO Demographer.'><p style="font-size:9pt;text-align:center;">Job Sectors Map</p></a>
 </div>
 </div> <!-- gis-container -->
+</div>  <!-- grid-item app-panel_2_span -->
+
+ <div class="grid-item panel2_4_2">
+		<div w3-include-html="./bodycontent1.html"></div>
+</div>
+<div class="grid-item panel2_4_4">
+		<div w3-include-html="./bodycontent2.html"></div>
+</div>
+<div class="grid-item panel2_4_6">
+	<div w3-include-html="./bodycontent3.html"></div>
+</div>
+</div>  <!-- End of Grid -->
+
+
+<script>
+
+//Setting HTML include and Accordion
+includeHTML(); 
+
+</script>
+
+</body>
+</html> 
