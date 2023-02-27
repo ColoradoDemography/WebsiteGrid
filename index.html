@@ -12,7 +12,7 @@
 
 
 <!-- adding d3.js  for data manipulation-->
- <script src="https://d3js.org/d3.v6.min.js"></script>
+ <script src="https://d3js.org/d3.v7.min.js"></script>
 <!-- SDO suport functions, genSYA, insertHTML, -->
 <script src="https://demography.dola.colorado.gov/assets/js/funct.js"></script>
 <!-- GoogleAnalytics Script -->
@@ -78,7 +78,7 @@ d3.json(urlstr).then(function(yeardata){
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
     var yrvalue = d3.max(yrsList) 
-	var acsyr = 2020;  ///CHANGE THIS WHEN 2020 ACS is available
+	var acsyr = 2021;  ///CHANGE THIS WHEN 2020 ACS is available
 	
 //Generate Initial Tables
 
