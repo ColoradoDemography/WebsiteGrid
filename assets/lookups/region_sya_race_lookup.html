@@ -13,7 +13,7 @@
 <!-- SDO CSS -->
 <link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
 <!-- adding d3.js  for data manipulation-->
- <script src="https://d3js.org/d3.v6.min.js"></script>
+ <script src="https://d3js.org/d3.v7.min.js"></script>
 <script type="text/javascript" src="../js/saveSvgAsPng.js"></script>
 <!-- Adding Plotly.js for  charting -->
 <script src="https://cdn.plot.ly/plotly-2.2.0.min.js" charset="utf-8"></script>
@@ -266,6 +266,8 @@
 		}
 
 		if(complete){
+		
+		debugger;
 		     genRaceTabReg(selectedreg, selectedfips,selectedyr, selectedrace,selectedeth,selectedage,selectedsex,selectedgroup);
 			 } else {
 			 window.alert(outputmsg);
