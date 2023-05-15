@@ -1693,9 +1693,137 @@ function transpose(data) {
     }
   }
   return result;
-};
+}; //includeHTML
 
 
+//genFilename generates standardized file names
+function genFilename(outname, type, ext, yr) {
+	 switch(type){
+		case 'test' :
+		var fileName = "Test values " +  outname + "." + ext;
+		break;
+		case 'map' :
+		    var fileName = outname[0] + " Area Map." + ext;
+		break;
+		case 'summary' :
+		    var fileName = outname + " Basic Statistics Table." + ext;
+		break;
+		case 'estimate' :
+			var fileName = outname + " Population Estimates." + ext;
+		break;
+		case 'forecast' :
+			var fileName = outname + " Population Forecast." + ext;
+		break;
+		case 'coc' :
+			var fileName = outname + " Components of Change." + ext;
+		break;
+		case 'netmig' :
+			var fileName = canme + " Net Migration by Age." + ext;
+		break;
+		case 'age' :
+			var fileName = outname + " Age Categories." + ext;
+		break;
+		case 'ageest' :
+			var fileName = outname + " Age Estimate." + ext;
+		break;
+		case 'agefor' :
+			var fileName = outname + " Age Forecast." + ext;
+		break;
+		case 'agepyr' :
+			var fileName = outname + " Age Pyramid." + ext;
+		break;
+		case 'popchng' :
+			var fileName = canem + " Population Change by Age Group." + ext;
+		break;
+		case 'line' :
+			var fileName = outname + " Single Year of Age by Race " + yr + "." + ext;
+		break;
+		case 'white' :
+			var fileName = outname +  "Single Year of Age by Race White NH " + yr + "." + ext;
+		break;
+		case 'hisp' :
+			var fileName = outname + " Single Year of Age by Race Hispanic " + yr + "." + ext;
+		break;
+		case 'black' :
+			var fileName = outname + " Single Year of Age by Race Black NH " + yr +  "." + ext;
+		break;
+		case 'asian' :
+			var fileName = outname + " Single Year of Age by Race Asian NH " + yr + "." + ext;
+		break;
+		case 'nhpi' :
+			var fileName = outname + " Single Year of Age by Race Native Hawaiian Pacific Islander NH " + yr + "." + ext;
+		break;
+		case  'amind' :
+			var fileName = outname + " Single Year of Age by Race American Indian NH " + yr + "." + ext;
+		break;
+		case 'amind' :
+			var fileName = canme + " Single Year of Age by Race Two or More Races NH " + yr + "." + ext;
+		break;
+		case 'netmign' :
+			var fileName =  outname + " Net Migration by Age." + ext
+		break;
+		case 'netmigrrate' :
+			var fileName =  outname + "Net Migration by Age." + ext
+		break;
+		case 'netmigwa' :
+			var fileName =  outname + " Net Migration by Year." + ext
+		break;
+		case 'netmigrwa' :
+			var fileName =  outname + " Net Migration by Year." + ext
+		break;
+		case 'nethist' :
+			var fileName = outname + " Long Term Trend Births Deaths Migration." + ext
+		break;
+		case 'hhchart' :
+			var fileName = outname + " Household Projections Age Group x Household Type." + ext
+		break;
+		case 'agechart' :
+			var fileName = outname + "Household Projections Household Type and Age Group." + ext
+		break;
+		case 'housing' :
+			var fileName = outname + " Households." + ext
+		break;
+		case 'income' :
+			var fileName = outname + "ACS Income Estimates." + ext
+		break;	
+		case 'incomesrc' :
+			var fileName = outname + " ACS Income Sources." + ext
+		break;	
+		case 'educatt' :
+			var fileName = outname + " ACS Educational Attainment." + ext
+		break;
+		case 'raceeth' :
+			var fileName = outname + " ACS Race and Ethnicity." + ext
+		break;
+		case 'hhforecast' :
+			var fileName = outname + " Household Forecast by Age." + ext
+		break;
+		case 'popgrowth' :
+			var fileName = outname + " Population Growth Table." + ext
+		break;
+		case 'houseocc' :
+			var fileName = outname + " ACS Housing Occupancy and Vacancy Table." + ext
+		break;
+		case 'housetype' :
+			var fileName = outname + " ACS Housing Type Table." + ext
+		break;
+		case 'houseecon' :
+			var fileName = outname + " ACS Housing Cost and Affordability Table." + ext
+		break;
+		case 'netflow' :
+			var fileName = outname + " ACS Net Migration Flows." + ext
+		break;
+		case 'inflow' :
+			var fileName = outname + " ACS In Migration Flows." + ext
+		break;
+		case 'outflow' :
+			var fileName = outname + " ACS Out Migration Flows." + ext
+		break;
+		} //switch
+		
+	
+return(fileName)
+} //genFilename
 
 //exporttoCsv  downloads the a selected file
 function exportToCsv(cname, type, rows, yr) {
@@ -1706,113 +1834,7 @@ function exportToCsv(cname, type, rows, yr) {
 		}
 	  
         var csvFile = d3.csvFormat(rows);
-
-		if(type == 'test'){
-			var fileName = "Test values " +  cname + ".csv";
-			}
-		if(type == 'estimate') {
-			var fileName = "Population Estimates " + cname + ".csv";
-		};
-		if(type == 'forecast') {
-			var fileName = "Population Forecast " + cname + ".csv";
-		};
-		if(type == 'coc') {
-			var fileName = "Components of Change " + cname + ".csv";
-		};
-		if(type == 'netmig') {
-			var fileName = "Net Migration by Age " + cname + ".csv";
-		};
-		if(type == 'age') {
-			var fileName = "Age Categories " + cname + ".csv";
-		};
-		if(type == 'ageest') {
-			var fileName = "Age Estimate " + cname;
-		};
-		if(type == 'agefor') {
-			var fileName = "Age Forecast " + cname;
-		};
-		if(type == 'agepyr') {
-			var fileName = "Age Pyramid " + cname;
-		};
-
-		if(type == 'popchng') {
-			var fileName = "Population Change by Age Group " + cname + ".csv";
-		};
-		
-		if(type == 'line'){
-			var fileName = "Single Year of Age by Race " + cname +  " " + yr + ".csv";
-		};
-		if(type == 'white'){
-			var fileName = "Single Year of Age by Race White NH " + cname +  " " + yr + ".csv";
-		};
-		if(type == 'hisp'){
-			var fileName = "Single Year of Age by Race Hispanic " + cname +  " " + yr + ".csv";
-		};
-		if(type == 'black'){
-			var fileName = "Single Year of Age by Race Black NH " + cname +  " " + yr + ".csv";
-		};
-		if(type == 'asian'){
-			var fileName = "Single Year of Age by Race Asian NH " + cname +  " " + yr + ".csv";
-		};
-		if(type == 'nhpi'){
-			var fileName = "Single Year of Age by Race Native Hawaiian Pacific Islander NH " + cname +  " " + yr + ".csv";
-		};
-		if(type == 'amind'){
-			var fileName = "Single Year of Age by Race American Indian NH " + cname +  " " + yr + ".csv";
-		};
-		if(type == 'amind'){
-			var fileName = "Single Year of Age by Race Two or More Races NH " + cname +  " " + yr + ".csv";
-		};
-		if(type == 'netmign'){
-			var fileName =  "Net Migration by Age " + cname + ".csv"
-		};
-		if(type == 'netmigrrate'){
-			var fileName =  "Net Migration by Age " + cname + ".csv"
-		};
-		if(type == 'netmigwa'){
-			var fileName =  "Net Migration by Year.csv"
-		};
-		if(type == 'netmigrwa'){
-			var fileName =  "Net Migration by Year.csv"
-		};
-		if(type == 'nethist') {
-			var fileName = "Long Term Trend Births Deaths Migration " + cname + ".csv"
-		};
-		if(type == 'hhchart') {
-			var fileName = "Household Projections Age Group x Household Type " + cname + ".csv"
-		};
-		if(type == 'agechart') {
-			var fileName = "Household Projections Household Type x Age Group " + cname + ".csv"
-		};
-		if(type == 'housing'){
-			var fileName = "Households " + cname + ".csv"
-		}	
-		if(type == 'income'){
-			var fileName = "ACS Income Estimates " + cname + ".csv"
-		}	
-		if(type == 'incomesrc'){
-			var fileName = "ACS Income Sources " + cname + ".csv"
-		}	
-		
-		if(type == 'educatt'){
-			var fileName = "ACS Educational Attainment " + cname + ".csv"
-		}
-		if(type == 'raceeth'){
-			var fileName = "ACS Race and Ethnicity " + cname + ".csv"
-		}
-		if(type == 'hhforecast'){
-			var fileName = "Household Forecast by Age " + cname + ".csv"
-		}
-		
-		if(type == "Summary Statistics Table"){
-			var fileName = cname + ".csv"
-		}
-		if(type == "Population Growth Table"){
-			var fileName = cname + ".csv"
-		}
-		if(type == "Housing Occupancy and Vacancy"){
-			var fileName = cname + ".csv"
-		}
+        var fileName = genFilename(cname, type, "csv", yr)
 
 		
         var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
@@ -1857,107 +1879,14 @@ function plotDownload(plotdiv,filename,type){
 
 //exportToPng  Exports plotly trace and layout to PNG file
 function exportToPng(cname, type, graphDiv, yr){
-	  	if(type == 'map') {
-			var fileName = cname + " Base Map";
-		};
-	  	if(type == 'estimate') {
-			var fileName = "Population Estimates " + cname;
-		};
-		if(type == 'forecast') {
-			var fileName = "Population Forecast " + cname;
-		};
-		if(type == 'coc') {
-			var fileName = "Components of Change " + cname;
-		};
-		if(type == 'netmig') {
-			var fileName = "Net Migration by Age 2000-2010 " + cname;
-		};
-		if(type == 'age') {
-			var fileName = "Age Categories " + cname;
-		}
-		if(type == 'ageest') {
-			var fileName = "Age Estimate " + cname;
-		};
-		if(type == 'agefor') {
-			var fileName = "Age Forecast " + cname;
-		};
-		if(type == 'agepyr') {
-			var fileName = "Age Pyramid ";
-		};
-		if(type == 'popchng') {
-			var fileName = "Population Change by Age Group " + cname;
-		};
-		
-		if(type == 'line'){
-			var fileName = "Single Year of Age by Race " + cname +  " " + yr;
-		};
-		if(type == 'white'){
-			var fileName = "Single Year of Age by Race White NH " + cname +  " " + yr;
-		};
-		if(type == 'hisp'){
-			var fileName = "Single Year of Age by Race Hispanic " + cname +  " " + yr;
-		};
-		if(type == 'black'){
-			var fileName = "Single Year of Age by Race Black NH " + cname +  " " + yr;
-		};
-		if(type == 'asian'){
-			var fileName = "Single Year of Age by Race Asian NH " + cname +  " " + yr;
-		};
-		if(type == 'nhpi'){
-			var fileName = "Single Year of Age by Race Native Hawaiian Pacific Islander NH " + cname +  " " + yr;
-		};
-		if(type == 'amind'){
-			var fileName = "Single Year of Age by Race American Indian NH " + cname +  " " + yr;
-		};
-		if(type == 'multi'){
-			var fileName = "Single Year of Age by Race Two or More Races NH " + cname +  " " + yr;
-		};
-		if(type == 'netmign'){
-			var fileName =  "Net Migration by Age " + cname
-		};
-		if(type == 'netmigrrate'){
-			var fileName =  "Net Migration Rate by Age " + cname
-		};
-		if(type == 'netmigwa'){
-			var fileName =  "Net Migration by Year "
-		};
-		if(type == 'netmigrwa'){
-			var fileName =  "Net Migration by Year "
-		};
-		if(type == 'birth') {
-			var fileName = "Long Term Trend Births " + cname 
-		};
-		if(type == 'death') {
-			var fileName = "Long Term Trend Deaths " + cname 
-		};
-		if(type == 'mig') {
-			var fileName = "Long Term Trend Net Migration " + cname 
-		};
-		if(type == 'hhchart') {
-			var fileName = "Household Projections Age Group x Household Type " + cname 
-		};
-		if(type == 'agechart') {
-			var fileName = "Household Projections Household Type x Age Group " + cname 
-		};
-		if(type == 'housing') {
-			var fileName = "Household Units " + cname 
-		};
-		if(type == 'income'){
-			var fileName = "ACS Income Estimates " + cname 
-		}	
-		if(type == 'educatt'){
-			var fileName = "ACS Educational Attainment " + cname 
-		}
-		if(type == 'hhforecast'){
-			var fileName = "Houshehold Forecast by Age " + cname 
-		}
-	
+           fileName = genFilename(cname,type,"png",yr);
+
 		if(Array.isArray(graphDiv)){
 			for(i = 0; i < graphDiv.length; i++){
                plotDownload(graphDiv[i].plot,graphDiv[i].fName,type);
 			};  //i
 		} else {
-		var fn = fileName + ".png";
+		var fn = fileName;
 		switch(type) {
 		case 'map': {
 			var count_node = d3.select("svg").node();
@@ -1978,6 +1907,39 @@ function exportToPng(cname, type, graphDiv, yr){
 		break;
 	    case 'popchng' : {
 		    Plotly.toImage(graphDiv, { format: 'png', width: 1000, height: 400 }).then(function (dataURL) {
+				var a = document.createElement('a');
+				a.href = dataURL;
+				a.download = fn;
+				document.body.appendChild(a);
+				 a.click();
+				document.body.removeChild(a);
+			});
+		} 
+		break;
+	    case 'netflow': {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 750, height: 750 }).then(function (dataURL) {
+				var a = document.createElement('a');
+				a.href = dataURL;
+				a.download = fn;
+				document.body.appendChild(a);
+				 a.click();
+				document.body.removeChild(a);
+			});
+		} 
+		break;
+	    case 'inflow' : {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 750, height: 750 }).then(function (dataURL) {
+				var a = document.createElement('a');
+				a.href = dataURL;
+				a.download = fn;
+				document.body.appendChild(a);
+				 a.click();
+				document.body.removeChild(a);
+			});
+		} 
+		break;
+	    case 'outflow' : {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 750, height: 750 }).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -2380,8 +2342,7 @@ return(acsUrl)
 }; //end of genACSUrl
 
 function genCEDSCIUrl(level,tableid, yrvalue, fipsArr) {
-
-	var urlHead = 'https://data.census.gov/cedsci/table?q=' + tableid;
+	var urlHead = 'https://data.census.gov/table?q=' + tableid;
 	var urlTail = '&tid=ACSDT5Y' + yrvalue + '.' + tableid;
 	var urlGeo = "&g=";
 	    if(level == "Region") {
@@ -2389,24 +2350,24 @@ function genCEDSCIUrl(level,tableid, yrvalue, fipsArr) {
 			urlGeo = urlGeo + '0400000US' + fipsArr[0] + '_';
 			var startVal = 1;
 		} else {
-			urlGeo = urlGeo + '0400000US08_';
+			urlGeo = urlGeo + '040XX00US08_';
 			var startVal = 0;
 		};
-		urlGeo = urlGeo + "0500000US"
+		urlGeo = urlGeo + "050XX00US"
 		for(i = startVal; i < fipsArr.length; i++) {
 			urlGeo = urlGeo + "08" + fipsArr[i] + ",";
 		}
 	 urlGeo = urlGeo.slice(0, -1)
 	}
 	if(level == "County") {
-		urlGeo = urlGeo + '0400000US08_';
-		urlGeo = urlGeo + "0500000US" + "08" + fipsArr[0];
+		urlGeo = urlGeo + '040XX00US08_';
+		urlGeo = urlGeo + "050XX00US" + "08" + fipsArr[0];
 	};
 	if(level == "Municipality") {
-		var ctycode = "08" + fipsArr[0].substring(4)
-		urlGeo = urlGeo + '0400000US08_';
-		urlGeo = urlGeo + "0500000US" + ctycode + "_";
-		urlGeo = urlGeo + "1600000US" + fipsArr[1];
+		var ctycode = "08" + muni_county(fipsArr[0])
+		urlGeo = urlGeo + '040XX00US08_';
+		urlGeo = urlGeo + "050XX00US" + ctycode + "_";
+		urlGeo = urlGeo + "160XX00US08" + fipsArr[0];
 	}
 	
 var fullUrl = urlHead + urlGeo + urlTail;
@@ -3689,7 +3650,7 @@ var tabname = ["Owner Occupied Housing Units", "Rental Housing Units"];
 if(fips == "000") {
     var censgeo = "&g=0400000US08&tid=ACSDT5Y"+ ACSYR + ".";
 } else {
-	var censgeo = "&g=0500000US08"+ fips +"&tid=ACSDT5Y"+ ACSYR + ".";
+	var censgeo = "&g=050XX00US08"+ fips +"&tid=ACSDT5Y"+ ACSYR + ".";
 };
 
 for(i = 0; i < tabname.length;i++) {
@@ -4006,7 +3967,7 @@ var tabname = ["% living in Poverty","% with Bachelor's Degree+",
 if(fips == "000") {
     var censgeo = "&g=0400000US08&tid=ACSDT5Y" + curyr + ".";
 } else {
-	var censgeo = "&g=0500000US08"+ fips +"&tid=ACSDT5Y" + curyr + ".";
+	var censgeo = "&g=050XX00US08"+ fips +"&tid=ACSDT5Y" + curyr + ".";
 };
 
 
@@ -4349,7 +4310,7 @@ var config = {responsive: true,
 //Clearing out divs
 
 if(app == "profile") {
-	  pgSetup(level,"chart",plotdiv,bkmark,true,false,fips, ctyName, 0)
+	  pgSetupPro(level,"chart",plotdiv,bkmark,true,false,fips, ctyName, 0)
 	  var ESTIMATE = document.getElementById('PlotDiv2');
 } else {
 	var ESTIMATE = document.getElementById(plotdiv);
@@ -4434,7 +4395,7 @@ function forecastPlot(inData, app, level, plotdiv, bkmark, yrvalue,fips,ctyName)
               displayModeBar: false};
 			  
 if(app == "profile") {
-	  pgSetup(level,"chart",plotdiv,bkmark,true,false,fips, ctyName, 0)
+	  pgSetupPro(level,"chart",plotdiv,bkmark,true,false,fips, ctyName, 0)
 	  var FORECAST = document.getElementById('PlotDiv3');
 } else {
 	var FORECAST = document.getElementById(plotdiv);
@@ -4451,15 +4412,12 @@ FORECAST.innerHTML = "";
 		   forecast_data.push({'fips' : fips, 'name' : ctyName, 'year' :  key, 'totalpopulation' : value.totalpopulation});
 		}
 
-
-
 var year_forec_arr =[];
 var pop_forec_arr = [];
 
 forec_flat = forecast_data.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
 year_forec_arr = forec_flat.map(item => item.year);
 pop_forec_arr = forec_flat.map(item => item.totalpopulation);
-
 
 if(app == 'dashboard'){
 var forec_trace = { 
@@ -5100,7 +5058,7 @@ for(i = 1; i < coc_flat.length; i++){
 
 
 if(app == "profile") {
-	  pgSetup(level,"chart",plotdiv,bkmark,true,false,fips, ctyName, 0)
+	  pgSetupPro(level,"chart",plotdiv,bkmark,true,false,fips, ctyName, 0)
 	  var COC = document.getElementById('PlotDiv4');
 } else {
 	var COC = document.getElementById(plotdiv);
@@ -7517,3 +7475,784 @@ vacantbar_png.onclick = function() { exportToPng(plName, 'housing', CHART2, 0); 
 }); //end of Promise
 
 }; //End  of Housdash
+
+//Migration Flows functions
+//genFLOWYR generates the ACS years
+function genFLOWYR(inYR){
+	if(inYR > 2020) { inYR = 2020}  //Adjust this to the latest version of the ACS Migration Flows data
+	var prevYR = inYR - 4;
+	var yrArr = [];
+	var YRStr  = String(prevYR) + "-" + String(inYR)
+	yrArr.push({"YEAR" : inYR, "ACS_YR" : YRStr})
+	var chkYr = inYR
+	for(i = inYR; i >= 2010; i--) {
+	    if(i == chkYr - 5){
+			var prevYR = i - 4;
+			var YRStr  = String(prevYR) + "-" + String(i)
+	        yrArr.push({"YEAR" : i, "ACS_YR" : YRStr})
+			chkYr = i
+		}
+   }
+
+ return(yrArr)
+}  //genFLOWYR
+
+//parsePhrase returns an adjusted total from the summary record
+function parsePhrase (phrase){
+	var outphrase = phrase.split(" ")
+	var outval = parseInt(outphrase[3].replaceAll(",",""))
+	return(outval)
+}
+
+//supressData compresses data sets to have a maximum of 35 entires (20 px per entry in a chart with 700 px)
+//OR entry with 10 or fewer movers
+function supressData(inData, fips, type){
+	var fmt_comma = d3.format(",");
+	var outname = countyName(parseInt(fips))
+
+		switch(type) {
+		case 'net' :{
+ 		  var posdata = inData.filter(d => d.MOVEDNET_EST >= 0)
+          var possort = posdata.sort(function(a, b){return d3.descending(a['MOVEDNET_EST'], b['MOVEDNET_EST']); })
+		  var poscnt = 0;
+		  var posmax = 0;
+		  var posfin = [];
+          var posphrase = ""
+			  for(i = 0; i < possort.length; i++) {
+				  if(i < 20){
+					  posfin[i] = possort[i];
+				  } else {
+				      poscnt++
+				      posmax =  posmax + possort[i].MOVEDNET_EST;
+					  if(poscnt == 1){
+					  var posphrase = fmt_comma(poscnt) + ' location with ' + fmt_comma(posmax)+ ' movers'
+					  } else {
+					  var posphrase = fmt_comma(poscnt) + ' locations with ' + fmt_comma(posmax)+ ' movers'
+					  }  
+			      }
+			  }
+
+
+		//adding record for supression
+		 if(poscnt > 0 && posmax > 0){
+			  posfin.push({
+				"GEOID1" : "",
+				"GEOID2" : "",
+				"NAME1" : outname,
+				"STATE1" : "",
+				"NAME2" : posphrase.length > 0 ? posphrase : "",
+				"STATE2" : "",
+				"MOVEDIN_EST" : 0,
+				"MOVEDIN_MOE" : 0,
+				"MOVEDOUT_EST" : 0,
+				"MOVEDOUT_MOE" : 0,
+				"MOVEDNET_EST" : 10,
+				"MOVEDNET_MOE" : 0 })
+			  }
+			  
+		  var negdata = inData.filter(d => d.MOVEDNET_EST < 0)
+
+          var negsort = negdata.sort(function(a, b){return d3.ascending(a['MOVEDNET_EST'], b['MOVEDNET_EST']); })
+
+		  var negcnt = 0;
+		  var negmax = 0;
+		  var negfin = [];
+		  var negphrase = "";
+			  for(i = 0; i < negsort.length; i++) {
+				  if(i < 20){
+					  negfin[i] = negsort[i];
+				  } else {
+				      negcnt++
+				      negmax =  negmax + Math.abs(negsort[i].MOVEDNET_EST);
+					  if(negcnt == 1){
+							var negphrase = fmt_comma(negcnt) + ' location with ' + fmt_comma(Math.abs(negmax))+ ' movers';
+						} else {
+							var negphrase = fmt_comma(negcnt) + ' locations with ' + fmt_comma(Math.abs(negmax))+ ' movers';
+						}
+			      }
+			  }
+		
+				//adding record for supression
+		 if(negcnt > 0 && negmax > 0){
+			  negfin.push({
+				"GEOID1" : "",
+				"GEOID2" : "",
+				"NAME1" : outname,
+				"STATE1" : "",
+				"NAME2" : negphrase.length > 0 ? negphrase : "",
+				"STATE2" : "",
+				"MOVEDIN_EST" : 0,
+				"MOVEDIN_MOE" : 0,
+				"MOVEDOUT_EST" : 0,
+				"MOVEDOUT_MOE" : 0,
+				"MOVEDNET_EST" : -10,
+				"MOVEDNET_MOE" : 0 })
+			  }
+		var outdata = posfin.concat(negfin);
+		break;
+		}  //net
+	case "in" : {
+          var insort = inData.sort(function(a, b){return d3.descending(a['MOVEDIN_EST'], b['MOVEDIN_EST']); })
+		  var incnt = 0;
+		  var inmax = 0;
+		  var infin = [];
+		  var inphrase = "";
+			  for(i = 0; i < insort.length; i++) {
+				  if(i < 20){
+					  infin[i] = insort[i];
+				  } else {
+				      incnt++
+				      inmax =  inmax + insort[i].MOVEDIN_EST;
+					  if(incnt == 1){
+					  var inphrase = fmt_comma(incnt) + ' location with ' + fmt_comma(inmax)+ ' movers'
+					  } else {
+						  var inphrase = fmt_comma(incnt) + ' locations with ' + fmt_comma(inmax)+ ' movers'
+					  }
+			      }
+			  }
+	
+		 //adding record for supression
+		 if(incnt > 0 && inmax > 0){
+			  infin.push({
+				"GEOID1" : "",
+				"GEOID2" : "",
+				"NAME1" : outname,
+				"STATE1" : "",
+				"NAME2" : inphrase.length > 0 ? inphrase : "",
+				"STATE2" : "",
+				"MOVEDIN_EST" : 10,
+				"MOVEDIN_MOE" : 0,
+				"MOVEDOUT_EST" : 0,
+				"MOVEDOUT_MOE" : 0,
+				"MOVEDNET_EST" : 0,
+				"MOVEDNET_MOE" : 0 })
+			  }
+		var outdata = infin;
+		break;
+	} //in
+	case "out" : {
+          var outsort = inData.sort(function(a, b){return d3.descending(a['MOVEDOUT_EST'], b['MOVEDOUT_EST']); })
+		  var outcnt = 0;
+		  var outmax = 0;
+		  var outfin = [];
+		  var outphrase = "";
+			  for(i = 0; i < outsort.length; i++) {
+				  if(i < 20){
+					  outfin[i] = outsort[i];
+				  } else {
+				      outcnt++
+				      outmax =  outmax + outsort[i].MOVEDOUT_EST;
+					  if(outcnt == 1){
+					  var outphrase = fmt_comma(outcnt) + ' location with ' + fmt_comma(outmax)+ ' movers'
+					  } else {
+						  var outphrase = fmt_comma(outcnt) + ' locations with ' + fmt_comma(outmax)+ ' movers'
+					  }
+			      }
+			  }
+	
+		//adding record for supression
+		 if(outcnt > 0 && outmax > 0){
+			  outfin.push({
+				"GEOID1" : "",
+				"GEOID2" : "",
+				"NAME1" : outname,
+				"STATE1" : "",
+				"NAME2" : outphrase.length > 0 ? outphrase : "",
+				"STATE2" : "",
+				"MOVEDIN_EST" : 0,
+				"MOVEDIN_MOE" : 0,
+				"MOVEDOUT_EST" : 10,
+				"MOVEDOUT_MOE" : 0,
+				"MOVEDNET_EST" : 0,
+				"MOVEDNET_MOE" : 0 })
+			  }
+		var outdata = outfin;
+		break;
+	} //out
+	} //switch
+return(outdata)
+} //supressData
+
+function genFLOWS(fips, name, yearval){
+	var fmt_comma = d3.format(",");
+	const fmt_date = d3.timeFormat("%B %d, %Y");
+	var CHART0 = document.getElementById("net_output");
+	var CHART1 = document.getElementById("in_output");
+	var CHART2 = document.getElementById("out_output");
+
+	CHART0.innerHTML = "";
+	CHART1.innerHTML = "";
+	CHART2.innerHTML = "";
+	
+	var plname = countyName(parseInt(fips))
+	var citval = parseInt(yearval) + 1
+	var titleVal_net = plname + " Net Migration " + (yearval - 4) + "-" + yearval;
+	var titleVal_out = plname + " Out Migration " +  (yearval - 4) + "-" + yearval;
+	var titleVal_in = plname + " In Migration " + (yearval - 4) + "-" + yearval;
+	var citStr = "U.S. Census Bureau ("+ citval + ") County to County Migration Flows " + (yearval - 4) + "-" + yearval +
+	           "<br>Print Date: "+ fmt_date(new Date);
+
+	var flowcall = "/acs/flows?get=GEOID1,GEOID2,FULL1_NAME,FULL2_NAME,MOVEDIN,MOVEDIN_M,MOVEDOUT,MOVEDOUT_M,MOVEDNET,MOVEDNET_M"
+	var censKey = '08fe07c2a7bf781b7771d7cccb264fe7ff8965ce'
+	if(fips == "000") {
+		var urlstr = "https://api.census.gov/data/" + yearval + flowcall + "&for=county:*&in=state:08&key=" + censKey;
+	} else {
+		var urlstr = "https://api.census.gov/data/" + yearval + flowcall + "&for=county:" + fips + "&in=state:08&key=" + censKey;
+	}
+
+
+//Reading data
+   d3.json(urlstr).then(function(data){
+	 var outdata = [];
+
+	 for(i = 1; i < data.length; i++){
+	 
+	 if(data[i][2].indexOf(",") > -1) {
+	     var namein = data[i][2].split(",")
+	 } else {
+		 var namein = [data[i][2]]
+	 }
+	 if(data[i][3].indexOf(",") > -1) {
+	     var nameout = data[i][3].split(",")
+		 if(nameout.length == 3){
+			 nameout.shift()
+		 }
+	 } else {
+		 var nameout = [data[i][3]]
+	 }
+
+	 if(!!data[i][1]){ //GEOID2 is not NULL
+	    var chkval = data[i][1].toString();
+	 } else {
+		var chkval = "";
+	 }
+	 if(chkval.length <= 5){
+	  outdata.push({
+		 "GEOID1" : data[i][0],
+		 "GEOID2" : data[i][1],
+		  "NAME1" : namein.length == 2 ? namein[0].trim() : "",
+		  "STATE1" : namein.length == 2 ? namein[1].trim() : namein[0].trim(),
+		  "NAME2" : nameout.length == 2 ? nameout[0].trim() : "",
+		  "STATE2" : nameout.length == 2 ? nameout[1].trim() : nameout[0].trim(),
+	      "MOVEDIN_EST" : data[i][4] == null ? 0 : parseInt(data[i][4]),
+		  "MOVEDIN_MOE" : data[i][5] == null ? 0 : parseInt(data[i][5]),
+		  "MOVEDOUT_EST" : data[i][6] == null ? 0 : parseInt(data[i][6]),
+		  "MOVEDOUT_MOE" : data[i][7] == null ? 0 : parseInt(data[i][7]),
+		  "MOVEDNET_EST" : data[i][8] == null ? null :parseInt(data[i][8]),
+		  "MOVEDNET_MOE" : data[i][9] == null ? null :parseInt(data[i][9])
+	  })
+	 }
+	 } //for
+	 
+
+//Prepping data for summarization
+var sumdata = []
+outdata.forEach(d => {
+	sumdata.push({
+		 "GEOID1" : d.GEOID1,
+		 "GEOID2" : d.GEOID2,
+		 "NAME1" : d.NAME1,
+		 "STATE1" : d.STATE1,
+		 "NAME2" : d.NAME2,
+		 "STATE2" : d.STATE2,
+	     "MOVEDIN_EST" : d.MOVEDIN_EST,
+		 "MOVEDIN_MOE" : Math.pow(d.MOVEDIN_MOE,2),
+		 "MOVEDOUT_EST" : d.MOVEDOUT_EST,
+		 "MOVEDOUT_MOE" : Math.pow(d.MOVEDOUT_MOE,2), 
+		 "MOVEDNET_EST" : d.MOVEDNET_EST,
+		 "MOVEDNET_MOE" : Math.pow(d.MOVEDNET_MOE,2)
+	})
+})
+
+var sumdata2 = sumdata.filter(d => d.MOVEDNET_EST !== null)
+
+//summarizing state data and summarizing out-of state movement for other counties
+
+var columnsToSum = ["MOVEDIN_EST", "MOVEDIN_MOE", "MOVEDOUT_EST", "MOVEDOUT_MOE", "MOVEDNET_EST", "MOVEDNET_MOE"] 
+var bindata = [];
+if(fips == "000"){
+	    var binroll =  d3.rollup(sumdata2, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.STATE1, d => d.STATE2);
+		for (let [key1, value] of binroll) {
+		for (let[key2, value2] of value) {
+		   bindata.push({'NAME1' : key1, 'STATE1' : '', 'NAME2' : key2, 'STATE2' : '',
+			 'MOVEDIN_EST' : value2.MOVEDIN_EST, 'MOVEDIN_MOE' : Math.sqrt(value2.MOVEDIN_MOE), 
+			 'MOVEDOUT_EST' : value2.MOVEDOUT_EST, 'MOVEDOUT_MOE' : Math.sqrt(value2.MOVEDOUT_MOE), 
+			 'MOVEDNET_EST' : value2.MOVEDNET_EST, 'MOVEDNET_MOE' : Math.sqrt(value2.MOVEDNET_MOE)});
+		};
+		};
+		var outchartun = bindata.filter(obj => obj.NAME1 != obj.NAME2)
+} else {  //out of state 
+
+  var outofstate = sumdata2.filter(obj => obj.STATE2 != "Colorado")
+  var binroll =  d3.rollup(outofstate, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.NAME1, d => d.STATE1, d => d.STATE2);;
+	for (let [key1, value] of binroll) {
+	for (let[key2, value2] of value) {
+	for (let[key3, value3] of value2) {
+		if(value3.MOVEDNET_EST >= 0){
+		bindata.push({'NAME1' : key1, 'STATE1' : key2, 'NAME2' : key3,'STATE2' : '',
+			 'MOVEDIN_EST' : value3.MOVEDIN_EST, 'MOVEDIN_MOE' : Math.sqrt(value3.MOVEDIN_MOE), 
+			 'MOVEDOUT_EST' : value3.MOVEDOUT_EST, 'MOVEDOUT_MOE' : Math.sqrt(value3.MOVEDOUT_MOE), 
+			 'MOVEDNET_EST' : value3.MOVEDNET_EST, 'MOVEDNET_MOE' : Math.sqrt(value3.MOVEDNET_MOE)});
+		}
+		}
+		};
+		};
+  var instate = sumdata2.filter(obj => obj.STATE2 == "Colorado");
+  var instate_sum = [];
+  instate.forEach( d => {
+		instate_sum.push({
+		 "GEOID1" : d.GEOID1,
+		 "GEOID2" : d.GEOID2,
+		 "NAME1" : d.NAME1,
+		 "STATE1" : d.STATE1,
+		 "NAME2" : d.NAME2,
+		 "STATE2" : d.STATE2,
+	     "MOVEDIN_EST" : d.MOVEDIN_EST,
+		 "MOVEDIN_MOE" : Math.sqrt(d.MOVEDIN_MOE),
+		 "MOVEDOUT_EST" : d.MOVEDOUT_EST,
+		 "MOVEDOUT_MOE" : Math.sqrt(d.MOVEDOUT_MOE), 
+		 "MOVEDNET_EST" : d.MOVEDNET_EST,
+		 "MOVEDNET_MOE" : Math.sqrt(d.MOVEDNET_MOE)})
+  })
+  
+	var outchartun = instate_sum.concat(bindata);
+}
+var outchart_net = supressData(outchartun, fips, "net")
+var outchart_in = supressData(outchartun, fips, "in")
+var outchart_out = supressData(outchartun, fips, "out")
+
+// Creating Nodeslist
+var nodeslist_net = [];
+outchart_net.forEach(obj => { 
+	nodeslist_net.push({'location1' : obj.NAME1, 'location2' : obj.NAME2,  'value' : obj.MOVEDNET_EST})
+})
+
+var labarr_net = [];
+//labarr_net.push(nodeslist_net[0].location1);
+labarr_net.push("");
+for(i = 0; i < nodeslist_net.length; i++){
+	labarr_net.push(nodeslist_net[i].location2);
+}
+		
+
+var neg = nodeslist_net.filter(d => d.value <= 0).length
+var pos = nodeslist_net.filter(d => d.value > 0).length
+
+if(neg < pos) {
+	var inc = 1/pos;
+} else {
+	var inc = 1/neg;
+}
+var incr = parseFloat(inc.toFixed(3))
+
+
+// Prepping _net migration data
+
+var total_pos_netmig = 0;
+var total_neg_netmig = 0;
+var y_net_pos = 0.1;
+var y_net_neg = 0.12;
+
+// Prepping _net migration data
+for(i = 0; i < nodeslist_net.length;i++){
+		if(nodeslist_net[i].value < 0) {
+			nodeslist_net[i].src = labarr_net.indexOf(nodeslist_net[i].location1)
+			nodeslist_net[i].tgt = labarr_net.indexOf(nodeslist_net[i].location2)
+			nodeslist_net[i].val = Math.abs(nodeslist_net[i].value)
+			if(nodeslist_net[i].location2.includes("movers")){
+				nodeslist_net[i].lablink = nodeslist_net[i].location2;
+			} else {
+				nodeslist_net[i].lablink = nodeslist_net[i].location1 + " to " + nodeslist_net[i].location2 + ": " + fmt_comma(Math.abs(nodeslist_net[i].value));	
+			}
+			nodeslist_net[i].xpos =  0.9;
+			nodeslist_net[i].labposx = 0.95;
+			nodeslist_net[i].labposy = 1 - parseFloat(y_net_neg.toFixed(3));
+			nodeslist_net[i].lab = nodeslist_net[i].location2;
+			nodeslist_net[i].ypos =  parseFloat(y_net_neg.toFixed(3));
+			total_neg_netmig = total_neg_netmig + Math.abs(nodeslist_net[i].value)
+			y_net_neg = y_net_neg + incr;
+		} else {
+			nodeslist_net[i].src = labarr_net.indexOf(nodeslist_net[i].location2)
+			nodeslist_net[i].tgt = labarr_net.indexOf(nodeslist_net[i].location1)
+			nodeslist_net[i].val = Math.abs(nodeslist_net[i].value)
+			if(nodeslist_net[i].location2.includes("movers")){
+				nodeslist_net[i].lablink = nodeslist_net[i].location2;
+			} else {
+				nodeslist_net[i].lablink = nodeslist_net[i].location2 + " to " + nodeslist_net[i].location1 + ": " + fmt_comma(Math.abs(nodeslist_net[i].value));	
+			}
+			nodeslist_net[i].xpos =  0.1;
+			nodeslist_net[i].labposx = -0.05;
+			nodeslist_net[i].labposy = 1 - parseFloat(y_net_neg.toFixed(3));
+			nodeslist_net[i].lab = nodeslist_net[i].location2;
+			nodeslist_net[i].lab = nodeslist_net[i].location2;
+			nodeslist_net[i].ypos =  parseFloat(y_net_pos.toFixed(3));
+			total_pos_netmig = total_pos_netmig + Math.abs(nodeslist_net[i].value)
+			y_net_pos = y_net_pos + incr;
+		}
+		if(nodeslist_net[i].tgt == -1) { nodeslist_net[i].tgt = 0}
+		if(nodeslist_net[i].src == -1) { nodeslist_net[i].src = 0}
+} //i
+var nodes_1 = []
+nodes_1.push({"location1" : countyName(parseInt(fips)),
+		"location2" : countyName(parseInt(fips)),
+		"value" : 0,
+		"src" :0,
+		"tgt" : 0,
+		"val" : 0,
+        "xpos" : 0.5,
+        "ypos" : 0.5,
+		"lablink" : ""	  
+})
+	 
+var nodeslist_net = nodes_1.concat(nodeslist_net)
+
+//Build Label Annotations
+var lab_annotation = [];
+nodeslist_net.forEach( d => {
+	lab_annotation.push({text: d.lab,
+		font : {size : 11, color : 'black'},      
+        x : d.labposx,
+        y : d.labposy,
+		showarrow : false})
+})
+
+
+//Net Migration Plot
+
+var net_in_mig_lab = "Net In Migration: "+ fmt_comma(total_pos_netmig);
+var net_out_mig_lab = "Net Out Migration: "+ fmt_comma(total_neg_netmig);
+
+var data_net = {
+  type: "sankey",
+  orientation: "h",
+  arrangement : "fixed",
+  node: {
+    thickness: 30,
+    line: {
+      color: "black",
+      width: 0.5
+    },
+   label: nodeslist_net.map(d => d.lab),
+   x : nodeslist_net.map(d => d.xpos),
+   y : nodeslist_net.map(d => d.ypos),
+   pad : 35,
+   hoverinfo: 'none'
+      },
+
+  link: {
+    source: nodeslist_net.map(d => d.src),
+    target: nodeslist_net.map(d => d.tgt),
+    value:  nodeslist_net.map(d => d.val),
+	customdata : nodeslist_net.map(d => d.lablink),
+	hovertemplate : '%{customdata}<extra></extra>'
+  }
+}
+
+var data_netp = [data_net];
+
+var layout_net = {
+  title: titleVal_net, autosize : false, 
+  width: 750,
+  height: 750,
+  font: {
+    size: 11,
+	family : 'Arial Black'
+  },
+annotations : [
+      {text :  citStr , 
+      font: { size : 9, color: 'black'},
+      xref : 'paper', 
+	  yref : 'paper', 
+	  xanchor : 'left',
+	  yanchor : 'bottom',
+      x : 0, 
+      y : -0.135, 
+      align : 'left', 
+      showarrow : false},
+	  {text : net_in_mig_lab,
+        font : {size : 10, color : 'black'},
+        xref : 'paper', 
+	    yref : 'paper', 
+	    xanchor : 'left',
+	    yanchor : 'bottom',
+	    x : 0,
+        y : 1,
+		showarrow : false },
+		{text : net_out_mig_lab,
+        font : {size : 10, color : 'black'},      
+		xref : 'paper', 
+	    yref : 'paper', 
+	    xanchor : 'left',
+	    yanchor : 'bottom',
+        x : 0.75,
+        y : 1,
+		showarrow : false }]
+}
+
+ 
+
+// Prepping in migration data
+var nodeslist_in = [];
+outchart_in.forEach(obj => { 
+	nodeslist_in.push({'location1' : obj.NAME1, 'location2' : obj.NAME2,  'value' : obj.MOVEDIN_EST})
+})
+
+var labarr_in = [];
+labarr_in.push("");
+for(i = 0; i < nodeslist_in.length; i++){
+	labarr_in.push(nodeslist_in[i].location2);
+}
+		
+	var inc = 1/nodeslist_in.length;
+
+var incr = parseFloat(inc.toFixed(3))
+
+
+// Prepping _in migration data
+
+var total_pos_inmig = 0;
+var y_in_pos = 0.1;
+
+
+// Prepping _in migration data
+for(i = 0; i < nodeslist_in.length;i++){
+			nodeslist_in[i].src = labarr_in.indexOf(nodeslist_in[i].location2)
+			nodeslist_in[i].tgt = labarr_in.indexOf(nodeslist_in[i].location1)
+			nodeslist_in[i].val = Math.abs(nodeslist_in[i].value)
+			if(nodeslist_in[i].location2.includes("movers")){
+				nodeslist_in[i].lablink = nodeslist_in[i].location2;
+			} else {
+				nodeslist_in[i].lablink = nodeslist_in[i].location1 + " to " + nodeslist_in[i].location2 + ": " + fmt_comma(Math.abs(nodeslist_in[i].value));	
+			}			
+			nodeslist_in[i].xpos =  0.1;
+			nodeslist_in[i].ypos =  parseFloat(y_in_pos.toFixed(3));
+			nodeslist_in[i].lab = nodeslist_in[i].location2
+			if(nodeslist_in[i].location2.includes("movers")){
+				total_pos_inmig = total_pos_inmig + parsePhrase(nodeslist_in[i].location2);
+			} else {
+			     total_pos_inmig = total_pos_inmig + nodeslist_in[i].value;
+			}
+			y_in_pos = y_in_pos + incr;
+	
+		if(nodeslist_in[i].tgt == -1) { nodeslist_in[i].tgt = 0}
+		if(nodeslist_in[i].src == -1) { nodeslist_in[i].src = 0}
+} //i
+var nodes_1 = []
+nodes_1.push({"location1" : countyName(parseInt(fips)),
+		"location2" : countyName(parseInt(fips)),
+		"value" : 0,
+		"src" :0,
+		"tgt" : 0,
+		"val" : 0,
+        "xpos" : 0.5,
+        "ypos" : 0.5,
+		"lablink" : ""	  
+})
+	 
+var nodeslist_in = nodes_1.concat(nodeslist_in)
+
+//in Migration Plot
+
+var in_in_mig_lab = "In Migration: "+ fmt_comma(total_pos_inmig);
+
+var data_in = {
+  type: "sankey",
+  orientation: "h",
+  arrangement : "fixed",
+  node: {
+    thickness: 30,
+    line: {
+      color: "black",
+      width: 0.5
+    },
+   label: nodeslist_in.map(d => d.lab),
+   x : nodeslist_in.map(d => d.xpos),
+   y : nodeslist_in.map(d => d.ypos),
+   pad : 35,
+   hoverinfo: 'none'
+      },
+
+  link: {
+ source: nodeslist_in.map(d => d.src),
+    target: nodeslist_in.map(d => d.tgt),
+    value:  nodeslist_in.map(d => d.val),
+	customdata : nodeslist_in.map(d => d.lablink),
+	hovertemplate : '%{customdata}<extra></extra>'
+  }
+}
+
+var data_inp = [data_in];
+
+var layout_in = {
+  title: titleVal_in, autosize: false,
+  width: 750, 
+  height: 750, 
+  font: {
+    size: 11,
+	family : 'Arial Black'
+  },
+annotations : [{text :  citStr , 
+      font: { size : 9, color: 'black'},
+      xref : 'paper', 
+	  yref : 'paper', 
+	  xanchor : 'left',
+	  yanchor : 'bottom',
+      x : 0.5, 
+      y : 0, 
+      align : 'left', 
+      showarrow : false},
+	  {text : in_in_mig_lab,
+        font : {size : 10, color : 'black'},
+        xref : 'paper', 
+	    yref : 'paper', 
+	    xanchor : 'left',
+	    yanchor : 'bottom',
+	    x : 0.75,
+        y : 1,
+		showarrow : false }]
+}
+  
+// Prepping out migration data
+var nodeslist_out = [];
+var nodesuniq_out = [];
+outchart_out.forEach(obj => { 
+	nodeslist_out.push({'location1' : obj.NAME1, 'location2' : obj.NAME2,  'value' : obj.MOVEDOUT_EST})
+})
+
+var labarr_out = [];
+labarr_out.push("");
+for(i = 0; i < nodeslist_out.length; i++){
+	labarr_out.push(nodeslist_out[i].location2);
+}
+		
+	var inc = 1/nodeslist_out.length;
+
+var incr = parseFloat(inc.toFixed(3))
+
+
+// Prepping _out migration data
+
+var total_pos_outmig = 0;
+var y_out_pos = 0.1;
+
+
+// Prepping _out migration data
+for(i = 0; i < nodeslist_out.length;i++){
+			nodeslist_out[i].src = labarr_out.indexOf(nodeslist_out[i].location1)
+			nodeslist_out[i].tgt = labarr_out.indexOf(nodeslist_out[i].location2)
+			nodeslist_out[i].val = Math.abs(nodeslist_out[i].value)
+			if(nodeslist_out[i].location2.includes("movers")){
+				nodeslist_out[i].lablink = nodeslist_out[i].location2;
+			} else {
+				nodeslist_out[i].lablink = nodeslist_out[i].location1 + " to " + nodeslist_out[i].location2 + ": " + fmt_comma(nodeslist_out[i].value);	
+			}
+			nodeslist_out[i].xpos =  0.9;
+			nodeslist_out[i].ypos =  parseFloat(y_out_pos.toFixed(3));
+			nodeslist_out[i].lab = nodeslist_out[i].location2
+			if(nodeslist_in[i].location2.includes("movers")){
+				total_pos_outmig = total_pos_outmig + parsePhrase(nodeslist_out[i].location2);
+			} else {
+			     total_pos_outmig = total_pos_outmig + nodeslist_out[i].value;
+			}			
+			y_out_pos = y_out_pos + incr;
+		if(nodeslist_out[i].tgt == -1) { nodeslist_out[i].tgt = 0}
+		if(nodeslist_out[i].src == -1) { nodeslist_out[i].src = 0}
+} //i
+var nodes_1 = []
+nodes_1.push({"location1" : countyName(parseInt(fips)),
+		"location2" : countyName(parseInt(fips)),
+		"value" : 0,
+		"src" :0,
+		"tgt" : 0,
+		"val" : 0,
+        "xpos" : 0.5,
+        "ypos" : 0.5,
+		"lablink" : ""	  
+})
+	 
+var nodeslist_out = nodes_1.concat(nodeslist_out)
+//out Migration Plot
+
+var out_out_mig_lab = "Out Migration: "+ fmt_comma(total_pos_outmig);
+
+var data_out = {
+  type: "sankey",
+  orientation: "h",
+  arrangement : "fixed",
+  node: {
+    thickness: 30,
+    line: {
+      color: "black",
+      width: 0.5
+    },
+   label: nodeslist_out.map(d => d.lab),
+   x : nodeslist_out.map(d => d.xpos),
+   y : nodeslist_out.map(d => d.ypos),
+   pad : 35,
+   hoverinfo: 'none'
+      },
+
+  link: {
+ source: nodeslist_out.map(d => d.src),
+    target: nodeslist_out.map(d => d.tgt),
+    value:  nodeslist_out.map(d => d.val),
+	customdata : nodeslist_out.map(d => d.lablink),
+	hovertemplate : '%{customdata}<extra></extra>'
+  }
+}
+
+var data_outp = [data_out];
+
+var layout_out = {
+  title: titleVal_out, autosize : false,
+  width: 750,
+  height: 750, 
+  font: {
+    size: 11,
+	family : 'Arial Black'
+  },
+annotations : [{text :  citStr , 
+      font: { size : 9, color: 'black'},
+      xref : 'paper', 
+	  yref : 'paper', 
+	  xanchor : 'left',
+	  yanchor : 'bottom',
+      x : 0, 
+      y : 0, 
+      align : 'left', 
+      showarrow : false},
+		{text : out_out_mig_lab,
+        font : {size : 10, color : 'black'},      
+		xref : 'paper', 
+	    yref : 'paper', 
+	    xanchor : 'left',
+	    yanchor : 'bottom',
+        x : 0,
+        y : 1,
+		showarrow : false }]
+}
+
+
+//Plotting
+Plotly.newPlot(CHART0, data_netp, layout_net);
+Plotly.newPlot(CHART1, data_inp, layout_in);
+Plotly.newPlot(CHART2, data_outp, layout_out);
+
+
+//Export Code
+var chartnet_csv = document.getElementById('net_csv');
+var chartnet_png = document.getElementById('net_png');
+chartnet_csv.onclick = function() {exportToCsv(plname, 'netflow', outchartun,0)};
+chartnet_png.onclick = function() {exportToPng(plname, 'netflow', CHART0,0)};
+
+var chartin_csv = document.getElementById('in_csv');
+var chartin_png = document.getElementById('in_png');
+chartin_csv.onclick = function() {exportToCsv(plname, 'inflow', outchartun,0)};
+chartin_png.onclick = function() {exportToPng(plname, 'inflow', CHART1,0)};
+
+var chartout_csv = document.getElementById('out_csv');
+var chartout_png = document.getElementById('out_png');
+chartout_csv.onclick = function() {exportToCsv(plname, 'outflow', outchartun,0)};
+chartout_png.onclick = function() {exportToPng(plname, 'outflow', CHART2,0)};
+   }) //promise
+} //genFLOWS
