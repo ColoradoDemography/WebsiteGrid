@@ -1916,30 +1916,11 @@ function exportToPng(cname, type, graphDiv, yr){
 			});
 		} 
 		break;
-	    case 'netflow': {
-		    Plotly.toImage(graphDiv, { format: 'png', width: 750, height: 750 }).then(function (dataURL) {
-				var a = document.createElement('a');
-				a.href = dataURL;
-				a.download = fn;
-				document.body.appendChild(a);
-				 a.click();
-				document.body.removeChild(a);
-			});
-		} 
-		break;
-	    case 'inflow' : {
-		    Plotly.toImage(graphDiv, { format: 'png', width: 750, height: 750 }).then(function (dataURL) {
-				var a = document.createElement('a');
-				a.href = dataURL;
-				a.download = fn;
-				document.body.appendChild(a);
-				 a.click();
-				document.body.removeChild(a);
-			});
-		} 
-		break;
-	    case 'outflow' : {
-		    Plotly.toImage(graphDiv, { format: 'png', width: 750, height: 750 }).then(function (dataURL) {
+	    case 'netflow':
+		case 'inflow' : 
+		case 'outflow':
+		{
+		    Plotly.toImage(graphDiv, { format: 'png', width: 840, height: 650 }).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -7869,7 +7850,11 @@ for(i = 0; i < nodeslist_net.length;i++){
 			nodeslist_net[i].labposy = 1 - parseFloat(y_net_neg.toFixed(3));
 			nodeslist_net[i].lab = nodeslist_net[i].location2;
 			nodeslist_net[i].ypos =  parseFloat(y_net_neg.toFixed(3));
-			total_neg_netmig = total_neg_netmig + Math.abs(nodeslist_net[i].value)
+			if(nodeslist_net[i].location2.includes("movers")){
+				total_neg_netmig = total_neg_netmig + Math.abs(parsePhrase(nodeslist_net[i].location2));
+			} else {
+			     total_neg_netmig = total_neg_netmig + Math.abs(nodeslist_net[i].value);
+			}
 			y_net_neg = y_net_neg + incr;
 		} else {
 			nodeslist_net[i].src = labarr_net.indexOf(nodeslist_net[i].location2)
@@ -7886,7 +7871,11 @@ for(i = 0; i < nodeslist_net.length;i++){
 			nodeslist_net[i].lab = nodeslist_net[i].location2;
 			nodeslist_net[i].lab = nodeslist_net[i].location2;
 			nodeslist_net[i].ypos =  parseFloat(y_net_pos.toFixed(3));
-			total_pos_netmig = total_pos_netmig + Math.abs(nodeslist_net[i].value)
+			if(nodeslist_net[i].location2.includes("movers")){
+				total_pos_netmig = total_pos_netmig + parsePhrase(nodeslist_net[i].location2);
+			} else {
+			     total_pos_netmig = total_pos_netmig + nodeslist_net[i].value;
+			}
 			y_net_pos = y_net_pos + incr;
 		}
 		if(nodeslist_net[i].tgt == -1) { nodeslist_net[i].tgt = 0}
@@ -7952,8 +7941,8 @@ var data_netp = [data_net];
 
 var layout_net = {
   title: titleVal_net, autosize : false, 
-  width: 750,
-  height: 750,
+  width: 840,
+  height: 700,
   font: {
     size: 11,
 	family : 'Arial Black'
@@ -8085,8 +8074,8 @@ var data_inp = [data_in];
 
 var layout_in = {
   title: titleVal_in, autosize: false,
-  width: 750, 
-  height: 750, 
+  width: 840, 
+  height: 700, 
   font: {
     size: 11,
 	family : 'Arial Black'
@@ -8137,6 +8126,8 @@ var y_out_pos = 0.1;
 
 
 // Prepping _out migration data
+
+
 for(i = 0; i < nodeslist_out.length;i++){
 			nodeslist_out[i].src = labarr_out.indexOf(nodeslist_out[i].location1)
 			nodeslist_out[i].tgt = labarr_out.indexOf(nodeslist_out[i].location2)
@@ -8148,8 +8139,8 @@ for(i = 0; i < nodeslist_out.length;i++){
 			}
 			nodeslist_out[i].xpos =  0.9;
 			nodeslist_out[i].ypos =  parseFloat(y_out_pos.toFixed(3));
-			nodeslist_out[i].lab = nodeslist_out[i].location2
-			if(nodeslist_in[i].location2.includes("movers")){
+			nodeslist_out[i].lab = nodeslist_out[i].location2;
+			if(nodeslist_out[i].location2.includes("movers")){
 				total_pos_outmig = total_pos_outmig + parsePhrase(nodeslist_out[i].location2);
 			} else {
 			     total_pos_outmig = total_pos_outmig + nodeslist_out[i].value;
@@ -8205,8 +8196,8 @@ var data_outp = [data_out];
 
 var layout_out = {
   title: titleVal_out, autosize : false,
-  width: 750,
-  height: 750, 
+  width: 840,
+  height: 700, 
   font: {
     size: 11,
 	family : 'Arial Black'
