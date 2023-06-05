@@ -1,22 +1,15 @@
 
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W27DQ8VRCX"></script>
-<script>
+
+
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-W27DQ8VRCX');
-</script>  
+ 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FHL3GPFENV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FHL3GPFENV');
-</script>  
+  
 
 //If the above works then remove below
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
