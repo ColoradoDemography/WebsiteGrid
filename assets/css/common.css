@@ -96,7 +96,6 @@ table {
 	table-layout : auto;
     border-collapse: collapse;
     width: 100%;
-border: 1px solid gray;
 }
 
 thead {
@@ -118,12 +117,9 @@ tr.spaceUnder>td {
 }
 td {
 	border: 1px solid black;
-	padding-right : 0px;
-	border-collapse : separate;
 }
 tbody tr:nth-child(even){background-color: white}
 tbody tr:nth-child(odd){background-color: white}
-
 
 // profiletab
 /*
@@ -328,8 +324,6 @@ mainlist {
 	  font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
 	  }
 
-			  
-				  
 /* Map button Styles */
 /* Style for icon images */
 .map-thumbnail {
@@ -365,7 +359,7 @@ a :hover {
 	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
 	  pointer-events: none;
 }
-/* Button Styles AB 6/2/2021
+/* Button Styles AB 6/2/2021 */
 /* Accordion Style the sidenav links and the dropdown button */
 .accordionWrapper{
 	padding:0px;
@@ -978,7 +972,21 @@ details main {
    grid-column: 2 / span 6;
    grid-row: 10;   
   }  
- 
+ /* Bottom Panels for app-panels 7/21/2023 */
+  .app-panel_4_2_b {  
+   grid-column: 2 / span 2;
+   grid-row: 4;   
+  }
+  
+   .app-panel_4_4_b {  
+   grid-column: 4 / span 2;
+   grid-row: 4;   
+  }
+  
+   .app-panel_4_6_b {  
+   grid-column: 6 / span 2;
+   grid-row: 4;   
+  }
    /* Age Animation Panel */
    .app-ageani {  
    grid-column: 2 / span 6;
@@ -1824,13 +1832,22 @@ li:hover>nava{
 }
 
 /* Accessbility Styles 6/27/2023 */
-/* Skip Nav*/
-.skipnav a { position: absolute; left: -10000px; }
-.skipnav a:hover, .skipnav a:focus, .skipnav a:active { 
-    position: 
-	static; left: 0; 
-   }
-   
+/* Skip Nav  skip to contect link...*/
+.skip {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip:focus {
+  position: static;
+  width: auto;
+  height: auto;
+}
+
  /* New Nav button*/
  .sum_btn {
   overflow: hidden;
@@ -1841,6 +1858,8 @@ li:hover>nava{
   color: #0806a2;
   border-color: black;
   font-size : 11pt;
+  font-weight: bold;
+  color : black;
   display: block;
   cursor: pointer;
   padding: .5em .5em .5em .7em;
@@ -1849,31 +1868,31 @@ li:hover>nava{
  
  /*New Header sizes and Colors 6/28/2023 */
 .h1_style  {
-  font-size : 24px;
+  font-size : 150%; /* 18px */
   color : #003b49;
 }
 .h2_style  {
-  font-size : 20px;
+  font-size : 133%, /* 16px */
   color : #003b49;
 }
 
 .h3_style  {
-  font-size : 16px;
+  font-size : 116%; /* 14px */
   color : #003b49;
 }
 
 .h4_style  {
-  font-size : 12px;
+  font-size : 100%; /* 12px */
   color : #003b49;
 }
 
 .h5_style  {
-  font-size : 16px;
+  font-size : 75%; /* 8px */
   color : #003b49;
 }
 
 .h6_style  {
-  font-size : 14px;
+  font-size : 60%;  /* 12px */
   color : #003b49;
 }
 /* New Accordion Structure 7/6/2023 */
@@ -1912,4 +1931,19 @@ li:hover>nava{
    grid-column: 4;
    grid-row: 3;
   } 
+  
+/* Lookup table widths 8/7/2023*/
+.lookup_cll {
+	border: none; 
+	border-collapse:collapse; 
+	width: 20%;
+	vertical-align: top;
+	text-align: left;
+}
+
+.lookup_tab {
+	border-collapse:collapse; 
+	border:none;
+}
+.lookup_tab td { border : none }
  
