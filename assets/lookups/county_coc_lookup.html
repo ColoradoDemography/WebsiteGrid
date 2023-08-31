@@ -123,7 +123,7 @@
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
  var outType = "COC";
- popDropdown('county','county-dropdown','lookup');
+ popDropdown('county','county-dropdown','');
  popYrdd("year-dropdown",yeardata);  //Change this range to match data
  
 //Button Event
