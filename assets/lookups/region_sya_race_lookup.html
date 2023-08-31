@@ -7,44 +7,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" http-equiv="content-type" content="text/html; charset=utf-8">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
 <!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
-<
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" crossorigin="anonymous">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- SDO CSS -->
 <link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
 <!-- adding d3.js  for data manipulation-->
- <script src="https://d3js.org/d3.v7.min.js"></script>
-<script type="text/javascript" src="../js/saveSvgAsPng.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <!-- Adding Plotly.js for  charting -->
-<script src="https://cdn.plot.ly/plotly-2.2.0.min.js" charset="utf-8"></script>
+
 <!-- Adding jquery and datatables for table production -->
-<script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous">
-</script>
- 
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+ <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
 <!-- Datatables -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.6.0/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/sc-2.0.6/sp-2.0.1/sl-1.4.0/datatables.min.css"/>
+<link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.5/b-2.4.1/b-colvis-2.4.1/b-html5-2.4.1/b-print-2.4.1/datatables.min.css" rel="stylesheet"/>
  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.6.0/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/sc-2.0.6/sp-2.0.1/sl-1.4.0/datatables.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.5/b-2.4.1/b-colvis-2.4.1/b-html5-2.4.1/b-print-2.4.1/datatables.min.js"></script>
 
-
-	
-<!-- SDO functions -->
-<script type="text/javascript" src="../js/funct.js"></script>
-<script type="text/javascript" src="../js/profile.js"></script>
-<script type="text/javascript" src="../js/lookup.js"></script>
+<!-- SDO suport functions, genSYA, insertHTML, -->
+<script src="../js/funct.js"></script>
+<script src="../js/profile.js"></script>
+<script src="../js/lookup.js"></script>
 <!-- GoogleAnalytics Script -->
 <script defer src="../js/googleAnalytics.js"></script>
-
-
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W27DQ8VRCX"></script>
+<a href="#mainx" class="skip" tabindex='1'>Skip to main content</a>
 </head>
 <body>
 <div>
-<a href="https://cdola.colorado.gov/"><img class="logoSDO" src="../img/SDO-1600x400.jpg" alt="Department of Local Affairs Homepage"></a>
+<a href='https://cdola.colorado.gov/'><img class="logoSDO" src="../img/SDO-1600x400.jpg"  alt='Department of Local Affairs Homepage' aria-label='Department of Local Affairs Homepage'></a>
 </div>
 <div w3-include-html="../html/navheader.html"></div>
 
@@ -57,11 +48,11 @@
 	<div w3-include-html="../html/left_hand_index.html"></div>
   </div> <!-- Grid  panel2_2_1 -->
   <div class="grid-item app-panel_2_2">
-  <b>Race and Hispanic Origin by Age Estimates - State and Regions</b>
+  <h1 class='h1_style' id='mainx'>Race and Hispanic Origin by Age Estimates - State and Regions</h1>
   <p>
   <a href="../lookups/county_sya_race_lookup.html" target='_blank'>Need County Data?</a>
   </p>
-   <br>INSTRUCTIONS:
+   <h2 class='h2_style'>INSTRUCTIONS:</h2>
    <p class="lookup_p">
    This application creates custom tables for SDO Regional estimates by race, Hispanic Origin, age and sex.
    </p>
@@ -80,37 +71,37 @@
    2020 Census responses differed from the questions and processing of the 2010 Census responses and should be considered a break in the series.
   </p>
      <p class="lookup_p">
-   A data lookup application forrace, Hispanic Origin, age and sex for 2010-2020 is available
-   <a href='https://coloradodemography.github.io/population/data/race-estimate-regions/' target='_blank'>here.</a>
+   A data lookup application for race, Hispanic Origin, age and sex for 2010-2020 is available
+   <a href='region_sya_race_lookup_10.html' target='_blank'>here.</a>
   </p>
   <p class="lookup_p">
    A spreadsheet with detailed information by Race, Hispanic Origin, age and sex for 2010-2020 is available on the 
    <a href='https://demography.dola.colorado.gov/assets/html/population.html' target='_blank'>SDO Population Spreadsheets</a> page.
   </p>
-   <table style="border-collapse:collapse; border:none;">
+      <table class='lookup_tab' cellspacing="0" cellpadding="0">
    <tr>
-	<td class="lookup_cell">
-		<p class="entry_text" id="region-lbl">Select one or more Regions:</p> 
+	<td class="look_cll">
+		<label class="entry_text" for="region-dropdown" id="region-lbl"  alt='Select one or more Regions' aria-label='Select one or more Regions'>Select one or more Regions:</label> 
 	</td>
-	<td class="lookup_cell">
-		<p class="entry_text" id="year-lbl">Select Year:</p>
+	<td class="look_cll">
+		<label class="entry_text" for="year-dropdown" id="year-lbl"  alt='Select one or more years' aria-label='Select one or more years'>Select one or more years:</label>
 	</td>
-	<td class="lookup_cell">
-		<p class="entry_text" id="race-lbl">Select one or more race caregories:</p>
+	<td class="look_cll">
+		<label class="entry_text" for="race-dropdown" id="race-lbl"  alt='Select one or more race caregories' aria-label='Select one or more race caregories'>Select one or more race caregories:</label>
 	</td>
-	<td class="lookup_cell">
-		<p class="entry_text" id="ethnicity-lbl">Select one or more Hispanic Origin categories:</p>
+	<td class="look_cll">
+		<label class="entry_text" for="ethnicity-dropdown" id="ethnicity-lbl"  alt='Select one or more Hispanic Origin categories' aria-label='Select one or more Hispanic Origin categories'>Select one or more Hispanic Origin categories:</label>
 	</td>
 	</tr>
 	<tr>
-	<td class="lookup_cell"> 
-	 <select class="Region-dropdown" id="region-dropdown" size="6" multiple></select>
+	<td class="look_cll"> 
+	 <select class="region-dropdown" id="region-dropdown" size="6" multiple role='listbox'></select>
 	 </td>
-	<td class="lookup_cell">
-    <select class="year-dropdown" id="year-dropdown" style='width:100px;' size="6" multiple></select>
+	<td class="look_cll">
+    <select class="year-dropdown" id="year-dropdown" style='width:100px;' size="6" multiple role='listbox'></select>
     </td>
-	<td class="lookup_cell">
-    <select class="race-dropdown" id="race-dropdown" size="6" multiple>
+	<td class="look_cll">
+    <select class="race-dropdown" id="race-dropdown" size="6" multiple role='listbox'>
 		<option value="1">White alone</option>
 			<option value="2">Black or African American alone</option>
 			<option value="3">American Indian and Alaska Native alone</option>
@@ -119,45 +110,41 @@
 			<option value="6">Two or More Races</option>
 	 </select>
     </td>
-	<td class="lookup_cell">
-    <select class="ethnicity-dropdown" id="ethnicity-dropdown" size="2" multiple>
+	<td class="look_cll">
+    <select class="ethnicity-dropdown" id="ethnicity-dropdown" size="2" multiple role='listbox'>
 		<option value="1">Hispanic/Latino Origin</option>
 		<option value ="2">Not of Hispanic/Latino Origin</option>
 	</select>
     </td>
-	</tr>
-	</table>
-	<hr>
-	<table style="border-collapse: collapse; border: none;">
 	<tr>
-	<td class="lookup_cell">
-	   <p class="entry_text" id='age-lbl'>Select one or more ages:</p>
+	<td class="look_cll">
+	   <label class="entry_text" for="age-dropdown" id="age-lbl"  alt='Select one or more ages' aria-label='Select one or more ages'>Select one or more ages:</label>
 	</td>
-	<td class="lookup_cell">
-	   <p class="entry_text" id='sex-lbl'>Display results by sex:</p>
+	<td class="look_cll">
+	   <label class="entry_text" for="Sex-dropdown" id="sex-lbl"  alt='Display results by sex' aria-label='Display results by sex'>Display results by sex:</label>
 	</td>
-	<td class="lookup_cell">
-	   <p class="entry_text" id='group-lbl'>Select 0 or more variables to summarize by (leave blank for a detailed summary):</p
+	<td class="look_cll">
+	   <label class="entry_text" for="group-dropdown" id="group-lbl"  alt='Select Groups' aria-label='Select Groups'>Select 0 or more variables to summarize by (leave blank for a detailed summary):</label>
 	</td>
-	<td class="lookup_cell">
+	<td class="look_cll">
 	</td>
 	<p></p>
-	<td class="lookup_cell"></td>
+	<td class="look_cll"></td>
 	</tr>
 	<tr>
-		<td class="lookup_cell">
-    <select class="age-dropdown" id="age-dropdown" style='width:100px;' size="4" multiple></select>
+		<td class="look_cll">
+    <select class="age-dropdown" id="age-dropdown" style='width:100px;' size="4" multiple role='listbox'></select>
     </td>
-	<td class="lookup_cell">
-    <select class="sex-dropdown" id="sex-dropdown" size="4">
+	<td class="look_cll">
+    <select class="sex-dropdown" id="sex-dropdown" size="4" role='listbox'>
 		<option value="S">Sum Male and Female</option>
 		<option value="B">List Male and Female Separately</option>
 		<option value="M">Male Only</option>
 		<option value="F">Female Only</option>
 	</select>
     </td>
-	<td class="lookup_cell">
-    <select class="group-dropdown" id="group-dropdown" size="4">
+	<td class="look_cll">
+    <select class="group-dropdown" id="group-dropdown" size="4" role='listbox'>
 	    <option value='0'>No Grouping</option>
         <option value='1'>Region</option>
         <option value='2'>Year</option>
@@ -176,7 +163,7 @@
 		<option value='0'>Region, Year, Age, Rece, Hispanic Origin</option>
 	</select>
     </td>
-	<td class="lookup_cell">
+	<td class="look_cll">
 		<button class='databutton' id='gentable'>Generate Table</button><br><br>
 		<button class='databutton' id='cleartable'>Reset Selections</button><br>
 	</td>
@@ -187,13 +174,26 @@
   <div class="grid-item app-panel_3_2">
 	 <div id="tbl_output"></div>
   </div> 
+  <div class="grid-item app-panel_4_2_b">
+			<div w3-include-html="../html/bodycontent1.html"></div>
+	 </div>
+	<div class="grid-item app-panel_4_4_b">
+			<div w3-include-html="../html/bodycontent2.html"></div>
+    </div>
+	<div class="grid-item app-panel_4_6_b">
+			<div w3-include-html="../html/bodycontent3.html"></div>
+	</div>
   </div>  <!-- End of Grid Container -->
  <script> 
 
  includeHTML();
 
+var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
+d3.json(urlstr).then(function(yeardata){
+ var yeardata2 = yeardata.filter(d => d.year >= 2020 && d.datatype == 'Estimate');
  popDropdown('region','region-dropdown','lookup');
- popRaceYrdd("year-dropdown",2020,2021);  //Change this range to match data
+
+ popYrdd("year-dropdown",yeardata2);  //Change this range to match data
  popAgeYrdd("age-dropdown",0,85);  //Change this range to match data
 
 //Button Event
@@ -214,7 +214,7 @@
 		    selectedfips.push(tmpcty[0].fips)
 		})
 		if(selectedfips.length == 0){
-		    outputmsg = outputmsg +  "  >Please select one or more regions.";
+		    outputmsg = outputmsg +  " > Please select one or more regions.\n";
 			complete = false;
 		}
 		
@@ -222,7 +222,7 @@
 		var selectedyr = getSelectValues(yrdd);
 
 		if(selectedyr.length == 0){
-		    outputmsg = outputmsg +  "  >Please select one or more years.";
+		    outputmsg = outputmsg +  " > Please select one or more years.\n";
 			complete = false;
 		}
 
@@ -234,7 +234,7 @@
 		
 		
 		if(selectedeth.length == 0 && selectedrace.length == 0){
-		    outputmsg = outputmsg + "  >Please select one or more race and ethnicity groups.";
+		    outputmsg = outputmsg + " > Please select one or more race and ethnicity groups.\n";
 			complete = false;
 		}
 		if(selectedeth.length != 0 && selectedrace.length == 0){
@@ -247,7 +247,7 @@
 		var agedd = document.getElementById('age-dropdown');
 		var selectedage = getSelectValues(agedd);
 		if(selectedage.length == 0){
-		    outputmsg = outputmsg + "  >Please select one or more age groups.";
+		    outputmsg = outputmsg + " > Please select one or more age groups.\n";
 			complete = false;
 		}
 
@@ -266,14 +266,13 @@
 		}
 
 		if(complete){
-		
-		debugger;
 		     genRaceTabReg(selectedreg, selectedfips,selectedyr, selectedrace,selectedeth,selectedage,selectedsex,selectedgroup);
 			 } else {
 			 window.alert(outputmsg);
 			 }
 	 };  //chkInputs
-	 
+}); //d3.json
+	
 function clearInputs() {
    document.getElementById('tbl_output').innerHTML = "";
    var elements = document.getElementsByTagName('select');
