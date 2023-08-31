@@ -7,16 +7,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
 <!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- SDO CSS -->
 <link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
 <!-- adding d3.js  for data manipulation-->
- <script src="https://d3js.org/d3.v7.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<!-- Adding Plotly.js for  charting -->
+
+<!-- Adding jquery and datatables for table production -->
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+ <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
+<!-- Datatables -->
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.5/b-2.4.1/datatables.min.css" rel="stylesheet"/>
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.5/b-2.4.1/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+
 <!-- SDO suport functions, genSYA, insertHTML, -->
-<script src="https://demography.dola.colorado.gov/assets/js/funct.js"></script>
+<script src="../js/funct.js"></script>
 <!-- GoogleAnalytics Script -->
-<script defer src="https://demography.dola.colorado.gov/assets/js/googleAnalytics.js"></script>
+<script defer src="../js/googleAnalytics.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W27DQ8VRCX"></script>
+<a href="#mainx" class="skip" tabindex='1'>Skip to main content</a>
 </head>
 <body>
 <div>
@@ -33,15 +44,17 @@
   </div> <!-- Grid  panel2_2_1 -->
 
 <div class="grid-item app-panel_2_span">
-<p>
-<b>Publications and Reports</b><br>
-</p>
-<main>
+<h1 class='h1_style' id='mainx'>SDO Publications and Reports Page</h1>
+<h2 class='h2_style'>Publications and Reports</h2>
 	<ul>
-	    <li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=18H9WxX0nearjdfiyGuwuTtdHDVja70Ao' title='SDO Summit of the Americas Handout (2023)'>SDO Summit of the Americas Handout (2023)<i class='fas fa-file-pdf' style='color:red;'></i></a></li>
-	    <li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1G83A-8O1Ry4NlUaMxOJFMsNQuFLgKf8K' title='2021 Population Summary Document'>2021 Population Summary (2023)<i class='fas fa-file-pdf' style='color:red;'></i></a></li>
-	    <li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1JFie_aAKSB2vt8nxsPp6cIylw2iPxpLF' title='2022 Census Population Estimates Released December 22 Document'>2022 Census Population Estimates Released December 22 (2023) <i class='fas fa-file-pdf' style='color:red;'></i></a></li>
-        <li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1wWiz9QbiHZtHK-C6MZuWG2pS9Glj8B_-' title='Description of Colorado 2020 Census Urban Areas Document'>2020 Urban Area Definition and Places in Colorado (2023)<i class='fas fa-file-pdf' style='color:red;'></i></a></li>
+	    <li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=18H9WxX0nearjdfiyGuwuTtdHDVja70Ao'   title="SDO Summit of the Americas Handout (2023)"
+	aria-label="SDO Summit of the Americas Handout (2023)">SDO Summit of the Americas Handout (2023)<i class='fas fa-file-pdf' alt='PDF' style='color:red;'></i></a></li>
+	    <li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1G83A-8O1Ry4NlUaMxOJFMsNQuFLgKf8K'   title="2021 Population Summary (2023)"
+	aria-label="2021 Population Summary (2023)">2021 Population Summary (2023)<i class='fas fa-file-pdf' alt='PDF' style='color:red;'></i></a></li>
+	    <li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1JFie_aAKSB2vt8nxsPp6cIylw2iPxpLF'   title="2022 Census Population Estimates Released December 22 (2023) "
+	aria-label="2022 Census Population Estimates Released December 22 (2023) ">2022 Census Population Estimates Released December 22 (2023) <i class='fas fa-file-pdf' alt='PDF' style='color:red;'></i></a></li>
+        <li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1wWiz9QbiHZtHK-C6MZuWG2pS9Glj8B_-'   title="2020 Urban Area Definition and Places in Colorado (2023)"
+	aria-label="2020 Urban Area Definition and Places in Colorado (2023)">2020 Urban Area Definition and Places in Colorado (2023)<i class='fas fa-file-pdf' alt='PDF' style='color:red;'></i></a></li>
 		<li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1hRdfzNoAZJ8hN-vN6Z6xVIHfmuq4G0NC' title = 'Migration of Recent Colorado College Graduates, 2010-2018 (2022)'>Migration of Recent Colorado College Graduates, 2010-2018 (2022) <i class='fas fa-file-pdf' style='color:red;'></i></a></li>
 		<li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1Klq9pdHjeGTFaol2VCabKnLJVB4Ksx0g' title = '2020 Population Summary (2022)'>2020 Population Summary (2022) <i class='fas fa-file-pdf' style='color:red;'></i></a></li>
 		<li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1FbMd7Zp6sTW5aev_x-V0d5Xpi-tu1Gkg' title = 'Changes in Colorado Educational Attainment 2010 to 2019 (2021)'>Changes in Colorado Educational Attainment 2010 to 2019 (2021)<i class='fas fa-file-pdf' style='color:red;'></i></a></li>
@@ -56,7 +69,6 @@
 		<li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1kR5gSrQiOmdVZZU-pIawycb6H1OjUksl' title = 'Jobs Estimates (2012)'>Jobs Estimates (2012) <i class='fas fa-file-pdf' style='color:red;'></i></a></li>
 		<li><a class='accordion-link' href='https://drive.google.com/uc?export=download&id=1XFJzh795x9VZWoJ4GBxc_NxhN3O46MfM' title = 'Cost of Living Differentials in Colorado (2007) '>Cost of Living Differentials in Colorado (2007)  <i class='fas fa-file-pdf' style='color:red;'></i></a></li>
 	</ul>
-</main>
 </div> <!-- app -->
 
  <div class="grid-item panel2_4_2">

@@ -3,21 +3,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<a href="#main" class="skip" tabindex='1'>Skip to main content</a>
 <title>SDO Publications Resource Page</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
 <!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- SDO CSS -->
 <link type="text/css" rel="stylesheet" href="../css/common.css" async=""> 
 <!-- adding d3.js  for data manipulation-->
- <script src="https://d3js.org/d3.v6.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<!-- Adding Plotly.js for  charting -->
+
+<!-- Adding jquery and datatables for table production -->
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+ <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
+<!-- Datatables -->
+<link href="https://cdn.datatables.net/v/dt/dt-1.13.5/b-2.4.1/datatables.min.css" rel="stylesheet"/>
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.5/b-2.4.1/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+
 <!-- SDO suport functions, genSYA, insertHTML, -->
-<script src="https://demography.dola.colorado.gov/assets/js/funct.js"></script>
+<script src="../js/funct.js"></script>
+<script type="text/javascript" src="../js/lookup.js"></script>
 <!-- GoogleAnalytics Script -->
-<script defer src="https://demography.dola.colorado.gov/assets/js/googleAnalytics.js"></script>
+<script defer src="../js/googleAnalytics.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W27DQ8VRCX"></script>
+<a href="#mainx" class="skip" tabindex='1'>Skip to main content</a>
 </head>
 <body>
 <div>
@@ -32,8 +45,9 @@
   <div class="grid-item panel2_2_1" id="leftHand">
 	<div w3-include-html="./left_hand_index.html"></div>
   </div> <!-- Grid  panel2_2_1 -->
- <div class="grid-item app-panel_2_span">
-This page features SDO Blogs, Publications and Reports, Presentations, Webinars, Press Peleases, and Annual Summit Materials<br>
+<div class="grid-item app-panel_2_span">
+<h1 class='h1_style' id='mainx'>SDO Publications Resource Page</h1>
+<h2 class='h2_style'>This page features SDO Blogs, Publications and Reports, Presentations, Webinars, Press Peleases, and Annual Summit Materials</h2>
 <ul>
 <li>Crosstabs: A closer look at the Economics & Demographics of Colorado</li>
 <li>Reports</li>
@@ -42,25 +56,21 @@ This page features SDO Blogs, Publications and Reports, Presentations, Webinars,
 <li>Press Releases</li>
 <li>Annual Summit Materials</li>
 </ul>
-<details>
-	<summary><a href='crosstabs.html' target='_blank'>Crosstabs: A closer look at the Economics & Demographics of Colorado</a></summary>
-</details>
-<details>
-	<summary><a href='reports.html' target='_blank'>Reports</a></summary>
-</details>
-<details>
-	<summary><a href='presentations.html' target='_blank'>Presentations</a></summary>
-</details>
-<details>
-	<summary><a href='webinars.html'target='_blank'> SDO Webinars and Training  Materials</a></summary>
-</details>
-<details>
-	<summary><a href='pressreleases.html' target='_blank'>Press Releases</a></summary>
-</details>   
-<details>
-	<summary><a href='summit.html' target='_blank'>State Demography Summit Materials</a></summary>
- </details>
- </div> <!-- app -->
+<div>
+	<button class="accordion" onclick="window.location.href='./crosstabs.html';"><h3 class='h3_style'>Crosstabs: A closer look at the Economics & Demographics of Colorado</h3></button>
+	<p></p>
+	<button class="accordion" onclick="window.location.href='./reports.html';"><h3 class='h3_style'>Reports</h3></button>
+	<p></p>
+	<button class="accordion" onclick="window.location.href='./presentations.html';"><h3 class='h3_style'>Presentations</h3></button>
+	<p></p>
+	<button class="accordion" onclick="window.location.href='./webinars.html';"><h3 class='h3_style'>SDO Webinars and Training  Materials</h3></button>
+	<p></p>
+	<button class="accordion"  onclick="window.location.href='./pressreleases.html';"><h3 class='h3_style'>Press Releases</h3></button>
+	<p></p>
+	<button class="accordion" onclick="window.location.href='./summit.html';"><h3 class='h3_style'>State Demography Summit Materials</h3></button>
+	<p></p>
+</div>
+</div> <!-- app -->
 
  <div class="grid-item panel2_4_2">
 		<div w3-include-html="./bodycontent1.html"></div>
@@ -77,6 +87,7 @@ This page features SDO Blogs, Publications and Reports, Presentations, Webinars,
 <script>
 
 //Setting HTML include and Accordion
+accordionFun()
 includeHTML(); 
 
 </script>
