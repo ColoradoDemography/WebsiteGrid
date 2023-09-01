@@ -120,7 +120,7 @@ d3.json(urlstr).then(function(yeardata){
      yeardata2.push({"year" : i, "datatype" : "Estimate"})
 }
 
- popDropdown('county','county-dropdown','lookup');
+ popDropdown('county','county-dropdown','');
  popDropdown('municipality','muni-dropdown','lookup');
 
  popYrdd("year-dropdown",yeardata2);  //Change this range to match data
