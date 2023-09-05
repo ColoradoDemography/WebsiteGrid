@@ -3638,35 +3638,31 @@ function sumSYA(in_data,spec,grp, type){
 	switch(spec){
 	case "custom" :
 	if(type == "county"){
-		var binroll =  d3.rollup(in_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.countyfips, d => d.year, d => d.age);
+		var binroll =  d3.rollup(in_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.countyfips, d => d.year);
 		for (let [key, value] of binroll) {
 		for (let [key1, value1] of value){
-		for (let [key2, value2] of value1){
 		   out_data.push({ 'countyfips' : key,
 			'countyname' : countyName(key),
 			'year' : key1,
-			'age' : key2,
-			'male' : value2.male,
-			'female' : value2.female,
-			'total' : value2.total
+			'age' : grp,
+			'male' : value1.male,
+			'female' : value1.female,
+			'total' : value1.total
 		   })
-		};
 		};
 		};
 		} else {
-		var binroll =  d3.rollup(in_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regval, d => d.year, d => d.age);
+		var binroll =  d3.rollup(in_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regval, d => d.year);
 		for (let [key, value] of binroll) {
 		for (let [key1, value1] of value){
-		for (let [key2, value2] of value1){
 		   out_data.push({ 'regval' : key,
 			'regionname' : regionName(key),
 			'year' : key1,
-			'age' : key2,
-			'male' : value2.male,
-			'female' : value2.female,
-			'total' : value2.total
+			'age' : grp,
+			'male' : value1.male,
+			'female' : value1.female,
+			'total' : value1.total
 		   })
-		};
 		};
 		};
 		} //type
@@ -3780,18 +3776,14 @@ function genSYACty(loc,year_arr,group,agespec, age_arr,yeardata) {
 		fips_arr2.push(parseInt(loc[j]));
      };
 
+
 	//List of ages
     var age_arr2 = [];
     switch(agespec){
 	case "custom" :
-		var minage = Math.min(...age_arr)
-		var maxage = Math.max(...age_arr)
-	    for(i = minage; i <= maxage; i++){
-			age_arr2.push(i)
-		}
 		age_range = []
-		for (var i = 0; i < age_arr.length; i += 2) {
-			age_range.push({'age_start' : age_arr[i], 'age_end' : age_arr[i+1], "age_str" : age_arr[i] + " to " +age_arr[i+1]})
+		for (var i = 0; i < age_arr.length; i++) {
+			age_range.push({'age_start' : age_arr[i][0], 'age_end' : age_arr[i][1], "age_str" : age_arr[i][0] + " to " +age_arr[i][1]})
 		}
 		break;
 	case "single" :
@@ -3801,22 +3793,32 @@ function genSYACty(loc,year_arr,group,agespec, age_arr,yeardata) {
 
 	var fips_list  = fips_arr2.join(",")
 	var year_list = year_arr.join(",")
-	var age_list = age_arr2.join(",")
-	
-	if(agespec == "custom" || agespec == "single") {
+
+
+
+switch(agespec){
+	case "custom":
+	   var age_arr2 = []
+	   for(a = 0; a <= 100; a++) {age_arr2.push(a)}
+		var age_list = age_arr2.join(",")
+	    var urlstr = "https://gis.dola.colorado.gov/lookups/sya?age=" + age_list + "&county=" + fips_list + "&year=" + year_list + "&choice=single"		
+		break;
+	case "single":
+		 var age_list = age_arr2.join(",")
 	     var urlstr = "https://gis.dola.colorado.gov/lookups/sya?age=" + age_list + "&county=" + fips_list + "&year=" + year_list + "&choice=single"
-	} else {
-	    var urlstr = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + year_list + "&choice="+agespec
-	}
+	break;
+	default:
+	    var urlstr = "https://gis.dola.colorado.gov/lookups/sya?age=0,100&county=" + fips_list + "&year=" + year_list + "&choice="+agespec
+		break;
+	} //switch
 
 d3.json(urlstr).then(function(data){
-
      var raw_data = []
 	 data.forEach(i => {
 		 raw_data.push({"countyfips" : i.countyfips,
 						"countyname" : countyName(i.countyfips),
 						"year" : i.year,
-						"age" : agespec == "custom" ? customSYA(i.age,age_range) : i.age,
+						"age" :  +i.age,
 						"male" : +i.malepopulation,
 						"female" : +i.femalepopulation,
 						"total" : +i.totalpopulation,
@@ -3824,15 +3826,23 @@ d3.json(urlstr).then(function(data){
 		 })
 	 })
 	
-	 if(agespec == "custom") {
-		 raw_data = raw_data.filter(d => d.age != "")
-	 }
-	
-	if(agespec == "custom" || agespec == "single") {
+	switch(agespec){
+	 case "custom":
+		 var tab_data =[]
+		 for(j = 0; j < age_range.length; j++){
+			 var rng_data = raw_data.filter( d => ((d.age >= age_range[j].age_start)  && (d.age <= age_range[j].age_end)))
+			 var sum_data = sumSYA(rng_data,agespec,age_range[j].age_str,"county")
+			 tab_data = tab_data.concat(sum_data)
+		 }
+	 debugger
+    console.log(tab_data)
+	 break;
+	case "single" :
 		var tab_data = sumSYA(raw_data,agespec,group,"county")
-	} else {
+	break;
+	default:
 		var tab_data = raw_data;
-	}
+	} //switch
 
 	// Generate Table
 	if(agespec == "single"){
@@ -3851,15 +3861,15 @@ d3.json(urlstr).then(function(data){
 			break;
 	  }
 	} else {
-	 var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Age</th><th>Male Population</th><th>Female Population</th><th>Total Population</th><th>Data Type</th></tr></thead>";
+		var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Age</th><th>Male Population</th><th>Female Population</th><th>Total Population</th><th>Data Type</th></tr></thead>";
 	}
 
 	out_tab = out_tab + "<tbody>"
 
 	for(i = 0; i < tab_data.length; i++){
 		//Selecting value of data type
-
 		var filtData = yeardata.filter(b => tab_data[i].year == b.year);
+
 		
 	if(agespec == "single"){
 	  switch(group){
@@ -3957,18 +3967,14 @@ function genSYAReg(region,loc,year_arr,group,agespec, age_arr,yeardata) {
      };
    };
    
-	//List of ages
+   
+   	//List of ages
     var age_arr2 = [];
     switch(agespec){
 	case "custom" :
-		var minage = Math.min(...age_arr)
-		var maxage = Math.max(...age_arr)
-	    for(i = minage; i <= maxage; i++){
-			age_arr2.push(i)
-		}
 		age_range = []
-		for (var i = 0; i < age_arr.length; i += 2) {
-			age_range.push({'age_start' : age_arr[i], 'age_end' : age_arr[i+1], "age_str" : age_arr[i] + " to " +age_arr[i+1]})
+		for (var i = 0; i < age_arr.length; i++) {
+			age_range.push({'age_start' : age_arr[i][0], 'age_end' : age_arr[i][1], "age_str" : age_arr[i][0] + " to " +age_arr[i][1]})
 		}
 		break;
 	case "single" :
@@ -3978,14 +3984,24 @@ function genSYAReg(region,loc,year_arr,group,agespec, age_arr,yeardata) {
 
 	var fips_list  = fips_arr2.join(",")
 	var year_list = year_arr.join(",")
-	var age_list = age_arr2.join(",")
-	
-	if(agespec == "custom" || agespec == "single") {
-	     var urlstr = "https://gis.dola.colorado.gov/lookups/sya?age=" + age_list + "&county=" + fips_list + "&year=" + year_list + "&choice=single"
-	} else {
-	    var urlstr = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + year_list + "&choice="+agespec
-	}
 
+
+
+switch(agespec){
+	case "custom":
+	   var age_arr2 = []
+	   for(a = 0; a <= 100; a++) {age_arr2.push(a)}
+		var age_list = age_arr2.join(",")
+	    var urlstr = "https://gis.dola.colorado.gov/lookups/sya?age=" + age_list + "&county=" + fips_list + "&year=" + year_list + "&choice=single"		
+		break;
+	case "single":
+		 var age_list = age_arr2.join(",")
+	     var urlstr = "https://gis.dola.colorado.gov/lookups/sya?age=" + age_list + "&county=" + fips_list + "&year=" + year_list + "&choice=single"
+	break;
+	default:
+	    var urlstr = "https://gis.dola.colorado.gov/lookups/sya?age=0,100&county=" + fips_list + "&year=" + year_list + "&choice="+agespec
+		break;
+	} //switch
 
 d3.json(urlstr).then(function(data){
 	
@@ -3996,7 +4012,7 @@ d3.json(urlstr).then(function(data){
 			"regval" : col.regval,
 			"countyfips" : col.countyfips,
 			"year" : dat.year,
-			"age" : agespec == "custom" ? customSYA(dat.age,age_range) : dat.age,
+			"age" :  +dat.age,
 			"male" : +dat.malepopulation,
 			"female" : +dat.femalepopulation,
 			"total" : +dat.totalpopulation,
@@ -4004,12 +4020,24 @@ d3.json(urlstr).then(function(data){
 		};
 	});
 
-	 if(agespec == "custom") {
-		 raw_data = raw_data.filter(d => d.age != "")
-	 }
-	
+	switch(agespec){
+	 case "custom":
+		 var tab_data =[]
+		 for(j = 0; j < age_range.length; j++){
+			 var rng_data = raw_data.filter( d => ((d.age >= age_range[j].age_start)  && (d.age <= age_range[j].age_end)))
+			 var sum_data = sumSYA(rng_data,agespec,age_range[j].age_str,"region")
+			 tab_data = tab_data.concat(sum_data)
+		 }
+	 debugger
+    console.log(tab_data)
+	 break;
+	case "single" :
 		var tab_data = sumSYA(raw_data,agespec,group,"region")
-	
+	break;
+	default:
+		var tab_data = raw_data;
+	} //switch
+
 
 	// Generate Table
 	if(agespec == "single"){
@@ -4028,7 +4056,7 @@ d3.json(urlstr).then(function(data){
 			break;
 	  }
 	} else {
-	 var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th><th>Age</th><th>Male Population</th><th>Female Population</th><th>Total Population</th><th>Data Type</th></tr></thead>";
+	    var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th><th>Age</th><th>Male Population</th><th>Female Population</th><th>Total Population</th><th>Data Type</th></tr></thead>";
 	}
 
 	out_tab = out_tab + "<tbody>"
