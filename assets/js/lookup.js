@@ -3116,7 +3116,7 @@ d3.json(urlstr).then(function(data){
 				'countyfips' : data[i].countyfips,
 				'countyname' : countyName(data[i].countyfips),
 				'datatype' : data[i].datatype,
-				'population_year' : _data[i].population_year,
+				'population_year' : data[i].population_year,
 				'totaljobs' : +data[i].totaljobs})
 		}
 	  var cty_data2 = data2
