@@ -1638,7 +1638,41 @@ var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Adams Count
 				{'location':'Washington County', 'fips': '121'},{'location':'Weld County', 'fips': '123'},
 				{'location':'Yuma County', 'fips': '125'}];
 
-
+if(callpg == "jobs"){
+	var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Denver-Boulder Metro Area', 'fips': '130'},
+                {'location':'Alamosa County', 'fips': '003'},
+				{'location':'Archuleta County', 'fips': '007'},{'location':'Baca County', 'fips': '009'},
+				{'location':'Bent County', 'fips': '011'},
+				{'location':'Chaffee County', 'fips': '015'},
+				{'location':'Cheyenne County', 'fips': '017'},{'location':'Clear Creek County', 'fips': '019'},
+				{'location':'Conejos County', 'fips': '021'},{'location':'Costilla County', 'fips': '023'},
+				{'location':'Crowley County', 'fips': '025'},{'location':'Custer County', 'fips': '027'},
+				{'location':'Delta County', 'fips': '029'},
+				{'location':'Dolores County', 'fips': '033'},
+				{'location':'Eagle County', 'fips': '037'},{'location':'Elbert County', 'fips': '039'},
+				{'location':'El Paso County', 'fips': '041'},{'location':'Fremont County', 'fips': '043'},
+				{'location':'Garfield County', 'fips': '045'},{'location':'Gilpin County', 'fips': '047'},
+				{'location':'Grand County', 'fips': '049'},{'location':'Gunnison County', 'fips': '051'},
+				{'location':'Hinsdale County', 'fips': '053'},{'location':'Huerfano County', 'fips': '055'},
+				{'location':'Jackson County', 'fips': '057'},
+				{'location':'Kiowa County', 'fips': '061'},{'location':'Kit Carson County', 'fips': '063'},
+				{'location':'Lake County', 'fips': '065'},{'location':'La Plata County', 'fips': '067'},
+				{'location':'Larimer County', 'fips': '069'},{'location':'Las Animas County', 'fips': '071'},
+				{'location':'Lincoln County', 'fips': '073'},{'location':'Logan County', 'fips': '075'},
+				{'location':'Mesa County', 'fips': '077'},{'location':'Mineral County', 'fips': '079'},
+				{'location':'Moffat County', 'fips': '081'},{'location':'Montezuma County', 'fips': '083'},
+				{'location':'Montrose County', 'fips': '085'},{'location':'Morgan County', 'fips': '087'},
+				{'location':'Otero County', 'fips': '089'},{'location':'Ouray County', 'fips': '091'},
+				{'location':'Park County', 'fips': '093'},{'location':'Phillips County', 'fips': '095'},
+				{'location':'Pitkin County', 'fips': '097'},{'location':'Prowers County', 'fips': '099'},
+				{'location':'Pueblo County', 'fips': '101'},{'location':'Rio Blanco County', 'fips': '103'},
+				{'location':'Rio Grande County', 'fips': '105'},{'location':'Routt County', 'fips': '107'},
+				{'location':'Saguache County', 'fips': '109'},{'location':'San Juan County', 'fips': '111'},
+				{'location':'San Miguel County', 'fips': '113'},{'location':'Sedgwick County', 'fips': '115'},
+				{'location':'Summit County', 'fips': '117'},{'location':'Teller County', 'fips': '119'},
+				{'location':'Washington County', 'fips': '121'},{'location':'Weld County', 'fips': '123'},
+				{'location':'Yuma County', 'fips': '125'}];
+}
 //regions
 
 var region =  [

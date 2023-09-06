@@ -324,7 +324,6 @@ function genRaceTabCty10(loc,year_arr, race_arr,eth_arr,age_arr,sex_list,group) 
 		var urlstr = "https://gis.dola.colorado.gov/lookups/sya-race-estimates?age="+ age_list + "&county="+ fips_list +"&year="+ year_list +"&race=" + race_list+ "&ethnicity="+eth_list+"&sex="+sexl+"&group=opt0";
 	}
 
-console.log(urlstr)
 d3.json(urlstr).then(function(data){
 
 
@@ -3053,22 +3052,75 @@ function genJobsForeCty(loc, yeararr) {
    	for(j = 0; j < yeararr.length; j++){
 		year_arr.push(yeararr[j]);
      };
-	var fips_list  = fips_arr2.join(",")
+	
+	if(loc.includes('130')){   //Check for Denver-Boulder MSA
+	    var ctyArr = [1, 5, 13, 14, 31, 35, 59]
+	    var fips_3 = fips_arr2;
+	    var indexval = fips_3.indexOf(130)
+		fips_3.splice(indexval,1)
+		for(i =0; i < ctyArr.length; i++){
+			fips_3.push(ctyArr[i])
+		}
+		var fips_list  = fips_3.join(",")
+	} else {
+		var fips_list  = fips_arr2.join(",")
+	}
+
 	var year_list  = year_arr.join(",")
 	 var urlstr = "https://gis.dola.colorado.gov/lookups/jobs-forecast?county="+ fips_list + "&year=" + year_list
 
 d3.json(urlstr).then(function(data){
 
-var cty_data2 = data
+//adjustment for Denver-Boulder MSA
+	if(loc.includes('130')){
+		var MSA_data = data.filter(i => ctyArr.includes(i.countyfips))
+		var nonMSA_data = data.filter(i => !ctyArr.includes(i.countyfips))
+        var nonMSA_data2 = []
+		for(i = 0; i < nonMSA_data.length; i++){
+			nonMSA_data2.push({
+				'countyfips' : nonMSA_data[i].countyfips,
+				'countyname' : countyName(nonMSA_data[i].countyfips),
+				'datatype' : nonMSA_data[i].datatype,
+				'population_year' : nonMSA_data[i].population_year,
+				'totaljobs' : +nonMSA_data[i].totaljobs})
+		}
+		
+		// sum up values by year
+	   var columnsToSum = ['totaljobs']
+
+        var MSASum_data = [];
+
+		var binroll =  d3.rollup(MSA_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.population_year);
+		for (let [key, value] of binroll) {
+		   MSASum_data.push({ 'countyfips' : 1,
+		    'countyname' : 'Denver-Boulder MSA',
+			'datatype' : "FORECAST",
+			'population_year' : key,
+			'totaljobs' : value.totaljobs})
+		};
+		
+
+  var data = MSASum_data.concat(nonMSA_data2)
+  var cty_data2 = data
         .sort(function(a, b){ return d3.ascending(a['population_year'], b['population_year']); })
         .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
 		;
+
+	cty_data2.forEach( d => {
+		if(d.countyfips == 1) {d.countyfips = " "}
+	})
+	} else {
+	  var cty_data2 = data
+        .sort(function(a, b){ return d3.ascending(a['population_year'], b['population_year']); })
+        .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
+		;
+		}
 
 	// Generate Table
 	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Total Jobs</th><th>Data Type</th></tr></thead><tbody>";
 	for(i = 0; i < cty_data2.length; i++){
 		var el0 = "<td>" + cty_data2[i].countyfips + "</td>"
-		var el1 = "<td>" + countyName(cty_data2[i].countyfips) + "</td>"
+		var el1 = "<td>" + cty_data2[i].countyname + "</td>"
 		var el2 = "<td>" + cty_data2[i].population_year + "</td>"
 		var el3 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].totaljobs,"num") + "</td>"
 		var el4 = "<td>" + cty_data2[i].datatype + "</td>"
@@ -3138,7 +3190,7 @@ for(j = 0; j < fips_arr.length; j++){
 }
 }
 
-    // sum up values by region, year and sector_id
+// sum up values by region, year and sector_id
 	var columnsToSum = ['totaljobs']
 
 var reg_data = [];
@@ -3834,8 +3886,6 @@ d3.json(urlstr).then(function(data){
 			 var sum_data = sumSYA(rng_data,agespec,age_range[j].age_str,"county")
 			 tab_data = tab_data.concat(sum_data)
 		 }
-	 debugger
-    console.log(tab_data)
 	 break;
 	case "single" :
 		var tab_data = sumSYA(raw_data,agespec,group,"county")
@@ -4028,8 +4078,6 @@ d3.json(urlstr).then(function(data){
 			 var sum_data = sumSYA(rng_data,agespec,age_range[j].age_str,"region")
 			 tab_data = tab_data.concat(sum_data)
 		 }
-	 debugger
-    console.log(tab_data)
 	 break;
 	case "single" :
 		var tab_data = sumSYA(raw_data,agespec,group,"region")
