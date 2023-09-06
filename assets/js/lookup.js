@@ -3110,7 +3110,16 @@ d3.json(urlstr).then(function(data){
 		if(d.countyfips == 1) {d.countyfips = " "}
 	})
 	} else {
-	  var cty_data2 = data
+	var data2 = []
+	for(i = 0; i < data.length; i++){
+			data2.push({
+				'countyfips' : data[i].countyfips,
+				'countyname' : countyName(data[i].countyfips),
+				'datatype' : data[i].datatype,
+				'population_year' : _data[i].population_year,
+				'totaljobs' : +data[i].totaljobs})
+		}
+	  var cty_data2 = data2
         .sort(function(a, b){ return d3.ascending(a['population_year'], b['population_year']); })
         .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
 		;
