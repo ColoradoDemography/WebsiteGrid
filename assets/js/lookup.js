@@ -2383,8 +2383,8 @@ $(tabObj).DataTable({
 
 //cat Jogs Lookup Functions
 
-function genNAICSCty(loc,year_arr) {
-//genNAICSCty creares the county Jobs by Sector Table
+function genJOBSECTCty(loc,year_arr) {
+//genJOBSECTCty creares the county Jobs by Sector Table
  
 	
 	//build urlstr
@@ -2419,7 +2419,7 @@ var cty_data2 = cty_data
 
 
 	// Generate Table
-	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>NAICS Sector Code</th><th>NAICS Sector Name</th><th>Total Jobs</th></tr></thead><tbody>";
+	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Job Sector Code</th><th>Job Sector Name</th><th>Total Jobs</th></tr></thead><tbody>";
 	for(i = 0; i < cty_data2.length; i++){
 		var el0 = "<td>" + cty_data2[i].countyfips + "</td>"
 		var el1 = "<td>" + cty_data2[i].countyname + "</td>"
@@ -2452,11 +2452,11 @@ $(tabObj).DataTable({
 });
  });  //d3.json
 } 
-// genNAICScty
+// genJOBSECTCty
 
 
-function genNAICSReg(region, loc,year_arr) {
-//genNAICSReg creares the county Jobs by Sector Table
+function genJOBSECTReg(region, loc,year_arr) {
+//genJOBSECTReg creares the county Jobs by Sector Table
  
 	//build urlstr
    var fips_arr = [];
@@ -2542,7 +2542,7 @@ var reg_data2 = raw_data
    		 .sort(function(a, b){ return d3.ascending(a['regval'], b['regval']); })
 
 	// Generate Table
-	var out_tab = "<thead><tr><th>Region Name</th><th>Year</th><th>NAICS Sector Code</th><th>NAICS Sector Name</th><th>Total Jobs</th></tr></thead><tbody>";
+	var out_tab = "<thead><tr><th>Region Name</th><th>Year</th><th>Job Sector Code</th><th>Job Sector Name</th><th>Total Jobs</th></tr></thead><tbody>";
 	for(i = 0; i < reg_data2.length; i++){
 		var el1 = "<td>" + reg_data2[i].regname + "</td>"
 		var el2 = "<td>" + reg_data2[i].year + "</td>"
@@ -2574,7 +2574,7 @@ $(tabObj).DataTable({
 });
  });  //d3.json
 } 
-// genNAICSreg
+// genJOBSECTreg
 
 function popBaseInd(level,ddid) {
 //Base Industries County dropdown
