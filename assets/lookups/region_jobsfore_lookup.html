@@ -117,7 +117,7 @@ d3.json(urlstr).then(function(yeardata){
 
  popDropdown('region','region-dropdown','lookup');
  
- yeardata2 = yeardata.filter(i => i.year >= 1990);
+ yeardata2 = yeardata.filter(i => i.year >= 1990 && i.datatype == "Forecast");
  
  popYrdd("year-dropdown",yeardata2);  //Change this range to match data
  
