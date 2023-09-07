@@ -6546,11 +6546,7 @@ d3.csv(data_csv).then(function(data){
                x: age_arr,
                y : netmig,
 			   name : yr_title,
-			   mode : 'lines+markers', 
-			    marker: {
-				  symbol: 'circle',
-                  size: 8
-                },
+			   type : 'bar', 
 			   line : {
 					width : 3
 				}
