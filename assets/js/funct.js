@@ -6519,10 +6519,10 @@ d3.csv(data_csv).then(function(data){
 //Chart Title
  if(yr_arr.length == 1) {
 	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + outName + " " + yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
-	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate " + outName + " " +yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
+	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate\nper 100 Population\n" + outName + " " +yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
  } else {
 	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + outName;
-	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate " + outName;
+	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate\nper 100 Population\n" + outName;
  }
  
 //Chart Objects 
