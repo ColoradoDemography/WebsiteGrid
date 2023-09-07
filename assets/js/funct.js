@@ -1995,7 +1995,7 @@ if(level == 'region' || level == 'regioncomp') {
 	for(i = 0; i < groups.length; i++){
 		var groupfilt = locarr.filter(d => (d.optgroup == groups[i]));
 	    var grp = document.createElement("optgroup");
-		grp.id = "regiongrp";
+		grp.id = "regiongrp" + i;
 		grp.label = groups[i];
 		for(j = 0; j < groupfilt.length; j++) {
 			var optTxt = document.createElement("option");
