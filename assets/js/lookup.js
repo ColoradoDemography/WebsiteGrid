@@ -64,7 +64,7 @@ sel.innerHTML = "";
 				el.style.color = "black";
 			    el.textContent = j.year;
 		    } else {
-			el.style.color = "red";
+			el.style.color = "#B90000";
 			el.textContent = j.year;
 		   }
 			el.value = j.year;
