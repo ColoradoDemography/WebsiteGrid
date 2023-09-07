@@ -3874,18 +3874,20 @@ switch(agespec){
 	} //switch
 
 d3.json(urlstr).then(function(data){
+
      var raw_data = []
 	 data.forEach(i => {
 		 raw_data.push({"countyfips" : i.countyfips,
 						"countyname" : countyName(i.countyfips),
 						"year" : i.year,
-						"age" :  +i.age,
+						"age" :  i.age,
 						"male" : +i.malepopulation,
 						"female" : +i.femalepopulation,
 						"total" : +i.totalpopulation,
 						"datatype" : i.datatype
 		 })
 	 })
+	
 	
 	switch(agespec){
 	 case "custom":
@@ -4071,7 +4073,7 @@ d3.json(urlstr).then(function(data){
 			"regval" : col.regval,
 			"countyfips" : col.countyfips,
 			"year" : dat.year,
-			"age" :  +dat.age,
+			"age" :  dat.age,
 			"male" : +dat.malepopulation,
 			"female" : +dat.femalepopulation,
 			"total" : +dat.totalpopulation,
@@ -4127,7 +4129,7 @@ d3.json(urlstr).then(function(data){
 	  switch(group){
 		case "opt0" :
 			var el0 = "<td>" + tab_data[i].regval + "</td>"
-			var el1 = "<td>" + tab_data[i].regionname + "</td>"
+			var el1 = "<td>" + regionName(tab_data[i].regval) + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
 			var el3 = "<td>" + tab_data[i].age + "</td>"
 			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
@@ -4146,7 +4148,7 @@ d3.json(urlstr).then(function(data){
 			break;
 		case "opt2" :
 			var el0 = "<td>" + tab_data[i].regval + "</td>"
-			var el1 = "<td>" + tab_data[i].regionname + "</td>"
+			var el1 = "<td>" + regionName(tab_data[i].regval) + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
 			var el3 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
 			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
@@ -4166,7 +4168,7 @@ d3.json(urlstr).then(function(data){
 	  }
 	} else {
 			var el0 = "<td>" + tab_data[i].regval + "</td>"
-			var el1 = "<td>" + tab_data[i].regionname + "</td>"
+			var el1 = "<td>" + regionName(tab_data[i].regval) + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
 			var el3 = "<td>" + tab_data[i].age + "</td>"
 			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
