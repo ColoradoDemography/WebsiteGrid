@@ -6557,7 +6557,7 @@ d3.csv(data_csv).then(function(data){
                x: age_arr,
                y : migrate,
 			   name : yr_title,
-			   type: 'bsr',
+			   type: 'bar',
 			   line : {
 					width : 3
 				}
