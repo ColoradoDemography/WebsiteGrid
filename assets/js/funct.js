@@ -6519,10 +6519,10 @@ d3.csv(data_csv).then(function(data){
 //Chart Title
  if(yr_arr.length == 1) {
 	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + outName + " " + yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
-	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>per 100 Population<br>" + outName + " " +yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
+	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>" + outName + " " +yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString()+ "<br>per 100 Population";
  } else {
 	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + outName;
-	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>per 100 Population<br>" + outName;
+	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>" + outName+"<br>per 100 Population";
  }
  
 //Chart Objects 
@@ -6635,6 +6635,17 @@ var NetMig_layout = {
 			linewidth: 2,
 			 tickformat:  '.2f'
 		  },
+		shapes: [{
+			type: 'line',
+			x0: 0,
+			y0: 0,
+			x1: 15,
+			y1: 0,
+			line: {
+				color: 'black',
+				width: 4,
+				dash: 'solid'
+		}}],
 			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
 		
