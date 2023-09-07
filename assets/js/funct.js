@@ -6557,11 +6557,7 @@ d3.csv(data_csv).then(function(data){
                x: age_arr,
                y : migrate,
 			   name : yr_title,
-			   mode : 'lines+markers', 
-			    marker: {
-				  symbol: 'circle',
-                  size: 8
-                },
+			   type: 'bsr',
 			   line : {
 					width : 3
 				}
