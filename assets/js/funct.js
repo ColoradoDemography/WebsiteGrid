@@ -2342,7 +2342,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 		case 'agepyr' : {
-		Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 480 }).then(function (dataURL) {
+		Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 500}).then(function (dataURL) {
 			var a = document.createElement('a');
 			a.href = dataURL;
 			a.download = fn;
@@ -2353,7 +2353,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 	    case 'popchng' : {
-		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 480 }).then(function (dataURL) {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 500}).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -2367,7 +2367,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		case 'inflow' : 
 		case 'outflow':
 		{
-		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 480 }).then(function (dataURL) {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 500}).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -2378,7 +2378,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 	  default : {
-	   Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 480 }).then(function (dataURL) {
+	   Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 500}).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = fn;
@@ -6352,7 +6352,7 @@ multi_png.onclick = function() {
 
 //cat Net Migration by Age Dashboard
 
-function genNETMIGCOMP(geotype, fips, yrvalue) {
+function genNETMIGCOMP(geotype, fips_Arr, yrvalue, chart) {
 //genNETMIGCOMP generates the Net Migration by Age Comparison charts 
 //Uses data from NetMigrationByAgeComparison Must be updated after Census 2020 is available
 
@@ -6365,7 +6365,7 @@ d3.csv(data_csv).then(function(data){
    if(geotype == "region"){
 		var selgeo = [];
 		var selgeo_fin = [];
-		fips.forEach(d => {
+		fips_Arr.forEach(d => {
 			var tmpcty = regionCOL(+d);
 		    selgeo.push(tmpcty[0].fips)
 		})
@@ -6396,8 +6396,9 @@ d3.csv(data_csv).then(function(data){
 		}
 		var datafilt = tmp_data;
 	} else {
-		var fipsNum = parseInt(fips).toString()
-		var datafilt = data.filter(d => d.countyfips == fipsNum && yrvalue.includes(d.year));
+		var fipsNum = []
+		fips_Arr.forEach(d => fipsNum.push(parseInt(d).toString()))
+		var datafilt = data.filter(d => fipsNum.includes(d.countyfips) && yrvalue.includes(d.year));
 	}
 
    if(geotype == 'county'){
@@ -6409,8 +6410,11 @@ d3.csv(data_csv).then(function(data){
 	   }
    }
    }
+   debugger
+   console.log(datafilt)
    
    var datasort = datafilt.sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
+                           .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
 	                       .sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
 
 
@@ -6419,6 +6423,13 @@ d3.csv(data_csv).then(function(data){
   
   	var outNamea = [...new Set(datasort.map((item) => item.county))];
 	var outName = outNamea.toString().trim()
+	
+//Chart patterns for bar chart
+var patternArr = ["", "/", "|", "-"]
+
+//Linetypes for line Charts
+var lineArr = ['solid','dash','dashdot',"dot"]
+
 //Chart Title
  if(yr_arr.length == 1) {
 	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + outName + " " + yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
@@ -6432,6 +6443,7 @@ d3.csv(data_csv).then(function(data){
   var NetMig_trace = [];
   var Rate_trace = [];
   
+  //for(j = 0; j < fips_Arr.length; j++){
   for(i = 0; i < yr_arr.length; i++){
 	  var yr_filt = datasort.filter(function(d) {return d.year == yr_arr[i];});
 	  var yr_title = yr_arr[i] + " to " + (parseInt(yr_arr[i]) + 10).toString();
