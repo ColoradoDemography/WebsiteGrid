@@ -2342,7 +2342,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 		case 'agepyr' : {
-		Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 500}).then(function (dataURL) {
+		Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 550}).then(function (dataURL) {
 			var a = document.createElement('a');
 			a.href = dataURL;
 			a.download = fn;
@@ -2353,7 +2353,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 	    case 'popchng' : {
-		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 500}).then(function (dataURL) {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 550}).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -2367,7 +2367,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		case 'inflow' : 
 		case 'outflow':
 		{
-		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 500}).then(function (dataURL) {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 550}).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -2378,7 +2378,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 	  default : {
-	   Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 500}).then(function (dataURL) {
+	   Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 550}).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = fn;
