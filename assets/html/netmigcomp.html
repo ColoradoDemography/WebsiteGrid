@@ -101,22 +101,23 @@
   </div>
   <div class="grid-item app-panel_3_2">
       <div class="dropdown AClass">
-		  <button class="dropbtn"  id="estimate"><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
+		  <button class="dropbtn"  id="estimate" aria-label='Net Migration by Age Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
 		  <div class="dropdown-content">
-		    <a href= '../lookups/county_netmig_lookup.html' target='_blank'>Net Migration by Age</a>
 			<a href="#" id='netmign_csv'>Download Data (CSV)</a>
 			<a href='#' id='netmign_png'>Download Image (PNG)</a>
+		    <a href= '../lookups/county_netmig_lookup.html' id='mig_number' target='_blank'>Net Migration by Age</a>
 		  </div>
 	  </div>
 	 <div id="netmign_output"></div>
   </div>
   <div class="grid-item app-panel_4_2">
 	<div class="dropdown AClass">
-		<button class="dropbtn" id="forecast"><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
+		<button class="dropbtn" id="forecast" aria-label='Net Migration Rate by Age Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
-	    <a href= '../lookups/county_netmig_lookup.html' target='_blank'>Net Migration by Age</a>
 		<a href="#" id='netmigrrate_csv'>Download Data (CSV)</a>
 		<a href='#' id='netmigrrate_png'>Download Image (PNG)</a>
+	    <a href= '../lookups/county_netmig_lookup.html' id='mig_rate' target='_blank'>Net Migration by Age</a>
+
 	 </div>
 	</div>
     <div id="netmigrrate_output"></div>
@@ -157,9 +158,25 @@ d3.select("#geo-dropdown").on("change", d => {
 			complete = false;
 		}
 
-        var geodd = document.getElementById('geo-dropdown');
+        var selectedGeo = document.getElementById('geo-dropdown');
 		var yrdd = document.getElementById('year-dropdown');
 		var selectedyr = getSelectValues(yrdd);
+		
+			  // update link
+	  var mignlink = document.getElementById('mig_number');
+	  var migratelink = document.getElementById('mig_rate');
+
+	  
+	  switch(selectedGeo){
+	  case "region" :
+	       mignlink.setAttribute("href", "../lookups/region_netmig_lookup.html");
+	       migratelink.setAttribute("href", "../lookups/region_netmig_lookup.html");
+		   break;
+	  case "county" :
+	       mignlink.setAttribute("href", "../lookups/county_netmig_lookup.html");
+	       migratelink.setAttribute("href", "../lookups/county_netmig_lookup.html");
+		   break;
+	}
 
 		if(selectedyr.length == 0){
 		    outputmsg = outputmsg +  " > Please select one or more Time periods.\n";
@@ -167,7 +184,7 @@ d3.select("#geo-dropdown").on("change", d => {
 		}
 
 		if(complete){
-		  genNETMIGCOMP(geodd.value,selectedfips,selectedyr);
+		  genNETMIGCOMP(selectedGeo.value,selectedfips,selectedyr);
 			 } else {
 			 window.alert(outputmsg);
 			 }
