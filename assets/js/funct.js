@@ -5291,6 +5291,7 @@ function netmigPlot(inData, app, plotdiv, fips, ctyName) {
 	var config = {responsive: true,
               displayModeBar: false};
 
+
 //Clearing out divs
 var NETMIG = document.getElementById(plotdiv);
 
@@ -5298,83 +5299,23 @@ NETMIG.innerHTML = "";
 
 //Net Migration 
 var NetMigAge =[];
-var NetMig9500 = [];
-var NetMig0010 = [];
-var NetMig1020 = [];
 
 netmig_flat = inData.sort(function(a, b){ return d3.ascending(parseInt(a['age']), parseInt(b['age'])); });
-NetMigAge = netmig_flat.map(item => parseInt(item.age));
-
-if(app == 'dashboard') {
-NetMig0010 = netmig_flat.map(item => parseInt(item.netMigration));
+NetMigAge = netmig_flat.map(item => item.age);
+NetMig1020 = netmig_flat.map(item => parseInt(item.netmigration));
 
 //plotting
 
-var NetMig0010_bar = { 
-               x: NetMigAge,
-               y : NetMig0010,
-			   name : '2000 to 2010',
-			   type : 'bar'
-			};
-var NetMig_data = [NetMig0010_bar];
-} else {	
-
-NetMig9500 = netmig_flat.map(item => parseInt(item.NetMig9500));
-NetMig0010 = netmig_flat.map(item => parseInt(item.NetMig0010));
-NetMig1020 = netmig_flat.map(item => parseInt(item.NetMig1020));
-
-var NetMig9500_line = { 
-               x: NetMigAge,
-               y : NetMig9500,
-			   name : '1995 to 2000',
-			   mode : 'lines+markers', 
-			    marker: {
-                  color: 'blue',
-				  symbol: 'circle',
-                  size: 8
-                },
-			   line : {
-					color: 'blue',
-					width : 3
-				}
-			};		
-var NetMig0010_line = { 
-               x: NetMigAge,
-               y : NetMig0010,
-			   name : '2000 to 2010',
-			   mode : 'lines+markers', 
-			    marker: {
-                  color: 'orange',
-				  symbol: 'square',
-                  size: 8
-                },
-			   line : {
-					color: 'orange',
-					width : 3
-				}
-			};
-
-var NetMig1020_line = { 
+var NetMig1020_bar = { 
                x: NetMigAge,
                y : NetMig1020,
 			   name : '2010 to 2020',
-			   mode : 'lines+markers', 
-			    marker: {
-                  color: 'green',
-				  symbol: 'diamond',
-                  size: 8
-                },
-			   line : {
-					color: 'green',
-					dash : 'dash',
-					width : 3
-				}
+			   type : 'bar'
 			};
-var NetMig_data = [NetMig9500_line, NetMig0010_line, NetMig1020_line];
-}
+var NetMig_chart = [NetMig1020_bar];
 
 var NetMig_layout = {
-		title: "Net Migration by Age -- Net Migrants " + ctyName,
+		title: "Net Migration by Age -- Net Migrants 2010-2020 " + ctyName,
 		  autosize: false,
 		  width: 1000,
 		  height: 400, 
@@ -5406,52 +5347,13 @@ var NetMig_layout = {
 			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
 
-Plotly.newPlot(NETMIG, NetMig_data, NetMig_layout,config);
+Plotly.newPlot(NETMIG, NetMig_chart, NetMig_layout,config);
 
-if(app == 'dashboard') {
-var netmig_names = {
-	fips : "FIPS",
-	loc : "Location",
-	age : "Age Group",
-	netMigration : "Net Migration 2000 -2010"
-	}
-var netmig_shift = [];
-	netmig_flat.forEach( d => {
-    netmig_shift.push({ fips : fips,
-	                    loc : ctyName,
-	                    age : d.age,
-						netMigration : d.netMigration < 0 ?  ("-" + fmt_comma(Math.abs(d.netMigration))) : fmt_comma(d.netMigration)
-	})
-	}) 
-} else {
-	var netmig_names = {
-			fips : "FIPS",
-			loc : "Location",
-	        age : "Age Group",
-			NetMig9500 : "Net Migration 1995-2000",
-			NetMig0010 : "Net Migration 2000 -2010",
-			NetMig1020 : "Net Migration 2010-2020"
-		}
-var netmig_shift = [];
-	netmig_flat .forEach( d => {
-    netmig_shift.push({ fips : fips,
-	                    loc : ctyName,
-	                    age : d.age,
-						NetMig9500 : d.NetMig9500 < 0 ?  ("-" + fmt_comma(Math.abs(d.NetMig9500))) : fmt_comma(d.NetMig9500),
-						NetMig0010 : d.NetMig0010 < 0 ?  ("-" + fmt_comma(Math.abs(d.NetMig0010))) : fmt_comma(d.NetMig0010),
-						NetMig1020 : d.NetMig1020 < 0 ?  ("-" + fmt_comma(Math.abs(d.NetMig1020))) : fmt_comma(d.NetMig1020)
-	})
-	})
-	}
-var netmig_out = changeKeyObjects(netmig_shift, netmig_names);
-
-//Net Migration
-if(app == 'dashboard'){
+//Output
 var mig_csv = document.getElementById('mig_csv');
 var mig_png = document.getElementById('mig_png');
-mig_csv.onclick = function() {exportToCsv(ctyName, 'netmig', netmig_out,0)}; 
+mig_csv.onclick = function() {exportToCsv(ctyName, 'netmig', netmig_flat,0)}; 
 mig_png.onclick = function() {exportToPng(ctyName, 'netmig', NETMIG,0)};
-}	 
 
 }; 
 // netmigPlot
@@ -5686,9 +5588,8 @@ function genDEMO(geotype, fips, unit, ctyName, yrvalue){
 		var forcurl = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + forc_yrs + "&choice=single&group=3"
 
 
-//Net migration by age -- this is net migration by SYA  need to use this in net migr 18-64?
-//NEED TO FIND THE SOURCE OF THIS DATA and SEE IF WE CAN USE A DATA SERIES BY AGE
-   var netmigurl = "../data/county_migbyage_sya.csv";
+//Net migration by age -- this is net migration by 5-year data
+   var netmigurl = "https://storage.googleapis.com/co-publicdata/Colorado_Age_Migration_By_Decade.csv"
 
 
 var prom = [d3.json(esturl),d3.json(forcurl),d3.csv(netmigurl)];
@@ -5722,15 +5623,17 @@ if(geotype == "region"){
 
 //NetMig SEE NOTE ABOVE
 
-var columnsNet = ['netMigration'];
-var netMig_filt = data[2].filter(d => fips_list.includes(parseInt(d.countyfips)));
+var columnsNet = ['netmigration'];
+var netMig_filt = data[2].filter(d => (fips_list.includes(parseInt(d.countyfips))) && (parseInt(d.year) == 2010));
 var netmig_sum  =  d3.rollup(netMig_filt, v => Object.fromEntries(columnsNet.map(col => [col, d3.sum(v, d => +d[col])])), d => d.age);
 
 var netmig_data = [];
    for (let [key, value] of netmig_sum) {
-	  netmig_data.push({'type' : 'region', 'fips' : parseInt(fips), 'name' : ctyName, 'age' : parseInt(key),   'netMigration' : value.netMigration});
+	  netmig_data.push({'type' : 'region', 'fips' : parseInt(fips), 'name' : ctyName, 'age' : key,   'netmigration' : value.netmigration});
 		}
-		
+debugger
+console.log(netmig_data)
+
 } else {
 	if(fips == "000") { //Colorado as a whole
 	//estimate
@@ -5754,7 +5657,7 @@ var netmig_data = [];
 		}
 	};	
 	//NetMig
-	var netmig_data = data[2].filter(d => (fips === d.countyfips))
+	var netmig_data = data[2].filter(d => (parseInt(fips) == parseInt(d.countyfips)) && (parseInt(d.year) == 2010))
 
 	} else {
 	var est_data = [];
@@ -5771,7 +5674,7 @@ var netmig_data = [];
         		   'age' : data[1][i].age, 'totalpopulation' : data[1][i].totalpopulation});
 		}
 
-	var netmig_data = data[2].filter(d => (fips == d.countyfips))
+	var netmig_data = data[2].filter(d => (parseInt(fips) == parseInt(d.countyfips)) && (parseInt(d.year) == 2010))
 };
 }; 
 
@@ -8299,6 +8202,8 @@ var y_net_pos = 0.1;
 var y_net_neg = 0.12;
 
 // Prepping _net migration data
+
+
 for(i = 0; i < nodeslist_net.length;i++){
 		if(nodeslist_net[i].value < 0) {
 			nodeslist_net[i].src = labarr_net.indexOf(nodeslist_net[i].location1)
@@ -8324,6 +8229,8 @@ for(i = 0; i < nodeslist_net.length;i++){
 			nodeslist_net[i].src = labarr_net.indexOf(nodeslist_net[i].location2)
 			nodeslist_net[i].tgt = labarr_net.indexOf(nodeslist_net[i].location1)
 			nodeslist_net[i].val = Math.abs(nodeslist_net[i].value)
+
+			
 			if(nodeslist_net[i].location2.includes("movers")){
 				nodeslist_net[i].lablink = nodeslist_net[i].location2;
 			} else {
@@ -8472,7 +8379,7 @@ for(i = 0; i < nodeslist_in.length;i++){
 			if(nodeslist_in[i].location2.includes("movers")){
 				nodeslist_in[i].lablink = nodeslist_in[i].location2;
 			} else {
-				nodeslist_in[i].lablink = nodeslist_in[i].location1 + " to " + nodeslist_in[i].location2 + ": " + fmt_comma(Math.abs(nodeslist_in[i].value));	
+				nodeslist_in[i].lablink = nodeslist_in[i].location2 + " to " + nodeslist_in[i].location1 + ": " + fmt_comma(Math.abs(nodeslist_in[i].value));	
 			}			
 			nodeslist_in[i].xpos =  0.1;
 			nodeslist_in[i].ypos =  parseFloat(y_in_pos.toFixed(3));
