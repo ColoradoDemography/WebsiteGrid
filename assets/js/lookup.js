@@ -71,7 +71,7 @@ sel.innerHTML = "";
 			sel.appendChild(el);
 		})
 }  
-// popRaceYrdd
+// popYrdd
 
 function popAgeYrdd(ddid,minage,maxage){
 //popAgeYrdd populates age dropdown based on input range

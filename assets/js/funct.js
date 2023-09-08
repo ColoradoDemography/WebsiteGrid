@@ -5301,7 +5301,7 @@ NETMIG.innerHTML = "";
 var NetMigAge =[];
 
 netmig_flat = inData.sort(function(a, b){ return d3.ascending(parseInt(a['age']), parseInt(b['age'])); });
-NetMigAge = netmig_flat.map(item => item.age);
+NetMigAge = netmig_flat.map(item => item.age.replace("_", " to "));
 NetMig1020 = netmig_flat.map(item => parseInt(item.netmigration));
 
 //plotting
