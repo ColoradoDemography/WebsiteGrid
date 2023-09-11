@@ -810,7 +810,7 @@ function muniName(muni){
 	if(muni == 11645){name = 'Campo'};
 	if(muni == 11810){name = 'Cañon City'};
 	if(muni == 12045){name = 'Carbondale'};
-	if(muni == 12390){name = 'Castle Pines'};
+	if(muni == 12387){name = 'Castle Pines'};
 	if(muni == 12415){name = 'Castle Rock'};
 	if(muni == 12635){name = 'Cedaredge'};
 	if(muni == 12815){name = 'Centennial'};
@@ -1163,7 +1163,7 @@ function muniNum(name) {
 	if(name == 'Campo'){num = 11645};
 	if(name == 'Cañon City'){num = 11810};
 	if(name == 'Carbondale'){num = 12045};
-	if(name == 'Castle Pines'){num = 12390};
+	if(name == 'Castle Pines'){num = 12387};
 	if(name == 'Castle Rock'){num = 12415};
 	if(name == 'Cedaredge'){num = 12635};
 	if(name == 'Centennial'){num = 12815};
@@ -1736,7 +1736,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Brush' , 'fips' : '09555'}, {'location' :  'Buena Vista' , 'fips' : '10105'},
 		{'location' :  'Burlington' , 'fips' : '10600'}, {'location' :  'Calhan' , 'fips' : '11260'},
 		{'location' :  'Campo' , 'fips' : '11645'}, {'location' :  'Ca\u00f1on City' , 'fips' : '11810'},
-		{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12390'},
+		{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12387'},
 		{'location' :  'Castle Rock' , 'fips' : '12415'}, {'location' :  'Cedaredge' , 'fips' : '12635'},
 		{'location' :  'Centennial' , 'fips' : '12815'}, {'location' :  'Center' , 'fips' : '12855'},
 		{'location' :  'Central City' , 'fips' : '12910'}, {'location' :  'Cheraw' , 'fips' : '13460'},
