@@ -5631,8 +5631,6 @@ var netmig_data = [];
    for (let [key, value] of netmig_sum) {
 	  netmig_data.push({'type' : 'region', 'fips' : parseInt(fips), 'name' : ctyName, 'age' : key,   'netmigration' : value.netmigration});
 		}
-debugger
-console.log(netmig_data)
 
 } else {
 	if(fips == "000") { //Colorado as a whole
@@ -6365,37 +6363,50 @@ function uniquetwo(arr, keyProps) {
 
 function genNETMIGCOMP(geotype, fips_Arr, yrvalue, chart) {
 //genNETMIGCOMP generates the Net Migration by Age Comparison charts 
-//Uses data from NetMigrationByAgeComparison Must be updated after Census 2020 is available
-
 
 const fmt_date = d3.timeFormat("%B %d, %Y");
+var yr_arr = yrvalue;
 
 //Reading Raw data
 var data_csv = "https://storage.googleapis.com/co-publicdata/Colorado_Age_Migration_By_Decade.csv";
 d3.csv(data_csv).then(function(data){
-	
-debugger;
-console.log(yrvalue)
-console.log(fips_Arr)
 
    if(geotype == "region"){
+	    var reg_cty = []
 		var selgeo = [];
 		var selgeo_fin = [];
 		fips_Arr.forEach(d => {
 			var tmpcty = regionCOL(+d);
 		    selgeo.push(tmpcty[0].fips)
+			tmpcty[0].fips.forEach(c => {
+				reg_cty.push({regval : +d, countyfips : parseInt(c).toString()})
+			})
 		})
-		for(i = 0; i < selgeo[0].length; i++) {
-			selgeo_fin.push(parseInt(selgeo[0][i]).toString())
-		}
-		var datafilt = data.filter(d=> selgeo_fin.includes(d.countyfips) && yrvalue.includes(d.year));
-        for(i = 0; i < datafilt.length; i++){
-		 datafilt[i].regionNum = +fips[0]
-		}
 		
+
+		for(a = 0; a < selgeo.length; a++){
+		for(i = 0; i < selgeo[a].length; i++) {
+			selgeo_fin.push(parseInt(selgeo[a][i]).toString())
+		}
+		}
+
+		
+		var datafilt = data.filter(d=> selgeo_fin.includes(d.countyfips) && yrvalue.includes(d.year));
+
+ var reg_data = joinFUNCT(reg_cty,datafilt,"countyfips","countyfips",function(dat,col){
+		return{
+			regionNum : col.regval,
+			countyfips : col.countyfips,
+			year : dat.year,
+			age: dat.age,
+			population : dat.population,
+			netmigration : dat.netmigration
+		};
+	});
+	
 		var tmp_data = []
 		var columnsToSum = ['population', 'netmigration']
-		var binroll =  d3.rollup(datafilt, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regionNum, d => d.year, d => d.age);
+		var binroll =  d3.rollup(reg_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regionNum, d => d.year, d => d.age);
 		for (let [key, value] of binroll) {
 		for (let [key2, value2] of value) {
 		for (let [key3, value3] of value2) {
@@ -6415,39 +6426,50 @@ console.log(fips_Arr)
 		var fipsNum = []
 		fips_Arr.forEach(d => fipsNum.push(parseInt(d).toString()))
 		var datafilt = data.filter(d => fipsNum.includes(d.countyfips) && yrvalue.includes(d.year));
-	 for(i = 0; i < datafilt.length; i++){
-	   if(datafilt[i].county == "State Total"){
-		   datafilt[i].county = "Colorado";
-	   } else {
-		   datafilt[i].county = datafilt[i].county + " County"
+		 for(i = 0; i < datafilt.length; i++){
+		   if(datafilt[i].county == "State Total"){
+			   datafilt[i].county = "Colorado";
+		   } else {
+			   datafilt[i].county = datafilt[i].county + " County"
+		   }
 	   }
-   }
 	}
 
 
 //Linetypes for line Charts
-var patterns = ["","/","-","+"]
+var patternArr = ["","/","-","+"]
 var lineArr = ['solid','dash','dashdot',"dot"]
-var colorarr = ["blue","orange","green","gray"]
+var colorArr = ["blue","orange","green","gray"]
 
 //Chart Title
- if(yr_arr.length == 1) {
-	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + outName + " " + yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
-	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>" + outName + " " +yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString()+ "<br>per 100 Population";
- } else {
-	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + outName;
-	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>" + outName+"<br>per 100 Population";
- }
+ if((yr_arr.length == 1) && (fips_Arr.length == 1)){
+	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + datafilt[0].county + " " + yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
+	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>" + datafilt[0].county + " " +yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString()+ "<br>per 100 Population";
+ } 
+if((yr_arr.length > 1) && (fips_Arr.length == 1)){
+	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + datafilt[0].county;
+	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>" + datafilt[0].county +"<br>per 100 Population";
+ } 
+if((yr_arr.length == 1) && (fips_Arr.length > 1)){
+	 var NetMigTitle = "Net Migration by Age -- Net Migrants " + " " + yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString();
+	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>" + yr_arr[0] + " to " + (parseInt(yr_arr[0]) + 10).toString()+ "<br>per 100 Population";
+}
+if((yr_arr.length > 1) && (fips_Arr.length > 1)){
+	 var NetMigTitle = "Net Migration by Age -- Net Migrants ";
+	 var NetMigRateTitle = "Net Migration by Age -- Net Migration Rate<br>per 100 Population";
+}
  
 //Chart Objects 
   var NetMig_trace = [];
   var Rate_trace = [];
-  
- // for(a = 0; a < fips_Arr.length; a++){
+
+
+for(a = 0; a < fips_Arr.length; a++){
   for(i = 0; i < yr_arr.length; i++){
-	  var yr_filt = datasort.filter(function(d) {return (d.county == fips[i].county) && (d.year == yr_arr[i].year)});
-	  var yr_title = yr_arr[i].year + " to " + (parseInt(yr_arr[i].year) + 10).toString();
- 
+	  var yr_filt = datafilt.filter(function(d) {return (parseInt(d.countyfips) == parseInt(fips_Arr[a])) && (d.year == yr_arr[i])});
+	  var yr_title = parseInt(yr_arr[i]) + " to " + (parseInt(yr_arr[i]) + 10);
+      var nameVal = yr_filt[0].county
+
 	  var age_arr = []
 	  var netmig = [];
 	  var migrate = [];
@@ -6456,20 +6478,17 @@ var colorarr = ["blue","orange","green","gray"]
 		netmig.push(+yr_filt[j].netmigration);
 		migrate.push(+yr_filt[j].migrationrate);
 	  }
-
+if(chart == "bar"){
 	  var ind_traceN = {
                x: age_arr,
                y : netmig,
 			   name : yr_title,
+			   name: nameVal + "<br>  " + yr_title,
 			   type : 'bar', 
-			   name: yr_arr[i].county + ", " + yr_arr[i].year + " to " + (parseInt(yr_arr[i].year) + 10).toString(),
-			   marker : {
-				pattern: {
-                shape: "-",
-               },
-			   line: {
-				  color : 'black'
-			   }
+			   marker :{
+				color : colorArr[i],
+				pattern: {shape: patternArr[a]},
+ 			    line: { color : 'black', width : 1 }
 				}
 			};
       NetMig_trace.push(ind_traceN)
@@ -6477,14 +6496,48 @@ var colorarr = ["blue","orange","green","gray"]
 	var ind_traceRT = {
                x: age_arr,
                y : migrate,
-			   name : yr_title,
-			   type: 'bar',
-			   line : {
-					width : 3
+			   name: nameVal + "<br>  " + yr_title,
+			   type : 'bar', 
+			   marker :{
+				color : colorArr[i],
+				pattern: {shape: patternArr[a]},
+ 			    line: { color : 'black', width : 1 }
 				}
 			};
       Rate_trace.push(ind_traceRT)
-  }
+  } // Bar
+  
+if(chart == "line"){
+	  var ind_traceN = {
+               x: age_arr,
+               y : netmig,
+			   name : yr_title,
+			   mode: 'lines+markers',
+			   name: nameVal + "<br>  " + yr_title,
+			   line: {
+                 dash: lineArr[a],
+                 width: 3,
+				 color : colorArr[i],
+				}
+			};
+      NetMig_trace.push(ind_traceN)
+
+	var ind_traceRT = {
+               x: age_arr,
+               y : migrate,
+			   name: nameVal + "<br>  " + yr_title,
+			   mode : 'lines+markers',
+			   line: {
+                 dash: lineArr[a],
+                 width: 3,
+				 color : colorArr[i],
+				}
+			};
+      Rate_trace.push(ind_traceRT)
+  } // Bar
+
+} //Yr Loop
+} //geo loop
 
 var NetMig_layout = {
 		title: NetMigTitle,
