@@ -6638,6 +6638,17 @@ Plotly.newPlot(NETMIGRATE, Rate_trace, Rate_layout,config);
 
 //Button Events
 //Net Migration Chart
+
+if(fips_Arr. length == 1){
+	var outName = nameVal;
+} else {
+	if(geotype == "Region") {
+	var outName = "Multiple Regions"
+	} else {
+	var outName = "Multiple Counties"
+	}
+}
+
 var netmign_csv = document.getElementById('netmign_csv');
 var netmign_png = document.getElementById('netmign_png');
 netmign_csv.onclick = function() {
