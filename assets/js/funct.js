@@ -1163,7 +1163,7 @@ function muniNum(name) {
 	if(name == 'Campo'){num = 11645};
 	if(name == 'Cañon City'){num = 11810};
 	if(name == 'Carbondale'){num = 12045};
-	if(name == 'Castle Pines North'){num = 12390};
+	if(name == 'Castle Pines'){num = 12390};
 	if(name == 'Castle Rock'){num = 12415};
 	if(name == 'Cedaredge'){num = 12635};
 	if(name == 'Centennial'){num = 12815};
@@ -1736,7 +1736,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Brush' , 'fips' : '09555'}, {'location' :  'Buena Vista' , 'fips' : '10105'},
 		{'location' :  'Burlington' , 'fips' : '10600'}, {'location' :  'Calhan' , 'fips' : '11260'},
 		{'location' :  'Campo' , 'fips' : '11645'}, {'location' :  'Ca\u00f1on City' , 'fips' : '11810'},
-		{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines North' , 'fips' : '12390'},
+		{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12390'},
 		{'location' :  'Castle Rock' , 'fips' : '12415'}, {'location' :  'Cedaredge' , 'fips' : '12635'},
 		{'location' :  'Centennial' , 'fips' : '12815'}, {'location' :  'Center' , 'fips' : '12855'},
 		{'location' :  'Central City' , 'fips' : '12910'}, {'location' :  'Cheraw' , 'fips' : '13460'},
@@ -6352,6 +6352,17 @@ multi_png.onclick = function() {
 
 //cat Net Migration by Age Dashboard
 
+function uniquetwo(arr, keyProps) {
+//uniqurtwo generates a uniqe array based on two keys, from stack overflow https://stackoverflow.com/questions/38613654/javascript-find-unique-objects-in-array-based-on-multiple-properties
+ const kvArray = arr.map(entry => {
+  const key = keyProps.map(k => entry[k]).join('|');
+  return [key, entry];
+ });
+ const map = new Map(kvArray);
+ return Array.from(map.values());
+}
+// uniquetwo
+
 function genNETMIGCOMP(geotype, fips_Arr, yrvalue, chart) {
 //genNETMIGCOMP generates the Net Migration by Age Comparison charts 
 //Uses data from NetMigrationByAgeComparison Must be updated after Census 2020 is available
@@ -6362,6 +6373,11 @@ const fmt_date = d3.timeFormat("%B %d, %Y");
 //Reading Raw data
 var data_csv = "https://storage.googleapis.com/co-publicdata/Colorado_Age_Migration_By_Decade.csv";
 d3.csv(data_csv).then(function(data){
+	
+debugger;
+console.log(yrvalue)
+console.log(fips_Arr)
+
    if(geotype == "region"){
 		var selgeo = [];
 		var selgeo_fin = [];
@@ -6399,36 +6415,20 @@ d3.csv(data_csv).then(function(data){
 		var fipsNum = []
 		fips_Arr.forEach(d => fipsNum.push(parseInt(d).toString()))
 		var datafilt = data.filter(d => fipsNum.includes(d.countyfips) && yrvalue.includes(d.year));
-	}
-
-   if(geotype == 'county'){
-	   for(i = 0; i < datafilt.length; i++){
+	 for(i = 0; i < datafilt.length; i++){
 	   if(datafilt[i].county == "State Total"){
 		   datafilt[i].county = "Colorado";
 	   } else {
 		   datafilt[i].county = datafilt[i].county + " County"
 	   }
    }
-   }
-   debugger
-   console.log(datafilt)
-   
-   var datasort = datafilt.sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
-                           .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
-	                       .sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+	}
 
-
-	
-  var yr_arr = [...new Set(datasort.map((item) => item.year))]; 
-  
-  	var outNamea = [...new Set(datasort.map((item) => item.county))];
-	var outName = outNamea.toString().trim()
-	
-//Chart patterns for bar chart
-var patternArr = ["", "/", "|", "-"]
 
 //Linetypes for line Charts
+var patterns = ["","/","-","+"]
 var lineArr = ['solid','dash','dashdot',"dot"]
+var colorarr = ["blue","orange","green","gray"]
 
 //Chart Title
  if(yr_arr.length == 1) {
@@ -6443,10 +6443,10 @@ var lineArr = ['solid','dash','dashdot',"dot"]
   var NetMig_trace = [];
   var Rate_trace = [];
   
-  //for(j = 0; j < fips_Arr.length; j++){
+ // for(a = 0; a < fips_Arr.length; a++){
   for(i = 0; i < yr_arr.length; i++){
-	  var yr_filt = datasort.filter(function(d) {return d.year == yr_arr[i];});
-	  var yr_title = yr_arr[i] + " to " + (parseInt(yr_arr[i]) + 10).toString();
+	  var yr_filt = datasort.filter(function(d) {return (d.county == fips[i].county) && (d.year == yr_arr[i].year)});
+	  var yr_title = yr_arr[i].year + " to " + (parseInt(yr_arr[i].year) + 10).toString();
  
 	  var age_arr = []
 	  var netmig = [];
@@ -6462,8 +6462,14 @@ var lineArr = ['solid','dash','dashdot',"dot"]
                y : netmig,
 			   name : yr_title,
 			   type : 'bar', 
-			   line : {
-					width : 3
+			   name: yr_arr[i].county + ", " + yr_arr[i].year + " to " + (parseInt(yr_arr[i].year) + 10).toString(),
+			   marker : {
+				pattern: {
+                shape: "-",
+               },
+			   line: {
+				  color : 'black'
+			   }
 				}
 			};
       NetMig_trace.push(ind_traceN)
