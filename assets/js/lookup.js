@@ -2883,13 +2883,11 @@ function genBaseIndCty(loc) {
 
 		
 d3.json(urlstr).then(function(data){
-
- var cty_data = rebaseind(data)
+ var cty_data = rebaseind(data,"county")
 
 var cty_data2 = cty_data
         .sort(function(a, b){ return d3.ascending(a['row'], b['row']); })
-        .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
-		;
+        .sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
 
 	// Generate Table
 	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Industry Group</th><th>Employment</th><th>Employment % of Basic</th></tr></thead><tbody>";
