@@ -2950,7 +2950,7 @@ d3.json(urlstr).then(function(data){
 	//Adding region number
 var raw_data = [];
 var k = 0
-for(i = 0 ; i < yeararr.length; i++){
+
 for(j = 0; j < fips_arr.length; j++){
   raw_data.push({
    ...fips_arr[j], 
@@ -2958,7 +2958,7 @@ for(j = 0; j < fips_arr.length; j++){
   });
  k++
 }
-}
+
     // sum up values by region, year and sector_id
 	var columnsToSum = ['employment', 'agri_emp', 'mining_emp', 'manuf_emp', 'govt_emp', 'regl_serv_emp',
 	                    'ib_emp', 'tourism_emp', 'direct_basic_emp','commuter_emp', 'other_hhd_emp',
