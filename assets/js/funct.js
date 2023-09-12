@@ -6463,7 +6463,8 @@ if((yr_arr.length > 1) && (fips_Arr.length > 1)){
   var NetMig_trace = [];
   var Rate_trace = [];
 
-
+debugger
+console.log(datafilt)
 for(a = 0; a < fips_Arr.length; a++){
   for(i = 0; i < yr_arr.length; i++){
 	  var yr_filt = datafilt.filter(function(d) {return (parseInt(d.countyfips) == parseInt(fips_Arr[a])) && (d.year == yr_arr[i])});
@@ -6486,8 +6487,8 @@ if(chart == "bar"){
 			   name: nameVal + "<br>  " + yr_title,
 			   type : 'bar', 
 			   marker :{
-				color : colorArr[i],
-				pattern: {shape: patternArr[a]},
+				color : colorArr[a],
+				pattern: {shape: patternArr[i]},
  			    line: { color : 'black', width : 1 }
 				}
 			};
@@ -6499,8 +6500,8 @@ if(chart == "bar"){
 			   name: nameVal + "<br>  " + yr_title,
 			   type : 'bar', 
 			   marker :{
-				color : colorArr[i],
-				pattern: {shape: patternArr[a]},
+				color : colorArr[a],
+				pattern: {shape: patternArr[i]},
  			    line: { color : 'black', width : 1 }
 				}
 			};
@@ -6515,9 +6516,9 @@ if(chart == "line"){
 			   mode: 'lines+markers',
 			   name: nameVal + "<br>  " + yr_title,
 			   line: {
-                 dash: lineArr[a],
+                 dash: lineArr[i],
                  width: 3,
-				 color : colorArr[i],
+				 color : colorArr[a],
 				}
 			};
       NetMig_trace.push(ind_traceN)
@@ -6528,9 +6529,9 @@ if(chart == "line"){
 			   name: nameVal + "<br>  " + yr_title,
 			   mode : 'lines+markers',
 			   line: {
-                 dash: lineArr[a],
+                 dash: lineArr[i],
                  width: 3,
-				 color : colorArr[i],
+				 color : colorArr[a],
 				}
 			};
       Rate_trace.push(ind_traceRT)
