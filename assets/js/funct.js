@@ -2153,6 +2153,15 @@ function genFilename(outname, type, ext, yr) {
 		case 'netmig' :
 			var fileName = outname + " Net Migration by Age." + ext;
 		break;
+		case 'mig' :
+			var fileName = outname + " Long Term Net Migration." + ext;
+		break;
+		case 'birth' :
+			var fileName = outname + " Long Term Births." + ext;
+		break;
+		case 'death' :
+			var fileName = outname + " Long term Deaths." + ext;
+		break;
 		case 'age' :
 			var fileName = outname + " Age Categories." + ext;
 		break;
@@ -2367,7 +2376,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		case 'inflow' : 
 		case 'outflow':
 		{
-		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 600}).then(function (dataURL) {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 900}).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -2378,7 +2387,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 	  default : {
-	   Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 600}).then(function (dataURL) {
+	   Plotly.toImage(graphDiv, { format: 'png', width: 1000, height: 400}).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = fn;
