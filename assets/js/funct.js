@@ -2387,7 +2387,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 	  default : {
-	   Plotly.toImage(graphDiv, { format: 'png', width: 1000, height: 400}).then(function (dataURL) {
+	   Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 400}).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = fn;
@@ -6528,6 +6528,7 @@ if(chart == "line"){
                  dash: lineArr[i],
                  width: 3,
 				 color : colorArr[a],
+				 shape: 'spline'
 				}
 			};
       NetMig_trace.push(ind_traceN)
@@ -6541,6 +6542,7 @@ if(chart == "line"){
                  dash: lineArr[i],
                  width: 3,
 				 color : colorArr[a],
+				 shape: 'spline'
 				}
 			};
       Rate_trace.push(ind_traceRT)
