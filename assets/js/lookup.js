@@ -260,7 +260,7 @@ cty_data = cty_data.concat(cty_tmp)
 	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Age</th><th>Sex</th><th>Race</th><th>Ethnicity</th><th>Count</th></tr></thead>";
 	out_tab = out_tab + "<tbody>"
 	for(i = 0; i < cty_data.length; i++){
-		var el1 = "<td>" + cty_data[i].countyfips + "</td>"
+		var el1 = "<td>" + cty_data[i].county_fips + "</td>"
 		var el2 = "<td>" + cty_data[i].name + "</td>"
 		var el3 = "<td>" + cty_data[i].year + "</td>"
 		var el4 = "<td>" + cty_data[i].age + "</td>"
@@ -466,12 +466,12 @@ d3.json(urlstr).then(function(data){
 cty_data = cty_data.concat(cty_tmp)
 	}) //forEach
 	
-	
+
 	// Generate Table
 	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Age</th><th>Sex</th><th>Race</th><th>Ethnicity</th><th>Count</th></tr></thead>";
 	out_tab = out_tab + "<tbody>"
 	for(i = 0; i < cty_data.length; i++){
-		var el1 = "<td>" + cty_data[i].countyfips + "</td>"
+		var el1 = "<td>" + cty_data[i].county_fips + "</td>"
 		var el2 = "<td>" + cty_data[i].name + "</td>"
 		var el3 = "<td>" + cty_data[i].year + "</td>"
 		var el4 = "<td>" + cty_data[i].age + "</td>"
