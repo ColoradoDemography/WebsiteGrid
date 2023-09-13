@@ -276,7 +276,7 @@ cty_data = cty_data.concat(cty_tmp)
 		}
 		var el6 =  "<td>" + cty_data[i].race + "</td>"
 		var el7 = "<td>" + cty_data[i].ethnicity + "</td>"
-		var el8 = "<td style='text-align: right'>" + fmt_comma(parseInt(cty_data[i].count)) + "</td>"
+		var el8 = "<td style='text-align: right'>" + fixNEG(parseInt(cty_data[i].count),"num") + "</td>"
 
 		var tmp_row = "<tr>" + el1 + el2 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
 		var tmp_str = tmp_row.replaceAll("_","")
@@ -713,7 +713,7 @@ reg_data = reg_data.concat(reg_tmp)
 		}
 		var el6 =  "<td>" + reg_data[i].race + "</td>"
 		var el7 = "<td>" + reg_data[i].ethnicity + "</td>"
-		var el8 = "<td style='text-align: right'>" + fmt_comma(parseInt(reg_data[i].count)) + "</td>"
+		var el8 = "<td style='text-align: right'>" + fixNEG(parseInt(reg_data[i].count),"num") + "</td>"
 
 		var tmp_row = "<tr>" + el1 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
 		var tmp_str = tmp_row.replaceAll("_","")
@@ -938,7 +938,7 @@ reg_data = reg_data.concat(reg_tmp)
 		}
 		var el6 =  "<td>" + reg_data[i].race + "</td>"
 		var el7 = "<td>" + reg_data[i].ethnicity + "</td>"
-		var el8 = "<td style='text-align: right'>" + fmt_comma(parseInt(reg_data[i].count)) + "</td>"
+		var el8 = "<td style='text-align: right'>" + fixNEG(parseInt(reg_data[i].count),"num") + "</td>"
 
 		var tmp_row = "<tr>" + el1 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
 		var tmp_str = tmp_row.replaceAll("_","")
@@ -3068,7 +3068,7 @@ function genJobsForeCty(loc, yeararr) {
 	 var urlstr = "https://gis.dola.colorado.gov/lookups/jobs-forecast?county="+ fips_list + "&year=" + year_list
 
 d3.json(urlstr).then(function(data){
-
+	
 //adjustment for Denver-Boulder MSA
 	if(loc.includes('130')){
 		var MSA_data = data.filter(i => ctyArr.includes(i.countyfips))
