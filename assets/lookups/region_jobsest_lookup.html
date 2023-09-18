@@ -88,8 +88,8 @@
 	<td class="look_cll">
 	</td>
 	<td class="look_cll">
-		<button class='databutton' id='gentable' aria-label='Generate Data Table Button'>Generate Table</button><br><br>
-		<button class='databutton' id='cleartable' aria-label='Reset Table Selections Button'>Reset Selections</button><br>
+		<button class='databutton' id='gentable' aria-label='Generate Table'>Generate Table</button><br><br>
+		<button class='databutton' id='cleartable' aria-label='Reset Table'>Reset Selections</button><br>
 	</td>
 	</tr>
 	</table>
@@ -118,7 +118,8 @@ d3.json(urlstr).then(function(yeardata){
  popDropdown('region','region-dropdown','lookup');
  
  yeardata2 = yeardata.filter(i => i.year >= 1990 && i.datatype == "Estimate");
- 
+   //Check for 2022 Estimate
+
  popYrdd("year-dropdown",yeardata2);  //Change this range to match data
  
 //Button Event

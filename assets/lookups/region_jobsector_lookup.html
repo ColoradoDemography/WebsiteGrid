@@ -84,8 +84,8 @@
     <select class="year-dropdown" id="year-dropdown" style='width:100px;' size="6" multiple role='listbox'></select>
     </td>
 	<td class="lookup_cll">
-		<button class='databutton' id='gentable' aria-label='Generate Data Table Button'>Generate Table</button><br><br>
-		<button class='databutton' id='cleartable' aria-label='Reset Table Selections Button'>Reset Selections</button><br>
+		<button class='databutton' id='gentable' aria-label='Generate Table'>Generate Table</button><br><br>
+		<button class='databutton' id='cleartable' aria-label='Reset Table'>Reset Selections</button><br>
 	</td>
 	<td class="lookup_cll">
 	</td>
@@ -115,6 +115,10 @@
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
  var yeardata2 = yeardata.filter(d => d.year >= 2001 && d.datatype == "Estimate");
+  //Check for 2022 Estimate
+ if(Math.max(yeardata2.year) != 2022) {
+   yeardata2.push({year : 2022, datatype : "Estimate"})
+ }
  popDropdown('region','region-dropdown','lookup')
 
 
