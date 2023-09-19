@@ -132,7 +132,7 @@ return(outAnnot);
 // annot
 
 function muni_county(muni){
-//muni_county provides county designation for municiplaities (based oased on largest population for multi-county munis
+//muni_county provides county designation for municipalities (based on largest population for multi-county munis
 var cty_n;
 if(muni == '00760'){cty_n = '071'};
 if(muni == '00925'){cty_n = '121'};
@@ -2386,7 +2386,7 @@ function exportToPng(cname, type, graphDiv, yr){
 			});
 		} 
 		break;
-	  default : {
+	  default : {  
 	   Plotly.toImage(graphDiv, { format: 'png', width: 800, height: 400}).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
@@ -4775,7 +4775,7 @@ var est_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -4786,7 +4786,7 @@ var est_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -4873,7 +4873,7 @@ var forec_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -4884,7 +4884,7 @@ var forec_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -5030,7 +5030,7 @@ var age_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: ',.0%'
@@ -5042,7 +5042,7 @@ var age_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -5189,7 +5189,7 @@ var axis_spec = {
 	showline: true,
 	mirror: 'ticks',
 	gridcolor: '#e5e4e2',
-	gridwidth: 2,
+	gridwidth: 1,
 	linecolor: 'black',
 	linewidth: 2,
 	tickformat: ',.0%'
@@ -5220,7 +5220,7 @@ var axis_spec = {
 	showline: true,
 	mirror: 'ticks',
 	gridcolor: '#e5e4e2',
-	gridwidth: 2,
+	gridwidth: 1,
 	linecolor: 'black',
 	linewidth: 2,
 	tickformat: ','
@@ -5241,7 +5241,7 @@ var popchng_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#e5e4e2',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -5335,7 +5335,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -5348,7 +5348,7 @@ var NetMig_layout = {
 			zerolinewidth: 4,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -5490,7 +5490,7 @@ var coc_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -5503,7 +5503,7 @@ var coc_layout = {
 			zerolinewidth: 4,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6017,7 +6017,7 @@ var line_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6028,7 +6028,7 @@ var line_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6050,7 +6050,7 @@ var white_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6061,7 +6061,7 @@ var white_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6083,7 +6083,7 @@ var hisp_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6094,7 +6094,7 @@ var hisp_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6116,7 +6116,7 @@ var black_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6127,7 +6127,7 @@ var black_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6149,7 +6149,7 @@ var asian_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6160,7 +6160,7 @@ var asian_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6182,7 +6182,7 @@ var nhpi_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6193,7 +6193,7 @@ var nhpi_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6215,7 +6215,7 @@ var amind_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6226,7 +6226,7 @@ var amind_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6248,7 +6248,7 @@ var multi_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6259,7 +6259,7 @@ var multi_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6563,7 +6563,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6574,7 +6574,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6605,7 +6605,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6616,7 +6616,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat:  '.2f'
@@ -6816,7 +6816,7 @@ var tot_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6827,7 +6827,7 @@ var tot_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6848,7 +6848,7 @@ var rate_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6859,7 +6859,7 @@ var rate_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat:  '.2f'
@@ -7045,7 +7045,7 @@ var birth_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7056,7 +7056,7 @@ var birth_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -7076,7 +7076,7 @@ var death_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7087,7 +7087,7 @@ var death_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -7107,7 +7107,7 @@ var mig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7118,7 +7118,7 @@ var mig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -7391,7 +7391,7 @@ for(i = 0; i < hh_arr.length; i++){
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			type: 'date'
@@ -7403,7 +7403,7 @@ for(i = 0; i < hh_arr.length; i++){
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: y_ticks
@@ -7438,7 +7438,7 @@ ch_layout.push(layout);
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7449,7 +7449,7 @@ ch_layout.push(layout);
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: y_ticks
@@ -7794,7 +7794,7 @@ var config = {responsive: true,
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7805,7 +7805,7 @@ var config = {responsive: true,
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: ','
@@ -7826,7 +7826,7 @@ var layout1 = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7837,7 +7837,7 @@ var layout1 = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: ','
@@ -7859,7 +7859,7 @@ var layout2 = {
 		showline: true,
 		mirror: 'ticks',
 		gridcolor: '#bdbdbd',
-		gridwidth: 2,
+		gridwidth: 1,
 		linecolor: 'black',
 		linewidth: 2
 	  },
@@ -7870,7 +7870,7 @@ var layout2 = {
 		showline: true,
 		mirror: 'ticks',
 		gridcolor: '#bdbdbd',
-		gridwidth: 2,
+		gridwidth: 1,
 		linecolor: 'black',
 		linewidth: 2,
 		tickformat: ','
