@@ -261,7 +261,6 @@ d3.select("#location-dropdown").on("change", function(d,i) {
 			var amindlink = document.getElementById('amind_src');
 			var asianlink = document.getElementById('asian_src');
 			var nhpilink = document.getElementById('nhpi_src');
-			var otherlink = document.getElementById('other_src');
 			var multilink = document.getElementById('multi_src');
 
 	  
@@ -274,22 +273,20 @@ d3.select("#location-dropdown").on("change", function(d,i) {
 		amindlink.setAttribute("href", "../lookups/region_sya_race_lookup.html");
 		asianlink.setAttribute("href", "../lookups/region_sya_race_lookup.html");
 		nhpilink.setAttribute("href", "../lookups/region_sya_race_lookup.html");
-		otherlink.setAttribute("href", "../lookups/region_sya_race_lookup.html");
 		multilink.setAttribute("href", "../lookups/region_sya_race_lookup.html");
 		break;
 	  case "county" :
 		linelink.setAttribute("href", "../lookups/county_sya_race_lookup.html");
-		whitelink.setAttribute("href", "../lookups/countyn_HH_lookup.html");
-		hisplink.setAttribute("href", "../lookups/countyn_HH_lookup.html");
-		blacklink.setAttribute("href", "../lookups/countyn_HH_lookup.html");
-		amindlink.setAttribute("href", "../lookups/countyn_HH_lookup.html");
-		asianlink.setAttribute("href", "../lookups/countyn_HH_lookup.html");
-		nhpilink.setAttribute("href", "../lookups/countyn_HH_lookup.html");
-		otherlink.setAttribute("href", "../lookups/countyn_HH_lookup.html");
-		multilink.setAttribute("href", "../lookups/countyn_HH_lookup.html");
+		whitelink.setAttribute("href", "../lookups/county_sya_race_lookup.html");
+		hisplink.setAttribute("href", "../lookups/county_sya_race_lookup.html");
+		blacklink.setAttribute("href", "../lookups/county_sya_race_lookup.html");
+		amindlink.setAttribute("href", "../lookups/county_sya_race_lookup.html");
+		asianlink.setAttribute("href", "../lookups/county_sya_race_lookup.html");
+		nhpilink.setAttribute("href", "../lookups/county_sya_race_lookup.html");
+		multilink.setAttribute("href", "../lookups/county_sya_race_lookup.html");
 		break;
 	}
-		
+
         var selectedfips = d3.select("#location-dropdown").property('value');
 			selectedfips = selectedfips.padStart(3, '0');
 		var selectedcounty = d3.select('#location-dropdown option:checked').text();
