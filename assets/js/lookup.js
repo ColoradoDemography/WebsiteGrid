@@ -94,7 +94,7 @@ sel.innerHTML = "";
 //cat Race and Ethnicity Lookup application functions
 
 function genRaceTabCty(loc,year_arr, race_arr,eth_arr,age_arr,sex_list,group) {
-//genRaceTabCty creares the county race data call and produces table
+//genRaceTabCty creates the county race data call and produces table
 
 	
 
@@ -112,6 +112,9 @@ function genRaceTabCty(loc,year_arr, race_arr,eth_arr,age_arr,sex_list,group) {
 		var sexl = sex_list.toLowerCase()
 		var urlstr = "https://gis.dola.colorado.gov/lookups/county_sya_race_estimates_current?age="+ age_list + "&county="+ fips_list +"&year="+ year_list +"&race=" + race_list+ "&ethnicity="+eth_list+"&sex="+sexl+"&group=opt0";
 	}
+
+debugger
+console.log(urlstr)
 
 d3.json(urlstr).then(function(data){
 
@@ -307,7 +310,7 @@ $(tabObj).DataTable({
 // genRaceTabCty
 
 function genRaceTabCty10(loc,year_arr, race_arr,eth_arr,age_arr,sex_list,group) {
-//genRaceTabCty10 creares the county race data call and produces table Race 2010 base categories
+//genRaceTabCty10 creates the county race data call and produces table Race 2010 base categories
 
 	//build urlstr
 	var fips_arr = [];
@@ -519,7 +522,7 @@ $(tabObj).DataTable({
 
 
 function genRaceTabReg(region, loc,year_arr, race_arr,eth_arr,age_arr,sex_list,group) {
-//genRaceTabReg creares the regional race data call and produces table
+//genRaceTabReg creates the regional race data call and produces table
 	
 
 	//build urlstr
@@ -745,7 +748,7 @@ $(tabObj).DataTable({
 
 
 function genRaceTabReg10(region, loc,year_arr, race_arr,eth_arr,age_arr,sex_list,group) {
-//genRaceTabReg10 creares the county race data call and produces table 2010 Base
+//genRaceTabReg10 creates the county race data call and produces table 2010 Base
 	
 	//build urlstr
 	var fips_arr = [];
@@ -972,7 +975,7 @@ $(tabObj).DataTable({
 //cat Components of Change Lookup Functions
 
 function genCOCReg(region, loc,year_arr,group,yeardata,outType) {
-//genCOCReg creares the state regional COC table 
+//genCOCReg creates the state regional COC table 
 
 	//build urlstr
    var fips_arr = [];
@@ -1124,7 +1127,7 @@ $(tabObj).DataTable({
 
 
 function genCOCCty(loc,year_arr,group,yeardata,outType) {
-//genCOCCty creares the county COC Table
+//genCOCCty creates the county COC Table
 
 	//build urlstr
    var fips_arr2 = [];
@@ -1258,7 +1261,7 @@ $(tabObj).DataTable({
 //cat Municipal Housing and Population Lookup Functions
 
 function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
-//genPOPMuni creares the Municipal Housing and Population Profile Table
+//genPOPMuni creates the Municipal Housing and Population Profile Table
 	
     //build variable List
 	var varnames = ["totalpopulation","householdpopulation","groupquarterspopulation",
@@ -1433,7 +1436,7 @@ $(tabObj).DataTable({
 
 
 function genPOPCty(loc,var_arr,year_arr,group) {
-//genPOPCty creares the county Population Profile Table
+//genPOPCty creates the county Population Profile Table
 
     //build variable List
 	var varnames = ["totalpopulation", "births", "deaths", "naturalincrease", "netmigration", 
@@ -1590,7 +1593,7 @@ $(tabObj).DataTable({
 
 
 function genPOPReg(region, loc,var_arr,year_arr,group) {
-//genPOPReg creares the county Population Profile Table
+//genPOPReg creates the county Population Profile Table
 
     //build variable List
 	var varnames = ["totalpopulation", "births", "deaths", "naturalincrease", "netmigration", 
@@ -1932,7 +1935,7 @@ $(tabObj).DataTable({
 } 
 // genCtyMuni
 
-//cat Household Profuections support functions
+//cat Household Projection support functions
 
 function hholdid(inval){
 //hholdid  County Household Projections Household Categories for genHHCty
@@ -2380,10 +2383,10 @@ $(tabObj).DataTable({
 } 
 // genHHReg
 
-//cat Jogs Lookup Functions
+//cat Jobs Lookup Functions
 
 function genJOBSECTCty(loc,year_arr) {
-//genJOBSECTCty creares the county Jobs by Sector Table
+//genJOBSECTCty creates the county Jobs by Sector Table
  
 	
 	//build urlstr
@@ -2455,7 +2458,7 @@ $(tabObj).DataTable({
 
 
 function genJOBSECTReg(region, loc,year_arr) {
-//genJOBSECTReg creares the county Jobs by Sector Table
+//genJOBSECTReg creates the county Jobs by Sector Table
  
 	//build urlstr
    var fips_arr = [];
@@ -4228,8 +4231,14 @@ var muni_url = "";
 if(ctyval.length > 0){
   ctyval.forEach(i => {
 	  var ctyNM = countyName(parseInt(i))
+	  if(ctyNM == "Colorado") {
+		  ctyNM = "COLORADO_C"
+	  } else {
 	  ctyNM = ctyNM.replace(" County","")
-	  ctyarr.push(ctyNM + "_C");
+	  ctyNM = ctyNM + "_C";
+	  }
+	  ctyarr.push(ctyNM);
+
   })
 }
 
@@ -4258,10 +4267,15 @@ d3.json(censStr).then(function(data){
 
 	var out_data = [];
 	for(i = 0; i < data.length; i++){
+		if(data[i].area_type == "C"){
+			if(data[i].area_name == "COLORADO") {
+				var modname = "Colorado"
+			} else {
+			   var modname = data[i].area_name + " County";
+			}
+		}
 			out_data.push({
-				"countyfips" : data[i].area_type == "C" ? ctyNum(data[i].area_name + " County") : "",
-				"placefips" : data[i].area_type == "M" ? muniNum(data[i].area_name) : "",
-				"geoname" : data[i].area_type == "C" ? data[i].area_name + " County" : data[i].area_name,
+				"geoname" : data[i].area_type == "C" ? modname : data[i].area_name,
 				"year" : data[i].population_year,
 				"totalpopulation" :  parseInt(data[i].total_population)
 		})
@@ -4272,11 +4286,9 @@ var sort_data = out_data.sort(function(a, b){ return d3.ascending(a['year'], b['
   .sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); });
   
 // Generate Table
-	var out_tab = "<thead><tr><th>County FIPS</th><th>Place FIPS</th><th>Name</th><th>Year</th><th>Total Population</th></tr></thead>><tbody>";
+	var out_tab = "<thead><tr><th>Name</th><th>Year</th><th>Total Population</th></tr></thead>><tbody>";
 	for(i = 0; i < sort_data.length; i++){
-       var tmp_row  = "<tr><td>" + sort_data[i]["countyfips"] + "</td>";
-	       tmp_row = tmp_row + "<td>" + sort_data[i]["placefips"] + "</td>";
-	       tmp_row = tmp_row + "<td>" + sort_data[i]["geoname"] + "</td>";
+       var tmp_row = tmp_row + "<td>" + sort_data[i]["geoname"] + "</td>";
 		   tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
     	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(sort_data[i]["totalpopulation"],"num") + "</td>";
 	       tmp_row = tmp_row + "</tr>";
