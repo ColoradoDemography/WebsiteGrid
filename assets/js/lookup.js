@@ -4211,6 +4211,8 @@ $(tabObj).DataTable({
 function genHistoricalCensus(ctyval,munival,yrval) {
 //genHistoricalCensus outputs table for County and Municipal Population Timeseries
 
+var cty_fmt = d3.format("03d");
+var muni_fmt = d3.format("05d");
 //Creating url String
 
 var yrstr = yrval.join(",")
@@ -4267,14 +4269,20 @@ d3.json(censStr).then(function(data){
 
 	var out_data = [];
 	for(i = 0; i < data.length; i++){
+		var ctyfips = "";
 		if(data[i].area_type == "C"){
 			if(data[i].area_name == "COLORADO") {
 				var modname = "Colorado"
+				var ctyfips = cty_fmt(ctyNum(modname))
 			} else {
-			   var modname = data[i].area_name + " County";
+			  var modname = data[i].area_name + " County";
+			  var ctyfips = cty_fmt(ctyNum(modname))
 			}
 		}
+
 			out_data.push({
+				"countyfips" : data[i].area_type == "C" ? ctyfips : "",
+				"placefips" : data[i].area_type == "M" ? muni_fmt(muniNum(data[i].area_name)) : "",
 				"geoname" : data[i].area_type == "C" ? modname : data[i].area_name,
 				"year" : data[i].population_year,
 				"totalpopulation" :  parseInt(data[i].total_population)
@@ -4286,9 +4294,11 @@ var sort_data = out_data.sort(function(a, b){ return d3.ascending(a['year'], b['
   .sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); });
   
 // Generate Table
-	var out_tab = "<thead><tr><th>Name</th><th>Year</th><th>Total Population</th></tr></thead>><tbody>";
+	var out_tab = "<thead><tr><th>County Fips</th><th>Place Fips</th><th>Name</th><th>Year</th><th>Total Population</th></tr></thead>><tbody>";
 	for(i = 0; i < sort_data.length; i++){
-       var tmp_row = tmp_row + "<td>" + sort_data[i]["geoname"] + "</td>";
+       var tmp_row = "<tr><td>"+ sort_data[i]["countyfips"] + "</td>";
+	   	   tmp_row = tmp_row + "<td>" + sort_data[i]["placefips"] + "</td>";
+	       tmp_row = tmp_row + "<td>" + sort_data[i]["geoname"] + "</td>";
 		   tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
     	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(sort_data[i]["totalpopulation"],"num") + "</td>";
 	       tmp_row = tmp_row + "</tr>";
@@ -4306,9 +4316,8 @@ var tabObj = "#" + tabName;
 $(tabDivOut).append("<table id="+ tabName + " class='DTTable' width='90%'></table>");
 $(tabObj).append(out_tab); //this has to be a html table
 
-
 $(tabObj).DataTable({
-	"ordering": false,
+	"ordering": true,
   dom: 'Bfrtip',
         buttons: [
             'csv'
