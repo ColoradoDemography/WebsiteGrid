@@ -123,7 +123,7 @@ function annot(annTxt) {
       xref : 'paper', 
       x : 0, 
       yref : 'paper', 
-      y : -0.35, 
+      y : -0.25, 
       align : 'left', 
       showarrow : false};
 	  
@@ -2387,7 +2387,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 	  default : {  
-	   Plotly.toImage(graphDiv, { format: 'png', width: 800, height: 400}).then(function (dataURL) {
+	   Plotly.toImage(graphDiv, { format: 'png', width: 1000, height: 500}).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = fn;
