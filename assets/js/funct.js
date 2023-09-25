@@ -2198,7 +2198,7 @@ function genFilename(outname, type, ext, yr) {
 		case  'amind' :
 			var fileName = outname + " Single Year of Age by Race American Indian NH " + yr + "." + ext;
 		break;
-		case 'amind' :
+		case 'multi' :
 			var fileName = outname + " Single Year of Age by Race Two or More Races NH " + yr + "." + ext;
 		break;
 		case 'netmign' :
