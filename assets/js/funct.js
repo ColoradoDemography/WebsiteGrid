@@ -2175,7 +2175,7 @@ function genFilename(outname, type, ext, yr) {
 			var fileName = outname + " Age Pyramid." + ext;
 		break;
 		case 'popchng' :
-			var fileName = canem + " Population Change by Age Group." + ext;
+			var fileName = outname + " Population Change by Age Group." + ext;
 		break;
 		case 'line' :
 			var fileName = outname + " Single Year of Age by Race " + yr + "." + ext;
@@ -2199,7 +2199,7 @@ function genFilename(outname, type, ext, yr) {
 			var fileName = outname + " Single Year of Age by Race American Indian NH " + yr + "." + ext;
 		break;
 		case 'amind' :
-			var fileName = canme + " Single Year of Age by Race Two or More Races NH " + yr + "." + ext;
+			var fileName = outname + " Single Year of Age by Race Two or More Races NH " + yr + "." + ext;
 		break;
 		case 'netmign' :
 		   if(ext == "csv"){
@@ -2387,7 +2387,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		} 
 		break;
 	  default : {  
-	   Plotly.toImage(graphDiv, { format: 'png', width: 800, height: 400}).then(function (dataURL) {
+	   Plotly.toImage(graphDiv, { format: 'png', width: 1000, height: 500}).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = fn;
