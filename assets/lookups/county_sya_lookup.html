@@ -79,10 +79,14 @@
 	</tr>
 	<tr>
 	<td class="look_cll"> 
-	 <select class="county-dropdown" id="county-dropdown" size="6" multiple role='listbox'></select>
+	<select class="county-dropdown" id="county-dropdown" size="6" multiple role='listbox'>
+		<option></option>
+	</select>
 	 </td>
 	<td class="look_cll">
-    <select class="year-dropdown" id="year-dropdown" style='width:100px;' size="6" multiple role='listbox'></select>
+	<select class="year-dropdown" id="year-dropdown" style='width:100px;' size="6" multiple role='listbox'>
+		<option></option>
+	</select>
     </td>
 	<td class="look_cll">
 		<input type="radio" id="age5" name="age_grouping" value="5yr" onclick="genAgeGroup(this.value,'county')" checked />
