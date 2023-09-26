@@ -4767,7 +4767,7 @@ var est_layout = {
 		title: "Population Estimates 1985 to "+ yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -5327,7 +5327,7 @@ var NetMig_layout = {
 		title: "Net Migration by Age -- Net Migrants 2010-2020 " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6009,7 +6009,7 @@ var line_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6042,7 +6042,7 @@ var white_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " White, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6075,7 +6075,7 @@ var hisp_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Hispanic",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6108,7 +6108,7 @@ var black_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Black or African American, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6141,7 +6141,7 @@ var asian_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Asian, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6174,7 +6174,7 @@ var nhpi_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Native Hawaiian or Other Pacific Islander, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6207,7 +6207,7 @@ var amind_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " American Indian and Alaska Native, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6240,7 +6240,7 @@ var multi_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Two or More Races, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6555,7 +6555,7 @@ var NetMig_layout = {
 		title: NetMigTitle,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6597,7 +6597,7 @@ var NetMig_layout = {
 		title: NetMigRateTitle,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6808,7 +6808,7 @@ var tot_layout = {
 		title: titStrTot,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -6840,7 +6840,7 @@ var rate_layout = {
 		title: titStrRate,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7037,7 +7037,7 @@ var birth_layout = {
 		title: "Birth Estimate and Forecast " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7068,7 +7068,7 @@ var death_layout = {
 		title: "Death Estimate and Forecast " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7099,7 +7099,7 @@ var mig_layout = {
 		title: "Net Migration Estimate and Forecast " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7383,7 +7383,7 @@ for(i = 0; i < hh_arr.length; i++){
 		title: tit_str,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7430,7 +7430,7 @@ ch_layout.push(layout);
 		title: tit_str,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7785,7 +7785,7 @@ var config = {responsive: true,
 		title: tit_str0,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			range: [2009, yrvalue+1],
@@ -7817,7 +7817,7 @@ var layout1 = {
 		title: tit_str1,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			range: [2009, yrvalue+1],
@@ -7850,7 +7850,7 @@ var layout2 = {
 	title: tit_str2,
 	  autosize: false,
 	  width: 1000,
-	  height: 400, 
+	  height: 500,
 	  xaxis: {
 		title : 'Year',
 		range: [2009, yrvalue+1],
