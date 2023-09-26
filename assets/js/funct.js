@@ -2320,7 +2320,7 @@ function plotDownload(plotdiv,filename,type){
 			document.body.removeChild(a);
 		});
 	  } else {
-		 Plotly.toImage(plotdiv, { format: 'png', width: 1000, height: 400 }).then(function (dataURL) {
+		 Plotly.toImage(plotdiv, { format: 'png', width: 1000, height: 500 }).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = filename;
@@ -4865,7 +4865,7 @@ var forec_layout = {
 		title: "Population Projections 2010 to 2050, " + ctyName ,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -5022,7 +5022,7 @@ var age_layout = {
 		title: "Population by Age Group " + yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Percentage',
 			showgrid: true,
@@ -5232,7 +5232,7 @@ var popchng_layout = {
 		title: "Projected Population Change by Age Group, " + yrvalue + " to "+ yr10 + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: axis_spec, 
 		  yaxis: { 
             autorange : 'reversed',
@@ -5482,7 +5482,7 @@ var coc_layout = {
 		title: "Births, Deaths and Net Migration 1985 to " + yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
