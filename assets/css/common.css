@@ -3,7 +3,7 @@
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
-  line-height: 1;
+  line-height: 24px;
 }
 
 body{
@@ -13,7 +13,7 @@ body{
     color:#666666;
     line-height:18px;
 	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
-	font-size: 12pt;
+	font-size: 15pt;
 }
 
 hr {
@@ -972,6 +972,7 @@ details main {
    grid-column: 2 / span 6;
    grid-row: 10;   
   }  
+ 
  /* Bottom Panels for app-panels 7/21/2023 */
   .app-panel_4_2_b {  
    grid-column: 2 / span 2;
