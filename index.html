@@ -93,12 +93,12 @@ d3.json(urlstr).then(function(yeardata){
 	
 //Generate Initial Tables
 
-genSYA("000",yrvalue);
-genCOC("000",yrvalue);
-genRaceEth("000",yrvalue);
+genSYA("000",2022);
+genCOC("000",2022);
+genRaceEth("000",2022);
 genACS("000",acsyr);
 genTenure("000",acsyr);
-genHousing("000",yrvalue);
+genHousing("000",2021);
 
 
 d3.select("#county-dropdown").on("change", function(d,i) {
