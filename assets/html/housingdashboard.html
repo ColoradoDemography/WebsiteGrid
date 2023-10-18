@@ -152,7 +152,7 @@ d3.json(urlstr).then(yeardata => {
 
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
-    var yrvalue = d3.max(yrsList);
+    var yrvalue = 2021; //d3.max(yrsList); Hardcode year for now
 
 /* Populate County Dropdown for Initial state */
 genHOUSEDASH('county','000','Colorado',yrvalue);
