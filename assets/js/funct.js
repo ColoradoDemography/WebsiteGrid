@@ -2750,7 +2750,7 @@ var tbl_arr = []
 var race_eth_sum = d3.sum(raceeth_est, d => d.population);
 var raceth = ['Hispanic', 'White alone NH', 'Black or African American alone NH',
 			'Asian alone NH', 'Native Hawaiian or Other Pacific Islander alone NH', 
-			'American Indian and Alaska Native alone NH', 'Two or more  NH'];
+			'American Indian and Alaska Native alone NH', 'Two or more NH'];
 
 for(i = 0; i < raceth.length; i++) {
 	var filt = raceeth_fin.filter(function(d) {return d.race_eth == raceth[i]});
