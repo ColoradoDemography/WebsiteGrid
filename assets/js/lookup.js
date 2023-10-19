@@ -4095,7 +4095,7 @@ d3.json(urlstr).then(function(data){
 		var tab_data = sumSYA(raw_data,agespec,group,"region")
 	break;
 	default:
-		var tab_data = raw_data;
+		var tab_data = sumSYA(raw_data,agespec,group,"region");//raw_data;
 	} //switch
 
 
