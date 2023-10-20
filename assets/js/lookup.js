@@ -1267,7 +1267,7 @@ function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
 	var varnames = ["totalpopulation","householdpopulation","groupquarterspopulation",
 					"totalhousingunits","occupiedhousingunits","vacanthousingunits"]
 	var headingnames = ["Total Population", "Household Population","Group Quarters Population", 
-					"Total Nousing Units", "Occupied Housing Units", "Vacant Housing Units"]
+					"Total Housing Units", "Occupied Housing Units", "Vacant Housing Units"]
     var varlist = [];
 	if(var_arr.length < 13){
 	for(i = 0; i < var_arr.length; i++){
