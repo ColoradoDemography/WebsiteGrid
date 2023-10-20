@@ -143,7 +143,7 @@ d3.json(urlstr).then(function(yeardata){
  var yeardata2 = yeardata.filter(d => d.year >= 1985 && d.datatype == "Estimate");
  popDropdown('county','county-dropdown','lookup')
 
- var yeardata = genYR(1985,2021);
+ var yeardata = genYR(1985,2022);
  popYrdd("year-dropdown",yeardata);  //Change this range to match data
  
 //Button Event
