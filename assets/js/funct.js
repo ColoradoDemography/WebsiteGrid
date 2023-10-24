@@ -2755,8 +2755,6 @@ var raceth = ['Hispanic', 'White alone NH', 'Black or African American alone NH'
 
 for(i = 0; i < raceth.length; i++) {
 	var filt = raceeth_fin.filter(function(d) {return d.race_eth == raceth[i]});
-
-	console.log(filt)
 	//tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population), 'forval' : fmt_comma(filt[1].population)});
    tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population)});
   };
@@ -4658,6 +4656,7 @@ for(i = 1; i < housing_fint.length; i++){
 	               'pct_chg' : pctVal});
 };
 
+debugger;
 //Generate Table
 d3.select('#HousTab').html("");
 $("#HousTab" ).append( "<h2 class='h2_style'>Housing Characteristics, "+yrvalue+"</h2>" );
@@ -6463,8 +6462,7 @@ if((yr_arr.length > 1) && (fips_Arr.length > 1)){
   var NetMig_trace = [];
   var Rate_trace = [];
 
-debugger
-console.log(datafilt)
+
 for(a = 0; a < fips_Arr.length; a++){
   for(i = 0; i < yr_arr.length; i++){
 	  var yr_filt = datafilt.filter(function(d) {return (parseInt(d.countyfips) == parseInt(fips_Arr[a])) && (d.year == yr_arr[i])});
