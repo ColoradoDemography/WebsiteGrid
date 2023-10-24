@@ -2320,7 +2320,7 @@ function plotDownload(plotdiv,filename,type){
 			document.body.removeChild(a);
 		});
 	  } else {
-		 Plotly.toImage(plotdiv, { format: 'png', width: 1000, height: 500 }).then(function (dataURL) {
+		 Plotly.toImage(plotdiv, { format: 'png', width: 1000, height: 400 }).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = filename;
@@ -2751,12 +2751,16 @@ var race_eth_sum = d3.sum(raceeth_est, d => d.population);
 var raceth = ['Hispanic', 'White alone NH', 'Black or African American alone NH',
 			'Asian alone NH', 'Native Hawaiian or Other Pacific Islander alone NH', 
 			'American Indian and Alaska Native alone NH', 'Two or more NH'];
+			
 
 for(i = 0; i < raceth.length; i++) {
 	var filt = raceeth_fin.filter(function(d) {return d.race_eth == raceth[i]});
+
+	console.log(filt)
 	//tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population), 'forval' : fmt_comma(filt[1].population)});
-	tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population)});
+   tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population)});
   };
+
 
 //Generate Table
 d3.select('#RaceTab').html("");
@@ -4575,39 +4579,38 @@ var fips_list = parseInt(fips);
  fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
  } 
 //estimates urls
-urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalhousingunits,householdpopulation,groupquarterspopulation,households,censusbuildingpermits,vacanthousingunits";
+urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalhousingunits,householdpopulation,groupquarterspopulation,censusbuildingpermits,hhldpoptothuratio";
 
 var hous_tmp = [];
 d3.json(urlstr).then(function(data){
 
  data.forEach(function(obj) {
- hous_tmp.push({'year' : obj.year,  'county' : obj.county,
+ hous_tmp.push({'year' : obj.year,  
+     'county' : obj.county,
      'totalhousingunits' : parseInt(obj.totalhousingunits),
      'householdpopulation' : parseInt(obj.householdpopulation),
 	 'groupquarterspopulation' : parseInt(obj.groupquarterspopulation),
-	 'households' : parseInt(obj.households),
 	 'censusbuildingpermits' : parseInt(obj.censusbuildingpermits),
-	 'vacanthousingunits' : parseInt(obj.vacanthousingunits)});
+	 'hhldpoptothuratio' : parseInt(obj.hhldpoptothuratio)
+ });
  });
  
-var columnsToSum = ['totalhousingunits','householdpopulation','groupquarterspopulation', 'households', 'censusbuildingpermits', 'vacanthousingunits']
+var columnsToSum = ['totalhousingunits','householdpopulation','groupquarterspopulation', 'censusbuildingpermits']
  
-      //  Totals
+//  Totals
 var housing_temp = d3.rollup(hous_tmp,
                   v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
 
 var housing_fin = [];
 for (let [key, obj] of housing_temp) {
-	housing_fin.push( {'year' : key,  
+	housing_fin.push({'year' : key,  
                         'totalhousingunits' : obj.totalhousingunits,
                         'householdpopulation' : obj.householdpopulation,
 	                    'groupquarterspopulation' : obj.groupquarterspopulation,
-	                    'households' : obj.households,
-						'household_size' : obj.householdpopulation/obj.households,
 	                    'censusbuildingpermits' : obj.censusbuildingpermits,
-						'vacanthousingunits' : obj.vacanthousingunits});
- };
-
+						'hhldpoptothuratio' : obj.householdpopulation/obj.totalhousingunits
+ });
+};
 
 var housing_T = transpose(housing_fin);
 
@@ -4637,22 +4640,6 @@ for(i = 1; i < housing_fint.length; i++){
 	                                                     cVal = fmt_comma(currentVal);
 														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
 													   };
-	if(housing_fint[i][0][0].name == 'households') { out_name = "Households";
-	                                                     cVal = fmt_comma(currentVal);
-														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
-													   };
-	if(housing_fint[i][0][0].name == 'vacanthousingunits') { out_name = "Vacant Housing Units";
-	                                                     cVal = fmt_comma(currentVal);
-														 if(prevVal != 0) {
-														   pctVal = fmt_pct((currentVal - prevVal)/prevVal);
-														 } else {
-														   pctVal = " ";
-														 };
-													   };												   
-	if(housing_fint[i][0][0].name == 'household_size') { out_name = "Household Size";
-	                                                     cVal = fmt_dec(currentVal);
-														 pctVal = "";
-													   };
 	if(housing_fint[i][0][0].name == 'censusbuildingpermits') { out_name = "Annual Building Permits";
 	                                                     cVal = fmt_comma(currentVal);
 														 if(prevVal != 0) {
@@ -4660,7 +4647,11 @@ for(i = 1; i < housing_fint.length; i++){
 														 } else {
 														   pctVal = " ";
 														 };
-													   };
+	}
+	if(housing_fint[i][0][0].name == 'hhldpoptothuratio') { out_name = "Household to Population Ratio";
+	                                                     cVal = fmt_dec(currentVal);
+														 pctVal = " ";
+														 };
 
 	tbl_arr.push({ 'row_name' : out_name,
 	               'curval' : cVal, 
@@ -4865,7 +4856,7 @@ var forec_layout = {
 		title: "Population Projections 2010 to 2050, " + ctyName ,
 		  autosize: false,
 		  width: 1000,
-		  height: 500,
+		  height: 400,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -5022,7 +5013,7 @@ var age_layout = {
 		title: "Population by Age Group " + yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 500,
+		  height: 400,
 		  xaxis: {
 			title : 'Percentage',
 			showgrid: true,
@@ -5232,7 +5223,7 @@ var popchng_layout = {
 		title: "Projected Population Change by Age Group, " + yrvalue + " to "+ yr10 + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 500,
+		  height: 400,
 		  xaxis: axis_spec, 
 		  yaxis: { 
             autorange : 'reversed',
@@ -5482,7 +5473,7 @@ var coc_layout = {
 		title: "Births, Deaths and Net Migration 1985 to " + yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 500,
+		  height: 400,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
