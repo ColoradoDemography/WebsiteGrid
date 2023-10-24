@@ -90,15 +90,15 @@ d3.json(urlstr).then(function(yeardata){
 	var yrsList = maxest.map(function(d){return d.year;});
     var yrvalue = d3.max(yrsList) 
 	var acsyr = 2021;  //Update this to current ACS Year
-	
+
 //Generate Initial Tables
 
-genSYA("000",2022);
-genCOC("000",2022);
-genRaceEth("000",2022);
+genSYA("000",yrvalue);
+genCOC("000",yrvalue);
+genRaceEth("000",yrvalue);
 genACS("000",acsyr);
 genTenure("000",acsyr);
-genHousing("000",2021);
+genHousing("000",yrvalue);
 
 
 d3.select("#county-dropdown").on("change", function(d,i) {
