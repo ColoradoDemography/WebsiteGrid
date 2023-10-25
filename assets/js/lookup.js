@@ -113,8 +113,6 @@ function genRaceTabCty(loc,year_arr, race_arr,eth_arr,age_arr,sex_list,group) {
 		var urlstr = "https://gis.dola.colorado.gov/lookups/county_sya_race_estimates_current?age="+ age_list + "&county="+ fips_list +"&year="+ year_list +"&race=" + race_list+ "&ethnicity="+eth_list+"&sex="+sexl+"&group=opt0";
 	}
 
-debugger
-console.log(urlstr)
 
 d3.json(urlstr).then(function(data){
 
@@ -279,7 +277,7 @@ cty_data = cty_data.concat(cty_tmp)
 		}
 		var el6 =  "<td>" + cty_data[i].race + "</td>"
 		var el7 = "<td>" + cty_data[i].ethnicity + "</td>"
-		var el8 = "<td style='text-align: right'>" + fixNEG(parseInt(cty_data[i].count),"num") + "</td>"
+		var el8 = "<td style='text-align: right'>" + fixNUMFMT(parseInt(cty_data[i].count),"num") + "</td>"
 
 		var tmp_row = "<tr>" + el1 + el2 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
 		var tmp_str = tmp_row.replaceAll("_","")
@@ -490,7 +488,7 @@ cty_data = cty_data.concat(cty_tmp)
 		}
 		var el6 =  "<td>" + cty_data[i].race + "</td>"
 		var el7 = "<td>" + cty_data[i].ethnicity + "</td>"
-		var el8 = "<td style='text-align: right'>" + fixNEG(parseInt(cty_data[i].count),"num") + "</td>"
+		var el8 = "<td style='text-align: right'>" + fixNUMFMT(parseInt(cty_data[i].count),"num") + "</td>"
 
 		var tmp_row = "<tr>" + el1 + el2 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
 		var tmp_str = tmp_row.replaceAll("_","")
@@ -716,7 +714,7 @@ reg_data = reg_data.concat(reg_tmp)
 		}
 		var el6 =  "<td>" + reg_data[i].race + "</td>"
 		var el7 = "<td>" + reg_data[i].ethnicity + "</td>"
-		var el8 = "<td style='text-align: right'>" + fixNEG(parseInt(reg_data[i].count),"num") + "</td>"
+		var el8 = "<td style='text-align: right'>" + fixNUMFMT(parseInt(reg_data[i].count),"num") + "</td>"
 
 		var tmp_row = "<tr>" + el1 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
 		var tmp_str = tmp_row.replaceAll("_","")
@@ -941,7 +939,7 @@ reg_data = reg_data.concat(reg_tmp)
 		}
 		var el6 =  "<td>" + reg_data[i].race + "</td>"
 		var el7 = "<td>" + reg_data[i].ethnicity + "</td>"
-		var el8 = "<td style='text-align: right'>" + fixNEG(parseInt(reg_data[i].count),"num") + "</td>"
+		var el8 = "<td style='text-align: right'>" + fixNUMFMT(parseInt(reg_data[i].count),"num") + "</td>"
 
 		var tmp_row = "<tr>" + el1 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
 		var tmp_str = tmp_row.replaceAll("_","")
@@ -1073,11 +1071,11 @@ var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['region_num'
 	if(outType == "COC"){
 		var el1 = "<td>" + reg_data2[i].name + "</td>"
 		var el2 = "<td>" + reg_data2[i].year + "</td>"
-		var el3 = "<td style='text-align: right'>" + fixNEG(reg_data2[i].population,"num") + "</td>"
-		var el4 = "<td style='text-align: right'>" + fixNEG(reg_data2[i].change,"num") + "</td>"
-		var el5 = "<td style='text-align: right'>" + fixNEG(reg_data2[i].births,"num") + "</td>"
-		var el6 = "<td style='text-align: right'>" + fixNEG(reg_data2[i].deaths,"num") + "</td>"
-		var el7 = "<td style='text-align: right'>" + fixNEG(reg_data2[i].netmig,"num") + "</td>"
+		var el3 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].population,"num") + "</td>"
+		var el4 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].change,"num") + "</td>"
+		var el5 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].births,"num") + "</td>"
+		var el6 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].deaths,"num") + "</td>"
+		var el7 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].netmig,"num") + "</td>"
 	//Selecting value of data type
 	 if(group == "opt2") {
 			var el8 = "<td></td>"
@@ -1090,7 +1088,7 @@ var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['region_num'
 	} else {
 		var el1 = "<td>" + reg_data2[i].name + "</td>"
 		var el2 = "<td>" + reg_data2[i].year + "</td>"
-		var el3 = "<td style='text-align: right'>" + fixNEG(reg_data2[i].population,"num") + "</td>"
+		var el3 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].population,"num") + "</td>"
 	//Selecting value of data type
 	   	 if(group == "opt2") {
 			var el4 = "<td></td>"
@@ -1204,11 +1202,11 @@ var cty_data2 = cty_data.sort(function(a, b){ return d3.ascending(a['countyfips'
 		var el1 = "<td>" + cty_data2[i].countyfips + "</td>"
 		var el2 = "<td>" + cty_data2[i].name + "</td>"
 		var el3 = "<td>" + cty_data2[i].year + "</td>"
-		var el4 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].population,"num") + "</td>"
-		var el5 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].change,"num") + "</td>"
-		var el6 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].births,"num") + "</td>"
-		var el7 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].deaths,"num") + "</td>"
-		var el8 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].netmig,"num") + "</td>"
+		var el4 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].population,"num") + "</td>"
+		var el5 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].change,"num") + "</td>"
+		var el6 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].births,"num") + "</td>"
+		var el7 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].deaths,"num") + "</td>"
+		var el8 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].netmig,"num") + "</td>"
 	//Selecting value of data type
 	 if(group == "opt2") {
 			var el9 = "<td></td>"
@@ -1222,7 +1220,7 @@ var cty_data2 = cty_data.sort(function(a, b){ return d3.ascending(a['countyfips'
 		var el1 = "<td>" + cty_data2[i].countyfips + "</td>"
 		var el2 = "<td>" + cty_data2[i].name + "</td>"
 		var el3 = "<td>" + cty_data2[i].year + "</td>"
-		var el4 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].population,"num") + "</td>"
+		var el4 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].population,"num") + "</td>"
 	//Selecting value of data type
 	 if(group == "opt2") {
 			var el5 = "<td></td>"
@@ -1267,7 +1265,7 @@ function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
 	var varnames = ["totalpopulation","householdpopulation","groupquarterspopulation",
 					"totalhousingunits","occupiedhousingunits","vacanthousingunits"]
 	var headingnames = ["Total Population", "Household Population","Group Quarters Population", 
-					"Total Housing Units", "Occupied Housing Units", "Vacant Housing Units"]
+					"Total Nousing Units", "Occupied Housing Units", "Vacant Housing Units"]
     var varlist = [];
 	if(var_arr.length < 13){
 	for(i = 0; i < var_arr.length; i++){
@@ -1344,6 +1342,8 @@ if(unincorparr.length > 0) {
 
 
 Promise.all(prom).then(function(data){
+	debugger
+	console.log(data)
 	
 	var out_data = [];
 	for(i = 0; i < data.length; i++){
@@ -1405,7 +1405,7 @@ var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['placefips'
 	}
 	tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
 	for(j = 0; j < varlist.length; j++){  
-            tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(sort_data[i][varlist[j]],"num") + "</td>";
+            tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i][varlist[j]],"num") + "</td>";
 		}
 	   tmp_row = tmp_row + "</tr>";
 	   out_tab = out_tab + tmp_row;
@@ -1441,10 +1441,10 @@ function genPOPCty(loc,var_arr,year_arr,group) {
     //build variable List
 	var varnames = ["totalpopulation", "births", "deaths", "naturalincrease", "netmigration", 
 	                "censusbuildingpermits", "groupquarterspopulation", "householdpopulation",
-					"households", "householdsize", "totalhousingunits", "vacancyrate","vacanthousingunits"]
+					"households", "householdsize", "hhldpoptothuratio","totalhousingunits", "vacancyrate","vacanthousingunits"]
 	var headingnames = ["Population", "Births", "Deaths", "Natural Increase", "Net Migration", 
 	                "Census Building Permits", "Group Quarters Population", "Household Population",
-					"Households", "Household Size", "Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
+					"Households", "Household Size", "Household to Population Ratio","Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
     var varlist = [];
 	if(var_arr.length < 13){
 	for(i = 0; i < var_arr.length; i++){
@@ -1464,7 +1464,7 @@ function genPOPCty(loc,var_arr,year_arr,group) {
 	var year_list = year_arr.join(",")
 	var var_list = varlist.join(",")
 	
-	if(var_arr.length < 13){
+	if(var_arr.length < 14){
 				 var urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + year_list + "&vars=" + var_list
 	} else {
 	     var urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + year_list
@@ -1505,6 +1505,9 @@ var cty_data = [];
 			if(columnsToSum.includes('householdsize') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('households')){
 				tmprow['householdsize'] = tmprow['householdpopulation']/tmprow['households']
 			}
+			if(columnsToSum.includes('hhldpoptothuratio') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('totalhousingunits')){
+				tmprow['hhldpoptothuratio'] = tmprow['householdpopulation']/tmprow['totalhousingunits']
+			}
 			if(columnsToSum.includes('vacancyrate') && columnsToSum.includes('totalhousingunits') && columnsToSum.includes('vacanthousingunits')){
 				tmprow['vacancyrate'] = (tmprow['vacanthousingunits']/tmprow['totalhousingunits']) * 100;
 			}
@@ -1528,6 +1531,9 @@ var cty_data = [];
 			if(columnsToSum.includes('householdsize') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('households')){
 				tmprow['householdsize'] = tmprow['householdpopulation']/tmprow['households']
 			}
+			if(columnsToSum.includes('hhldpoptothuratio') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('totalhousingunits')){
+				tmprow['hhldpoptothuratio'] = tmprow['householdpopulation']/tmprow['totalhousingunits']
+			}
 			if(columnsToSum.includes('vacancyrate') && columnsToSum.includes('totalhousingunits') && columnsToSum.includes('vacanthousingunits')){
 				tmprow['vacancyrate'] = (tmprow['vacanthousingunits']/tmprow['totalhousingunits']) * 100;
 			}
@@ -1535,6 +1541,7 @@ var cty_data = [];
 		}
 		break;
 } //Switch
+
 
 var cty_data2 = cty_data.sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
 
@@ -1553,16 +1560,34 @@ var cty_data2 = cty_data.sort(function(a, b){ return d3.ascending(a['countyfips'
 	out_tab = out_tab + "</thead>"
 	out_tab = out_tab + "<tbody>"
 
+
 	for(i = 0; i < cty_data2.length; i++){
     var tmp_row  = "<tr><td>" + cty_data2[i]["countyfips"] + "</td>";
 	tmp_row = tmp_row + "<td>" + cty_data2[i]["name"] + "</td>";
 	tmp_row = tmp_row + "<td>" + cty_data2[i]["year"] + "</td>";
 	for(j = 0; j < columnsToSum.length; j++){  //Fix this
-		if((columnsToSum[j] == 'vacancyrate') || (columnsToSum[j] == 'householdsize')){
-			tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(cty_data2[i][columnsToSum[j]],"dec") + "</td>";
+		if((columnsToSum[j] == 'vacancyrate') || (columnsToSum[j] == 'householdsize') || (columnsToSum[j] == "hhldpoptothuratio")){
+			if(cty_data2[i]["year"] >= 2020){
+				if((cty_data2[i][columnsToSum[j]] === null) || (cty_data2[i][columnsToSum[j]] === "0")) {
+					var cellval = "";
+				} else {
+					var cellval = fixNUMFMT(cty_data2[i][columnsToSum[j]],"dec")
+			    }
+			} else {
+				var cellval = fixNUMFMT(cty_data2[i][columnsToSum[j]],"dec")
+			}
 		} else {
-            tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(cty_data2[i][columnsToSum[j]],"num") + "</td>";
+			if(cty_data2[i]["year"] >= 2020){
+				if((cty_data2[i][columnsToSum[j]] === null) || (cty_data2[i][columnsToSum[j]] === "0")) {
+					var cellval = "";
+				} else {
+					var cellval = fixNUMFMT(cty_data2[i][columnsToSum[j]],"num")
+			    }
+			} else {
+				var cellval = fixNUMFMT(cty_data2[i][columnsToSum[j]],"num")
+			}
 		}
+		tmp_row = tmp_row + "<td style='text-align: right'>" + cellval + "</td>";
 	}
 	   tmp_row = tmp_row + "</tr>";
 	   out_tab = out_tab + tmp_row;
@@ -1598,10 +1623,11 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
     //build variable List
 	var varnames = ["totalpopulation", "births", "deaths", "naturalincrease", "netmigration", 
 	                "censusbuildingpermits", "groupquarterspopulation", "householdpopulation",
-					"households", "householdsize", "totalhousingunits", "vacancyrate","vacanthousingunits"]
+					"households", "householdsize", "hhldpoptothuratio","totalhousingunits", "vacancyrate","vacanthousingunits"]
 	var headingnames = ["Population", "Births", "Deaths", "Natural Increase", "Net Migration", 
 	                "Census Building Permits", "Group Quarters Population", "Household Population",
-					"Households", "Household Size", "Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
+					"Households", "Household Size", "Household to Population Ratio","Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
+
     var varlist = [];
 	if(var_arr.length < 13){
 	for(i = 0; i < var_arr.length; i++){
@@ -1627,7 +1653,7 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
 	var year_list = year_arr.join(",")
 	var var_list = varlist.join(",")
 	
-	if(var_arr.length < 13){
+	if(var_arr.length < 14){
 				 var urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + year_list + "&vars=" + var_list
 	} else {
 	     var urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + year_list
@@ -1673,6 +1699,9 @@ var reg_data = [];
 			if(columnsToSum.includes('householdsize') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('households')){
 				tmprow['householdsize'] = tmprow['householdpopulation']/tmprow['households']
 			}
+			if(columnsToSum.includes('hhldpoptothuratio') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('totalhousingunits')){
+				tmprow['hhldpoptothuratio'] = tmprow['householdpopulation']/tmprow['totalhousingunits']
+			}
 			if(columnsToSum.includes('vacancyrate') && columnsToSum.includes('totalhousingunits') && columnsToSum.includes('vacanthousingunits')){
 				tmprow['vacancyrate'] = (tmprow['vacanthousingunits']/tmprow['totalhousingunits']) * 100;
 			}
@@ -1697,6 +1726,9 @@ var reg_data = [];
 			if(columnsToSum.includes('householdsize') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('households')){
 				tmprow['householdsize'] = tmprow['householdpopulation']/tmprow['households']
 			}
+			if(columnsToSum.includes('hhldpoptothuratio') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('totalhousingunits')){
+				tmprow['hhldpoptothuratio'] = tmprow['householdpopulation']/tmprow['totalhousingunits']
+			}
 			if(columnsToSum.includes('vacancyrate') && columnsToSum.includes('totalhousingunits') && columnsToSum.includes('vacanthousingunits')){
 				tmprow['vacancyrate'] = (tmprow['vacanthousingunits']/tmprow['totalhousingunits']) * 100;
 			}
@@ -1720,6 +1752,9 @@ var reg_data = [];
 			if(columnsToSum.includes('householdsize') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('households')){
 				tmprow['householdsize'] = tmprow['householdpopulation']/tmprow['households']
 			}
+			if(columnsToSum.includes('hhldpoptothuratio') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('totalhousingunits')){
+				tmprow['hhldpoptothuratio'] = tmprow['householdpopulation']/tmprow['totalhousingunits']
+			}
 			if(columnsToSum.includes('vacancyrate') && columnsToSum.includes('totalhousingunits') && columnsToSum.includes('vacanthousingunits')){
 				tmprow['vacancyrate'] = (tmprow['vacanthousingunits']/tmprow['totalhousingunits']) * 100;
 			}
@@ -1729,6 +1764,7 @@ var reg_data = [];
 } //Switch
 
 var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['regval'], b['regval']); })
+
 
 	// Generate Table
 	var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th>";
@@ -1749,17 +1785,33 @@ var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['regval'], b
     var tmp_row  = "<tr><td>" + reg_data2[i]["regval"] + "</td>";
 	tmp_row = tmp_row + "<td>" + reg_data2[i]["name"] + "</td>";
 	tmp_row = tmp_row + "<td>" + reg_data2[i]["year"] + "</td>";
-	for(j = 0; j < columnsToSum.length; j++){  
-		if((columnsToSum[j] == 'vacancyrate') || (columnsToSum[j] == 'householdsize')){
-			tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(reg_data2[i][columnsToSum[j]],"dec") + "</td>";
+	for(j = 0; j < columnsToSum.length; j++){  //Fix this
+		if((columnsToSum[j] == 'vacancyrate') || (columnsToSum[j] == 'householdsize') || (columnsToSum[j] == "hhldpoptothuratio")){
+			if(reg_data2[i]["year"] >= 2020){
+				if((!isFinite(reg_data2[i][columnsToSum[j]])) || (reg_data2[i][columnsToSum[j]] === 0)) {
+					var cellval = "";
+				} else {
+					var cellval = fixNUMFMT(reg_data2[i][columnsToSum[j]],"dec")
+			    }
+			} else {
+				var cellval = fixNUMFMT(reg_data2[i][columnsToSum[j]],"dec")
+			}
 		} else {
-            tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(reg_data2[i][columnsToSum[j]],"num") + "</td>";
+			if(reg_data2[i]["year"] >= 2020){
+				if((!isFinite(reg_data2[i][columnsToSum[j]])) || (reg_data2[i][columnsToSum[j]] === 0)) {
+					var cellval = "";
+				} else {
+					var cellval = fixNUMFMT(reg_data2[i][columnsToSum[j]],"num")
+			    }
+			} else {
+				var cellval = fixNUMFMT(reg_data2[i][columnsToSum[j]],"num")
+			}
 		}
+		tmp_row = tmp_row + "<td style='text-align: right'>" + cellval + "</td>";
 	}
 	   tmp_row = tmp_row + "</tr>";
 	   out_tab = out_tab + tmp_row;
 	}
-	out_tab = out_tab + "</tbody>"
 
 
 //Output table
@@ -1895,7 +1947,7 @@ if(compressed == "no"){
 	       tmp_row = tmp_row + "<td>" + sort_data[i]["countyname"] + "</td>";
 		   tmp_row = tmp_row + "<td>" + sort_data[i]["municipalityname"] + "</td>";
 		   tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
-    	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(sort_data[i]["totalpopulation"],"num") + "</td>";
+    	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i]["totalpopulation"],"num") + "</td>";
 	       tmp_row = tmp_row + "</tr>";
 	       out_tab = out_tab + tmp_row;
 	}
@@ -1906,7 +1958,7 @@ if(compressed == "no"){
        var tmp_row  = "<tr><td>" + sort_data[i]["countyfips"] + "</td>";
 	       tmp_row = tmp_row + "<td>" + sort_data[i]["countyname"] + "</td>";
 		   tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
-    	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(sort_data[i]["totalpopulation"],"num") + "</td>";
+    	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i]["totalpopulation"],"num") + "</td>";
 	       tmp_row = tmp_row + "</tr>";
 	       out_tab = out_tab + tmp_row;
 	}
@@ -2044,7 +2096,7 @@ function genHHTab(indata,yrdata,level){
 				out_tab = out_tab + "<td>" +  ageid(i[key_arr[j]]) + "</td>";
 				break
 			case "total_households":
-				out_tab = out_tab + "<td style='text-align: right'>" +  fixNEG(Math.round(Number(i[key_arr[j]])),"num") + "</td>";
+				out_tab = out_tab + "<td style='text-align: right'>" +  fixNUMFMT(Math.round(Number(i[key_arr[j]])),"num") + "</td>";
 				break
 			} //Switch
 		} //for j
@@ -2428,7 +2480,7 @@ var cty_data2 = cty_data
 		var el2 = "<td>" + cty_data2[i].population_year + "</td>"
 		var el3 = "<td>"+ cty_data2[i].sector_id + "</td>"
 		var el4 = "<td>"+ cty_data2[i].sector_name + "</td>"
-		var el5 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].total_jobs,"num") + "</td>"
+		var el5 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].total_jobs,"num") + "</td>"
 		
 	   var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + "</tr>";
 	   out_tab = out_tab + tmp_row;
@@ -2550,7 +2602,7 @@ var reg_data2 = raw_data
 		var el2 = "<td>" + reg_data2[i].year + "</td>"
 		var el3 = "<td>"+ reg_data2[i].sector_id + "</td>"
 		var el4 = "<td>"+ reg_data2[i].sector_name + "</td>"
-		var el5 = "<td style='text-align: right'>" + fixNEG(reg_data2[i].total_jobs,"num") + "</td>"
+		var el5 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].total_jobs,"num") + "</td>"
 		
 	   var tmp_row = "<tr>" + el1 + el2 + el3 + el4 + el5 + "</tr>";
 	   out_tab = out_tab + tmp_row;
@@ -2895,8 +2947,8 @@ var cty_data2 = cty_data
 	// Generate Table
 	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Industry Group</th><th>Employment</th><th>Employment % of Basic</th></tr></thead><tbody>";
 	for(i = 0; i < cty_data2.length; i++){
-		var pctval = cty_data2[i].variable == "FINAL ROW" ? fixNEG(cty_data2[i].total_pct,"dec") : fixNEG(cty_data2[i].total_pct,"pct");
-		var sumval = cty_data2[i].variable == "FINAL ROW" ? " " : fixNEG(cty_data2[i].total_employment,"num")
+		var pctval = cty_data2[i].variable == "FINAL ROW" ? fixNUMFMT(cty_data2[i].total_pct,"dec") : fixNUMFMT(cty_data2[i].total_pct,"pct");
+		var sumval = cty_data2[i].variable == "FINAL ROW" ? " " : fixNUMFMT(cty_data2[i].total_employment,"num")
 		var el0 = "<td>" + cty_data2[i].countyfips + "</td>"
 		var el1 = "<td>" + cty_data2[i].countyname + "</td>"
 		var el2 = "<td>" + cty_data2[i].category + "</td>"
@@ -3006,8 +3058,8 @@ var reg_data2 = reg_data_long
 	// Generate Table
 	var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Industry Group</th><th>Employment</th><th>Employment % of Basic</th></tr></thead><tbody>";
 	for(i = 0; i < reg_data2.length; i++){
-		var pctval = reg_data2[i].variable == "FINAL ROW" ? fixNEG(reg_data2[i].total_pct,"dec") : fixNEG(reg_data2[i].total_pct,"pct");
-		var sumval = reg_data2[i].variable == "FINAL ROW" ? " " : fixNEG(reg_data2[i].total_employment,"num")
+		var pctval = reg_data2[i].variable == "FINAL ROW" ? fixNUMFMT(reg_data2[i].total_pct,"dec") : fixNUMFMT(reg_data2[i].total_pct,"pct");
+		var sumval = reg_data2[i].variable == "FINAL ROW" ? " " : fixNUMFMT(reg_data2[i].total_employment,"num")
 		var el0 = "<td>" + reg_data2[i].regval + "</td>"
 		var el1 = "<td>" + reg_data2[i].regname + "</td>"
 		var el2 = "<td>" + reg_data2[i].category + "</td>"
@@ -3132,7 +3184,7 @@ d3.json(urlstr).then(function(data){
 		var el0 = "<td>" + cty_data2[i].countyfips + "</td>"
 		var el1 = "<td>" + cty_data2[i].countyname + "</td>"
 		var el2 = "<td>" + cty_data2[i].population_year + "</td>"
-		var el3 = "<td style='text-align: right'>" + fixNEG(cty_data2[i].totaljobs,"num") + "</td>"
+		var el3 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].totaljobs,"num") + "</td>"
 		var el4 = "<td>" + cty_data2[i].datatype + "</td>"
 	   var tmp_row = "<tr>" + el0 + el1 + el2 + el3 +  el4 + "</tr>";
 	   out_tab = out_tab + tmp_row;
@@ -3229,7 +3281,7 @@ var reg_data2 = reg_data
 		var el0 = "<td>" + reg_data2[i].regval + "</td>"
 		var el1 = "<td>" + reg_data2[i].regname + "</td>"
 		var el2 = "<td>" + reg_data2[i].population_year + "</td>"
-		var el3 = "<td style='text-align: right'>" + fixNEG(reg_data2[i].totaljobs,"num") + "</td>"
+		var el3 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].totaljobs,"num") + "</td>"
 		var el4 = "<td>" + reg_data2[i].datatype + "</td>"
 	   var tmp_row = "<tr>" + el0 + el1 + el2 + el3 +  el4 + "</tr>";
 	   out_tab = out_tab + tmp_row;
@@ -3363,13 +3415,13 @@ for(i = 0; i < cty_data.length; i++){
 			   out_tab = out_tab + "<td>" + cty_data[i][j] + "</td>"
 			   break
 			case 'labor_force' :
-			   out_tab = out_tab + "<td style='text-align: right'>" + fixNEG(Math.round(cty_data[i][j]),"num") + "</td>"
+			   out_tab = out_tab + "<td style='text-align: right'>" + fixNUMFMT(Math.round(cty_data[i][j]),"num") + "</td>"
 			   break;
 			case 'lfp' :
-			   out_tab = out_tab + "<td style='text-align: right'>" + fixNEG(Math.round(cty_data[i][j]),"num") + "</td>"
+			   out_tab = out_tab + "<td style='text-align: right'>" + fixNUMFMT(Math.round(cty_data[i][j]),"num") + "</td>"
 			   break
 			case 'participation_rate' :
-			   out_tab = out_tab + "<td style='text-align: right'>" + fixNEG(cty_data[i][j],"dec") + "</td>"
+			   out_tab = out_tab + "<td style='text-align: right'>" + fixNUMFMT(cty_data[i][j],"dec") + "</td>"
 			   break
 		}
 	}); //tab_header
@@ -3541,14 +3593,14 @@ for(i = 0; i < reg_data.length; i++){
 			   }
 			   break
 			case 'laborforce' :
-			   out_tab = out_tab + "<td style='text-align: right'>" + fixNEG(Math.round(reg_data[i][j]),"num") + "</td>"
+			   out_tab = out_tab + "<td style='text-align: right'>" + fixNUMFMT(Math.round(reg_data[i][j]),"num") + "</td>"
 			   break;
 			case 'lfp' :
 			case 'cni_pop_16pl' :
-			   out_tab = out_tab + "<td style='text-align: right'>" + fixNEG(Math.round(reg_data[i][j]),"num") + "</td>"
+			   out_tab = out_tab + "<td style='text-align: right'>" + fixNUMFMT(Math.round(reg_data[i][j]),"num") + "</td>"
 			   break
 			case 'participation_rate' :
-			   out_tab = out_tab + "<td style='text-align: right'>" + fixNEG(reg_data[i][j],"dec") + "</td>"
+			   out_tab = out_tab + "<td style='text-align: right'>" + fixNUMFMT(reg_data[i][j],"dec") + "</td>"
 			   break
 		}
 	}); //tab_header
@@ -3940,17 +3992,17 @@ d3.json(urlstr).then(function(data){
 			var el1 = "<td>" + tab_data[i].countyname + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
 			var el3 = "<td>" + tab_data[i].age + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el5 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el6 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el5 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el6 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el7 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6 + el7  + "</tr>";
 			break;
 		case "opt1":
 			var el0 = "<td>" + tab_data[i].year + "</td>"
-			var el1 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el2 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el3 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el1 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el2 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el3 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el4 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + "</tr>";
 			break;
@@ -3958,18 +4010,18 @@ d3.json(urlstr).then(function(data){
 			var el0 = "<td>" + tab_data[i].countyfips + "</td>"
 			var el1 = "<td>" + tab_data[i].countyname + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
-			var el3 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el5 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el3 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el5 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el6 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6 + "</tr>";
 			break;
 		case "opt3" :
 			var el0 = "<td>" + tab_data[i].year + "</td>"
 			var el1 = "<td>" + tab_data[i].age + "</td>"
-			var el2 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el3 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el2 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el3 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el5 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + "</tr>";
 			break;
@@ -3979,9 +4031,9 @@ d3.json(urlstr).then(function(data){
 			var el1 = "<td>" + tab_data[i].countyname + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
 			var el3 = "<td>" + tab_data[i].age + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el5 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el6 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el5 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el6 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el7 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6 + el7  + "</tr>";
 	}
@@ -4095,7 +4147,7 @@ d3.json(urlstr).then(function(data){
 		var tab_data = sumSYA(raw_data,agespec,group,"region")
 	break;
 	default:
-		var tab_data = sumSYA(raw_data,agespec,group,"region");//raw_data;
+		var tab_data = raw_data;
 	} //switch
 
 
@@ -4133,17 +4185,17 @@ d3.json(urlstr).then(function(data){
 			var el1 = "<td>" + regionName(tab_data[i].regval) + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
 			var el3 = "<td>" + tab_data[i].age + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el5 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el6 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el5 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el6 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el7 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6 + el7  + "</tr>";
 			break;
 		case "opt1":
 			var el0 = "<td>" + tab_data[i].year + "</td>"
-			var el1 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el2 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el3 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el1 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el2 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el3 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el4 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + "</tr>";
 			break;
@@ -4151,18 +4203,18 @@ d3.json(urlstr).then(function(data){
 			var el0 = "<td>" + tab_data[i].regval + "</td>"
 			var el1 = "<td>" + regionName(tab_data[i].regval) + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
-			var el3 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el5 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el3 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el5 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el6 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6 + "</tr>";
 			break;
 		case "opt3" :
 			var el0 = "<td>" + tab_data[i].year + "</td>"
 			var el1 = "<td>" + tab_data[i].age + "</td>"
-			var el2 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el3 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el2 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el3 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el5 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + "</tr>";
 			break;
@@ -4172,9 +4224,9 @@ d3.json(urlstr).then(function(data){
 			var el1 = "<td>" + regionName(tab_data[i].regval) + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "</td>"
 			var el3 = "<td>" + tab_data[i].age + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].male,"num") + "</td>"
-			var el5 = "<td style='text-align: right'>" + fixNEG(tab_data[i].female,"num") + "</td>"
-			var el6 = "<td style='text-align: right'>" + fixNEG(tab_data[i].total,"num") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].male,"num") + "</td>"
+			var el5 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].female,"num") + "</td>"
+			var el6 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].total,"num") + "</td>"
 			var el7 = "<td>" + filtData[0].datatype + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6 + el7  + "</tr>";
 	}
@@ -4300,7 +4352,7 @@ var sort_data = out_data.sort(function(a, b){ return d3.ascending(a['year'], b['
 	   	   tmp_row = tmp_row + "<td>" + sort_data[i]["placefips"] + "</td>";
 	       tmp_row = tmp_row + "<td>" + sort_data[i]["geoname"] + "</td>";
 		   tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
-    	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNEG(sort_data[i]["totalpopulation"],"num") + "</td>";
+    	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i]["totalpopulation"],"num") + "</td>";
 	       tmp_row = tmp_row + "</tr>";
 	       out_tab = out_tab + tmp_row;
 	}
@@ -4371,9 +4423,9 @@ var tab_data =  raw_data.sort(function(a, b){ return d3.ascending(a['age'], b['a
 			var el1 = "<td>" + tab_data[i].countyname + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "-" + (parseInt(tab_data[i].year) + 10).toString() + "</td>"
 			var el3 = "<td>" + tab_data[i].age + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].population,"num") + "</td>"
-			var el5 = "<td style='text-align: right'>" + fixNEG(tab_data[i].netmigration,"num") + "</td>"
-			var el6 = "<td style='text-align: right'>" + fixNEG(tab_data[i].migrationrate,"dec") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].population,"num") + "</td>"
+			var el5 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].netmigration,"num") + "</td>"
+			var el6 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].migrationrate,"dec") + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6   + "</tr>";
 
 	   out_tab = out_tab + tmp_row;
@@ -4467,9 +4519,9 @@ var tab_data =  tmp_data.sort(function(a, b){ return d3.ascending(a['age'], b['a
 			var el1 = "<td>" + tab_data[i].regionName + "</td>"
 			var el2 = "<td>" + tab_data[i].year + "-" + (parseInt(tab_data[i].year) + 10).toString() + "</td>"
 			var el3 = "<td>" + tab_data[i].age + "</td>"
-			var el4 = "<td style='text-align: right'>" + fixNEG(tab_data[i].population,"num") + "</td>"
-			var el5 = "<td style='text-align: right'>" + fixNEG(tab_data[i].netmigration,"num") + "</td>"
-			var el6 = "<td style='text-align: right'>" + fixNEG(tab_data[i].migrationrate,"dec") + "</td>"
+			var el4 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].population,"num") + "</td>"
+			var el5 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].netmigration,"num") + "</td>"
+			var el6 = "<td style='text-align: right'>" + fixNUMFMT(tab_data[i].migrationrate,"dec") + "</td>"
 			var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6   + "</tr>";
 
 	   out_tab = out_tab + tmp_row;
