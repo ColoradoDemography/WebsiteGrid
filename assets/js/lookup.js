@@ -1359,8 +1359,8 @@ Promise.all(prom).then(function(data){
 				               'placename' : "",
 				               'year' : data[a][i]['year']
 				})
-				for(j = 0; j < varnames.length; j++){
-					out_data[recnum][varnames[j]] = data[a][i][varnames[j]]
+				for(j = 0; j < varlist.length; j++){
+					out_data[recnum][varlist[j]] = data[a][i][varlist[j]]
 				} //
 				recnum = recnum + 1;
 			} //i
@@ -1373,8 +1373,8 @@ Promise.all(prom).then(function(data){
 				               'placename' : data[a][i]['municipalityname'],
 				                'year' : data[a][i]['year']
 				})
-				for(j = 0; j < varnames.length; j++){
-					out_data[recnum][varnames[j]] = data[a][i][varnames[j]]
+				for(j = 0; j < varlist.length; j++){
+					out_data[recnum][varlist[j]] = data[a][i][varlist[j]]
 				} //
 				recnum = recnum + 1;
 			} //i
@@ -1387,8 +1387,8 @@ Promise.all(prom).then(function(data){
 				               'placename' : data[a][i]['municipalityname'],
 				               'year' : data[a][i]['year']
 				})
-				for(j = 0; j < varnames.length; j++){
-					out_data[recnum][varnames[j]] = data[a][i][varnames[j]]
+				for(j = 0; j < varlist.length; j++){
+					out_data[recnum][varlist[j]] = data[a][i][varlist[j]]
 				} //
 				recnum = recnum + 1;
 			} //i
