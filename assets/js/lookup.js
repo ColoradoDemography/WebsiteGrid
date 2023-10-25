@@ -1318,15 +1318,18 @@ if(muni_arr.length > 0){
 }  
 
 var prom = [];
+var datatype = []
 if(ctyarr.length > 0){
 	var ctystr = ctyarr.join(",");
 	cty_url = urlstr + "countyfips="+ ctystr + "&" + "year=" + yrstr + "&stats=" + varlist + "&compressed="+compressed
 	prom.push(d3.json(cty_url))
+	datatype.push({type : 'county'})
 }
 if(muniarr.length > 0){
 	var munistr = muniarr.join(",");
 	muni_url = urlstr + "placefips="+ munistr + "&" + "year=" + yrstr + "&stats=" + varlist + "&compressed="+compressed
 	prom.push(d3.json(muni_url))
+	datatype.push({type : 'muni'})
 }
 
 if(unincorparr.length > 0) {
@@ -1338,18 +1341,61 @@ if(unincorparr.length > 0) {
 	 var unicorpctystr = un_cty.join(",")
      unincorp_url = urlstr + "countyfips="+ unicorpctystr + "&" +"placefips=99990&"+ "year=" + yrstr + "&stats=" + varlist + "&compressed="+compressed
 	 prom.push(d3.json(unincorp_url))
+	 datatype.push({type : 'unincorp'})
 }
 
 
 Promise.all(prom).then(function(data){
-	debugger
-	console.log(data)
-	
+
+	//standardizing data
 	var out_data = [];
-	for(i = 0; i < data.length; i++){
-		out_data = out_data.concat(data[i]);
-	}
-	
+   var recnum = 0;
+	for(a = 0; a < datatype.length;a++){
+		if(datatype[a].type == 'county'){
+			for(i = 0; i < data[a].length; i++){
+				out_data.push({'countyfips': data[a][i]['countyfips'],
+				               'countyname' : countyName(data[a][i]['countyfips']),
+				               'placefips' : "",
+				               'placename' : "",
+				               'year' : data[a][i]['year']
+				})
+				for(j = 0; j < varnames.length; j++){
+					out_data[recnum][varnames[j]] = data[a][i][varnames[j]]
+				} //
+				recnum = recnum + 1;
+			} //i
+		} //county
+		if(datatype[a].type == 'muni'){
+			for(i = 0; i < data[a].length; i++){
+				out_data.push({'countyfips' : parseInt(muni_county(data[a][i]['placefips'])),
+				               'countyname' : countyName(parseInt(muni_county(data[a][i]['placefips']))),
+				               'placefips' : data[a][i]['placefips'],
+				               'placename' : data[a][i]['municipalityname'],
+				                'year' : data[a][i]['year']
+				})
+				for(j = 0; j < varnames.length; j++){
+					out_data[recnum][varnames[j]] = data[a][i][varnames[j]]
+				} //
+				recnum = recnum + 1;
+			} //i
+		} //muni
+		if(datatype[a].type == 'unincorp'){
+			for(i = 0; i < data[a].length; i++){
+				out_data.push({'countyfips' : data[a][i]['countyfips'],
+				               'countyname' : countyName(data[a][i]['countyfips']),
+				               'placefips' : data[a][i]['placefips'],
+				               'placename' : data[a][i]['municipalityname'],
+				               'year' : data[a][i]['year']
+				})
+				for(j = 0; j < varnames.length; j++){
+					out_data[recnum][varnames[j]] = data[a][i][varnames[j]]
+				} //
+				recnum = recnum + 1;
+			} //i
+		} //muni
+	} //datatype
+
+
 //Remove Duplicates
 
     keys = ['countyfips', 'placefips', 'year'],
@@ -1367,15 +1413,15 @@ Promise.all(prom).then(function(data){
 	for(i = 0; i < uniq_data.length; i++){
 		uniq_data[i]['countyname'] = countyName(out_data[i]['countyfips']);
 		for(j = 0; j < key_arr.length; j++){
-		if(!['countyfips', 'placefips', 'year', 'municipalityname','countyname'].includes(key_arr[j])){
+		if(!['countyfips', 'placefips', 'year', 'placename','countyname'].includes(key_arr[j])){
 			uniq_data[i][key_arr[j]] = parseInt(uniq_data[i][key_arr[j]])
 		}
 		}
 	}
 
-var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); })
-  .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
-  .sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
+  .sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); })
+  .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); });
   
 // Generate Table
 	var out_tab = "<thead><tr>";
@@ -1401,11 +1447,19 @@ var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['placefips'
 	}
 	if(sort_data[0]["placefips"] != null){
 		tmp_row = tmp_row + "<td>" + sort_data[i]["placefips"] + "</td>";
-		tmp_row = tmp_row + "<td>" + sort_data[i]["municipalityname"] + "</td>";
+		tmp_row = tmp_row + "<td>" + sort_data[i]["placename"] + "</td>";
 	}
 	tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
 	for(j = 0; j < varlist.length; j++){  
-            tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i][varlist[j]],"num") + "</td>";
+	      if(sort_data[i]["year"]  >= 2020){
+			 if(isNaN(sort_data[i][varlist[j]])){
+				tmp_row = tmp_row + "<td style='text-align: right'> </td>";
+			 } else {
+				tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i][varlist[j]],"num") + "</td>";
+			 }
+		  } else {
+				tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i][varlist[j]],"num") + "</td>";
+		  }
 		}
 	   tmp_row = tmp_row + "</tr>";
 	   out_tab = out_tab + tmp_row;
@@ -1444,7 +1498,7 @@ function genPOPCty(loc,var_arr,year_arr,group) {
 					"households", "householdsize", "hhldpoptothuratio","totalhousingunits", "vacancyrate","vacanthousingunits"]
 	var headingnames = ["Population", "Births", "Deaths", "Natural Increase", "Net Migration", 
 	                "Census Building Permits", "Group Quarters Population", "Household Population",
-					"Households", "Household Size", "Household to Population Ratio","Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
+					"Households", "Household Size", "Household Population to Total Housing Units Ratio","Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
     var varlist = [];
 	if(var_arr.length < 13){
 	for(i = 0; i < var_arr.length; i++){
@@ -1626,7 +1680,7 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
 					"households", "householdsize", "hhldpoptothuratio","totalhousingunits", "vacancyrate","vacanthousingunits"]
 	var headingnames = ["Population", "Births", "Deaths", "Natural Increase", "Net Migration", 
 	                "Census Building Permits", "Group Quarters Population", "Household Population",
-					"Households", "Household Size", "Household to Population Ratio","Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
+					"Households", "Household Size", "Household Population to Total Housing Units Ratio","Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
 
     var varlist = [];
 	if(var_arr.length < 13){
