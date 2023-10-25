@@ -1274,6 +1274,10 @@ function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
 	} else {
 		varlist = varnames;
 	}
+debugger
+console.log(varlist)
+console.log(var_arr)
+
 
 if(groupval == "opt0"){
 	var compressed = "no";
@@ -1346,6 +1350,8 @@ if(unincorparr.length > 0) {
 
 
 Promise.all(prom).then(function(data){
+debugger
+console.log(data)
 
 	//standardizing data
 	var out_data = [];
@@ -1395,6 +1401,8 @@ Promise.all(prom).then(function(data){
 		} //muni
 	} //datatype
 
+debugger
+console.log(out_data)
 
 //Remove Duplicates
 
@@ -1434,7 +1442,7 @@ var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['year'], b[
 	   out_tab = out_tab + "<th>Year</th>"
 	   
 	for(i = 0; i < varlist.length; i++){
-	     out_tab = out_tab + "<th>" + headingnames[i] + "</th>"
+	     out_tab = out_tab + "<th>" + headingnames[parseInt(var_arr[i])] + "</th>"
 	}
 	out_tab = out_tab + "</thead>"
 	out_tab = out_tab + "<tbody>"
