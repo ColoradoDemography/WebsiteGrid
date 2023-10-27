@@ -2416,7 +2416,7 @@ var reg_data = [];
 	var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.household_type_id);
 	for (let [key, value] of binroll) {
 	   reg_data.push({ 
-					'age_group_id' : key,
+					'household_type_id' : key,
 					'total_households' : value.total_households});
 	};
 	break;
