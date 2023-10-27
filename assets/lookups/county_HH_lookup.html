@@ -111,16 +111,13 @@
 	</select>
     </td>
 	<td class="look_cll">
-	<input type="radio" id="nogrp" name="sum_grouping" value="0" checked />
-		<label for="nogrp">No Grouping</label><br>
-		<input type="radio" id="yrgrp" name="sum_grouping" value="1"/>
-		<label for="yrgrp">Year</label><br>
-		<input type="radio" id="reggrp" name="sum_grouping" value="2"/>
-		<label for="reggrp">County</label><br>
-		<input type="radio" id="agegrp" name="sum_grouping" value="3"/>
-		<label for="agegrp">Age Group</label><br>
-		<input type="radio" id="hhgrp" name="sum_grouping" value="4"/>
-		<label for="hhgrp">Household Type</label><br>
+	 <select class="group-dropdown" id="group-dropdown" style='width:250px;' size="5" multiple role='listbox'>
+	    <option value='0'>No Grouping</option>
+	    <option value='1'>Year</option>
+        <option value='2'>Region</option>
+        <option value='3'>Age Group</option>
+		<option value='4'>Household Type</option>
+	</select>
     </td>
 	<td class="look_cll">
 		<button class='databutton' id='gentable' aria-label='Generate Table'>Generate Table</button><br><br>
@@ -197,7 +194,11 @@ d3.json(urlstr).then(function(yeardata){
 			complete = false;
 		}		
 
-	selectedgroup = document.querySelector('input[name="sum_grouping"]:checked').value;
+		var groupdd = document.getElementById('group-dropdown');
+		var selectedgroup = getSelectValues(groupdd);
+		if(selectedgroup.length == 0) {
+		   selectedgroup = "0";
+		}
 
 		if(complete){
 		     genHHCty(selectedfips,selectedyr,selectedage,selectedhhold,selectedgroup,yeardata2);
