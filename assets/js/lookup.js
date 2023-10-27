@@ -2226,7 +2226,10 @@ if(age_arr.length > 0){
 	var age_list = '0';
 }
 //households vars
-if(hh_arr == 0){
+debugger
+console.log(hh_arr)
+
+if(hh_arr.length > 0){
 	var hh_arr2 = [];
 	for(i = 0; i < hh_arr.length; i++){ hh_arr2.push(parseInt(hh_arr[i]))}
 	var hh_list  = hh_arr2.join(",")
@@ -2239,13 +2242,12 @@ var urlstr = "https://gis.dola.colorado.gov/lookups/household?county=" + fips_li
 
 d3.json(urlstr).then(function(data){
 
-var out_data2 = data.sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
-			.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
-			
-
+debugger
+console.log(hh_list)
+console.log(data)
 
 //Output table
-var out_tab = genHHTab(out_data2,yeardata,"county")
+var out_tab = genHHTab(data,yeardata,"county")
 
 //Output table
 	var tabDivOut = document.getElementById("tbl_output");
