@@ -2099,7 +2099,7 @@ function ageid(inval){
 // ageid
 
 function genHHTab(indata,yrdata,level){
-//genHHTab  County Household Projections Household Categories for genHHCty
+//genHHTab  County Household Projections Household Categories for genHHCty and genHHReg
 
 		out_data = [];
 
@@ -2273,7 +2273,6 @@ $(tabObj).DataTable({
 function genHHReg(region,loc,yr_arr,age_arr,hh_arr,group_arr,yeardata) {
 //genHHReg Generates Household Projection table for Regions
 
-
 //determining groups variable
 
 switch (group_arr.length){
@@ -2297,8 +2296,9 @@ switch (group_arr.length){
 	    group_val = "opt0";
 	default:
 	    group_val = "opt0";
-		break;
+	break;
 }
+var group_sel = "opt0";
 
 //year
 var yr_arr2 = [];
@@ -2336,22 +2336,38 @@ if(hh_arr.length > 0){
    var hh_list = '0';
 }
 //Url Str 
-var urlstr = "https://gis.dola.colorado.gov/lookups/household?county=" + fips_list + "&year="+year_list + "&age=" + age_list +"&household="+ hh_list+"&group="+group_val
-
+if(region == "000"){
+	var urlstr = "https://gis.dola.colorado.gov/lookups/household?county=0&year="+year_list + "&age=" + age_list +"&household="+ hh_list+"&group=" + group_sel
+} else {
+	var urlstr = "https://gis.dola.colorado.gov/lookups/household?county=" + fips_list + "&year="+year_list + "&age=" + age_list +"&household="+ hh_list+"&group=" + group_sel
+}
 
 d3.json(urlstr).then(function(data){
-	
+
+if(region == "000"){
 	var raw_data = [];
-var k = 0
-for( i = 0; i < yr_arr.length; i++) {
-for(j = 0; j < fips_arr.length; j++){
-  raw_data.push({
-   ...fips_arr[j], 
-   ...data[k]
-  });
- k++
+	data.forEach(d => {
+		raw_data.push({'regval' : 0,
+				'countyfips' : d.area_code,
+				'year' : d.year,
+				'household_type_id': d.household_type_id,
+				'age_group_id' : d.age_group_id,
+				'total_households' : parseInt(d.total_households)
+		})
+	})
+} else {
+var raw_data = joinFUNCT(fips_arr,data,"countyfips","area_code",function(dat,col){
+		return{
+			'regval' : col.regval,
+			'countyfips' : col.countyfips,
+			'year' : dat.year,
+			'household_type_id': dat.household_type_id,
+			'age_group_id' : dat.age_group_id,
+			'total_households' : parseInt(dat.total_households)
+		};
+	});
 }
-}
+
 
 //Rolling up data based on option level
 var reg_data = [];
@@ -2372,17 +2388,38 @@ var reg_data = [];
 		};
 		};
 		};
-		reg_data = reg_data.filter(d => d.total_households > 0)
 		break;
-	case "opt2" :
-		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.regval);
+	case "opt1" :
+		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.year);
 		for (let [key, value] of binroll) {
 		   reg_data.push({ 
-						'area_code' : key,
+						'year' : key,
 						'total_households' : value.total_households});
 		};
-		reg_data = reg_data.filter(d => d.total_households > 0)
-		break;
+	break;
+	case "opt2" :
+	var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.regval);
+	for (let [key, value] of binroll) {
+	   reg_data.push({ 
+					'area_code' : key,
+					'total_households' : value.total_households});
+	};
+	break;
+	case "opt3" :
+	var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.age_group_id);
+	for (let [key, value] of binroll) {
+	   reg_data.push({ 
+					'age_group_id' : key,
+					'total_households' : value.total_households});
+	};
+	case "opt4" :
+	var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.household_type_id);
+	for (let [key, value] of binroll) {
+	   reg_data.push({ 
+					'age_group_id' : key,
+					'total_households' : value.total_households});
+	};
+	break;
 	case "opt5" :
 		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.regval, d => d.year);
 		for (let [key, value] of binroll) {
@@ -2393,8 +2430,29 @@ var reg_data = [];
 						'total_households' : value1.total_households});
 		};
 		};
-		reg_data = reg_data.filter(d => d.total_households > 0)
 		break;
+	case "opt6" :
+		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.year, d => d.age_group_id);
+		for (let [key, value] of binroll) {
+		for(let [key1,value1] of value) {
+		   reg_data.push({ 
+						'year' : key,
+						'age_group_id' : key1,
+						'total_households' : value1.total_households});
+		};
+		};
+	break;
+	case "opt7" :
+		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.year, d => d.household_type_id);
+		for (let [key, value] of binroll) {
+		for(let [key1,value1] of value) {
+		   reg_data.push({ 
+						'year' : key,
+						'household_type_id' : key1,
+						'total_households' : value1.total_households});
+		};
+		};
+	break;
 	case "opt8" :
 		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.regval, d => d.age_group_id);
 		for (let [key, value] of binroll) {
@@ -2405,8 +2463,7 @@ var reg_data = [];
 						'total_households' : value1.total_households});
 		};
 		};
-		reg_data = reg_data.filter(d => d.total_households > 0)
-		break;
+	break;
 	case "opt9" :
 		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.regval, d => d.household_type_id);
 		for (let [key, value] of binroll) {
@@ -2417,8 +2474,18 @@ var reg_data = [];
 						'total_households' : value1.total_households});
 		};
 		};
-		reg_data = reg_data.filter(d => d.total_households > 0)
 		break;
+	case "opt10" :
+		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.age_group_id, d => d.household_type_id);
+		for (let [key, value] of binroll) {
+		for(let [key1,value1] of value) {
+		   reg_data.push({ 
+		                'age_group_id' : key,
+						'household_type_id' : key1,
+						'total_households' : value1.total_households});
+		};
+		};
+	break;
 	case "opt11" :
 		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.regval, d => d.year, d => d.age_group_id);
 		for (let [key, value] of binroll) {
@@ -2432,7 +2499,6 @@ var reg_data = [];
 		};
 		};
 		};
-		reg_data = reg_data.filter(d => d.total_households > 0)
 		break;
 	case "opt12" :
 		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])),  d => d.regval, d => d.year, d => d.household_type_id);
@@ -2462,11 +2528,9 @@ var reg_data = [];
 		};
 		};
 		};
-		reg_data = reg_data.filter(d => d.total_households > 0)
 		break;
-	default :
-	    reg_data = data;
 	} //switch
+
 var out_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['regval'], b['regval']); })
 			.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
 			
