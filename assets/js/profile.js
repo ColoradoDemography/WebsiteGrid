@@ -7329,8 +7329,8 @@ if(level == "Region") {
 
 var x_labs = ["Less than<br>High School", "High School<br>Graduate (or GED)", "Some College","Associate's Degree", "Bachelor's Degree", "Graduate or<br>Professional Degree"];
 
-var y_estvars = [ "LTHS_E_PCT",  "HSGED_E_PCT",  "SOMECOLL_E_PCT",  "AADEG_E_PCT",  "BADEG_E_PCT",  "GRADDEG_E_PCT"]
-var y_moevars = [ "LTHS_M_PCT",  "HSGED_M_PCT",  "SOMECOLL_M_PCT",  "AADEG_M_PCT",  "BADEG_M_PCT",  "GRADDEG_M_PCT"]
+var y_estvars = ["LTHS_E_PCT",  "HSGED_E_PCT", "SOMECOLL_E_PCT", "AADEG_E_PCT", "BADEG_E_PCT", "GRADDEG_E_PCT"]
+var y_moevars = ["LTHS_M_PCT", "HSGED_M_PCT", "SOMECOLL_M_PCT", "AADEG_M_PCT", "BADEG_M_PCT", "GRADDEG_M_PCT"]
 
 var educ_data = [];
 var ctyNames;

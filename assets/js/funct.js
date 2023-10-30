@@ -4568,7 +4568,7 @@ function genHousing(fips, yrvalue) {
 var fips_list = parseInt(fips); 
    
 //extract year value 
- 
+  
   var prevyear = yrvalue - 1;
   var yr_list = prevyear + "," + yrvalue;
  
@@ -5734,7 +5734,6 @@ var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest)];
 Promise.all(prom).then(function(data){
 	var hisp_est = [];
     var nonhisp_est = [];
-
 	
 if(fips == "000") {	
 	data[0].forEach(obj => {
@@ -5789,7 +5788,6 @@ if(geotype == 'region') {
                 .sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
 				.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
 };
-
 
 //Plotting 
 var config = {responsive: true,
@@ -5855,7 +5853,7 @@ for(i = 0; i < race_flat.length; i++){
 		age_line_arr_ai.push(race_flat[i].age);
 		pop_line_arr_ai.push(race_flat[i].population);
 	};
-	if(race_flat[i].race_eth == "Two or more  NH" && race_flat[i].age < 85){
+	if(race_flat[i].race_eth == "Two or more NH" && race_flat[i].age < 85){
 		age_line_arr_mu.push(race_flat[i].age);
 		pop_line_arr_mu.push(race_flat[i].population);
 	};
