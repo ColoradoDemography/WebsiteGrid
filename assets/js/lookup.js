@@ -1691,7 +1691,7 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
 					"Households", "Household Size", "Household Population to Total Housing Units Ratio","Total Housing Units", "Vacancy Rate","Vacant Housing Units"]
 
     var varlist = [];
-	if(var_arr.length < 13){
+	if(var_arr.length < 14){
 	for(i = 0; i < var_arr.length; i++){
 		varlist.push(varnames[var_arr[i]]);
 	}
@@ -1699,6 +1699,9 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
 		varlist = varnames;
 	}
 	
+debugger
+console.log(varlist)
+
 	//build urlstr
 	var fips_arr = [];
 	var fips_arr2 = [];
@@ -1715,15 +1718,16 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
 	var year_list = year_arr.join(",")
 	var var_list = varlist.join(",")
 	
-	if(var_arr.length < 14){
-				 var urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + year_list + "&vars=" + var_list
-	} else {
+
 	     var urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + year_list
-    }
 		
 d3.json(urlstr).then(function(data){
 
+if(varlist == "hhldpoptothuratio") {
+	    var columnsToSum = ["hhldpoptothuratio", "householdpopulation", "totalhousingunits"]
+} else {
 	 	var columnsToSum = varlist
+}
     // Adding Region Number to data
 
 var raw_data = [];
@@ -1737,6 +1741,7 @@ for(j = 0; j < fips_arr.length; j++){
  k++
 }
 }
+
 
 var reg_data = [];
 
@@ -1826,7 +1831,7 @@ var reg_data = [];
 } //Switch
 
 var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['regval'], b['regval']); })
-
+if(varlist == "hhldpoptothuratio")
 
 	// Generate Table
 	var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th>";
