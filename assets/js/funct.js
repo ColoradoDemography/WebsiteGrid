@@ -111,10 +111,14 @@ function transpose(data) {
 }; 
 // transpose
 
-function annot(annTxt) {
+function annot(annTxt,ypos) {
 //annot  Chart annotation Places chart source citation on Plotly Charts
 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
+	if(ypos === undefined) {
+		ypos = -0.25;
+	}
+	
 	var  outAnnot = {text :  annTxt +'  Print Date: ' +  fmt_date(new Date) , 
                 font: {
     size : 9,
@@ -123,7 +127,7 @@ function annot(annTxt) {
       xref : 'paper', 
       x : 0, 
       yref : 'paper', 
-      y : -0.25, 
+      y : ypos, 
       align : 'left', 
       showarrow : false};
 	  
@@ -4716,7 +4720,7 @@ rows.append('td')
 //cat Demographic Dashboard Functions
 
 function estPlot(inData, app, level, plotdiv, bkmark, yrvalue, fips, ctyName){
-//Component Functions for Demograpic Dashboard : Estimates Plot
+//estPlot Component Functions for Demograpic Dashboard : Estimates Plot
     const fmt_date = d3.timeFormat("%B %d, %Y");
 
 var config = {responsive: true,
@@ -4757,7 +4761,7 @@ var est_layout = {
 		title: "Population Estimates 1985 to "+ yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 500,
+		  height: 400,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -4781,7 +4785,7 @@ var est_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-.30)]
 		};
 		
 Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
@@ -4802,7 +4806,7 @@ est_png.onclick = function() {exportToPng(ctyName, 'estimate', ESTIMATE,0)};
 
 
 function forecastPlot(inData, app, level, plotdiv, bkmark, yrvalue,fips,ctyName) {
-//Component Functions for Demograpic Dashboard: Forecast Plot
+//forecastPlot Component Functions for Demograpic Dashboard: Forecast Plot
     const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
 	const fmt_pct1 = d3.format(".1%");
@@ -4879,7 +4883,7 @@ var forec_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.30)]
 		};
  
 Plotly.newPlot(FORECAST, forec_tr, forec_layout,config);
@@ -4921,7 +4925,7 @@ if(app == 'profile'){
 
 
 function agePlot (inData, app, plotdiv,yrvalue,fips,ctyName) {
-//Component Functions for Demograpic Dashboard: Age Plot 
+//agePlot Component Functions for Demograpic Dashboard: Age Plot 
 	    const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
 	const fmt_pct1 = d3.format(".1%");
@@ -5036,7 +5040,7 @@ var age_layout = {
 			linecolor: 'black',
 			linewidth: 2
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.30)]
 		}; 
 		
 Plotly.newPlot(AGEPLOT, age_data, age_layout,config);
@@ -5069,7 +5073,7 @@ age_png.onclick = function() {exportToPng(ctyName, 'age', AGEPLOT,0)};
 // agePlot
 
 function popchngPlot(inData, app, unit, plotdiv,yrvalue,fips,ctyName) {
-//Component Functions for Demograpic Dashboard: Population Change Plot 
+//popchngPlot Component Functions for Demograpic Dashboard: Population Change Plot 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
 	const fmt_pct1 = d3.format(".1%");
@@ -5236,7 +5240,7 @@ var popchng_layout = {
 			linewidth: 2
 		  },
 		  font : { color : 'black' },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.30)]
 		};
  Plotly.newPlot(POPCHNG, popchng_tr, popchng_layout,config);
 
@@ -5281,7 +5285,7 @@ popchng_png.onclick = function() {exportToPng(ctyName, 'popchng', POPCHNG,0)};
 
 
 function netmigPlot(inData, app, plotdiv, fips, ctyName) {
-//Component Functions for Demograpic Dashboard: Net Migration by Age 
+//netmigPlot Component Functions for Demograpic Dashboard: Net Migration by Age 
 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
@@ -5317,7 +5321,7 @@ var NetMig_layout = {
 		title: "Net Migration by Age -- Net Migrants 2010-2020 " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 500,
+		  height: 400,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -5343,7 +5347,7 @@ var NetMig_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.33)]
 		};
 
 Plotly.newPlot(NETMIG, NetMig_chart, NetMig_layout,config);
@@ -5358,7 +5362,7 @@ mig_png.onclick = function() {exportToPng(ctyName, 'netmig', NETMIG,0)};
 // netmigPlot
 
 function cocPlot(inData,app, level, plotdiv, bkmark,yrvalue,fips,ctyName) {
-//Component Functions for Demograpic Dashboard Components of Change Plot Bith Dashboard and Profile
+//cocPlot Component Functions for Demograpic Dashboard Components of Change Plot Bith Dashboard and Profile
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
 	const fmt_pct1 = d3.format(".1%");
@@ -5498,7 +5502,7 @@ var coc_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.30)]
 		};
  
 Plotly.newPlot(COC, coc_data, coc_layout,config);	
