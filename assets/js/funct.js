@@ -115,9 +115,7 @@ function annot(annTxt,ypos) {
 //annot  Chart annotation Places chart source citation on Plotly Charts
 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
-	if(ypos === undefined) {
 		ypos = -0.25;
-	}
 	
 	var  outAnnot = {text :  annTxt +'  Print Date: ' +  fmt_date(new Date) , 
                 font: {
@@ -4761,7 +4759,7 @@ var est_layout = {
 		title: "Population Estimates 1985 to "+ yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -4785,7 +4783,7 @@ var est_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-.30)]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
 		
 Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
@@ -4859,7 +4857,7 @@ var forec_layout = {
 		title: "Population Projections 2010 to 2050, " + ctyName ,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -4883,7 +4881,7 @@ var forec_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.30)]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
  
 Plotly.newPlot(FORECAST, forec_tr, forec_layout,config);
@@ -5016,7 +5014,7 @@ var age_layout = {
 		title: "Population by Age Group " + yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Percentage',
 			showgrid: true,
@@ -5040,7 +5038,7 @@ var age_layout = {
 			linecolor: 'black',
 			linewidth: 2
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.30)]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		}; 
 		
 Plotly.newPlot(AGEPLOT, age_data, age_layout,config);
@@ -5226,7 +5224,7 @@ var popchng_layout = {
 		title: "Projected Population Change by Age Group, " + yrvalue + " to "+ yr10 + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: axis_spec, 
 		  yaxis: { 
             autorange : 'reversed',
@@ -5240,7 +5238,7 @@ var popchng_layout = {
 			linewidth: 2
 		  },
 		  font : { color : 'black' },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.30)]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
  Plotly.newPlot(POPCHNG, popchng_tr, popchng_layout,config);
 
@@ -5321,7 +5319,7 @@ var NetMig_layout = {
 		title: "Net Migration by Age -- Net Migrants 2010-2020 " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -5347,7 +5345,7 @@ var NetMig_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.33)]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
 
 Plotly.newPlot(NETMIG, NetMig_chart, NetMig_layout,config);
@@ -5476,7 +5474,7 @@ var coc_layout = {
 		title: "Births, Deaths and Net Migration 1985 to " + yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -5502,7 +5500,7 @@ var coc_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.',-0.30)]
+			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
  
 Plotly.newPlot(COC, coc_data, coc_layout,config);	
