@@ -115,7 +115,7 @@ function annot(annTxt,ypos) {
 //annot  Chart annotation Places chart source citation on Plotly Charts
 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
-		ypos = -0.25;
+		ypos = -0.23;
 	
 	var  outAnnot = {text :  annTxt +'  Print Date: ' +  fmt_date(new Date) , 
                 font: {
