@@ -1722,12 +1722,18 @@ console.log(varlist)
 	     var urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + year_list
 		
 d3.json(urlstr).then(function(data){
-
-if(varlist == "hhldpoptothuratio") {
-	    var columnsToSum = ["hhldpoptothuratio", "householdpopulation", "totalhousingunits"]
-} else {
+// Special Calculations for single selections
+switch(varlist) {
+	case "hhldpoptothuratio" :
+		var columnsToSum = ["hhldpoptothuratio", "householdpopulation", "totalhousingunits"]
+    case "householdsize" :
+		var columnsToSum = ["householdsize", "householdpopulation", "households"]
+	case "vacancyrate" :
+		var columnsToSum = ["vacancyrate", "totalhousingunits", "vacanthousingunits"]
+    default:
 	 	var columnsToSum = varlist
 }
+
     // Adding Region Number to data
 
 var raw_data = [];
