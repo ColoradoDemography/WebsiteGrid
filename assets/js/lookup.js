@@ -1699,8 +1699,7 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
 		varlist = varnames;
 	}
 	
-debugger
-console.log(varlist)
+
 
 	//build urlstr
 	var fips_arr = [];
@@ -1723,16 +1722,19 @@ console.log(varlist)
 		
 d3.json(urlstr).then(function(data){
 // Special Calculations for single selections
-switch(varlist) {
-	case "hhldpoptothuratio" :
-		var columnsToSum = ["hhldpoptothuratio", "householdpopulation", "totalhousingunits"]
-    case "householdsize" :
-		var columnsToSum = ["householdsize", "householdpopulation", "households"]
-	case "vacancyrate" :
-		var columnsToSum = ["vacancyrate", "totalhousingunits", "vacanthousingunits"]
-    default:
-	 	var columnsToSum = varlist
+var columnsToSum = varlist;
+if(varlist.includes("hhldpoptothuratio")){
+		columnsToSum.push("householdpopulation","totalhousingunits","hhldpoptothuratio")
 }
+if(varlist.includes("householdsize")){
+		columnsToSum.push("householdpopulation", "households", "householdsize")
+}
+if(varlist.includes("vacancyrate")){
+		columnsToSum.push( "totalhousingunits", "vacanthousingunits","vacancyrate")
+}
+
+var uniqCols = [...new Set(columnsToSum)];
+columnsToSum = uniqCols
 
     // Adding Region Number to data
 
