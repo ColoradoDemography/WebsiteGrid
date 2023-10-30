@@ -1831,7 +1831,6 @@ var reg_data = [];
 } //Switch
 
 var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['regval'], b['regval']); })
-if(varlist == "hhldpoptothuratio")
 
 	// Generate Table
 	var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th>";
