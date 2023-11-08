@@ -1061,14 +1061,15 @@ var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['region_num'
 
 	// Generate Table
 	if(outType == "COC"){
-		var out_tab = "<thead><tr><th>Region Name</th><th>Year</th><th>Population</th><th>Change</th><th>Births</th><th>Deaths</th><th>Net Migration</th><th>Data Type</th></tr></thead>";
+		var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th><th>Population</th><th>Change</th><th>Births</th><th>Deaths</th><th>Net Migration</th><th>Data Type</th></tr></thead>";
 	} else {
-		var out_tab = "<thead><tr><th>Region Name</th><th>Year</th><th>Population</th><th>Data Type</th></tr></thead>";
+		var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th><th>Population</th><th>Data Type</th></tr></thead>";
 	}
 	out_tab = out_tab + "<tbody>"
   
 	for(i = 0; i < reg_data2.length; i++){
 	if(outType == "COC"){
+		var el0 = "<td>" + reg_data2[i].region_num + "</td>"
 		var el1 = "<td>" + reg_data2[i].name + "</td>"
 		var el2 = "<td>" + reg_data2[i].year + "</td>"
 		var el3 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].population,"num") + "</td>"
@@ -1084,8 +1085,9 @@ var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['region_num'
 			var el8 = "<td>" + filtData[0].datatype + "</td>"
 	 }
 
-	   var tmp_row = "<tr>" + el1 + el2 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
+	   var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + el5 + el6 + el7 + el8 + "</tr>";
 	} else {
+		var el0 = "<td>" + reg_data2[i].region_num + "</td>"
 		var el1 = "<td>" + reg_data2[i].name + "</td>"
 		var el2 = "<td>" + reg_data2[i].year + "</td>"
 		var el3 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].population,"num") + "</td>"
@@ -1096,7 +1098,7 @@ var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['region_num'
 			var filtData = yeardata.filter(b => reg_data2[i].year == b.year);
 			var el4 = "<td>" + filtData[0].datatype + "</td>"
 	 }
-	  var tmp_row = "<tr>" + el1 + el2 + el3 + el4 + "</tr>";
+	  var tmp_row = "<tr>" + el0 + el1 + el2 + el3 + el4 + "</tr>";
 	}
    out_tab = out_tab + tmp_row;
 	}
