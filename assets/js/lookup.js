@@ -1277,9 +1277,7 @@ function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
 	} else {
 		varlist = varnames;
 	}
-debugger
-console.log(varlist)
-console.log(var_arr)
+
 
 
 if(groupval == "opt0"){
@@ -1353,8 +1351,7 @@ if(unincorparr.length > 0) {
 
 
 Promise.all(prom).then(function(data){
-debugger
-console.log(data)
+
 
 	//standardizing data
 	var out_data = [];
@@ -1404,8 +1401,6 @@ console.log(data)
 		} //muni
 	} //datatype
 
-debugger
-console.log(out_data)
 
 //Remove Duplicates
 
@@ -1419,21 +1414,25 @@ console.log(out_data)
     );
 	
 
+
+
 //finalizing uniq_data
    var key_arr = Object.keys(uniq_data[0])
 	for(i = 0; i < uniq_data.length; i++){
 		uniq_data[i]['countyname'] = countyName(out_data[i]['countyfips']);
 		for(j = 0; j < key_arr.length; j++){
 		if(!['countyfips', 'placefips', 'year', 'placename','countyname'].includes(key_arr[j])){
-			uniq_data[i][key_arr[j]] = parseInt(uniq_data[i][key_arr[j]])
+			uniq_data[i][key_arr[j]] = +uniq_data[i][key_arr[j]]
 		}
 		}
 	}
+
 
 var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
   .sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); })
   .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); });
   
+
 // Generate Table
 	var out_tab = "<thead><tr>";
 	if(sort_data[0]["countyfips"] != null){
@@ -1463,13 +1462,21 @@ var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['year'], b[
 	tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
 	for(j = 0; j < varlist.length; j++){  
 	      if(sort_data[i]["year"]  >= 2020){
-			 if(isNaN(sort_data[i][varlist[j]])){
+			 if(isNaN(sort_data[i][varlist[j]]) || sort_data[i][varlist[j]] == 0){
 				tmp_row = tmp_row + "<td style='text-align: right'> </td>";
 			 } else {
+			  if(["householdsize","vacancyrate","hhldpoptothuratio"].includes(varlist[j])) {
+				tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i][varlist[j]],"dec") + "</td>";
+			  } else {
 				tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i][varlist[j]],"num") + "</td>";
+			  }
 			 }
 		  } else {
+			  if(["householdsize","vacancyrate","hhldpoptothuratio"].includes(varlist[j])) {
+				tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i][varlist[j]],"dec") + "</td>";
+			  } else {
 				tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i][varlist[j]],"num") + "</td>";
+			  }
 		  }
 		}
 	   tmp_row = tmp_row + "</tr>";
@@ -2362,8 +2369,6 @@ if(age_arr.length > 0){
 	var age_list = '0';
 }
 //households vars
-debugger
-console.log(hh_arr)
 
 if(hh_arr.length > 0){
 	var hh_arr2 = [];
@@ -2378,9 +2383,6 @@ var urlstr = "https://gis.dola.colorado.gov/lookups/household?county=" + fips_li
 
 d3.json(urlstr).then(function(data){
 
-debugger
-console.log(hh_list)
-console.log(data)
 
 //Output table
 var out_tab = genHHTab(data,yeardata,"county")
