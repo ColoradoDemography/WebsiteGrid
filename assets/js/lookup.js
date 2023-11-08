@@ -1264,10 +1264,11 @@ function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
 //genPOPMuni creates the Municipal Housing and Population Profile Table
 	
     //build variable List
-	var varnames = ["totalpopulation","householdpopulation","groupquarterspopulation",
-					"totalhousingunits","occupiedhousingunits","vacanthousingunits"]
-	var headingnames = ["Total Population", "Household Population","Group Quarters Population", 
-					"Total Housing Units", "Occupied Housing Units", "Vacant Housing Units"]
+	var varnames = ["totalpopulation","householdpopulation","groupquarterspopulation","householdsize","totalhousingunits","occupiedhousingunits",
+					"vacanthousingunits","vacancyrate","hhldpoptothuratio"]
+	var headingnames = ["Total Population","Household Population","Group Quarters Population",
+						"Household Size","Total Housing Units","Occupied Housing Units","Vacant Housing Units",
+						"Vacancy Rate","Household Population to Total Housing Units Ratio"]
     var varlist = [];
 	if(var_arr.length < 13){
 	for(i = 0; i < var_arr.length; i++){
