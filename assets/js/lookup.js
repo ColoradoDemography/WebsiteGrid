@@ -1265,7 +1265,7 @@ function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
 	var varnames = ["totalpopulation","householdpopulation","groupquarterspopulation",
 					"totalhousingunits","occupiedhousingunits","vacanthousingunits"]
 	var headingnames = ["Total Population", "Household Population","Group Quarters Population", 
-					"Total Nousing Units", "Occupied Housing Units", "Vacant Housing Units"]
+					"Total Housing Units", "Occupied Housing Units", "Vacant Housing Units"]
     var varlist = [];
 	if(var_arr.length < 13){
 	for(i = 0; i < var_arr.length; i++){
@@ -1680,7 +1680,7 @@ $(tabObj).DataTable({
 
 
 function genPOPReg(region, loc,var_arr,year_arr,group) {
-//genPOPReg creates the county Population Profile Table
+//genPOPReg creates the regional Population Profile Table
 
     //build variable List
 	var varnames = ["totalpopulation", "births", "deaths", "naturalincrease", "netmigration", 
@@ -1701,6 +1701,7 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
 	
 
 
+
 	//build urlstr
 	var fips_arr = [];
 	var fips_arr2 = [];
@@ -1712,11 +1713,14 @@ function genPOPReg(region, loc,var_arr,year_arr,group) {
 		fips_arr2.push(countyfips);
      };
    };
- 
+ if(loc.length > 1){
+	 var tmp_list = [...new Set(fips_arr2)]
+	 var fips_list = tmp_list.join(",")
+ } else {
 	var fips_list  = fips_arr2.join(",")
+ }
 	var year_list = year_arr.join(",")
 	var var_list = varlist.join(",")
-	
 
 	     var urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + year_list
 		
@@ -1736,8 +1740,8 @@ if(varlist.includes("vacancyrate")){
 var uniqCols = [...new Set(columnsToSum)];
 columnsToSum = uniqCols
 
-    // Adding Region Number to data
-
+//Processing data based on the number of regions selected
+if(region.length == 1){
 var raw_data = [];
 var k = 0
 for(i = 0; i < year_arr.length; i++) {
@@ -1749,7 +1753,6 @@ for(j = 0; j < fips_arr.length; j++){
  k++
 }
 }
-
 
 var reg_data = [];
 
@@ -1837,6 +1840,124 @@ var reg_data = [];
 		}
 		break;
 } //Switch
+} else {  //More than one region
+var reg_data = [];
+
+
+for(a = 0; a < region.length; a++){
+	var raw_data = [];
+	var reg_filt = fips_arr.filter(d => d.regval == +region[a]);
+	var sel_cty = []
+	reg_filt.forEach(i => {
+		sel_cty.push(i.countyfips)
+	})
+ 	var data_filt = data.filter(d => sel_cty.includes(d.countyfips))
+
+	//Assigning region value to raw_data
+	var k = 0;
+	for(y = 0; y < year_arr.length; y++) {
+	for(z = 0; z < reg_filt.length; z++){
+	  raw_data.push({
+	   ...reg_filt[z], 
+	   ...data_filt[k]
+	  });
+	 k++
+	}
+	}
+
+var tmp_data = [];
+
+	   //Rollups based on group value and selected variables
+	switch(group) {
+		case "opt0":
+		var tmp = [];
+		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regval, d => d.year);
+		for (let [key, value] of binroll) {
+		for (let[key2, value2] of value) {
+         tmp.push({key, key2, value2});
+		};
+		};
+		for(i = 0; i < tmp.length; i ++){ 
+			var tmprow = [];
+			tmprow['regval'] = tmp[i].key;
+			tmprow['name'] = regionName(tmp[i].key);
+			tmprow['year'] = tmp[i].key2;
+			for(j = 0; j < columnsToSum.length; j++){
+			  tmprow[columnsToSum[j]] = tmp[i].value2[columnsToSum[j]];
+			}
+			if(columnsToSum.includes('householdsize') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('households')){
+				tmprow['householdsize'] = tmprow['householdpopulation']/tmprow['households']
+			}
+			if(columnsToSum.includes('hhldpoptothuratio') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('totalhousingunits')){
+				tmprow['hhldpoptothuratio'] = tmprow['householdpopulation']/tmprow['totalhousingunits']
+			}
+			if(columnsToSum.includes('vacancyrate') && columnsToSum.includes('totalhousingunits') && columnsToSum.includes('vacanthousingunits')){
+				tmprow['vacancyrate'] = (tmprow['vacanthousingunits']/tmprow['totalhousingunits']) * 100;
+			}
+			tmp_data.push(tmprow)
+		}
+		break;
+		case "opt1":
+		var tmp = [];
+		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
+		for (let [key, value] of binroll) {
+		   tmp.push({key, value});
+		};
+
+		for(i = 0; i < tmp.length; i ++){ 
+			var tmprow = [];
+			tmprow['regval'] = "";
+			tmprow['name'] = "";
+			tmprow['year'] = tmp[i].key;
+			for(j = 0; j < columnsToSum.length; j++){
+			  tmprow[columnsToSum[j]] = tmp[i].value[columnsToSum[j]];
+			}
+			if(columnsToSum.includes('householdsize') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('households')){
+				tmprow['householdsize'] = tmprow['householdpopulation']/tmprow['households']
+			}
+			if(columnsToSum.includes('hhldpoptothuratio') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('totalhousingunits')){
+				tmprow['hhldpoptothuratio'] = tmprow['householdpopulation']/tmprow['totalhousingunits']
+			}
+			if(columnsToSum.includes('vacancyrate') && columnsToSum.includes('totalhousingunits') && columnsToSum.includes('vacanthousingunits')){
+				tmprow['vacancyrate'] = (tmprow['vacanthousingunits']/tmprow['totalhousingunits']) * 100;
+			}
+			tmp_data.push(tmprow)
+		}
+		break;
+		case "opt2":
+		var tmp = [];
+		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regval);
+		for (let [key, value] of binroll) {
+		   tmp.push({key, value});
+		};
+		for(i = 0; i < tmp.length; i ++){
+			var tmprow = [];
+			tmprow['regval'] = tmp[i].key;
+			tmprow['name'] = regionName(tmp[i].key);
+			tmprow['year'] = "";
+			for(j = 0; j < columnsToSum.length; j++){
+			  tmprow[columnsToSum[j]] = tmp[i].value[columnsToSum[j]];
+			}
+			if(columnsToSum.includes('householdsize') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('households')){
+				tmprow['householdsize'] = tmprow['householdpopulation']/tmprow['households']
+			}
+			if(columnsToSum.includes('hhldpoptothuratio') && columnsToSum.includes('householdpopulation') && columnsToSum.includes('totalhousingunits')){
+				tmprow['hhldpoptothuratio'] = tmprow['householdpopulation']/tmprow['totalhousingunits']
+			}
+			if(columnsToSum.includes('vacancyrate') && columnsToSum.includes('totalhousingunits') && columnsToSum.includes('vacanthousingunits')){
+				tmprow['vacancyrate'] = (tmprow['vacanthousingunits']/tmprow['totalhousingunits']) * 100;
+			}
+			tmp_data.push(tmprow)
+		}
+		break;
+} //Switch
+
+reg_data.push(tmp_data)
+} //region i
+//Flatten
+var reg_dat = [].concat(...reg_data);
+var reg_data = reg_dat;
+} //Multiple regions
 
 var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['regval'], b['regval']); })
 
