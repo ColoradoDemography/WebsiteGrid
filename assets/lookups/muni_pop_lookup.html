@@ -444,9 +444,9 @@
 	</select>
     </td>
 	<td class="look_cll">
-		<input type="radio" id="nogrp" name="sum_grouping" value="opt0" checked/>
+		<input type="radio" id="nogrp" name="sum_grouping" value="no" checked>
 		<label for="nogrp">Show Components</label><br>
-		<input type="radio" id="sumgrp" name="sum_grouping" value="opt1" checked/>
+		<input type="radio" id="sumgrp" name="sum_grouping" value="yes">
 		<label for="sumgrp">Sum Results</label><br>
     </td>
 	<td class="look_cll">
@@ -519,7 +519,6 @@ d3.json(urlstr).then(function(yeardata){
 		  selectedvars = [0,1,2,3,4,5,6,7,8]
 		}
 		
-
 		 selectedgroup = document.querySelector('input[name="sum_grouping"]:checked').value;
 
 		if(complete){
