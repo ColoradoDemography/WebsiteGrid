@@ -1260,7 +1260,7 @@ $(tabObj).DataTable({
 
 //cat Municipal Housing and Population Lookup Functions
 
-function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
+function genPOPMuni(loc,muni_arr,year_arr,var_arr,group_val) {
 //genPOPMuni creates the Municipal Housing and Population Profile Table
 	
     //build variable List
@@ -1270,21 +1270,28 @@ function genPOPMuni(loc,muni_arr,year_arr,var_arr,groupval) {
 						"Household Size","Total Housing Units","Occupied Housing Units","Vacant Housing Units",
 						"Vacancy Rate","Household Population to Total Housing Units Ratio"]
     var varlist = [];
-	if(var_arr.length < 13){
+	if(var_arr.length < 9){
 	for(i = 0; i < var_arr.length; i++){
 		varlist.push(varnames[var_arr[i]]);
 	}
+		if(varlist.includes("hhldpoptothuratio")){
+			varlist.push("householdpopulation","totalhousingunits","hhldpoptothuratio")
+		}
+		if(varlist.includes("householdsize")){
+			varlist.push("householdpopulation", "occupiedhousingunits", "householdsize")
+		}
+		if(varlist.includes("vacancyrate")){
+			varlist.push( "totalhousingunits", "vacanthousingunits","vacancyrate")
+		}
+
+		var uniqCols = [...new Set(varlist)];
+		varlist = uniqCols
 	} else {
 		varlist = varnames;
 	}
 
 
 
-if(groupval == "opt0"){
-	var compressed = "no";
-} else {
-	var compressed = "yes"
-}
 
 var yeararr = [];
   year_arr.forEach(i => {
@@ -1326,13 +1333,13 @@ var prom = [];
 var datatype = []
 if(ctyarr.length > 0){
 	var ctystr = ctyarr.join(",");
-	cty_url = urlstr + "countyfips="+ ctystr + "&" + "year=" + yrstr + "&stats=" + varlist + "&compressed="+compressed
+	cty_url = urlstr + "countyfips="+ ctystr + "&" + "year=" + yrstr + "&stats=" + varlist + "&compressed="+group_val
 	prom.push(d3.json(cty_url))
 	datatype.push({type : 'county'})
 }
 if(muniarr.length > 0){
 	var munistr = muniarr.join(",");
-	muni_url = urlstr + "placefips="+ munistr + "&" + "year=" + yrstr + "&stats=" + varlist + "&compressed="+compressed
+	muni_url = urlstr + "placefips="+ munistr + "&" + "year=" + yrstr + "&stats=" + varlist + "&compressed="+group_val
 	prom.push(d3.json(muni_url))
 	datatype.push({type : 'muni'})
 }
@@ -1344,7 +1351,7 @@ if(unincorparr.length > 0) {
 	 })
 	
 	 var unicorpctystr = un_cty.join(",")
-     unincorp_url = urlstr + "countyfips="+ unicorpctystr + "&" +"placefips=99990&"+ "year=" + yrstr + "&stats=" + varlist + "&compressed="+compressed
+     unincorp_url = urlstr + "countyfips="+ unicorpctystr + "&" +"placefips=99990&"+ "year=" + yrstr + "&stats=" + varlist + "&compressed="+group_val
 	 prom.push(d3.json(unincorp_url))
 	 datatype.push({type : 'unincorp'})
 }
@@ -1352,22 +1359,33 @@ if(unincorparr.length > 0) {
 
 Promise.all(prom).then(function(data){
 
-
 	//standardizing data
 	var out_data = [];
    var recnum = 0;
 	for(a = 0; a < datatype.length;a++){
 		if(datatype[a].type == 'county'){
+
 			for(i = 0; i < data[a].length; i++){
 				out_data.push({'countyfips': data[a][i]['countyfips'],
 				               'countyname' : countyName(data[a][i]['countyfips']),
-				               'placefips' : "",
-				               'placename' : "",
+				               'placefips' : group_val == "yes" ? "" : data[a][i]['placefips'],
+				               'placename' : group_val == "yes" ? "" : data[a][i]['municipalityname'],
 				               'year' : data[a][i]['year']
 				})
 				for(j = 0; j < varlist.length; j++){
 					out_data[recnum][varlist[j]] = data[a][i][varlist[j]]
-				} //
+					if(group_val == "yes"){
+					if(varlist[j] == "householdsize"){
+						out_data[recnum]["householdsize"] = data[a][i]["householdpopulation"]/data[a][i]["occupiedhousingunits"];
+					}
+					if(varlist[j] == "vacancyrate"){
+						out_data[recnum]['vacancyrate'] = (data[a][i]['vacanthousingunits']/data[a][i]['totalhousingunits']) * 100;
+					}
+					if(varlist[j] =='hhldpoptothuratio') {
+						out_data[recnum]['hhldpoptothuratio'] = data[a][i]['householdpopulation']/data[a][i]['totalhousingunits']
+					}
+					} //group_val
+				} //j
 				recnum = recnum + 1;
 			} //i
 		} //county
@@ -1403,7 +1421,6 @@ Promise.all(prom).then(function(data){
 
 
 //Remove Duplicates
-
     keys = ['countyfips', 'placefips', 'year'],
     uniq_data = out_data.filter(
         (s => o => 
