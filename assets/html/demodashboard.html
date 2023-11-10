@@ -198,7 +198,7 @@ d3.json(urlstr).then(function(yeardata){
 
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
-    var yrvalue = 2021; //d3.max(yrsList); Hardcoding 2021
+    var yrvalue = d3.max(yrsList); 
 
 //Generate Initial Tables
 showButtons();
