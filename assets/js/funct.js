@@ -2110,21 +2110,31 @@ if(regnum == 39) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035',
 
 function restructureRace(inData) {
 //restructureRace restructures SDO race data 
-    var output = [];
-   var WH, HP, BL, AS, AM;
+   var output = [];
+   var WH, HP, BL, AS, NH, AM, MULTI;
    var ages = [... new Set(inData.map(tag => tag.age))];
 
     for(i = 0; i < ages.length; i++) {
 		var tmp = inData.filter(function(d) {return d.age == ages[i];});
 		for(j = 0; j < tmp.length; j++) {
-				  if( tmp[j].race_eth == "White NH") { WH = tmp[j].population};
+				  if( tmp[j].race_eth == "White alone NH") { WH = tmp[j].population};
 				  if( tmp[j].race_eth == "Hispanic") { HP = tmp[j].population};
-				  if( tmp[j].race_eth == "Black NH") { BL = tmp[j].population};
-				  if( tmp[j].race_eth == "Asian/Pacific Islander NH") {AS = tmp[j].population};
-				  if( tmp[j].race_eth == "American Indian NH") {AM = tmp[j].population};
+				  if( tmp[j].race_eth == "Black or African American alone NH") { BL = tmp[j].population};
+				  if( tmp[j].race_eth == "Asian alone NH") {AS = tmp[j].population};
+				  if( tmp[j].race_eth == "Native Hawaiian or Other Pacific Islander alone NH") {NH = tmp[j].population};
+				  if( tmp[j].race_eth == "American Indian and Alaska Native alone NH") {AM = tmp[j].population};
+		          if( tmp[j].race_eth == "Two or more NH") {MULTI = tmp[j].population};
 				}
-		output.push({ 'age' : tmp[0].age, "Hisapnic" : HP, "White NH" : WH, "Black NH" : BL, "Asian/Pacific Islander NH" : AS, "American Indian, NH" : AM});
+		output.push({"fips" : tmp[0].fips, "name" : tmp[0].name, "age" : tmp[0].age, 
+					"Hispanic" : HP, 
+					"White Alone NH" : WH, 
+					"Black Alone NH" : BL, 
+					"Asian Alone NH" : AS, 
+					"Native Hawaiian/Pacific Islander Alone NH": NH,
+					"American Indian, NH" : AM, 
+					"Two or More Races, NH": MULTI});
 		};
+
     return output;
 };
 // restructureRace
@@ -4658,7 +4668,7 @@ for(i = 1; i < housing_fint.length; i++){
 	               'pct_chg' : pctVal});
 };
 
-debugger;
+
 //Generate Table
 d3.select('#HousTab').html("");
 $("#HousTab" ).append( "<h2 class='h2_style'>Housing Characteristics, "+yrvalue+"</h2>" );
@@ -5776,6 +5786,7 @@ for (let[key3, value3] of value2) {
 var race_flat = hisp_flat.concat(nonhisp_flat).sort(function(a, b){ return d3.ascending(a['race_eth'], b['race_eth']); })
                 .sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
 				.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
+
 
 if(geotype == 'region') {
 	var race_reg = d3.rollup(race_flat, v => d3.sum(v, d => d.population),  d => d.age, d=> d.race_eth);
