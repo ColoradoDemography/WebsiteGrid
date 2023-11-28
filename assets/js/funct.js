@@ -768,6 +768,7 @@ function countyName(cty){
 	if(cty == 121){name = 'Washington County'};
 	if(cty == 123){name = 'Weld County'};
 	if(cty == 125){name = 'Yuma County'};
+	if(cty == 500){name = 'Denver-Boulder Metro Area'}
 return name;
 }; 
 // countyName
@@ -1603,7 +1604,7 @@ return name;
 
 
 function popDropdown(level,ddid,callpg) {
-//popDropdown populaates drop down boxes based on input geography Type
+//popDropdown populates drop down boxes based on input geography Type
    
    //Counties
 var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Adams County', 'fips': '001'},
@@ -1641,22 +1642,24 @@ var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Adams Count
 				{'location':'Yuma County', 'fips': '125'}];
 
 if(callpg == "jobs"){
-	var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Denver-Boulder Metro Area', 'fips': '130'},
-                {'location':'Alamosa County', 'fips': '003'},
+	var county = [{'location':'Colorado', 'fips': '000'}, {'location':'Denver-Boulder Metro Area', 'fips': '500'},
+				{'location':'Adams County', 'fips': '001'},
+                {'location':'Alamosa County', 'fips': '003'},{'location':'Arapahoe County', 'fips': '005'},
 				{'location':'Archuleta County', 'fips': '007'},{'location':'Baca County', 'fips': '009'},
-				{'location':'Bent County', 'fips': '011'},
+				{'location':'Bent County', 'fips': '011'},{'location':'Boulder County', 'fips': '013'},
+				{'location':'Broomfield County', 'fips': '014'},
 				{'location':'Chaffee County', 'fips': '015'},
 				{'location':'Cheyenne County', 'fips': '017'},{'location':'Clear Creek County', 'fips': '019'},
 				{'location':'Conejos County', 'fips': '021'},{'location':'Costilla County', 'fips': '023'},
 				{'location':'Crowley County', 'fips': '025'},{'location':'Custer County', 'fips': '027'},
-				{'location':'Delta County', 'fips': '029'},
-				{'location':'Dolores County', 'fips': '033'},
+				{'location':'Delta County', 'fips': '029'},{'location':'Denver County', 'fips': '031'},
+				{'location':'Dolores County', 'fips': '033'},{'location':'Douglas County', 'fips': '035'},
 				{'location':'Eagle County', 'fips': '037'},{'location':'Elbert County', 'fips': '039'},
 				{'location':'El Paso County', 'fips': '041'},{'location':'Fremont County', 'fips': '043'},
 				{'location':'Garfield County', 'fips': '045'},{'location':'Gilpin County', 'fips': '047'},
 				{'location':'Grand County', 'fips': '049'},{'location':'Gunnison County', 'fips': '051'},
 				{'location':'Hinsdale County', 'fips': '053'},{'location':'Huerfano County', 'fips': '055'},
-				{'location':'Jackson County', 'fips': '057'},
+				{'location':'Jackson County', 'fips': '057'},{'location':'Jefferson County', 'fips': '059'},
 				{'location':'Kiowa County', 'fips': '061'},{'location':'Kit Carson County', 'fips': '063'},
 				{'location':'Lake County', 'fips': '065'},{'location':'La Plata County', 'fips': '067'},
 				{'location':'Larimer County', 'fips': '069'},{'location':'Las Animas County', 'fips': '071'},
@@ -2009,6 +2012,18 @@ if(level == 'region' || level == 'regioncomp') {
 	}
 	
     } else {
+	if(callpg == 'jobs'){
+		var sel = document.getElementById(ddid);
+		for(var i = 0; i < locarr.length; i++) {
+			var el = document.createElement("option");
+			el.textContent = locarr[i].location;
+			if(["001","005","013","014","031","035","059"].includes(locarr[i].fips)){
+				el.style.color = "red"
+			}
+			el.value = locarr[i].fips;
+			sel.appendChild(el);
+		}
+	} else {
 	if(callpg == 'lookup') {
 		locarr.shift()
 	}
@@ -2019,6 +2034,7 @@ if(level == 'region' || level == 'regioncomp') {
 			el.value = locarr[i].fips;
 			sel.appendChild(el);
 		}
+	}
 	}
 }; 
 // popDropdown	
@@ -2460,6 +2476,10 @@ var fips_list = parseInt(fips);
  var totaldata = [];
 
 d3.json(urlstr).then(function(data){
+	debugger
+	console.log(urlstr)
+	console.log(data)
+	
    data.forEach(function(obj) {
     if(obj.age >=  0 && obj.age <= 17) {obj.age_cat = "0 to 17"; }
     if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24";}

@@ -768,6 +768,7 @@ function genRaceTabReg10(region, loc,year_arr, race_arr,eth_arr,age_arr,sex_list
 		var urlstr = "https://gis.dola.colorado.gov/lookups/sya-race-estimates?age="+ age_list + "&county="+ fips_list +"&year="+ year_list +"&race=" + race_list+ "&ethnicity="+eth_list+"&sex="+sexl+"&group=opt0";
 	}
 
+
 d3.json(urlstr).then(function(data){
 
     // Flesh out records -- for options ne 0
@@ -3375,10 +3376,11 @@ $(tabObj).DataTable({
 // genBaseIndReg
 
 
-function genJobsForeCty(loc, yeararr) {
+function genJobsForeCty(loc, yeararr, typearr) {
 //County Jobs Forecast lookup
 
 	//build urlstr
+
    var fips_arr2 = [];
 	for(j = 0; j < loc.length; j++){
 		fips_arr2.push(parseInt(loc[j]));
@@ -3388,86 +3390,83 @@ function genJobsForeCty(loc, yeararr) {
    	for(j = 0; j < yeararr.length; j++){
 		year_arr.push(yeararr[j]);
      };
-	
-	if(loc.includes('130')){   //Check for Denver-Boulder MSA
-	    var ctyArr = [1, 5, 13, 14, 31, 35, 59]
-	    var fips_3 = fips_arr2;
-	    var indexval = fips_3.indexOf(130)
-		fips_3.splice(indexval,1)
-		for(i =0; i < ctyArr.length; i++){
-			fips_3.push(ctyArr[i])
-		}
-		var fips_list  = fips_3.join(",")
+
+//Checking for components of group
+	var ctyArr = [1, 5, 13, 14, 31, 35, 59]
+	var addgrp = false;
+    fips_arr2.forEach(d => {
+		 if(ctyArr.includes(d)){
+			 addgrp = true;
+		 }
+	})
+	if(addgrp){
+		fips_arr2.push(500)
+		var fips_uniq = [...new Set(fips_arr2)]
+		var fips_list  = fips_uniq.join(",")
+	}
+
+	if(loc.includes('500')){   //Check for Denver-Boulder MSA
+	    ctyArr.forEach(d => {
+			fips_arr2.push(d)
+		})
+	    var fips_uniq = [...new Set(fips_arr2)]
+		var fips_list  = fips_uniq.join(",")
 	} else {
 		var fips_list  = fips_arr2.join(",")
 	}
 
 	var year_list  = year_arr.join(",")
 	 var urlstr = "https://gis.dola.colorado.gov/lookups/jobs-forecast?county="+ fips_list + "&year=" + year_list
-
+	 
 d3.json(urlstr).then(function(data){
 	
-//adjustment for Denver-Boulder MSA
-	if(loc.includes('130')){
-		var MSA_data = data.filter(i => ctyArr.includes(i.countyfips))
-		var nonMSA_data = data.filter(i => !ctyArr.includes(i.countyfips))
-        var nonMSA_data2 = []
-		for(i = 0; i < nonMSA_data.length; i++){
-			nonMSA_data2.push({
-				'countyfips' : nonMSA_data[i].countyfips,
-				'countyname' : countyName(nonMSA_data[i].countyfips),
-				'datatype' : nonMSA_data[i].datatype,
-				'population_year' : nonMSA_data[i].population_year,
-				'totaljobs' : +nonMSA_data[i].totaljobs})
-		}
-		
-		// sum up values by year
-	   var columnsToSum = ['totaljobs']
 
-        var MSASum_data = [];
-
-		var binroll =  d3.rollup(MSA_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.population_year);
-		for (let [key, value] of binroll) {
-		   MSASum_data.push({ 'countyfips' : 1,
-		    'countyname' : 'Denver-Boulder MSA',
-			'datatype' : "FORECAST",
-			'population_year' : key,
-			'totaljobs' : value.totaljobs})
-		};
-		
-
-  var data = MSASum_data.concat(nonMSA_data2)
-  var cty_data2 = data
-        .sort(function(a, b){ return d3.ascending(a['population_year'], b['population_year']); })
-        .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
-		;
-
-	cty_data2.forEach( d => {
-		if(d.countyfips == 1) {d.countyfips = " "}
-	})
-	} else {
 	var data2 = []
 	for(i = 0; i < data.length; i++){
+		 if(data[i].countyfips < 500){
 			data2.push({
 				'countyfips' : data[i].countyfips,
 				'countyname' : countyName(data[i].countyfips),
 				'datatype' : data[i].datatype,
 				'population_year' : data[i].population_year,
 				'totaljobs' : +data[i].totaljobs})
+		 } else {
+			if(data[i].datatype == "FORECAST"){
+			data2.push({
+				'countyfips' : data[i].countyfips,
+				'countyname' : countyName(data[i].countyfips),
+				'datatype' : data[i].datatype,
+				'population_year' : data[i].population_year,
+				'totaljobs' : +data[i].totaljobs})
+			}
 		}
+	}
 	  var cty_data2 = data2
         .sort(function(a, b){ return d3.ascending(a['population_year'], b['population_year']); })
         .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
 		;
-		}
 
+
+// Fixing Broomfield
+ cty_data2.forEach(d => {
+	 if(d.totaljobs == 0){
+		 if(d.countyfips == 14 && d.population_year == 2001) {
+			d.totaljobsc = "NA"
+		 } else {
+		   d.totaljobsc = "See Denver-Foulder Metro Area Forecast"
+		 }
+	 } else {
+	  d.totaljobsc = fixNUMFMT(Math.round(d.totaljobs),"num")
+	 }
+ })
+ 
 	// Generate Table
 	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Total Jobs</th><th>Data Type</th></tr></thead><tbody>";
 	for(i = 0; i < cty_data2.length; i++){
 		var el0 = "<td>" + cty_data2[i].countyfips + "</td>"
 		var el1 = "<td>" + cty_data2[i].countyname + "</td>"
 		var el2 = "<td>" + cty_data2[i].population_year + "</td>"
-		var el3 = "<td style='text-align: right'>" + fixNUMFMT(cty_data2[i].totaljobs,"num") + "</td>"
+		var el3 = "<td style='text-align: right'>" + cty_data2[i].totaljobsc + "</td>"
 		var el4 = "<td>" + cty_data2[i].datatype + "</td>"
 	   var tmp_row = "<tr>" + el0 + el1 + el2 + el3 +  el4 + "</tr>";
 	   out_tab = out_tab + tmp_row;
