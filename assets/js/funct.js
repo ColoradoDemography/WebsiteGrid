@@ -6465,6 +6465,8 @@ d3.csv(data_csv).then(function(data){
 	   }
 	}
 
+var datasort = datafilt.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
+	                       .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); });
 
 //Linetypes for line Charts
 var patternArr = ["","/","-","+"]
@@ -6508,6 +6510,8 @@ for(a = 0; a < fips_Arr.length; a++){
 		netmig.push(+yr_filt[j].netmigration);
 		migrate.push(+yr_filt[j].migrationrate);
 	  }
+	  
+
 if(chart == "bar"){
 	  var ind_traceN = {
                x: age_arr,
