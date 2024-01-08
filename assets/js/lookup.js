@@ -1058,7 +1058,8 @@ var reg_data = [];
 		break;
 } //Switch
 
-var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['region_num'], b['region_num']); })
+var reg_data2 = reg_data.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
+  .sort(function(a, b){ return d3.ascending(a['region_num'], b['region_num']); })
 
 	// Generate Table
 	if(outType == "COC"){
