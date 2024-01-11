@@ -2476,9 +2476,6 @@ var fips_list = parseInt(fips);
  var totaldata = [];
 
 d3.json(urlstr).then(function(data){
-	debugger
-	console.log(urlstr)
-	console.log(data)
 	
    data.forEach(function(obj) {
     if(obj.age >=  0 && obj.age <= 17) {obj.age_cat = "0 to 17"; }
