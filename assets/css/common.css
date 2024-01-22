@@ -494,10 +494,10 @@ details main {
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
 .dd-list {
-	color : black
- list-style-type: none;
-  margin: 0;
-  padding : 0;
+	color : black;
+	list-style-type: none;
+	margin: 0;
+	padding : 0;
 }
 
 
