@@ -3500,28 +3500,51 @@ function genJobsForeReg(region, loc, yeararr) {
 //Regional Jobs Forecast lookup
 	
 	//build urlstr
+	var year_arr = [];
 
-   var fips_arr = [];
-   var fips_arr2 = [];
-   for(i = 0; i < loc.length; i++){
-	for(j = 0; j < loc[i].length; j++){
-		var regval = parseInt(region[i]);
-		var countyfips = parseInt(loc[i][j])
-		fips_arr.push({ countyfips, regval });
-		fips_arr2.push(countyfips);
-     };
-   };
-   var year_arr = [];
-   	for(j = 0; j < yeararr.length; j++){
-		year_arr.push(yeararr[j]);
-     };
-	var fips_list  = fips_arr2.join(",")
-	var year_list  = year_arr.join(",")
+   if(parseInt(region) == 0){
+	   var fips_list = parseInt(region);
+	   	for(j = 0; j < yeararr.length; j++){
+			year_arr.push(yeararr[j]);
+		 };
+	   var year_list  = year_arr.join(",")
+   } else {   
+	   var fips_arr = [];
+	   var fips_arr2 = [];
+	   for(i = 0; i < loc.length; i++){
+		for(j = 0; j < loc[i].length; j++){
+			var regval = parseInt(region[i]);
+			var countyfips = parseInt(loc[i][j])
+			fips_arr.push({ countyfips, regval });
+			fips_arr2.push(countyfips);
+		 };
+	   };
+		for(j = 0; j < yeararr.length; j++){
+			year_arr.push(yeararr[j]);
+		 };
+		var fips_list  = fips_arr2.join(",")
+		var year_list  = year_arr.join(",")
+   }
 	 var urlstr = "https://gis.dola.colorado.gov/lookups/jobs-forecast?county="+ fips_list + "&year=" + year_list
+
 
 d3.json(urlstr).then(function(data){
 
 //Adding region number
+var reg_data = [];
+if(parseInt(region) == 0){
+	debugger
+	console.log(data)
+	data.forEach(i => {
+	    reg_data.push({
+			'regval' : i.countyfips,
+			'regname' : 'Colorado',
+			'datatype' : i.datatype,
+			'population_year' : i.population_year,
+			'totaljobs' : i.totaljobs
+		})
+	})
+} else {
 var raw_data = [];
 var k = 0
 
@@ -3538,8 +3561,6 @@ for(j = 0; j < fips_arr.length; j++){
 // sum up values by region, year and sector_id
 	var columnsToSum = ['totaljobs']
 
-var reg_data = [];
-
 		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regval, d => d.datatype, d => d.population_year);
 		for (let [key, value] of binroll) {
 		for (let [key1, value1] of value){
@@ -3552,6 +3573,7 @@ var reg_data = [];
 		};
 		};
 		};
+}
 
 var reg_data2 = reg_data
         .sort(function(a, b){ return d3.ascending(a['population_year'], b['population_year']); })
@@ -3559,7 +3581,7 @@ var reg_data2 = reg_data
 		;
 
 	// Generate Table
-	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Total Jobs</th><th>Data Type</th></tr></thead><tbody>";
+	var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th><th>Total Jobs</th><th>Data Type</th></tr></thead><tbody>";
 	for(i = 0; i < reg_data2.length; i++){
 		var el0 = "<td>" + reg_data2[i].regval + "</td>"
 		var el1 = "<td>" + reg_data2[i].regname + "</td>"
