@@ -59,7 +59,7 @@ hr {
 	color : black;
 	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
 	font-size: 100%;
-	text-align: justify;
+	text-align: left;
 	margin-left: 10px;
 	margin-right: 20px;
 }
@@ -68,7 +68,7 @@ li.crosstext {
 	color : black;
 	font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
 	font-size: 100%;
-	text-align: justify;
+	text-align: left;
 }
 
 p.crosstitle {
