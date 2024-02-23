@@ -151,9 +151,13 @@ d3.json(urlstr).then(function(yeardata){
 
  popDropdown('region','region-dropdown','lookup');
  
- yeardata2 = yeardata.filter(i => i.year >= 2010 && i.year <= 2040);
+yeardata2 = yeardata.filter(i => i.year >= 2010 && i.year <= 2040);
+ var yrtmp = yeardata2.filter(i => i.year <= 2019)
+ var yr5 = yeardata2.filter(i => i.year > 2020 && i.year % 5 == 0)
  
- popYrdd("year-dropdown",yeardata2);  //Change this range to match data
+ var yeardata3 = yrtmp.concat(yr5)
+ 
+ popYrdd("year-dropdown",yeardata3);
  
 //Button Event
  document.getElementById('gentable').addEventListener("click", chkInputs)
