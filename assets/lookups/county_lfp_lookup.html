@@ -156,7 +156,7 @@ d3.json(urlstr).then(function(yeardata){
 
  yeardata2 = yeardata.filter(i => i.year >= 2010 && i.year <= 2040);
  var yrtmp = yeardata2.filter(i => i.year <= 2019)
- var yr5 = yeardata2.filter(i => i.year > 2019 && i.year % 5 == 0)
+ var yr5 = yeardata2.filter(i => i.year > 2020 && i.year % 5 == 0)
  
  var yeardata3 = yrtmp.concat(yr5)
  
