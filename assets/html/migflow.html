@@ -89,12 +89,10 @@
 	<tr>
 	<td style="border : none; width: 34%;">
 	<select class="county-dropdown" id="county-dropdown">
-		<option></option>
 	</select>
 	 </td>
 	<td style="border : none; width: 33%;">
 	<select class="year-dropdown" id="year-dropdown">
-		<option></option>
 	</select>
 	</td>
 	<td style="border : none; width: 33%"><td>
@@ -161,6 +159,7 @@ d3.json(urlstr).then(function(yeardata){
 	var yrsList = maxest.map(function(d){return d.year;});
     var yrvalue = d3.max(yrsList); 
     var year_arr = genFLOWYR(yrvalue);
+
 	
 //Populate Dropdowns
 	 popDropdown('county','county-dropdown','');
