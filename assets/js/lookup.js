@@ -64,7 +64,8 @@ sel.innerHTML = "";
 				el.style.color = "black";
 			    el.textContent = j.year;
 		    } else {
-			el.style.color = "#811331";
+			el.style.color = "#A51C30";
+			el.style.fontWeight = "bold";
 			el.textContent = j.year;
 		   }
 			el.value = j.year;
