@@ -3,7 +3,7 @@
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
-  line-height: 24px;
+  line-height: 2;
 }
 
 body{
@@ -312,7 +312,7 @@ mainlist {
 	font-size:200%; 
 	text-transform: uppercase; 
 	letter-spacing: 2px; 
-	line-height: 30px; 
+	line-height: 2; 
 	} 
 .sdo-block{ 
       background-image: url(../assets/img/homepage1.jpg); 
