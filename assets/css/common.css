@@ -3,7 +3,7 @@
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
-  line-height: 2;
+  line-height: 4;
 }
 
 body{
@@ -473,7 +473,7 @@ details main {
   display: none;
   position: absolute;
   width:250px;  
-  line-height : 1;
+  line-height : 1.5;
   background-color : #d9d5d4;
   z-index: 1;
   right : 10px;
