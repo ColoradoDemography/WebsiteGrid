@@ -3,7 +3,7 @@
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: "Trebuchet MS, Museo Slab; helvetica, lucida sans, tahoma, verdana", sans-serif;
-  line-height: 1.5;
+  line-height: 24px;
 }
 
 body{
@@ -1883,30 +1883,35 @@ a.skip-main:focus, a.skip-main:active {
 .h1_style  {
   font-size : 150%; /* 18px */
   color : #003b49;
+  line-height: 2;
 }
 .h2_style  {
-  font-size : 133%, /* 16px */
+  font-size : 133%; /* 16px */
   color : #003b49;
 }
 
 .h3_style  {
   font-size : 116%; /* 14px */
   color : #003b49;
+   line-height: 2;
 }
 
 .h4_style  {
   font-size : 100%; /* 12px */
   color : #003b49;
+   line-height: 2;
 }
 
 .h5_style  {
   font-size : 75%; /* 8px */
   color : #003b49;
+   line-height: 2;
 }
 
 .h6_style  {
   font-size : 60%;  /* 12px */
   color : #003b49;
+   line-height: 2;
 }
 /* New Accordion Structure 7/6/2023 */
 .accordion {
