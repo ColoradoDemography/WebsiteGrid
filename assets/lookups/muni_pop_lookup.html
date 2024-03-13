@@ -478,7 +478,7 @@
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
  var yeardata2 = yeardata.filter(d => d.year >= 2010 && d.datatype == 'Estimate');
- popDropdown('county','county-dropdown','');
+ popDropdown('county','county-dropdown','profile');
 
  popYrdd("year-dropdown",yeardata2);  //Change this range to match data
  
@@ -498,6 +498,7 @@ d3.json(urlstr).then(function(yeardata){
         var munidd = document.getElementById('muni-dropdown');
 		var selectedmuni = getSelectValues(munidd);
 		
+
 
 		if((selectedfips.length == 0) && (selectedmuni.length == 0)){
 		    outputmsg = outputmsg +  " > Please select one or more Counties or Municipalities.\n";
@@ -520,7 +521,7 @@ d3.json(urlstr).then(function(yeardata){
 		}
 		
 		 selectedgroup = document.querySelector('input[name="sum_grouping"]:checked').value;
-
+debugger
 		if(complete){
 		     genPOPMuni(selectedfips,selectedmuni,selectedyr,selectedvars,selectedgroup);
 			 } else {
