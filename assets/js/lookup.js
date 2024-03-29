@@ -2131,10 +2131,6 @@ if(unincorparr.length > 0) {
      unincorp_url = urlstr + "countyfips="+ unicorpctystr + "&" +"placefips=99990&"+ "year=" + yrstr + "&compressed="+compressed
 	 prom.push(d3.json(unincorp_url))
 }
-debugger
-console.log(cty_url)
-console.log(muni_url)
-console.log(unincorp_url)
 
 Promise.all(prom).then(function(data){
 	
