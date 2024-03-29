@@ -2075,7 +2075,7 @@ if(groupval == "opt0"){
 
 var yrstr = yrval.join(",")
 
-var urlstr = "https://gis.dola.colorado.gov/lookups/munipophousing?"
+var urlstr = "https://gis.dola.colorado.gov/lookups/countymuni?"
 
 // A promise for unincorporated areas (county and muni)
 // A promise for County call
@@ -2131,6 +2131,10 @@ if(unincorparr.length > 0) {
      unincorp_url = urlstr + "countyfips="+ unicorpctystr + "&" +"placefips=99990&"+ "year=" + yrstr + "&compressed="+compressed
 	 prom.push(d3.json(unincorp_url))
 }
+debugger
+console.log(cty_url)
+console.log(muni_url)
+console.log(unincorp_url)
 
 Promise.all(prom).then(function(data){
 	
