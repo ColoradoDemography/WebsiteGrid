@@ -2133,19 +2133,42 @@ if(unincorparr.length > 0) {
 }
 
 Promise.all(prom).then(function(data){
-	
 	var out_data = [];
 	for(i = 0; i < data.length; i++){
+		var indata = data[i];
+		var key_arr = Object.keys(indata[0])
+
+		if(key_arr[0] == "municipalityname"){
 		data[i].forEach(j => {
+			if(key_arr.includes('countyfips')){
+				var ctyName = countyName(j.countyfips)
+				var ctyFips = j.countyfips
+			} else {
+				var muni_num = muniNum(j.municipalityname).toString().padStart(5, "0")
+				var ctyFips = parseInt(muni_county(muni_num))
+				var ctyName = countyName(ctyFips)
+			}
 			out_data.push({
-				"countyfips" : j.countyfips,
+				"countyfips" : ctyFips,
 				"placefips" : j.placefips,
-				"countyname" : countyName(j.countyfips),
+				"countyname" : ctyName,
 				"municipalityname" : j.municipalityname,
 				"year" : j.year,
 				"totalpopulation" : parseInt(j.totalpopulation)				
 			})
-		})
+			})
+		} else {
+			data[i].forEach(j => {
+			  out_data.push({
+				"countyfips" : j.countyfips,
+				"placefips" : 0,
+				"countyname" : countyName(j.countyfips),
+				"municipalityname" : "",
+				"year" : j.year,
+				"totalpopulation" : parseInt(j.totalpopulation)				
+			})
+			})
+		}
 	}
 	
 //Remove Duplicates
@@ -2164,7 +2187,6 @@ var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['placefips'
   .sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
   
 // Generate Table
-if(compressed == "no"){
 	var out_tab = "<thead><tr><th>County FIPS</th><th>Place FIPS</th><th>County Name</th><th>Place Name</th><th>Year</th><th>Total Population</th></tr></thead>><tbody>";
 	for(i = 0; i < sort_data.length; i++){
        var tmp_row  = "<tr><td>" + sort_data[i]["countyfips"] + "</td>";
@@ -2177,18 +2199,6 @@ if(compressed == "no"){
 	       out_tab = out_tab + tmp_row;
 	}
 	out_tab = out_tab + "</tbody>"
-} else {
-	var out_tab = "<thead><tr><th>County FIPS</th><th>County Name</th><th>Year</th><th>Total Population</th></tr></thead>><tbody>";
-	for(i = 0; i < sort_data.length; i++){
-       var tmp_row  = "<tr><td>" + sort_data[i]["countyfips"] + "</td>";
-	       tmp_row = tmp_row + "<td>" + sort_data[i]["countyname"] + "</td>";
-		   tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
-    	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i]["totalpopulation"],"num") + "</td>";
-	       tmp_row = tmp_row + "</tr>";
-	       out_tab = out_tab + tmp_row;
-	}
-	out_tab = out_tab + "</tbody>"
-}
 
 //Output table
 	var tabDivOut = document.getElementById("tbl_output");
