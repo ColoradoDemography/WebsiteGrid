@@ -812,6 +812,7 @@ function muniName(muni){
 	if(muni == 11260){name = 'Calhan'};
 	if(muni == 11645){name = 'Campo'};
 	if(muni == 11810){name = 'Cañon City'};
+	if(muni == 12030){name = 'Carbonate'};
 	if(muni == 12045){name = 'Carbondale'};
 	if(muni == 12387){name = 'Castle Pines'};
 	if(muni == 12415){name = 'Castle Rock'};
@@ -1165,6 +1166,7 @@ function muniNum(name) {
 	if(name == 'Calhan'){num = 11260};
 	if(name == 'Campo'){num = 11645};
 	if(name == 'Cañon City'){num = 11810};
+	if(name == 'Carbonate'){num = 12030};
 	if(name == 'Carbondale'){num = 12045};
 	if(name == 'Castle Pines'){num = 12387};
 	if(name == 'Castle Rock'){num = 12415};
@@ -1741,7 +1743,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Brush' , 'fips' : '09555'}, {'location' :  'Buena Vista' , 'fips' : '10105'},
 		{'location' :  'Burlington' , 'fips' : '10600'}, {'location' :  'Calhan' , 'fips' : '11260'},
 		{'location' :  'Campo' , 'fips' : '11645'}, {'location' :  'Ca\u00f1on City' , 'fips' : '11810'},
-		{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12387'},
+		{'location' :  'Carbonate' , 'fips' : '12030'}{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12387'},
 		{'location' :  'Castle Rock' , 'fips' : '12415'}, {'location' :  'Cedaredge' , 'fips' : '12635'},
 		{'location' :  'Centennial' , 'fips' : '12815'}, {'location' :  'Center' , 'fips' : '12855'},
 		{'location' :  'Central City' , 'fips' : '12910'}, {'location' :  'Cheraw' , 'fips' : '13460'},
@@ -1790,7 +1792,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Idaho Springs' , 'fips' : '38370'}, {'location' :  'Ignacio' , 'fips' : '38535'},
 		{'location' :  'Iliff' , 'fips' : '38590'}, {'location' :  'Jamestown' , 'fips' : '39195'},
 		{'location' :  'Johnstown' , 'fips' : '39855'}, {'location' :  'Julesburg' , 'fips' : '39965'},
-		{'location' :  'Keenesburg' , 'fips' : '40185'}, {'location' :  'Kersey' , 'fips' : '40515'},
+		{'location' :  'Keenesburg' , 'fips' : '40185'}, {'location' :  'Kersey' , 'fips' : '40515'}, {'location' :  'Keystone' , 'fips' : '40550'}, 
 		{'location' :  'Kim' , 'fips' : '40570'}, {'location' :  'Kiowa' , 'fips' : '40790'},
 		{'location' :  'Kit Carson' , 'fips' : '41010'}, {'location' :  'Kremmling' , 'fips' : '41560'},
 		{'location' :  'La Jara' , 'fips' : '42055'}, {'location' :  'La Junta' , 'fips' : '42110'},
@@ -1908,7 +1910,7 @@ var place =[{'location' :  'Acres Green CDP' , 'fips' : '00320'}, {'location' : 
 		{'location' :  'Inverness CDP' , 'fips' : '38910'}, {'location' :  'Jackson Lake CDP' , 'fips' : '39160'},
 		{'location' :  'Jansen CDP' , 'fips' : '39250'}, {'location' :  'Joes CDP' , 'fips' : '39745'},
 		{'location' :  'Johnson Village CDP' , 'fips' : '39800'}, {'location' :  'Ken Caryl CDP' , 'fips' : '40377'},
-		{'location' :  'Keystone CDP' , 'fips' : '40550'}, {'location' :  'Kirk CDP' , 'fips' : '40900'},
+		{'location' :  'Kirk CDP' , 'fips' : '40900'},
 		{'location' :  'Kittredge CDP' , 'fips' : '41065'}, {'location' :  'La Junta Gardens CDP' , 'fips' : '42165'},
 		{'location' :  'Laird CDP' , 'fips' : '42000'}, {'location' :  'Laporte CDP' , 'fips' : '43220'},
 		{'location' :  'Lazy Acres CDP' , 'fips' : '44270'}, {'location' :  'Leadville North CDP' , 'fips' : '44375'},
@@ -2723,7 +2725,6 @@ urlstr_nonhispest = "https://gis.dola.colorado.gov/lookups/county_sya_race_estim
 //Promise Structure
 //var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest),d3.json(urlstr_for)];
 var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest)];
-
 
 Promise.all(prom).then(function(data){
 	var hisp_est = [];
@@ -8726,3 +8727,194 @@ chartout_png.onclick = function() {exportToPng(plname, 'outflow', CHART2,0)};
    }) //promise
 } 
 //genFLOWS
+
+function genLODES(geo, loc, geo_name, year, sector){
+// genLODES Generates LODES Dashboard
+// this current version pulls data from 2021 LODES data, still considering if future versions will allow year selection
+
+	var fmt_comma = d3.format(",");
+	const fmt_date = d3.timeFormat("%B %d, %Y");
+	var CHART0 = document.getElementById("venn_output");
+	var CHART1 = document.getElementById("sankey_output");
+	
+
+	var fips_code = "08" + loc;
+	if(geo == 'county') {
+		var geostr = 'county';
+    } else {
+	  var geostr = 'place'
+	}
+	//creating venn diagram data pull
+	var vennstr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&year=2021&choice=summary'
+	var sankeystr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&year=2021&choice=place'
+	
+	var prom = [d3.json(vennstr),d3.json(sankeystr)];
+	
+	Promise.all(prom).then(function(data){
+
+		//Creating analysis data 
+		var venn_data = [];
+		var sankey_data = [];
+		switch(sector){
+		case 'total' :
+		 var venn_title = geo_name + " All Jobs, " + year;
+		 for (i = 0; i < data[0].length; i++) {
+			venn_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_total),
+							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_total),
+							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_total)
+			})
+		 }
+		 for (i = 0; i < data[1].length; i++) {
+				if(geo == 'county'){
+					sankey_data.push({"work_st" : data[1][i].work_cty.substr(0,2),
+									 "work_loc" : data[1][i].work_cty,
+									 "work_loc_name" : data[1][i].work_cty_name,
+									 "home_st" : data[1][i].home_cty.substr(0,2),
+									 "home_loc" : data[1][i].home_cty,
+									 "home_loc_name" : data[1][i].home_cty_name,
+									 "jobs" : parseInt(data[1][i].total_jobs)
+									})
+				} else {
+					sankey_data.push({"work_st" : data[1][i].work_place.substr(0,2),
+						             "work_loc" : data[1][i].work_place,
+									 "work_loc_name" : data[1][i].work_place_name,
+									 "home_st" : data[1][i].home_place.substr(0,2),
+									 "home_loc" : data[1][i].home_place,
+									 "home_loc_name" : data[1][i].home_place_name,
+									 "jobs" : parseInt(data[1][i].total_jobs)
+									})
+				}
+		 }
+		break;
+		case 'goods' :
+		 var venn_title = geo_name + " Goods Producing industry Jobs, " + year;
+		 for (i = 0; i < data[0].length; i++) {
+			venn_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_goods),
+							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_goods),
+							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_goods)
+			})
+		 }
+		 for (i = 0; i < data[1].length; i++) {
+				if(geo == 'county'){
+					sankey_data.push({"work_st" : data[1][i].work_cty.substr(0,2),
+									  "work_loc" : data[1][i].work_cty,
+									 "work_loc_name" : data[1][i].work_cty_name,
+									 "home_st" : data[1][i].home_cty.substr(0,2),
+									 "home_loc" : data[1][i].home_cty,
+									 "home_loc_name" : data[1][i].home_cty_name,
+									 "jobs" : parseInt(data[1][i].goods)
+									})
+				} else {
+					sankey_data.push({"work_st" : data[1][i].work_place.substr(0,2),
+									  "work_loc" : data[1][i].work_place,
+									 "work_loc_name" : data[1][i].work_place_name,
+									 "home_st" : data[1][i].home_place.substr(0,2),
+									 "home_loc" : data[1][i].home_place,
+									 "home_loc_name" : data[1][i].home_place_name,
+									 "jobs" : parseInt(data[1][i].goods)
+									})
+				}
+		 }
+		break;
+		case 'trade' :
+		 var venn_title = geo_name + " Trade, Transportation,\nand Utilities industry Jobs, " + year;
+		 for (i = 0; i < data[0].length; i++) {
+			venn_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_trade),
+							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_trade),
+							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_trade)
+			})
+		 }
+		 for (i = 0; i < data[1].length; i++) {
+				if(geo == 'county'){
+					sankey_data.push({"work_st" : data[1][i].work_cty.substr(0,2),
+					                  "work_loc" : data[1][i].work_cty,
+									 "work_loc_name" : data[1][i].work_cty_name,
+									 "home_st" : data[1][i].home_cty.substr(0,2),
+									 "home_loc" : data[1][i].home_cty,
+									 "home_loc_name" : data[1][i].home_cty_name,
+									 "jobs" : parseInt(data[1][i].trade)
+									})
+				} else {
+					sankey_data.push({"work_st" : data[1][i].work_place.substr(0,2),
+									  "work_loc" : data[1][i].work_place,
+									 "work_loc_name" : data[1][i].work_place_name,
+									 "home_st" : data[1][i].home_place.substr(0,2),
+									 "home_loc" : data[1][i].home_place,
+									 "home_loc_name" : data[1][i].home_place_name,
+									 "jobs" : parseInt(data[1][i].trade)
+									})
+				}
+		 }
+		break;
+		case 'services' :
+		var venn_title = geo_name + " All Other Services Industry Jobs, " + year;
+		 for (i = 0; i < data[0].length; i++) {
+			venn_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_services),
+							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_services),
+							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_services)
+			})
+		 }
+		 for (i = 0; i < data[1].length; i++) {
+				if(geo == 'county'){
+					sankey_data.push({"work_st" : data[1][i].work_cty.substr(0,2),
+									  "work_loc" : data[1][i].work_cty,
+									 "work_loc_name" : data[1][i].work_cty_name,
+									 "home_st" : data[1][i].home_cty.substr(0,2),
+									 "home_loc" : data[1][i].home_cty,
+									 "home_loc_name" : data[1][i].home_cty_name,
+									 "jobs" : parseInt(data[1][i].services)
+									})
+				} else {
+					sankey_data.push({"work_st" : data[1][i].work_place.substr(0,2),
+									  "work_loc" : data[1][i].work_place,
+									 "work_loc_name" : data[1][i].work_place_name,
+									 "home_st" : data[1][i].home_place.substr(0,2),
+									 "home_loc" : data[1][i].home_place,
+									 "home_loc_name" : data[1][i].home_place_name,
+									 "jobs" : parseInt(data[1][i].services)
+									})
+				}
+		 }
+		break;
+		} //Switch
+		
+		//Create Venn Diagram
+		var sets = [ {sets: ['A'], size: venn_data[0].work_out_home_in}, 
+             {sets: ['B'], size: venn_data[0].work_in_home_out},
+             {sets: ['A','B'], size: venn_data[0].work_in_home_in}];
+
+		var chart = venn.VennDiagram()
+		d3.select(CHART0).datum(sets).call(chart);
+       //Adding title and legend  https://d3-graph-gallery.com/graph/custom_legend.html
+	   var posX = 50;
+	   var posY = 200;
+	   var opac = "0.25";
+       var legend = [{"color" : "#FFFFFF", "boxcolor" : "#FFFFFF", "opacity" : opac, "text" : venn_title, "xpos" : posX, "ypos" : posY},
+		          {"color" : "#FFFFFF", "boxcolor" : "#4777B4", "opacity" : opac, "text" : "Employed in Selected Area, Live Outside Area: " + fmt_comma(venn_data[0].work_in_home_out), "xpos" : posX, "ypos" : posY - 14},
+				  {"color" : "#FFFFFF", "boxcolor" : "#FF7F0E", "opacity" : opac, "text" : "Live in Selected Area, Employed Outside Area: " + fmt_comma(venn_data[0].work_out_home_in), "xpos" : posX, "ypos" : posY + 28},
+				  {"color" : "#FFFFFF", "boxcolor" : "#444444", "opacity" : opac, "text" : "Employed and Live in Selected Area: " + fmt_comma(venn_data[0].work_in_home_in), "xpos" : posX, "ypos" : posY + 42},
+				  {"color" : "#FFFFFF", "boxcolor" : "#FFFFFF", "opacity" : opac, "text" : "Source: U.S. Census Bureau, On the Map visualizaton.  Date Printed:" + fmt_date(new Date), "xpos" : posX, "ypos" : posY + 56}]
+		var table =  d3.select(CHART0).append("g")
+	     .attr("class","tabobj");
+		 
+		table.selectAll("rect")
+			.data(legend)
+			.enter()
+			.append("rect")
+			.attr("x", function(d) {return d.xpos;})
+			.attr("y", function(d) {return d.ypos;})
+			.attr("fill", function(d) { return d.color;})
+			.attr("fill-opacity", function(d) { return d.opacity;});
+
+		table.selectAll("text")
+			.data(legend)
+			.enter()
+			.append("text")
+			.attr("x", function(d) {return d.xos;})
+			.attr("y", function(d) {return d.ypos;})
+			.text( function(d) { return d.text;})
+			.style("font", "10pt sans-serif");
+		
+	}) //Promise
+}
+//genLODES
