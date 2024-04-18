@@ -1743,7 +1743,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Brush' , 'fips' : '09555'}, {'location' :  'Buena Vista' , 'fips' : '10105'},
 		{'location' :  'Burlington' , 'fips' : '10600'}, {'location' :  'Calhan' , 'fips' : '11260'},
 		{'location' :  'Campo' , 'fips' : '11645'}, {'location' :  'Ca\u00f1on City' , 'fips' : '11810'},
-		{'location' :  'Carbonate' , 'fips' : '12030'}{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12387'},
+		{'location' :  'Carbonate' , 'fips' : '12030'},{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12387'},
 		{'location' :  'Castle Rock' , 'fips' : '12415'}, {'location' :  'Cedaredge' , 'fips' : '12635'},
 		{'location' :  'Centennial' , 'fips' : '12815'}, {'location' :  'Center' , 'fips' : '12855'},
 		{'location' :  'Central City' , 'fips' : '12910'}, {'location' :  'Cheraw' , 'fips' : '13460'},
