@@ -3283,6 +3283,7 @@ function genBaseIndReg(region, loc) {
 		//build urlstr
    var fips_arr = [];
    var fips_arr2 = [];
+
    for(i = 0; i < loc.length; i++){
 	for(j = 0; j < loc[i].length; j++){
 		var regval = parseInt(region[i]);
@@ -3292,7 +3293,26 @@ function genBaseIndReg(region, loc) {
      };
    };
    
+   const includesAll = (arr, values) => values.every(v => arr.includes(v));
+   var chk_cty = [1,5,13,14,31,35,59]
+
+   if(includesAll(fips_arr2,chk_cty)){
+	   var tmpx1 = fips_arr2
+
+	 for(d = 0; d < chk_cty.length; d++){
+		   for(i = 0; i < tmpx1.length; i++){
+			  if(tmpx1[i] == chk_cty[d]) {
+				  var idx = i
+				  break;
+			  }
+		   }
+		   tmpx1.splice(idx,1)
+	   }
+	   fips_arr2 = tmpx1.concat(500)
+   }
+
 	var fips_list  = fips_arr2.join(",")
+	
 	 var urlstr = "https://gis.dola.colorado.gov/lookups/base-analysis?county="+ fips_list
 
 		
