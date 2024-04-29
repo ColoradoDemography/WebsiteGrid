@@ -1,9 +1,9 @@
-<!-- State and Regional Jobs by Sector Lookup Page A Bickford 6/2021 -->
+<!-- State and Regional Jobs by Sector (NAICS) Lookup Page A Bickford 6/2021 -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>State and Regional Jobs by Sector Lookup</title>
+<title>State and Regional Jobs by Sector (NAICS) Lookup</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" http-equiv="content-type" content="text/html; charset=utf-8">
 <!-- FONT AWESOME CSS  Source for buttons the list of icons is here: https://fontawesome.com/icons?d=gallery&p=2 -->
 <!-- angle-down, angle-double-down, angle-circle-down, angle-right, angle-circle-right, the new button is in common.css --> 
@@ -32,7 +32,7 @@
 <!-- GoogleAnalytics Script -->
 <script defer src="../js/googleAnalytics.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W27DQ8VRCX"></script>
-<a href="#mainx" class="skip-main" tabindex='1'>Skip to main content</a>
+<a href="#mainx" class="skip" tabindex='1'>Skip to main content</a>
 </head>
 <body>
 <div>
@@ -49,16 +49,15 @@
 	<div w3-include-html="../html/left_hand_index.html"></div>
   </div> <!-- Grid  panel2_2_1 -->
   <div class="grid-item app-panel_2_2">
-  <h1 class='h1_style' id='mainx' title='State and Regional Jobs by Sector Data Lookup' aria-label='State and Regional Jobs by Sector Data Lookup'>State and Regional Jobs by Sector Data Lookup</h1>
+  <h1 class='h1_style' id='mainx' title='State and Regional Jobs by Sector (NAICS) Data Lookup' aria-label='State and Regional Jobs by Sector (NAICS) Data Lookup'>State and Regional Jobs by Sector (NAICS) Data Lookup</h1>
   <p>
-   <ul style="list-style-type:none">
+  <ul style="list-style-type:none">
   <li style='color:black;'><a href="../lookups/county_sya_lookup.html" target='_blank' title='Need County Data?' aria-label='Need County Data?'>Need County Data?</a></li>
   <li style='color:black;'><a href='https://gis.dola.colorado.gov/RegionsMap/' target='_blank' title='Colorado Regions Map' aria-label='Colorado Regions Map'>Colorado Regions Map</a></li>
-  </ul>
-  </p>
+  </ul>  </p>
    <h2 class='h2_style' title='INSTRUCTIONS:' aria-label='INSTRUCTIONS:'>INSTRUCTIONS:</h2>
    <p class="lookup_p">
-   This application creates custom tables for SDO State and Regional Job estimates by sector.
+   This application creates custom tables for SDO State and Regional Job estimates by NAICS category.
    </p>
   <p class="lookup_p">
    A spreadsheet with detailed information for counties is available on the 
@@ -81,18 +80,14 @@
 	</tr>
 	<tr>
 	<td class="lookup_cll"> 
-	<select class="region-dropdown" id="region-dropdown" size="6" multiple role='listbox'>
-		<option></option>
-	</select>
+	 <select class="region-dropdown" id="region-dropdown" size="6" multiple role='listbox'></select>
 	 </td>
 	<td class="lookup_cll">
-	<select class="year-dropdown" id="year-dropdown" style='width:100px;' size="6" multiple role='listbox'>
-		<option></option>
-	</select>
+    <select class="year-dropdown" id="year-dropdown" style='width:100px;' size="6" multiple role='listbox'></select>
     </td>
 	<td class="lookup_cll">
-		<button class='databutton' id='gentable' aria-label='Generate Table'>Generate Table</button><br><br>
-		<button class='databutton' id='cleartable' aria-label='Reset Selections'>Reset Selections</button><br>
+		<button class='databutton' id='gentable'>Generate Table</button><br><br>
+		<button class='databutton' id='cleartable'>Reset Selections</button><br>
 	</td>
 	<td class="lookup_cll">
 	</td>
@@ -122,7 +117,6 @@
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
  var yeardata2 = yeardata.filter(d => d.year >= 2001 && d.datatype == "Estimate");
- 
  popDropdown('region','region-dropdown','lookup')
 
 
@@ -159,7 +153,7 @@ d3.json(urlstr).then(function(yeardata){
 		}
 
 		if(complete){
-		     genJOBSECTReg(selectedreg,selectedfips,selectedyr);
+		     genNAICSReg(selectedreg,selectedfips,selectedyr);
 			 } else {
 			 window.alert(outputmsg);
 			 }

@@ -51,7 +51,10 @@
   <div class="grid-item app-panel_2_2">
   <h1 class='h1_style' id='mainx' title='State and Regional Single Year of Age Lookup' aria-label='State and Regional Single Year of Age Lookup'>State and Regional Single Year of Age Lookup</h1>
   <p>
-  <a href="../lookups/county_sya_lookup.html" target='_blank'>Need County Data?</a>
+  <ul style="list-style-type:none">
+  <li style='color:black;'><a href="../lookups/county_sya_lookup.html" target='_blank' title='Need County Data?' aria-label='Need County Data?'>Need County Data?</a></li>
+  <li style='color:black;'><a href='https://gis.dola.colorado.gov/RegionsMap/' target='_blank' title='Colorado Regions Map' aria-label='Colorado Regions Map'>Colorado Regions Map</a></li>
+  </ul>
   </p>
    <h2 class='h2_style' title='INSTRUCTIONS:' aria-label='INSTRUCTIONS:'>INSTRUCTIONS:</h2>
    <p class="lookup_p">
@@ -129,6 +132,7 @@ var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
 
  popDropdown('region','region-dropdown','lookup');
+ debugger
  var yeardata2 = yeardata.filter(i => i.year >= 1990)
  popYrdd("year-dropdown",yeardata2);  //Change this range to match data
  
