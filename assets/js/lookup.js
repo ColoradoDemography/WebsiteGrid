@@ -2133,13 +2133,50 @@ if(unincorparr.length > 0) {
 }
 
 Promise.all(prom).then(function(data){
+
+	if(groupval == "opt1"){
+		var data2 = []
+		for(i = 0; i < data[0].length; i++){
+			var muniStr = data[0][i].municipalityname
+			if(muniStr.indexOf(" (Total)") != -1){
+				data2.push({
+					municipalityname : muniStr.replace(" (Total)",""),
+					year : data[0][i].year,
+					placefips : data[0][i].placefips,
+					totalpopulation : data[0][i].totalpopulation
+				})
+			} else {
+				data2.push({
+					municipalityname : muniStr,
+					year : data[0][i].year,
+					placefips : data[0][i].placefips,
+					totalpopulation : data[0][i].totalpopulation
+				})
+			}
+		}
+	var data = data2
+	var indata = data[0];
+	var key_arr = Object.keys(indata)
+	} else {
+	var data2 = []
+	for(i = 0; i < data[0].length; i++){
+		data2.push({
+		municipalityname : data[0][i].municipalityname,
+		year : data[0][i].year,
+		countyfips : data[0][i].countyfips,
+		placefips : data[0][i].placefips,
+		totalpopulation : data[0][i].totalpopulation
+	})
+	}
+	var data = data2
+	var indata = data[0];
+	var key_arr = Object.keys(indata)
+	}
+	
 	var out_data = [];
-	for(i = 0; i < data.length; i++){
-		var indata = data[i];
-		var key_arr = Object.keys(indata[0])
 
 		if(key_arr[0] == "municipalityname"){
-		data[i].forEach(j => {
+		data.forEach(j => {
 			if(key_arr.includes('countyfips')){
 				var ctyName = countyName(j.countyfips)
 				var ctyFips = j.countyfips
@@ -2158,7 +2195,7 @@ Promise.all(prom).then(function(data){
 			})
 			})
 		} else {
-			data[i].forEach(j => {
+			data.forEach(j => {
 			  out_data.push({
 				"countyfips" : j.countyfips,
 				"placefips" : 0,
@@ -2169,7 +2206,6 @@ Promise.all(prom).then(function(data){
 			})
 			})
 		}
-	}
 	
 //Remove Duplicates
 
