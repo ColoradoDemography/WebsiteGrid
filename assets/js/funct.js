@@ -2299,6 +2299,12 @@ function genFilename(outname, type, ext, yr) {
 		case 'outflow' :
 			var fileName = outname + " ACS Out Migration Flows." + ext
 		break;
+		case 'LODESBAR' :
+			var fileName = outname + " LODES Commuting Summary." + ext
+		break;
+		case 'LODESFLOW' :
+			var fileName = outname + " LODES Communting Flows." + ext
+		break;
 		} //switch
 		
 	
@@ -2407,6 +2413,18 @@ function exportToPng(cname, type, graphDiv, yr){
 		case 'outflow':
 		{
 		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 900}).then(function (dataURL) {
+				var a = document.createElement('a');
+				a.href = dataURL;
+				a.download = fn;
+				document.body.appendChild(a);
+				 a.click();
+				document.body.removeChild(a);
+			});
+		} 
+		break;
+		case 'LODESFLOW' :
+		{
+		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 930}).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -5194,7 +5212,6 @@ var popchng_trace = {
 			  textposition: 'auto',
 			  hoverinfo: 'none',
 			  marker: {
-				color: 'blue',
 				opacity: 0.9,
 				line: {
 				  color: 'blue',
@@ -7965,11 +7982,14 @@ function parsePhrase (phrase){
 }
 //parsePhrase
 
-function supressData(inData, fips, type){
-// genFLOWYR supressData compresses data sets to have a maximum of 35 entires (20 px per entry in a chart with 700 px) OR entry with 10 or fewer movers
+function supressData(inData, fips, geo_name, type){
+// genFLOWYR and genLODES supressData compresses data sets to have a maximum of 35 entires (20 px per entry in a chart with 700 px) OR entry with 10 or fewer movers
 
 	var fmt_comma = d3.format(",");
-	var outname = countyName(parseInt(fips))
+
+	if(geo_name ==""){
+		geo_name = countyName(fips)
+	}
 
 		switch(type) {
 		case 'net' :{
@@ -7999,7 +8019,7 @@ function supressData(inData, fips, type){
 			  posfin.push({
 				"GEOID1" : "",
 				"GEOID2" : "",
-				"NAME1" : outname,
+				"NAME1" : geo_name,
 				"STATE1" : "",
 				"NAME2" : posphrase.length > 0 ? posphrase : "",
 				"STATE2" : "",
@@ -8038,7 +8058,7 @@ function supressData(inData, fips, type){
 			  negfin.push({
 				"GEOID1" : "",
 				"GEOID2" : "",
-				"NAME1" : outname,
+				"NAME1" : geo_name,
 				"STATE1" : "",
 				"NAME2" : negphrase.length > 0 ? negphrase : "",
 				"STATE2" : "",
@@ -8077,7 +8097,7 @@ function supressData(inData, fips, type){
 			  infin.push({
 				"GEOID1" : "",
 				"GEOID2" : "",
-				"NAME1" : outname,
+				"NAME1" : geo_name,
 				"STATE1" : "",
 				"NAME2" : inphrase.length > 0 ? inphrase : "",
 				"STATE2" : "",
@@ -8116,7 +8136,7 @@ function supressData(inData, fips, type){
 			  outfin.push({
 				"GEOID1" : "",
 				"GEOID2" : "",
-				"NAME1" : outname,
+				"NAME1" : geo_name,
 				"STATE1" : "",
 				"NAME2" : outphrase.length > 0 ? outphrase : "",
 				"STATE2" : "",
@@ -8130,6 +8150,57 @@ function supressData(inData, fips, type){
 		var outdata = outfin;
 		break;
 	} //out
+	case 'lodes' :{
+ 		  var posdata = inData.filter(d => d.value >= 0)
+          var possort = posdata.sort(function(a, b){return d3.descending(a['value'], b['value']); })
+		  var poscnt = 0;
+		  var posmax = 0;
+		  var postmp = [];
+          var posphrase = ""
+			  for(i = 0; i < possort.length; i++) {
+				  if(i < 21){
+					  postmp[i] = possort[i];
+				  } else {
+				      poscnt++
+				      posmax =  posmax + possort[i].value;
+			      }
+			  }
+
+		//adding record for supression
+		 if(posdata.length > 20){
+			  postmp.push({
+				"residential_location" : fmt_comma(poscnt) + ' locations with ' + fmt_comma(Math.abs(posmax))+ ' workers',
+				"work_location" : geo_name,
+				"value" : posmax
+				})
+			  }
+  
+		  var negdata = inData.filter(d => d.value < 0)
+          var negsort = negdata.sort(function(a, b){return d3.ascending(a['value'], b['value']); })
+		  var negcnt = 0;
+		  var negmax = 0;
+		  var negtmp = [];
+		  var negphrase = "";
+			  for(i = 0; i < negsort.length; i++) {
+				  if(i < 21){
+					  negtmp[i] = negsort[i];
+				  } else {
+				      negcnt++
+				      negmax =  negmax + Math.abs(negsort[i].value);
+			      }
+			  }
+		
+		//adding record for supression
+		 if(negdata.length > 20){
+			  negtmp.push({
+				"residential_location" : geo_name,
+				"work_location" : fmt_comma(negcnt) + ' locations with ' + fmt_comma(Math.abs(negmax))+ ' workers',
+				"value" : negmax })
+			  }
+			  
+		var outdata = postmp.concat(negtmp);
+		break;
+		}  //lodes
 	} //switch
 return(outdata)
 } 
@@ -8281,9 +8352,9 @@ if(fips == "000"){
   
 	var outchartun = instate_sum.concat(bindata);
 }
-var outchart_net = supressData(outchartun, fips, "net")
-var outchart_in = supressData(outchartun, fips, "in")
-var outchart_out = supressData(outchartun, fips, "out")
+var outchart_net = supressData(outchartun, fips, "", "net")
+var outchart_in = supressData(outchartun, fips, "", "in")
+var outchart_out = supressData(outchartun, fips, "","out")
 
 // Creating Nodeslist
 var nodeslist_net = [];
@@ -8728,15 +8799,12 @@ chartout_png.onclick = function() {exportToPng(plname, 'outflow', CHART2,0)};
 } 
 //genFLOWS
 
-function genLODES(geo, loc, geo_name, year, sector){
+function genLODES(geo, loc, geo_name, year, sector, CHART0, CHART1){
 // genLODES Generates LODES Dashboard
 // this current version pulls data from 2021 LODES data, still considering if future versions will allow year selection
 
 	var fmt_comma = d3.format(",");
 	const fmt_date = d3.timeFormat("%B %d, %Y");
-	var CHART0 = document.getElementById("venn_output");
-	var CHART1 = document.getElementById("sankey_output");
-	
 
 	var fips_code = "08" + loc;
 	if(geo == 'county') {
@@ -8744,22 +8812,22 @@ function genLODES(geo, loc, geo_name, year, sector){
     } else {
 	  var geostr = 'place'
 	}
-	//creating venn diagram data pull
-	var vennstr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&year=2021&choice=summary'
+	//creating barchart diagram data pull
+	var barchartstr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&year=2021&choice=summary'
 	var sankeystr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&year=2021&choice=place'
 	
-	var prom = [d3.json(vennstr),d3.json(sankeystr)];
+	var prom = [d3.json(barchartstr),d3.json(sankeystr)];
 	
 	Promise.all(prom).then(function(data){
 
 		//Creating analysis data 
-		var venn_data = [];
+		var barchart_data = [];
 		var sankey_data = [];
 		switch(sector){
 		case 'total' :
-		 var venn_title = geo_name + " All Jobs, " + year;
+		 var barchart_title = geo_name + " All Jobs, " + year;
 		 for (i = 0; i < data[0].length; i++) {
-			venn_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_total),
+			barchart_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_total),
 							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_total),
 							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_total)
 			})
@@ -8787,9 +8855,9 @@ function genLODES(geo, loc, geo_name, year, sector){
 		 }
 		break;
 		case 'goods' :
-		 var venn_title = geo_name + " Goods Producing industry Jobs, " + year;
+		 var barchart_title = geo_name + " Goods Producing industry Jobs, " + year;
 		 for (i = 0; i < data[0].length; i++) {
-			venn_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_goods),
+			barchart_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_goods),
 							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_goods),
 							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_goods)
 			})
@@ -8817,9 +8885,9 @@ function genLODES(geo, loc, geo_name, year, sector){
 		 }
 		break;
 		case 'trade' :
-		 var venn_title = geo_name + " Trade, Transportation,\nand Utilities industry Jobs, " + year;
+		 var barchart_title = geo_name + " Trade, Transportation,\nand Utilities industry Jobs, " + year;
 		 for (i = 0; i < data[0].length; i++) {
-			venn_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_trade),
+			barchart_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_trade),
 							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_trade),
 							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_trade)
 			})
@@ -8847,9 +8915,9 @@ function genLODES(geo, loc, geo_name, year, sector){
 		 }
 		break;
 		case 'services' :
-		var venn_title = geo_name + " All Other Services Industry Jobs, " + year;
+		var barchart_title = geo_name + " All Other Services Industry Jobs, " + year;
 		 for (i = 0; i < data[0].length; i++) {
-			venn_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_services),
+			barchart_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_services),
 							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_services),
 							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_services)
 			})
@@ -8878,43 +8946,378 @@ function genLODES(geo, loc, geo_name, year, sector){
 		break;
 		} //Switch
 		
-		//Create Venn Diagram
-		var sets = [ {sets: ['A'], size: venn_data[0].work_out_home_in}, 
-             {sets: ['B'], size: venn_data[0].work_in_home_out},
-             {sets: ['A','B'], size: venn_data[0].work_in_home_in}];
+//Create barchart Data
+var labs= ["Employed and Live<br>in Selected Area",
+		   "Live in Selected Area,<br>Employed Outside Area",
+		   "Employed in Selected Area,<br>Live Outside Area"]
 
-		var chart = venn.VennDiagram()
-		d3.select(CHART0).datum(sets).call(chart);
-       //Adding title and legend  https://d3-graph-gallery.com/graph/custom_legend.html
-	   var posX = 50;
-	   var posY = 200;
-	   var opac = "0.25";
-       var legend = [{"color" : "#FFFFFF", "boxcolor" : "#FFFFFF", "opacity" : opac, "text" : venn_title, "xpos" : posX, "ypos" : posY},
-		          {"color" : "#FFFFFF", "boxcolor" : "#4777B4", "opacity" : opac, "text" : "Employed in Selected Area, Live Outside Area: " + fmt_comma(venn_data[0].work_in_home_out), "xpos" : posX, "ypos" : posY - 14},
-				  {"color" : "#FFFFFF", "boxcolor" : "#FF7F0E", "opacity" : opac, "text" : "Live in Selected Area, Employed Outside Area: " + fmt_comma(venn_data[0].work_out_home_in), "xpos" : posX, "ypos" : posY + 28},
-				  {"color" : "#FFFFFF", "boxcolor" : "#444444", "opacity" : opac, "text" : "Employed and Live in Selected Area: " + fmt_comma(venn_data[0].work_in_home_in), "xpos" : posX, "ypos" : posY + 42},
-				  {"color" : "#FFFFFF", "boxcolor" : "#FFFFFF", "opacity" : opac, "text" : "Source: U.S. Census Bureau, On the Map visualizaton.  Date Printed:" + fmt_date(new Date), "xpos" : posX, "ypos" : posY + 56}]
-		var table =  d3.select(CHART0).append("g")
-	     .attr("class","tabobj");
-		 
-		table.selectAll("rect")
-			.data(legend)
-			.enter()
-			.append("rect")
-			.attr("x", function(d) {return d.xpos;})
-			.attr("y", function(d) {return d.ypos;})
-			.attr("fill", function(d) { return d.color;})
-			.attr("fill-opacity", function(d) { return d.opacity;});
+var vals = [barchart_data[0].work_in_home_in, barchart_data[0].work_out_home_in, barchart_data[0].work_in_home_out]
+var fmtvals = [
+ "Employed and Live in Selected Area " + fmt_comma(barchart_data[0].work_in_home_in),
+ "Live in Selected Area, Employed Outside Area " + fmt_comma(barchart_data[0].work_out_home_in), 
+ "Employed in Selected Area, Live Outside Area " + fmt_comma(barchart_data[0].work_in_home_out) 
+]
+var barcolor = ["#b2df8a", "#1f78b4", "#a6cee3"]
 
-		table.selectAll("text")
-			.data(legend)
-			.enter()
-			.append("text")
-			.attr("x", function(d) {return d.xos;})
-			.attr("y", function(d) {return d.ypos;})
-			.text( function(d) { return d.text;})
-			.style("font", "10pt sans-serif");
+// Generate Sankey Data
+ 
+//Summarizing out out of state and adjoining state residents
+var out_state_home = sankey_data.filter(d =>  !['08','04','20','31','35','40','49','56'].includes(d.home_st))
+var out_adjoining_home = sankey_data.filter(d => ['04','20','31','35','40','49','56'].includes(d.home_st))
+
+var out_state_home_val = d3.rollup(out_state_home, v => d3.sum(v, d => d.jobs));
+
+var out_state_home = [{"work_st" : "08",
+					  "work_loc" : fips_code,
+					 "work_loc_name" : geo_name,
+					 "home_st" : "99",
+					 "home_loc" : "99000",
+					 "home_loc_name" : "Other, non-Adjoining States",
+					 "jobs" : out_state_home_val
+ }];
+
+var out_state_work = sankey_data.filter(d => !['08','04','20','31','35','40','49','56'].includes(d.work_st))
+var out_adjoining_work = sankey_data.filter(d => ['04','20','31','35','40','49','56'].includes(d.work_st))
+
+var out_state_work_val = d3.rollup(out_state_work, v => d3.sum(v, d => d.jobs));
+
+var out_state_work =[{"work_st" : "99",
+					  "work_loc" : "99000",
+					 "work_loc_name" : "Other, non-Adjoining States",
+					 "home_st" : "08",
+					 "home_loc" : fips_code,
+					 "home_loc_name" : geo_name,
+					 "jobs" : out_state_work_val
+ }];
+
+var in_state = sankey_data.filter(d => d.home_st == "08" & d.work_st == "08")
+var out_work =  in_state.filter(d => d.work_loc == fips_code);
+var out_home = in_state.filter(d => d.home_loc == fips_code);
+
+var total_work = out_work.concat(out_adjoining_home,out_state_home).sort(function(a, b){ return d3.ascending(a['home_loc'], b['home_loc']); })
+       .sort(function(a, b){ return d3.descending(a['jobs'], b['jobs']); });
+
+var total_home = out_home.concat(out_adjoining_work, out_state_work).sort(function(a, b){ return d3.ascending(a['work_loc'], b['work_loc']); })
+       .sort(function(a, b){ return d3.descending(a['jobs'], b['jobs']); });;
+	   
+//Building Final Data Set
+
+var sankey_fin = total_work.concat(total_home)
+
+// Creating Nodeslist
+
+var nodeslist_tmp = [];
+var sankey_out = []  //sankey output data
+sankey_fin.forEach(d => {
+	nodeslist_tmp.push({
+		residential_location : d.home_loc == fips_code ? geo_name : d.home_loc_name.replace(", CO",""),
+		work_location : d.work_loc == fips_code ? geo_name : d.work_loc_name.replace(", CO",""),
+		value : d.work_loc == fips_code ? d.jobs : d.jobs * -1
+	})
+	sankey_out.push({
+		residential_location : d.home_loc == fips_code ? geo_name : d.home_loc_name.replace(", CO",""),
+		work_location : d.work_loc == fips_code ? geo_name : d.work_loc_name.replace(", CO",""),
+		value : d.jobs 
+	})
+})
+
+var nodeslist_tmp2 = supressData(nodeslist_tmp, fips_code, geo_name, 'lodes');
+
+
+// Remove work in live in and summary records
+var label_dat = [];
+for(i = 0; i < nodeslist_tmp2.length ;i++){
+	var res_str = nodeslist_tmp2[i].residential_location
+	var work_str = nodeslist_tmp2[i].work_location
+   if(res_str.indexOf("workers") != -1){
+	   label_dat.push({
+		   residential_location : nodeslist_tmp2[i].residential_location,
+		   work_location : nodeslist_tmp2[i].work_location,
+		   value : nodeslist_tmp2[i].value
+	   })
+   }
+   if(work_str.indexOf("workers") != -1){
+	   label_dat.push({
+		   residential_location : nodeslist_tmp2[i].residential_location,
+		   work_location : nodeslist_tmp2[i].work_location,
+		   value : nodeslist_tmp2[i].value
+	   })
+   }
+   if(nodeslist_tmp2[i].residential_location == nodeslist_tmp2[i].work_location){
+	   label_dat.push({
+		   residential_location : nodeslist_tmp2[i].residential_location,
+		   work_location : nodeslist_tmp2[i].work_location,
+		   value : nodeslist_tmp2[i].value
+	   })
+   }
+}
+
+label_dat = label_dat.filter((value, index, self) =>
+  index === self.findIndex((t) => (
+    t.residential_location === value.residential_location && t.work_location === value.work_location && t.value == value.value
+  ))
+)
+
+var same_loc =[];
+var annot_lab = [];
+label_dat.forEach(d => {
+	if(d.residential_location == d.work_location){
+		same_loc.push({
+			residential_location : d.residential_location,
+			work_location : d.work_location,
+		value : d.value})
+	}
+	if(d.residential_location.includes('workers')){
+		annot_lab.push({outlab: "In Commuters: " + d.residential_location})
+	}
+	if(d.work_location.includes('workers')){
+		annot_lab.push({outlab : "Out Commuters: " + d.work_location})
+	}
+})
+
+var nodeslist_tmp3 = nodeslist_tmp2.filter(d => !d.residential_location.includes("workers"))
+                      .filter(d => !d.work_location.includes("workers")) 
+                      .filter(d => d.residential_location != d.work_location)
+var zero_node = []
+zero_node.push({residential_location : geo_name,
+				work_location : geo_name,
+				value : 1
+})
+
+if(vals[0] == 0){
+	var nodeslist_dat = zero_node.concat(same_loc,nodeslist_tmp3)
+} else {
+	var nodeslist_dat = same_loc.concat(nodeslist_tmp3)
+}
+
+var labarr_dat = [];
+var lab1_tmp = []
+var lab2_tmp = []
+nodeslist_dat.forEach(obj => { 
+	lab1_tmp.push(obj.residential_location)
+	lab2_tmp.push(obj.work_location)
+})
+
+var lab1_dat = [...new Set(lab1_tmp)];
+var lab2_dat = [...new Set(lab2_tmp)];
+var labarr_dat = lab1_dat.concat(lab2_dat);
+
+
+var neg = nodeslist_dat.filter(d => d.value <= 0).length
+var pos = nodeslist_dat.filter(d => d.value > 0).length
+
+if(neg < pos) {
+	var inc = 1/pos;
+} else {
+	var inc = 1/neg;
+}
+var incr = parseFloat(inc.toFixed(3))
+
+// Prepping nodelsist data
+
+var total_pos_datmig = 0;
+var total_neg_datmig = 0;
+var y_dat_pos = 0.1;
+var y_dat_neg = 0.1;
+var titleVal_dat = "Commuting Profile "+ geo_name;
+var citStr = "U.S. Census Bureau. LEHD Origin-Destination Employment Statistics (2002-2021) " +
+	           " Print Date: "+ fmt_date(new Date);
+
+
+
+//setting annotation labels
+var annot_in = ""
+var annot_out = ""
+annot_lab.forEach(d => {
+	if(d.outlab.includes("In Commuters")){
+		annot_in = d.outlab
+	}
+	if(d.outlab.includes("Out Commuters")){
+		annot_out = d.outlab
+	}
+})
+var lab_annotation = [];
+
+// Prepping nodeslist data
+var tgt_neg = pos;
+
+for(i = 0; i < nodeslist_dat.length;i++){
+		if(nodeslist_dat[i].value < 0) {  //live in area work elsewhere
+			nodeslist_dat[i].src = labarr_dat.indexOf(nodeslist_dat[i].residential_location)
+			nodeslist_dat[i].tgt = tgt_neg
+			nodeslist_dat[i].val = Math.abs(nodeslist_dat[i].value)
+			nodeslist_dat[i].lablink = nodeslist_dat[i].residential_location + " to " + nodeslist_dat[i].work_location + ": " + fmt_comma(Math.abs(nodeslist_dat[i].value));	
+			nodeslist_dat[i].xpos =  0.9;
+			nodeslist_dat[i].labposx = 1;
+			nodeslist_dat[i].ypos =  parseFloat(y_dat_neg.toFixed(3));
+			nodeslist_dat[i].labposy = parseFloat(y_dat_neg.toFixed(3));
+			nodeslist_dat[i].lab = nodeslist_dat[i].work_location;
+			nodeslist_dat[i].linewidth = parseFloat((Math.abs(nodeslist_dat[i].value)/vals[2]).toFixed(2))
+			y_dat_neg = y_dat_neg + incr;
+			tgt_neg++
+			
+		} else {
+			nodeslist_dat[i].src = labarr_dat.indexOf(nodeslist_dat[i].residential_location)
+			nodeslist_dat[i].tgt = 0
+			nodeslist_dat[i].val = Math.abs(nodeslist_dat[i].value)
+			nodeslist_dat[i].lablink = nodeslist_dat[i].residential_location + " to " + nodeslist_dat[i].work_location + ": " + fmt_comma(Math.abs(nodeslist_dat[i].value));	
+			nodeslist_dat[i].xpos =  0.1;
+			nodeslist_dat[i].ypos =  parseFloat(y_dat_pos.toFixed(3));
+			nodeslist_dat[i].labposx = 0;
+			nodeslist_dat[i].labposy =  parseFloat(y_dat_pos.toFixed(3));
+			nodeslist_dat[i].lab = nodeslist_dat[i].residential_location;
+			nodeslist_dat[i].linewidth = parseFloat((Math.abs(nodeslist_dat[i].value)/vals[1]).toFixed(2))
+			y_dat_pos = y_dat_pos + incr;
+		}
+		if(nodeslist_dat[i].residential_location == nodeslist_dat[i].work_location){
+			nodeslist_dat[i].src = 0;
+			nodeslist_dat[i].tgt = 0;
+			nodeslist_dat[i].xpos =  0.5;
+			nodeslist_dat[i].ypos =  0.5;
+			nodeslist_dat[i].labposx = 0;
+			nodeslist_dat[i].labposy =  0;
+			nodeslist_dat[i].lab = nodeslist_dat[i].residential_location;
+			nodeslist_dat[i].lablink = "Work and Live in " + nodeslist_dat[i].residential_location + ": "+ fmt_comma(Math.abs(nodeslist_dat[i].value))
+			nodeslist_dat[i].linewidth = parseFloat((Math.abs(nodeslist_dat[i].value)/vals[0]).toFixed(2))
+		}
 		
-	}) //Promise
+		//Build Label Annotations
+			lab_annotation.push({text: nodeslist_dat[i].residential_location,
+				font : {size : 11, color : 'black'},    
+				x : nodeslist_dat[i].xpos,
+				y : nodeslist_dat[i].ypos,
+				showarrow : false})
+} //i
+
+//Bar Chart Section
+//Plotting 
+var config = {responsive: true,
+              displayModeBar: false};
+			  
+ CHART0.innerHTML = ''
+
+var bardata = [{
+	 x: vals,
+	 y: labs,
+	 type: 'bar',
+	 marker : {color : barcolor},
+	 customdata : fmtvals,
+	 hovertemplate : '%{customdata}',
+	 hoverlabel : {namelength :0},
+     orientation: 'h'
+}]
+
+var barlayout = {
+	title: barchart_title,
+  autosize: false,
+  width: 1000,
+  height: 500,
+  margin: {
+    l: 200,
+    r: 50,
+    b: 100,
+    t: 100,
+    pad: 4
+  },
+  xaxis : {
+	title : 'Jobs'
+  },
+ 	annotations : [{text :  citStr, 
+      font: { size : 9, color: 'black'},
+      xref : 'paper', 
+	  yref : 'paper', 
+	  xanchor : 'left',
+	  yanchor : 'bottom',
+      x : 0, 
+      y : -0.25, 
+      align : 'left', 
+      showarrow : false}]
+};
+
+
+Plotly.newPlot(CHART0, bardata,barlayout,config);
+var barchart_csv = document.getElementById('barchart_csv');
+var barchart_png = document.getElementById('barchart_png');
+barchart_csv.onclick = function() {exportToCsv(geo_name, 'LODESBAR', barchart_data,0)};
+barchart_png.onclick = function() {exportToPng(geo_name, 'LODESBAR', CHART0,0)};
+
+//Sankey Chart
+
+var data_com = {
+  type: "sankey",
+  orientation: "h",
+  arrangement : "fixed",
+  node: {
+    thickness: 50,
+    line: {
+      color: "black",
+      width: nodeslist_dat.map(d => d.linewidth)
+    },
+   label: nodeslist_dat.map(d => d.lab),
+   x : nodeslist_dat.map(d => d.xpos),
+   y : nodeslist_dat.map(d => d.ypos),
+   pad : 35,
+   hoverinfo: 'none'
+      },
+
+  link: {
+    source: nodeslist_dat.map(d => d.src),
+    target: nodeslist_dat.map(d => d.tgt),
+    value:  nodeslist_dat.map(d => d.val),
+	customdata : nodeslist_dat.map(d => d.lablink),
+	hovertemplate : '%{customdata}<extra></extra>'
+  }
+}
+
+var data_commut = [data_com];
+
+var layout_commut = {
+  title: barchart_title + " Commuting Flows", 
+  autosize : false, 
+  width: 1000,
+  height: 1000, 
+  font: {
+    size: 11,
+	family : 'Arial Black'
+  },
+annotations : [
+      {text :  citStr, 
+      font: { size : 9, color: 'black'},
+      xref : 'paper', 
+	  yref : 'paper', 
+	  xanchor : 'left',
+	  yanchor : 'bottom',
+      x : 0, 
+      y : -0.10, 
+      align : 'left', 
+      showarrow : false},
+		{text : annot_in,
+        font : {size : 10, color : 'black'},      
+		xref : 'paper', 
+	    yref : 'paper', 
+	    xanchor : 'left',
+	    yanchor : 'bottom',
+        x : 0,
+        y : -0.09,
+		showarrow : false },
+		{text : annot_out,
+        font : {size : 10, color : 'black'},      
+		xref : 'paper', 
+	    yref : 'paper', 
+	    xanchor : 'left',
+	    yanchor : 'bottom',
+        x : 0.6,
+        y : -0.09,
+		showarrow : false }
+
+
+]
+}
+Plotly.newPlot(CHART1, data_commut,layout_commut,config);
+var sankey_csv = document.getElementById('sankey_csv');
+var sankey_png = document.getElementById('sankey_png');
+sankey_csv.onclick = function() {exportToCsv(geo_name, 'LODESFLOW', sankey_out,0)};
+sankey_png.onclick = function() {exportToPng(geo_name, 'LODESFLOW', CHART1,0)};
+}) //Promise
 }
 //genLODES
