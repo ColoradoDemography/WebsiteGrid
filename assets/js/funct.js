@@ -5241,7 +5241,6 @@ var popchng_trace = {
 			  textposition : 'auto',
 			  hoverinfo: 'none',
 			  marker: {
-				color: 'blue',
 				opacity: 0.9,
 				line: {
 				  color: 'blue',
