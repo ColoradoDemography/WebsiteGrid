@@ -4610,7 +4610,8 @@ function genHousing(fips, yrvalue) {
 //genHousing generates housing data for home Page table From the SDO County Profile
 	var fmt_pct = d3.format(".2%")
 	var fmt_comma = d3.format(",");
-	var fmt_dec = d3.format(".2");
+	var fmt_dec = d3.format(".2f");
+
 
 //Specify fips_list
 var fips_list = parseInt(fips); 
@@ -4694,7 +4695,7 @@ for(i = 1; i < housing_fint.length; i++){
 														   pctVal = " ";
 														 };
 	}
-	if(housing_fint[i][0][0].name == 'hhldpoptothuratio') { out_name = "Household to Population Ratio";
+	if(housing_fint[i][0][0].name == 'hhldpoptothuratio') { out_name = " Household Population to Housing Unit Ratio";
 	                                                     cVal = fmt_dec(currentVal);
 														 pctVal = " ";
 														 };
