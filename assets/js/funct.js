@@ -4263,7 +4263,7 @@ if(fips == "000") {
 	   var homestr_prev = genACSUrl("homepage",prevyr, "B25097", 1, 3, "county",fips);
 	   
        var rentstr_cur = genACSUrl("homepage",curyr, "B25064", 1, 1, "county",fips);
-	   var rentstr_prev = genACSUrl("homepage",curyr, "B25064", 1, 1, "county",fips);;
+	   var rentstr_prev = genACSUrl("homepage",prevyr, "B25064", 1, 1, "county",fips);;
    };
    
  
