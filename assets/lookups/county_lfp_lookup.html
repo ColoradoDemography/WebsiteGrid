@@ -96,14 +96,15 @@
 	</select>
     </td>
 	<td class="look_cll">
-    <select class="age-dropdown" id="age-dropdown" style='width:100px;' size="7" multiple role='listbox'>
+    <select class="age-dropdown" id="age-dropdown" style='width:125px;' size="7" multiple role='listbox'>
 		<option value='a'>Age 16 to 19</option>
 		<option value='b'>Age 20 to 24</option>
 		<option value='c'>Age 25 to 34</option>
 		<option value='d'>Age 35 to 44</option>
 		<option value='e'>Age 45 to 54</option>
 		<option value='f'>Age 55 to 64</option>
-		<option value='g'>Age 65+</option>
+		<option value='g'>Age 65 to 74</option>
+		<option value='h'>Age 75 and Older</option>
 	</select>
 	<td class="look_cll">
     <select class="sum-dropdown" id="sum-dropdown" style='width:100px;' size="3" multiple role='listbox'>
@@ -154,13 +155,10 @@ d3.json(urlstr).then(function(yeardata){
 
  popDropdown('county','county-dropdown','');
 
- yeardata2 = yeardata.filter(i => i.year >= 2010 && i.year <= 2040);
- var yrtmp = yeardata2.filter(i => i.year <= 2019)
- var yr5 = yeardata2.filter(i => i.year > 2020 && i.year % 5 == 0)
+ yeardata2 = yeardata.filter(i => i.year >= 2010 && i.year <= 2050);
+
  
- var yeardata3 = yrtmp.concat(yr5)
- 
- popYrdd("year-dropdown",yeardata3);  //Change this range to match data
+ popYrdd("year-dropdown",yeardata2);  //Change this range to match data
  
 //Button Event
  document.getElementById('gentable').addEventListener("click", chkInputs)
