@@ -8886,7 +8886,7 @@ for(i = 0; i < indata.length;i++){
 		var loc_str = indata[i].work_location
 	}
 	var tmp_str = "<tr><td align='left'>" + loc_str + "</td>" +
-			  "<td align='right'>" + fixNUMFMT(indata[i].jobs,"num") + "</td>" +
+			  "<td align='right'>" + fixNUMFMT(Math.abs(indata[i].jobs),"num") + "</td>" +
 				"<td align='right'>" + fixNUMFMT(indata[i].median_distance,"num") + "</td>" +
 				"<td align='right'>" + fixNUMFMT(indata[i].miles_05,"num") + "</td>" + 
 				"<td align='right'>" + fixNUMFMT(indata[i].miles_10,"num") + "</td>" +
@@ -9512,39 +9512,93 @@ var sankey_png = document.getElementById('sankey_png');
 sankey_csv.onclick = function() {exportToCsv(geo_name, 'LODESFLOW', sankey_fin,0)};
 sankey_png.onclick = function() {exportToPng(geo_name, 'LODESFLOW', CHART1,0)};
 
-//Creating tables
-var work_tab = nodeslist_tmp3.filter(d => d.work_location == geo_name)
+//Creating work tables
 
-var work_title = "Work in "+ geo_name + " and live elsewhere";
-var fileName_work = "Commuting data work in "+ geo_name +", live elsewhere" 
+switch(sector){
+		case 'total' :
+			var work_title = "Work in "+ geo_name + " and Live elsewhere: All Jobs";
+			var fileName_work = "Commuting data Work in "+ geo_name +", Live elsewhere All Jobs"
+			var res_title = "Live in "+ geo_name + " and Work elsewhere: All Jobs";
+			var fileName_res = "Commuting data Live in "+ geo_name +", Work elsewhere All Jobs"
+			break;
+		case 'goods' :
+			var work_title = "Work in "+ geo_name + " and Live elsewhere: Goods Producing Jobs";
+			var fileName_work = "Commuting data Work in "+ geo_name +", Live elsewhere Goods Producing Jobs"
+			var res_title = "Live in "+ geo_name + " and Work elsewhere: Goods Producing Jobs";
+			var fileName_res = "Commuting data Live in "+ geo_name +", Work elsewhere Goods Producing Jobs"
+			break;
+		case 'trade' :
+			var work_title = "Work in "+ geo_name + " and Live elsewhere: Trade, Transportation, and Utilities Jobs";
+			var fileName_work = "Commuting data Work in "+ geo_name +", Live elsewhere Trade Jobs"
+			var res_title = "Live in "+ geo_name + " and Work elsewhere: Trade, Transportation, and Utilities Jobs";
+			var fileName_res = "Commuting data Live in "+ geo_name +", Work elsewhere Trade Jobs"
+			break;
+		case 'services' :
+			var work_title = "Work in "+ geo_name + " and Live elsewhere: Service Industry Jobs";
+			var fileName_work = "Commuting data Work in "+ geo_name +", Live elsewhere Service Jobs"
+			var res_title = "Live in "+ geo_name + " and Work elsewhere: Service Industry Jobs";
+			var fileName_res = "Commuting data Live in "+ geo_name +", Work elsewhere Service Jobs"
+			break;
+	}
+var work_tab = nodeslist_tmp3.filter(d => d.work_location == geo_name)
 
 var work_tab_out = lodes_tab(work_tab,citStr,"work")
 var work_tab_html = work_tab_out[0]
+var work_tab_html2 = "<h2>" + work_title + "</h2><p></p><table>"+ work_tab_html + "</table>"
 var labels_work = work_tab_out[1]
 var footArr = work_tab_out[2]
-debugger
-console.log(labels_work)
-console.log(work_tab_html)
-console.log(footArr)
 
 //Clear div
-var pgLength = work_tab.length + 1;
+var pgLength_work = 10;
 var tabName0 = "work_tab_out"
 TAB0.innerHTML = "";
 
-var tabObj = "#" + tabName0;
+var tabObj_work = "#" + tabName0;
+$(TAB0).append("<h2>"+work_title+"</h2>")
 $(TAB0).append("<table id= '"+ tabName0 + "' class='DTTable' width='90%'></table>");
-$(tabObj).append(work_tab_html); //this has to be a html table
-debugger
-$(tabObj).DataTable({
+$(tabObj_work).append(work_tab_html); //this has to be a html table
+
+$(tabObj_work).DataTable({
+       "pageLength" : pgLength_work,
+	   "ordering": false,
+		"fixedHeader":   true ,
+ dom: 'Bfrtip',
+       buttons: [
+		{ text : 'Word', action: function ( e, dt, node, config ) { export2Word(work_tab_html2,fileName_work)} },
+		{ text : 'CSV', action: function ( e, dt, node, config ) { exportToCsv(geo_name, 'LODESFLOW', sankey_fin,0)} },
+		]  //buttons
+ } );
+ 
+//Creating Residential tables
+
+var res_tab = nodeslist_tmp3.filter(d => d.residential_location == geo_name)
+
+var res_tab_out = lodes_tab(res_tab,citStr,"res")
+var res_tab_html = res_tab_out[0]
+var res_tab_html2 = "<h2>" + res_title + "</h2><p></p><table>"+ res_tab_html + "</table>"
+var labels_res = res_tab_out[1]
+var footArr = res_tab_out[2]
+
+
+//Clear div
+var pgLength = 10;
+var tabName1 = "res_tab_out"
+TAB1.innerHTML = "";
+
+var tabObj_res = "#" + tabName1;
+$(TAB1).append("<h2>"+res_title+"</h2>")
+$(TAB1).append("<table id= '"+ tabName1 + "' class='DTTable' width='90%'></table>");
+$(tabObj_res).append(res_tab_html); //this has to be a html table
+
+$(tabObj_res).DataTable({
        "pageLength" : pgLength,
 	   "ordering": false,
 		"fixedHeader":   true ,
  dom: 'Bfrtip',
        buttons: [
-		{ text : 'Word', action: function ( e, dt, node, config ) { genplexTab(work_tab_html,labels_work,footArr,fileName_work,'word',work_title)} },
-        { text : 'Excel', action: function ( e, dt, node, config ) { genplexTab(work_tab_html,labels_work,footArr,fileName_work,'xlsx',work_title)} },
-        { text : 'CSV',  action: function ( e, dt, node, config ) { genplexTab(work_tab_html,labels_work,footArr,fileName_work,'csv',work_title)} } ,
+		{ text : 'Word', action: function ( e, dt, node, config ) { export2Word(res_tab_html2,fileName_res)} },
+		{ text : 'CSV', action: function ( e, dt, node, config ) { exportToCsv(geo_name, 'LODESFLOW', sankey_fin,0)} }
+		
 		]  //buttons
  } );
 }) //Promise
