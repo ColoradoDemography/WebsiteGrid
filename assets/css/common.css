@@ -998,6 +998,16 @@ details main {
   }
   .row-container {display: flex; width: 100%; height: 100%; flex-direction: column; overflow: hidden;}
 
+/* Age Pyramid Panels */
+ .age-panel_1 {  
+   grid-column: 2 / span 2;
+   grid-row: 6;
+  }
+  
+  .age-panel_2 {  
+   grid-column: 4 / span 2;
+   grid-row: 6;
+  }
 /* end of app-panels */
 
 /* Revised Sectional Panels */
@@ -1126,15 +1136,15 @@ details main {
    grid-row: 2 / span 3;
      padding: 0px;
   }
-*Special container for pyramids*/
+/*Special container for pyramids*/
 
 .pyramid-container{
   display: grid;
-  grid-template-rows:  0 auto; /* NEW */
-  grid-template-columns: 20% repeat(2, 1fr);
+  grid-template-rows:  12 auto; /* NEW */
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 1px;
   background-color: #7a853b; 
-  padding: 1px;
+  padding: 0px;
   height : auto;
 }
 .pyramid_1_1{
@@ -1149,13 +1159,8 @@ details main {
      padding: 0px;
   }
 
-.pyramid_1_3{
-   grid-column: 3;
-   grid-row: 1 ;
-     padding: 0px;
-  }
   
- .pyramid_2_1{
+.pyramid_2_1{
    grid-column: 1;
    grid-row: 2 ;
      padding: 0px;
@@ -1167,11 +1172,6 @@ details main {
      padding: 0px;
   }
 
-.pyramid_2_3{
-   grid-column: 3;
-   grid-row: 2 ;
-     padding: 0px;
-  }
 
 .pyramid_3_1{
    grid-column: 1;
@@ -1185,12 +1185,119 @@ details main {
      padding: 0px;
   }
 
-.pyramid_3_3{
-   grid-column: 3;
-   grid-row: 3 ;
+.pyramid_4_1{
+   grid-column: 1;
+   grid-row: 4 ;
      padding: 0px;
   }
 
+.pyramid_4_2{
+   grid-column: 2;
+   grid-row: 4 ;
+     padding: 0px;
+  }
+  
+.pyramid_5_1{
+   grid-column: 1;
+   grid-row: 5 ;
+     padding: 0px;
+  }
+
+.pyramid_5_2{
+   grid-column: 2;
+   grid-row: 5 ;
+     padding: 0px;
+  }
+
+.pyramid_6_1{
+   grid-column: 1;
+   grid-row: 6 ;
+     padding: 0px;
+  }
+
+.pyramid_6_2{
+   grid-column: 2;
+   grid-row: 6 ;
+     padding: 0px;
+  }
+
+.pyramid_7_1{
+   grid-column: 1;
+   grid-row: 7 ;
+     padding: 0px;
+  }
+
+.pyramid_7_2{
+   grid-column: 2;
+   grid-row: 7 ;
+     padding: 0px;
+  }
+
+.pyramid_8_1{
+   grid-column: 1;
+   grid-row: 8 ;
+     padding: 0px;
+  }
+
+.pyramid_8_2{
+   grid-column: 2;
+   grid-row: 8 ;
+     padding: 0px;
+  }
+
+
+.pyramid_9_1{
+   grid-column: 1;
+   grid-row: 9 ;
+     padding: 0px;
+  }
+
+.pyramid_9_2{
+   grid-column: 2;
+   grid-row: 9 ;
+     padding: 0px;
+  }
+
+
+.pyramid_10_1{
+   grid-column: 1;
+   grid-row: 10 ;
+     padding: 0px;
+  }
+
+.pyramid_10_2{
+   grid-column: 2;
+   grid-row: 10 ;
+     padding: 0px;
+  }
+
+
+.pyramid_11_1{
+   grid-column: 1;
+   grid-row: 11 ;
+     padding: 0px;
+  }
+
+.pyramid_11_2{
+   grid-column: 2;
+   grid-row: 11 ;
+     padding: 0px;
+  }
+
+
+.pyramid_12_1{
+   grid-column: 1;
+   grid-row: 12 ;
+     padding: 0px;
+  }
+
+.pyramid_12_2{
+   grid-column: 2;
+   grid-row:12 ;
+     padding: 0px;
+  }
+
+  
 /* Multip plot Style*/
 .multi_plot{
      padding: 0px;
@@ -1496,7 +1603,8 @@ div.tooltip {
 .gis-container {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 4em auto 4em repeat(4, auto) 4em auto 4em auto 4em auto 4em auto;
+  /*                  overview  pop                housing  census   bus                 program */
+  grid-template-rows: 4em auto 4em repeat(4, auto) 4em auto 4em auto 4em repeat(2, auto) 4em auto;
   grid-gap: 1px;
   background-color: #7a853b; 
   padding: 1px;
@@ -1529,7 +1637,7 @@ div.tooltip {
   .gis-panel_main_f {  
   gap : 0;
   grid-column: 1 / span 6;
-  grid-row: 14;
+  grid-row: 15;
   }
   
  .gis-panel_2_1 {  
@@ -1724,6 +1832,30 @@ div.tooltip {
     grid-column: 6;
     grid-row: 13;   
    }
+   .gis-panel_14_1 {  
+    grid-column: 1;
+    grid-row: 14;   
+   }  
+   .gis-panel_14_2 {  
+    grid-column: 2;
+    grid-row: 14;   
+   }  
+   .gis-panel_14_3 {  
+    grid-column: 3;
+    grid-row: 14;   
+   }  
+   .gis-panel_14_4 {  
+    grid-column: 4;
+    grid-row: 14;   
+   }  
+   .gis-panel_14_5 {  
+    grid-column: 5;
+    grid-row: 14;   
+   }  
+   .gis-panel_14_6 {  
+    grid-column: 6;
+    grid-row: 14;   
+   }
   .gis-panel_15_1 {  
     grid-column: 1;
     grid-row: 15;   
@@ -1748,7 +1880,31 @@ div.tooltip {
     grid-column: 6;
     grid-row: 15;   
    }
-  .gis-panel_17_1 {  
+  .gis-panel_16_1 {  
+    grid-column: 1;
+    grid-row: 16;   
+   }  
+   .gis-panel_16_2 {  
+    grid-column: 2;
+    grid-row: 16;   
+   }  
+   .gis-panel_16_3 {  
+    grid-column: 3;
+    grid-row: 16;   
+   }  
+   .gis-panel_16_4 {  
+    grid-column: 4;
+    grid-row: 16;   
+   }  
+   .gis-panel_16_5 {  
+    grid-column: 5;
+    grid-row: 16;   
+   }  
+   .gis-panel_16_6 {  
+    grid-column: 6;
+    grid-row: 16;   
+   }
+   .gis-panel_17_1 {  
     grid-column: 1;
     grid-row: 17;   
    }  
@@ -1770,7 +1926,7 @@ div.tooltip {
    }  
    .gis-panel_17_6 {  
     grid-column: 6;
-    grid-row: 17;   
+    grid-row: 17; 
    }
 /* Classes for lookups */
 /* Add a background color on hover */
