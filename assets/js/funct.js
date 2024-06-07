@@ -2020,7 +2020,7 @@ if(level == 'region' || level == 'regioncomp') {
 			var el = document.createElement("option");
 			el.textContent = locarr[i].location;
 			if(["001","005","013","014","031","035","059"].includes(locarr[i].fips)){
-				el.style.color = "red"
+				el.style.color = "#A51C30"
 			}
 			el.value = locarr[i].fips;
 			sel.appendChild(el);
@@ -8923,8 +8923,8 @@ function genLODES(geo, loc, geo_name, year, sector, CHART0, CHART1, TAB0, TAB1){
 	  var geostr = 'place'
 	}
 	//creating barchart diagram data pull
-	var barchartstr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&year=2021&choice=summary'
-	var sankeystr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&year=2021&choice=place'
+	var barchartstr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&sector=' + sector +'&year=2021&choice=summary'
+	var sankeystr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&sector=' + sector + '&year=2021&choice=place'
 	
 	var prom = [d3.json(barchartstr),d3.json(sankeystr)];
 	
