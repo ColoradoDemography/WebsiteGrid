@@ -3179,7 +3179,7 @@ inData.forEach(i => {
 		'countyname' : i.fips == '500' ? 'Denver-Boulder MSA' : countyName(+i.fips),
 		'variable' : 'VINTAGE',
 		'row'  :  23,
-		'category' : "Vintage 2021",
+		'category' : "Vintage 2022",
 		'total_employment' : 999999999,
 		'total_pct' : 999999999
 	});
@@ -3241,7 +3241,7 @@ inData.forEach(i => {
 		'regname' : i.regname,
 		'variable' : 'VINTAGE',
 		'row'  :  23,
-		'category' : "Vintage 2021",
+		'category' : "Vintage 2022",
 		'total_employment' : 999999999,
 		'total_pct' : 999999999
 	});
@@ -3711,6 +3711,7 @@ if(sex_val == "S"){
 }
 
 d3.json(urlstr).then(function(data){
+
 	var data_keys = Object.keys(data[0])
 	var cty_data = [];
 
