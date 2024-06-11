@@ -6936,7 +6936,7 @@ netmigrwa_png.onclick = function() {
 
 //cat Long term components of change dashboard (netmighist.html)
 
-function genCOCHIST(fipsVal,  byrs, eyrs, stats, DIV0, DIV1) {
+function genCOCHIST(fipsVal,  byrs, eyrs, stats, axis, DIV0, DIV1) {
 //genCOCHIST generates long-term COC charts
 	
 const fmt_date = d3.timeFormat("%B %d, %Y");
@@ -6995,14 +6995,22 @@ d3.json(dataurl).then(function(data){
 			natincr_forc.push(Number(data[i].births) - Number(data[i].deaths));
 		   };
 		   //Dealing with axis ticks
+			switch(axis) {
+				case "yr5" :
+				   if(i % 5 == 0){
+					   year_tick.push(data[i].year)
+				   }
+				   break;
+				case "yr2" : 
+				   if(i % 2 == 0){
+					   year_tick.push(data[i].year)
+				   }
+				   break;
+				case "yr1" :
+					   year_tick.push(data[i].year)
+					   break;
+			}
 
-		   if((eyrs-byrs) >= 50){
-			  if(data[i].year % 2 == 0){
-				year_tick.push(data[i].year); 
-				}
-		   } else {
-			  year_tick.push(data[i].year); 
-		  } 
 		  year_bars.push(data[i].year);
 		  mig_bars.push(Number(data[i].netmig));
 		  natincr_bars.push(Number(data[i].births) - Number(data[i].deaths));
@@ -7112,6 +7120,9 @@ var natincr_tmp2 = {
 						width: 3
 						}
 					};
+					
+//Set up x-axis string
+
 
 //Creating the line chart trace
 
@@ -7170,7 +7181,7 @@ DIV1.innerHTML = "";
 
 
 var line_layout = {
-		title: "Components of Change Estimate and Forecast: " + ctyName,
+		title: "Components of Change: " + ctyName,
 		  autosize: false,
 		  width: 1000,
 		  height: 500,
