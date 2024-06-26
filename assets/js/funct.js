@@ -622,7 +622,7 @@ if(nam == 'Region 4: Southern Front Range') {regionNum = 9};
 if(nam == 'Region 5: Central Eastern Plains') {regionNum = 10};
 if(nam == 'Region 6: Southern Eastern Plains') {regionNum = 11};
 if(nam == 'Region 7: Pueblo County') {regionNum = 12};
-if(nam == 'Region 8: San Juan Valley') {regionNum = 13};
+if(nam == 'Region 8: San Luis Valley') {regionNum = 13};
 if(nam == 'Region 9: Southern Western Slope') {regionNum = 14};
 if(nam == 'Region 10: Central Western Slope') {regionNum = 15};
 if(nam == 'Region 11: Northern Western Slope') {regionNum = 16};
@@ -670,7 +670,7 @@ if(reg == 9) {name = 'Region 4: Southern Front Range'};
 if(reg == 10) {name = 'Region 5: Central Eastern Plains'};
 if(reg == 11) {name = 'Region 6: Southern Eastern Plains'};
 if(reg == 12) {name = 'Region 7: Pueblo County'};
-if(reg == 13) {name = 'Region 8: San Juan Valley'};
+if(reg == 13) {name = 'Region 8: San Luis Valley'};
 if(reg == 14) {name = 'Region 9: Southern Western Slope'};
 if(reg == 15) {name = 'Region 10: Central Western Slope'};
 if(reg == 16) {name = 'Region 11: Northern Western Slope'};
@@ -760,7 +760,7 @@ function countyName(cty){
 	if(cty == 105){name = 'Rio Grande County'};
 	if(cty == 107){name = 'Routt County'};
 	if(cty == 109){name = 'Saguache County'};
-	if(cty == 111){name = 'San Juan County'};
+	if(cty == 111){name = 'San Luis County'};
 	if(cty == 113){name = 'San Miguel County'};
 	if(cty == 115){name = 'Sedgwick County'};
 	if(cty == 117){name = 'Summit County'};
@@ -1115,7 +1115,7 @@ function ctyNum(name) {
 	if(name == 'Rio Grande County'){num = 105};
 	if(name == 'Routt County'){num = 107};
 	if(name == 'Saguache County'){num = 109};
-	if(name == 'San Juan County'){num = 111};
+	if(name == 'San Luis County'){num = 111};
 	if(name == 'San Miguel County'){num = 113};
 	if(name == 'Sedgwick County'){num = 115};
 	if(name == 'Summit County'){num = 117};
@@ -1637,7 +1637,7 @@ var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Adams Count
 				{'location':'Pitkin County', 'fips': '097'},{'location':'Prowers County', 'fips': '099'},
 				{'location':'Pueblo County', 'fips': '101'},{'location':'Rio Blanco County', 'fips': '103'},
 				{'location':'Rio Grande County', 'fips': '105'},{'location':'Routt County', 'fips': '107'},
-				{'location':'Saguache County', 'fips': '109'},{'location':'San Juan County', 'fips': '111'},
+				{'location':'Saguache County', 'fips': '109'},{'location':'San Luis County', 'fips': '111'},
 				{'location':'San Miguel County', 'fips': '113'},{'location':'Sedgwick County', 'fips': '115'},
 				{'location':'Summit County', 'fips': '117'},{'location':'Teller County', 'fips': '119'},
 				{'location':'Washington County', 'fips': '121'},{'location':'Weld County', 'fips': '123'},
@@ -1674,7 +1674,7 @@ if(callpg == "jobs"){
 				{'location':'Pitkin County', 'fips': '097'},{'location':'Prowers County', 'fips': '099'},
 				{'location':'Pueblo County', 'fips': '101'},{'location':'Rio Blanco County', 'fips': '103'},
 				{'location':'Rio Grande County', 'fips': '105'},{'location':'Routt County', 'fips': '107'},
-				{'location':'Saguache County', 'fips': '109'},{'location':'San Juan County', 'fips': '111'},
+				{'location':'Saguache County', 'fips': '109'},{'location':'San Luis County', 'fips': '111'},
 				{'location':'San Miguel County', 'fips': '113'},{'location':'Sedgwick County', 'fips': '115'},
 				{'location':'Summit County', 'fips': '117'},{'location':'Teller County', 'fips': '119'},
 				{'location':'Washington County', 'fips': '121'},{'location':'Weld County', 'fips': '123'},
@@ -1695,7 +1695,7 @@ var region =  [
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 5: Central Eastern Plains', 'regnum' : '10'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 6: Southern Eastern Plains', 'regnum' : '11'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 7: Pueblo County', 'regnum' : '12'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 8: San Juan Valley', 'regnum' : '13'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 8: San Luis Valley', 'regnum' : '13'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 9: Southern Western Slope', 'regnum' : '14'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 10: Central Western Slope', 'regnum' : '15'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 11: Northern Western Slope', 'regnum' : '16'},
