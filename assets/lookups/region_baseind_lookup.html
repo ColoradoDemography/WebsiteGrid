@@ -121,6 +121,10 @@
 
 
   popDropdown('region','region-dropdown','lookup');
+ //Removing problematic Regions
+$("#region-dropdown").children().remove("optgroup[label='Census Metropolitan Statistical Areas']");
+$("#region-dropdown").children().remove("optgroup[label='Census Micropolitan Statistical Areas']");
+$("#region-dropdown").children().remove("optgroup[label='Denver Regions']");
 
 //Button Event
  document.getElementById('gentable').addEventListener("click", chkInputs)
