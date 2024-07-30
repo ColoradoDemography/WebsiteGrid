@@ -760,7 +760,7 @@ function countyName(cty){
 	if(cty == 105){name = 'Rio Grande County'};
 	if(cty == 107){name = 'Routt County'};
 	if(cty == 109){name = 'Saguache County'};
-	if(cty == 111){name = 'San Luis County'};
+	if(cty == 111){name = 'San Juan County'};
 	if(cty == 113){name = 'San Miguel County'};
 	if(cty == 115){name = 'Sedgwick County'};
 	if(cty == 117){name = 'Summit County'};
@@ -1115,7 +1115,7 @@ function ctyNum(name) {
 	if(name == 'Rio Grande County'){num = 105};
 	if(name == 'Routt County'){num = 107};
 	if(name == 'Saguache County'){num = 109};
-	if(name == 'San Luis County'){num = 111};
+	if(name == 'San Juan County'){num = 111};
 	if(name == 'San Miguel County'){num = 113};
 	if(name == 'Sedgwick County'){num = 115};
 	if(name == 'Summit County'){num = 117};
@@ -1637,7 +1637,7 @@ var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Adams Count
 				{'location':'Pitkin County', 'fips': '097'},{'location':'Prowers County', 'fips': '099'},
 				{'location':'Pueblo County', 'fips': '101'},{'location':'Rio Blanco County', 'fips': '103'},
 				{'location':'Rio Grande County', 'fips': '105'},{'location':'Routt County', 'fips': '107'},
-				{'location':'Saguache County', 'fips': '109'},{'location':'San Luis County', 'fips': '111'},
+				{'location':'Saguache County', 'fips': '109'},{'location':'San Juan County', 'fips': '111'},
 				{'location':'San Miguel County', 'fips': '113'},{'location':'Sedgwick County', 'fips': '115'},
 				{'location':'Summit County', 'fips': '117'},{'location':'Teller County', 'fips': '119'},
 				{'location':'Washington County', 'fips': '121'},{'location':'Weld County', 'fips': '123'},
@@ -1674,7 +1674,7 @@ if(callpg == "jobs"){
 				{'location':'Pitkin County', 'fips': '097'},{'location':'Prowers County', 'fips': '099'},
 				{'location':'Pueblo County', 'fips': '101'},{'location':'Rio Blanco County', 'fips': '103'},
 				{'location':'Rio Grande County', 'fips': '105'},{'location':'Routt County', 'fips': '107'},
-				{'location':'Saguache County', 'fips': '109'},{'location':'San Luis County', 'fips': '111'},
+				{'location':'Saguache County', 'fips': '109'},{'location':'San Juan County', 'fips': '111'},
 				{'location':'San Miguel County', 'fips': '113'},{'location':'Sedgwick County', 'fips': '115'},
 				{'location':'Summit County', 'fips': '117'},{'location':'Teller County', 'fips': '119'},
 				{'location':'Washington County', 'fips': '121'},{'location':'Weld County', 'fips': '123'},
