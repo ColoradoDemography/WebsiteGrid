@@ -1355,6 +1355,9 @@ if(unincorparr.length > 0) {
 	
 	 var unicorpctystr = un_cty.join(",")
      unincorp_url = urlstr + "countyfips="+ unicorpctystr + "&" +"placefips=99990&"+ "year=" + yrstr + "&stats=" + varlist + "&compressed="+group_val
+	 debugger
+	 console.log(unincorp_url)
+	 
 	 prom.push(d3.json(unincorp_url))
 	 datatype.push({type : 'unincorp'})
 }
@@ -2065,6 +2068,10 @@ $(tabObj).DataTable({
 function genCtyMuni(ctyval,munival,yrval,groupval) {
 //genCtyMuni outputs table for County and Municipal Population Timeseries
 
+var multicounty = ["03455", "04000", "04935", "06090", "06255", "08070", "08675", "12855", "12910", "24950", "32650",
+                    "39855", "45255", "45530", "45970", "54330", "75640", "77290", "77510", "83835", "85485"]
+var multictynum = [3455, 4000, 4935, 6090, 6255, 8070, 8675, 12855, 12910, 24950, 32650,
+                    39855, 45255, 45530, 45970, 54330, 75640, 77290, 77510, 83835, 85485]
 //Creating url String
 
 if(groupval == "opt0"){
@@ -2099,27 +2106,47 @@ if(ctyval.length > 0){
 
 
 //Unincorp and muni
+
 if(munival.length > 0){
-   munival.forEach(i => {
-	  if(i.length == 8){
-		 unincorparr.push({"ctyfips" : parseInt(i.substr(0,3)), "munifips" : parseInt(i.substr(3))});
+	munival.forEach(i => {
+	  if(i.length == 8){ //Unincorporated
+		   unincorparr.push({"ctyfips" : parseInt(i.substr(0,3)), "munifips" : parseInt(i.substr(3))});
 		 } else {
-		muniarr.push(parseInt(i));
-	  } 
-  })
+		   muniarr.push(i);
+				} 
+	  })
 }  
 
 var prom = [];
+var data_type = []
 if(ctyarr.length > 0){
 	var ctystr = ctyarr.join(",");
 	cty_url = urlstr + "countyfips="+ ctystr + "&" + "year=" + yrstr + "&compressed="+compressed
 	prom.push(d3.json(cty_url))
+	data_type.push("cty")
 }
 if(muniarr.length > 0){
-	var munistr = muniarr.join(",");
-	muni_url = urlstr + "placefips="+ munistr + "&" + "year=" + yrstr + "&compressed="+compressed
+
+	var munilist = ""
+	var ctylist = ""
+	muniarr.forEach(i => {
+	    if(multicounty.includes(i)){
+			munilist = munilist + parseInt(i).toString() + ","
+			ctylist = ctylist +"999,"
+		} else {
+			munilist = munilist + parseInt(i).toString() + ","
+			ctylist = ctylist + parseInt(muni_county(i)).toString() + ","
+		}
+	})
+
+	ctylist = ctylist.slice(0, -1)
+	munilist = munilist.slice(0, -1)
+	var muni_url = urlstr + "countyfips=" + ctylist + "&placefips="+ munilist + "&year=" + yrstr + "&compressed=" + compressed;
+	
 	prom.push(d3.json(muni_url))
+	data_type.push("muni")
 }
+
 
 if(unincorparr.length > 0) {
 	 var un_cty = [];
@@ -2130,17 +2157,19 @@ if(unincorparr.length > 0) {
 	 var unicorpctystr = un_cty.join(",")
      unincorp_url = urlstr + "countyfips="+ unicorpctystr + "&" +"placefips=99990&"+ "year=" + yrstr + "&compressed="+compressed
 	 prom.push(d3.json(unincorp_url))
+	 data_type.push("unincorp")
 }
 
 Promise.all(prom).then(function(data){
 
 	if(groupval == "opt1"){
 		var data2 = []
+
 		for(i = 0; i < data[0].length; i++){
 			var muniStr = data[0][i].municipalityname
 			if(muniStr.indexOf(" (Total)") != -1){
 				data2.push({
-					municipalityname : muniStr.replace(" (Total)",""),
+					municipalityname : muniStr,
 					year : data[0][i].year,
 					placefips : data[0][i].placefips,
 					totalpopulation : data[0][i].totalpopulation
@@ -2182,13 +2211,13 @@ Promise.all(prom).then(function(data){
 				var ctyFips = j.countyfips
 			} else {
 				var muni_num = muniNum(j.municipalityname).toString().padStart(5, "0")
-				var ctyFips = parseInt(muni_county(muni_num))
+				var ctyFips = muni_num == "99990" ? ctyNum(j.municipalityname.replace("Unincorp. Area","County")) : parseInt(muni_county(muni_num))
 				var ctyName = countyName(ctyFips)
 			}
 			out_data.push({
 				"countyfips" : ctyFips,
 				"placefips" : j.placefips,
-				"countyname" : ctyName,
+				"countyname" : j.municipalityname.includes("Total") ? "Multiple" : ctyName,
 				"municipalityname" : j.municipalityname,
 				"year" : j.year,
 				"totalpopulation" : parseInt(j.totalpopulation)				
@@ -3112,7 +3141,6 @@ function baseIndLabels(incat){
 
 function rebaseind(inData, level){
 //restructure baseind  converts wide dataset  to long
-
  var newLabel = [];
  var outData = [];
 if(level == "county"){
@@ -3211,7 +3239,7 @@ inData.forEach(i => {
 		      if(['employment', 'agri_emp', 'mining_emp', 'manuf_emp', 'govt_emp', 'regl_serv_emp', 'ib_emp',
 				'tourism_emp', 'direct_basic_emp', 'commuter_emp', 'other_hhd_emp',	'other_inc_emp', 'retiree_emp', 'wrkr_lrs_emp', 'natl_comm_emp',
 				'natl_const_emp', 'natl_fire_emp', 'natl_trade_emp', 'natl_bus_emp', 'natl_ed_emp'].includes(j)) { 
-				 var jobs_pct  = ['direct_basic_emp', 'ib_emp', 'wrkr_lrs_emp', 'employment'].includes(j) ? 999999999 : (+i[j]/basic_emp) * 100
+				 var jobs_pct  = ['direct_basic_emp', 'ib_emp', 'wrkr_lrs_emp', 'employment'].includes(j) ? 999999999 : (+i[j]/basic_emp)
 
 		newLabel = baseIndLabels(j);
 		outData.push({
@@ -3348,10 +3376,12 @@ function genBaseIndReg(region, loc) {
    }
 
 	var fips_list  = fips_arr2.join(",")
-	
-	 var urlstr = "https://gis.dola.colorado.gov/lookups/base-analysis?county="+ fips_list
+	 if(region == '22'){
+	     var urlstr = "https://gis.dola.colorado.gov/lookups/base-analysis?county=500"
+	 } else {
+		 var urlstr = "https://gis.dola.colorado.gov/lookups/base-analysis?county="+ fips_list
+     }
 
-		
 d3.json(urlstr).then(function(data){
 
 	//Adding region number
@@ -3373,7 +3403,31 @@ for(j = 0; j < fips_arr.length; j++){
 						'natl_fire_emp', 'natl_trade_emp', 'natl_bus_emp', 'natl_ed_emp']
 
 var reg_data = [];
-
+if(region == '22') {
+	var raw_data2 = raw_data[0]
+	reg_data.push({ 'regval' : region,
+			'regname' : regionName(region), 
+			'employment' : raw_data2.employment,
+			'agri_emp' : raw_data2.agri_emp,
+			'mining_emp' : raw_data2.mining_emp,
+			'manuf_emp' : raw_data2.manuf_emp,
+			'govt_emp' : raw_data2.govt_emp,
+			'regl_serv_emp' : raw_data2.regl_serv_emp,
+			'ib_emp' : raw_data2.ib_emp,
+			'tourism_emp' : raw_data2.tourism_emp,
+			'direct_basic_emp' : raw_data2.direct_basic_emp,
+			'commuter_emp' : raw_data2.commuter_emp,
+			'other_hhd_emp' : raw_data2.other_hhd_emp,
+			'other_inc_emp' : raw_data2.other_inc_emp,
+			'retiree_emp' : raw_data2.retiree_emp,
+			'wrkr_lrs_emp' : raw_data2.wrkr_lrs_emp,
+			'natl_comm_emp' : raw_data2.natl_comm_emp,
+			'natl_const_emp' : raw_data2.natl_const_emp,
+			'natl_fire_emp' : raw_data2.natl_fire_emp,
+			'natl_trade_emp' : raw_data2.natl_trade_emp,
+			'natl_bus_emp' : raw_data2.natl_bus_emp,
+			'natl_ed_emp' : raw_data2.natl_ed_emp})
+} else {
 		var binroll =  d3.rollup(raw_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regval);
 		for (let [key, value] of binroll) {
 		   reg_data.push({ 'regval' : key,
@@ -3399,6 +3453,8 @@ var reg_data = [];
 			'natl_bus_emp' : value.natl_bus_emp,
 			'natl_ed_emp' : value.natl_ed_emp})
 		};
+}
+
 
  var reg_data_long = rebaseind(reg_data, "region")
 
@@ -3600,8 +3656,7 @@ d3.json(urlstr).then(function(data){
 //Adding region number
 var reg_data = [];
 if(parseInt(region) == 0){
-	debugger
-	console.log(data)
+
 	data.forEach(i => {
 	    reg_data.push({
 			'regval' : i.countyfips,
