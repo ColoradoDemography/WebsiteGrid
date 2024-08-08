@@ -2206,9 +2206,9 @@ for(i = 0; i< data_type.length;i++){
         (new Set)
     );
 	
-var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); })
+var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
   .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
-  .sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+  .sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); });
   
  
 // Generate Table
