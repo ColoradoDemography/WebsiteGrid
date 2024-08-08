@@ -2144,12 +2144,17 @@ if(muniarr.length > 0){
 	ctylist = ctylist.slice(0, -1)
 	munilist = munilist.slice(0, -1)
 	if(multichk){
+		if(groupval == "opt0"){
 	     var muni_url = urlstr + "placefips="+ munilist + "&year=" + yrstr + "&compressed=no" ;
+		} else {
+	     var muni_url = urlstr + "countyfips=999&placefips="+ munilist + "&year=" + yrstr + "&compressed=no" ;
+		}
 	} else {
 		  var muni_url = urlstr + "countyfips=" + ctylist + "&placefips="+ munilist + "&year=" + yrstr + "&compressed=" + compressed;
 	}
 	prom.push(d3.json(muni_url))
 	data_type.push("muni")
+
 }
 
 
