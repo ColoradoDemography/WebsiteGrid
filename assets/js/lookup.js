@@ -1355,8 +1355,7 @@ if(unincorparr.length > 0) {
 	
 	 var unicorpctystr = un_cty.join(",")
      unincorp_url = urlstr + "countyfips="+ unicorpctystr + "&" +"placefips=99990&"+ "year=" + yrstr + "&stats=" + varlist + "&compressed="+group_val
-	 debugger
-	 console.log(unincorp_url)
+
 	 
 	 prom.push(d3.json(unincorp_url))
 	 datatype.push({type : 'unincorp'})
@@ -2106,12 +2105,15 @@ if(ctyval.length > 0){
 
 
 //Unincorp and muni
-
+var multichk = false
 if(munival.length > 0){
 	munival.forEach(i => {
 	  if(i.length == 8){ //Unincorporated
 		   unincorparr.push({"ctyfips" : parseInt(i.substr(0,3)), "munifips" : parseInt(i.substr(3))});
 		 } else {
+		   if(multicounty.includes(i)) {
+			   multichk = true;
+		   }
 		   muniarr.push(i);
 				} 
 	  })
@@ -2141,8 +2143,11 @@ if(muniarr.length > 0){
 
 	ctylist = ctylist.slice(0, -1)
 	munilist = munilist.slice(0, -1)
-	var muni_url = urlstr + "countyfips=" + ctylist + "&placefips="+ munilist + "&year=" + yrstr + "&compressed=" + compressed;
-	
+	if(multichk){
+	     var muni_url = urlstr + "placefips="+ munilist + "&year=" + yrstr + "&compressed=no" ;
+	} else {
+		  var muni_url = urlstr + "countyfips=" + ctylist + "&placefips="+ munilist + "&year=" + yrstr + "&compressed=" + compressed;
+	}
 	prom.push(d3.json(muni_url))
 	data_type.push("muni")
 }
@@ -2162,80 +2167,29 @@ if(unincorparr.length > 0) {
 
 Promise.all(prom).then(function(data){
 
-	if(groupval == "opt1"){
-		var data2 = []
+//Assigning  data type 
+var out_data = []
+for(i = 0; i< data_type.length;i++){
+	  data[i].forEach(a => {
+		  var key_arr =  Object.keys(a)
+		  if(key_arr.includes('countyfips')){
+			  if(key_arr.includes('municipalityname')){
+			    var cty_name = a.municipalityname.includes("Total") ? "Multiple" : countyName(a.countyfips)
+		      } else {
+			  var cty_name = countyName(a.countyfips)
+		     }
+		  }
+		  out_data.push({
+			  countyfips : key_arr.includes('countyfips') ? a.countyfips : 0,
+			  countyname :  cty_name,
+			  placefips :  key_arr.includes('placefips') ?  a.placefips : 0,
+			  placename :  key_arr.includes('municipalityname') ? a.municipalityname : "",
+			  year : a.year,
+			  totalpopulation : parseInt(a.totalpopulation)
+		  })
+		  }) //forEach
+} //for
 
-		for(i = 0; i < data[0].length; i++){
-			var muniStr = data[0][i].municipalityname
-			if(muniStr.indexOf(" (Total)") != -1){
-				data2.push({
-					municipalityname : muniStr,
-					year : data[0][i].year,
-					placefips : data[0][i].placefips,
-					totalpopulation : data[0][i].totalpopulation
-				})
-			} else {
-				data2.push({
-					municipalityname : muniStr,
-					year : data[0][i].year,
-					placefips : data[0][i].placefips,
-					totalpopulation : data[0][i].totalpopulation
-				})
-			}
-		}
-	var data = data2
-	var indata = data[0];
-	var key_arr = Object.keys(indata)
-	} else {
-	var data2 = []
-	for(i = 0; i < data[0].length; i++){
-		data2.push({
-		municipalityname : data[0][i].municipalityname,
-		year : data[0][i].year,
-		countyfips : data[0][i].countyfips,
-		placefips : data[0][i].placefips,
-		totalpopulation : data[0][i].totalpopulation
-	})
-	}
-	var data = data2
-	var indata = data[0];
-	var key_arr = Object.keys(indata)
-	}
-	
-	var out_data = [];
-
-		if(key_arr[0] == "municipalityname"){
-		data.forEach(j => {
-			if(key_arr.includes('countyfips')){
-				var ctyName = countyName(j.countyfips)
-				var ctyFips = j.countyfips
-			} else {
-				var muni_num = muniNum(j.municipalityname).toString().padStart(5, "0")
-				var ctyFips = muni_num == "99990" ? ctyNum(j.municipalityname.replace("Unincorp. Area","County")) : parseInt(muni_county(muni_num))
-				var ctyName = countyName(ctyFips)
-			}
-			out_data.push({
-				"countyfips" : ctyFips,
-				"placefips" : j.placefips,
-				"countyname" : j.municipalityname.includes("Total") ? "Multiple" : ctyName,
-				"municipalityname" : j.municipalityname,
-				"year" : j.year,
-				"totalpopulation" : parseInt(j.totalpopulation)				
-			})
-			})
-		} else {
-			data.forEach(j => {
-			  out_data.push({
-				"countyfips" : j.countyfips,
-				"placefips" : 0,
-				"countyname" : countyName(j.countyfips),
-				"municipalityname" : "",
-				"year" : j.year,
-				"totalpopulation" : parseInt(j.totalpopulation)				
-			})
-			})
-		}
-	
 //Remove Duplicates
 
     keys = ['countyfips', 'placefips', 'year'],
@@ -2251,15 +2205,16 @@ var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['placefips'
   .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
   .sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
   
+ 
 // Generate Table
 	var out_tab = "<thead><tr><th>County FIPS</th><th>Place FIPS</th><th>County Name</th><th>Place Name</th><th>Year</th><th>Total Population</th></tr></thead>><tbody>";
 	for(i = 0; i < sort_data.length; i++){
        var tmp_row  = "<tr><td>" + sort_data[i]["countyfips"] + "</td>";
 	       tmp_row = tmp_row + "<td>" + sort_data[i]["placefips"] + "</td>";
 	       tmp_row = tmp_row + "<td>" + sort_data[i]["countyname"] + "</td>";
-		   tmp_row = tmp_row + "<td>" + sort_data[i]["municipalityname"] + "</td>";
+		   tmp_row = tmp_row + "<td>" + sort_data[i]["placename"] + "</td>";
 		   tmp_row = tmp_row + "<td>" + sort_data[i]["year"] + "</td>";
-    	   tmp_row = tmp_row + "<td style='text-align: right'>" + fixNUMFMT(sort_data[i]["totalpopulation"],"num") + "</td>";
+    	   tmp_row = tmp_row + "<td style='text-align: right'>" + (isNaN(sort_data[i]["totalpopulation"]) ? 0 :fixNUMFMT(sort_data[i]["totalpopulation"],"num")) + "</td>";
 	       tmp_row = tmp_row + "</tr>";
 	       out_tab = out_tab + tmp_row;
 	}
