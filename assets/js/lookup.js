@@ -2143,11 +2143,15 @@ if(muniarr.length > 0){
 
 	ctylist = ctylist.slice(0, -1)
 	munilist = munilist.slice(0, -1)
+	
+debugger
+console.log(ctylist)
+console.log(munilist)
 	if(multichk){
 		if(groupval == "opt0"){
 	     var muni_url = urlstr + "placefips="+ munilist + "&year=" + yrstr + "&compressed=no" ;
 		} else {
-	     var muni_url = urlstr + "countyfips=999&placefips="+ munilist + "&year=" + yrstr + "&compressed=no" ;
+	     var muni_url = urlstr + "countyfips=" + ctylist + "&placefips="+ munilist + "&year=" + yrstr + "&compressed=" + compressed;
 		}
 	} else {
 		  var muni_url = urlstr + "countyfips=" + ctylist + "&placefips="+ munilist + "&year=" + yrstr + "&compressed=" + compressed;
@@ -2206,9 +2210,9 @@ for(i = 0; i< data_type.length;i++){
         (new Set)
     );
 	
-var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
-  .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
-  .sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); });
+var sort_data = uniq_data.sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
+  .sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); })
+ // .sort(function(a, b){ return d3.ascending(a['placefips'], b['placefips']); });
   
  
 // Generate Table
