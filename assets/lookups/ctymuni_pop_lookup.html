@@ -493,15 +493,6 @@ d3.json(urlstr).then(function(yeardata){
 
 		 selectedgroup = document.querySelector('input[name="sum_grouping"]:checked').value;
 
-		 //Checking for impossible scenarios
-         if((selectedfips.length != 0) && (selectedmuni.length == 0) && (selectedgroup == "opt1")){
-		    selectedgroup = "opt0";
-			complete = true;
-		}
-		if((selectedfips.length == 0) && (selectedmuni.length != 0) && (selectedgroup == "opt0")){
-		    selectedgroup = "opt1";
-			complete = true;
-		}
 		if(complete){
 		     genCtyMuni(selectedfips,selectedmuni,selectedyr,selectedgroup);
 			 } else {
