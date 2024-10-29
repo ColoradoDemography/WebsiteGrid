@@ -150,10 +150,11 @@
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
 
- popDropdown('county','county-dropdown','');
+ popDropdown('county','county-dropdown','profile');
 
  yeardata2 = yeardata.filter(i => i.year >= 2010 && i.year <= 2050);
-
+ debugger
+ console.log(yeardata2)
  
  popYrdd("year-dropdown",yeardata2);  //Change this range to match data
  
