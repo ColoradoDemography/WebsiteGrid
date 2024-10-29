@@ -1324,10 +1324,10 @@ if(loc.length > 0){
 //Unincorp and muni
 if(muni_arr.length > 0){
    muni_arr.forEach(i => {
-	  if(i.length == 8){
+	  if(i.includes('99990')){
 		 unincorparr.push({"ctyfips" : parseInt(i.substr(0,3)), "munifips" : parseInt(i.substr(3))});
 		 } else {
-		muniarr.push(parseInt(i));
+		muniarr.push(parseInt(i.substr(3)));
 	  } 
   })
 }  
@@ -2105,16 +2105,17 @@ if(ctyval.length > 0){
 
 
 //Unincorp and muni
+debugger
 var multichk = false
 if(munival.length > 0){
 	munival.forEach(i => {
-	  if(i.length == 8){ //Unincorporated
+	  if(i.includes('99990')){ //Unincorporated
 		   unincorparr.push({"ctyfips" : parseInt(i.substr(0,3)), "munifips" : parseInt(i.substr(3))});
 		 } else {
-		   if(multicounty.includes(i)) {
+		   if(multicounty.includes(i.substr(3))) {
 			   multichk = true;
 		   }
-		   muniarr.push(i);
+		   muniarr.push(parseInt(i.substr(3)));
 				} 
 	  })
 }  
@@ -2144,9 +2145,7 @@ if(muniarr.length > 0){
 	ctylist = ctylist.slice(0, -1)
 	munilist = munilist.slice(0, -1)
 	
-debugger
-console.log(ctylist)
-console.log(munilist)
+
 	if(multichk){
 		if(groupval == "opt0"){
 	     var muni_url = urlstr + "placefips="+ munilist + "&year=" + yrstr + "&compressed=no" ;
@@ -2255,7 +2254,7 @@ $(tabObj).DataTable({
 
 function hholdid(inval){
 //hholdid  County Household Projections Household Categories for genHHCty
-	 switch(inval){
+	 switch(parseInt(inval)){
 		 case 0:
 		 var outval = "All Households";
 		 break;
@@ -2279,7 +2278,7 @@ function hholdid(inval){
 function ageid(inval){
 //ageid  County Age Projections Household Categories for genHHCty
 
-	 switch(inval){
+	 switch(parseInt(inval)){
 		 case 0:
 		 var outval = "Total";
 		 break;
@@ -2441,7 +2440,6 @@ var urlstr = "https://gis.dola.colorado.gov/lookups/household?county=" + fips_li
 
 
 d3.json(urlstr).then(function(data){
-
 
 //Output table
 var out_tab = genHHTab(data,yeardata,"county")
@@ -3730,6 +3728,9 @@ if(sex_val == "S"){
 }
 
 d3.json(urlstr).then(function(data){
+debugger
+console.log(urlstr)
+console.log(data)
 
 	var data_keys = Object.keys(data[0])
 	var cty_data = [];
