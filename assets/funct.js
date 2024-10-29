@@ -111,10 +111,12 @@ function transpose(data) {
 }; 
 // transpose
 
-function annot(annTxt) {
+function annot(annTxt,ypos) {
 //annot  Chart annotation Places chart source citation on Plotly Charts
 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
+		ypos = -0.23;
+	
 	var  outAnnot = {text :  annTxt +'  Print Date: ' +  fmt_date(new Date) , 
                 font: {
     size : 9,
@@ -123,7 +125,7 @@ function annot(annTxt) {
       xref : 'paper', 
       x : 0, 
       yref : 'paper', 
-      y : -0.35, 
+      y : ypos, 
       align : 'left', 
       showarrow : false};
 	  
@@ -132,7 +134,7 @@ return(outAnnot);
 // annot
 
 function muni_county(muni){
-//muni_county provides county designation for municiplaities (based oased on largest population for multi-county munis
+//muni_county provides county designation for municipalities (based on largest population for multi-county munis
 var cty_n;
 if(muni == '00760'){cty_n = '071'};
 if(muni == '00925'){cty_n = '121'};
@@ -620,7 +622,7 @@ if(nam == 'Region 4: Southern Front Range') {regionNum = 9};
 if(nam == 'Region 5: Central Eastern Plains') {regionNum = 10};
 if(nam == 'Region 6: Southern Eastern Plains') {regionNum = 11};
 if(nam == 'Region 7: Pueblo County') {regionNum = 12};
-if(nam == 'Region 8: San Juan Valley') {regionNum = 13};
+if(nam == 'Region 8: San Luis Valley') {regionNum = 13};
 if(nam == 'Region 9: Southern Western Slope') {regionNum = 14};
 if(nam == 'Region 10: Central Western Slope') {regionNum = 15};
 if(nam == 'Region 11: Northern Western Slope') {regionNum = 16};
@@ -668,7 +670,7 @@ if(reg == 9) {name = 'Region 4: Southern Front Range'};
 if(reg == 10) {name = 'Region 5: Central Eastern Plains'};
 if(reg == 11) {name = 'Region 6: Southern Eastern Plains'};
 if(reg == 12) {name = 'Region 7: Pueblo County'};
-if(reg == 13) {name = 'Region 8: San Juan Valley'};
+if(reg == 13) {name = 'Region 8: San Luis Valley'};
 if(reg == 14) {name = 'Region 9: Southern Western Slope'};
 if(reg == 15) {name = 'Region 10: Central Western Slope'};
 if(reg == 16) {name = 'Region 11: Northern Western Slope'};
@@ -766,6 +768,7 @@ function countyName(cty){
 	if(cty == 121){name = 'Washington County'};
 	if(cty == 123){name = 'Weld County'};
 	if(cty == 125){name = 'Yuma County'};
+	if(cty == 500){name = 'Denver-Boulder Metro Area'}
 return name;
 }; 
 // countyName
@@ -809,6 +812,7 @@ function muniName(muni){
 	if(muni == 11260){name = 'Calhan'};
 	if(muni == 11645){name = 'Campo'};
 	if(muni == 11810){name = 'Cañon City'};
+	if(muni == 12030){name = 'Carbonate'};
 	if(muni == 12045){name = 'Carbondale'};
 	if(muni == 12387){name = 'Castle Pines'};
 	if(muni == 12415){name = 'Castle Rock'};
@@ -1124,281 +1128,285 @@ function ctyNum(name) {
 // ctyNum
 
 
+
 function muniNum(name) {
 //muniNum returns numeric municipality fips code from municipality Name
+    var name2 = name.replace(" (Total)","").replace(" (Part)","")
 	var num;
-	if(name == 'Colorado'){num = 0};
-	if(name == 'Aguilar'){num = 760};
-	if(name == 'Akron'){num = 925};
-	if(name == 'Alamosa'){num = 1090};
-	if(name == 'Alma'){num = 1530};
-	if(name == 'Antonito'){num = 2355};
-	if(name == 'Arriba'){num = 3235};
-	if(name == 'Arvada'){num = 3455};
-	if(name == 'Aspen'){num = 3620};
-	if(name == 'Ault'){num = 3950};
-	if(name == 'Aurora'){num = 4000};
-	if(name == 'Avon'){num = 4110};
-	if(name == 'Basalt'){num = 4935};
-	if(name == 'Bayfield'){num = 5265};
-	if(name == 'Bennett'){num = 6090};
-	if(name == 'Berthoud'){num = 6255};
-	if(name == 'Bethune'){num = 6530};
-	if(name == 'Black Hawk'){num = 7025};
-	if(name == 'Blanca'){num = 7190};
-	if(name == 'Blue River'){num = 7410};
-	if(name == 'Bonanza'){num = 7571};
-	if(name == 'Boone'){num = 7795};
-	if(name == 'Boulder'){num = 7850};
-	if(name == 'Bow Mar'){num = 8070};
-	if(name == 'Branson'){num = 8345};
-	if(name == 'Breckenridge'){num = 8400};
-	if(name == 'Brighton'){num = 8675};
-	if(name == 'Brookside'){num = 9115};
-	if(name == 'Broomfield'){num = 9280};
-	if(name == 'Brush'){num = 9555};
-	if(name == 'Buena Vista'){num = 10105};
-	if(name == 'Burlington'){num = 10600};
-	if(name == 'Calhan'){num = 11260};
-	if(name == 'Campo'){num = 11645};
-	if(name == 'Cañon City'){num = 11810};
-	if(name == 'Carbondale'){num = 12045};
-	if(name == 'Castle Pines'){num = 12387};
-	if(name == 'Castle Rock'){num = 12415};
-	if(name == 'Cedaredge'){num = 12635};
-	if(name == 'Centennial'){num = 12815};
-	if(name == 'Center'){num = 12855};
-	if(name == 'Central City'){num = 12910};
-	if(name == 'Cheraw'){num = 13460};
-	if(name == 'Cherry Hills Village'){num = 13845};
-	if(name == 'Cheyenne Wells'){num = 14175};
-	if(name == 'City of Creede'){num = 14765};
-	if(name == 'Coal Creek'){num = 15330};
-	if(name == 'Cokedale'){num = 15550};
-	if(name == 'Collbran'){num = 15605};
-	if(name == 'Colorado Springs'){num = 16000};
-	if(name == 'Columbine Valley'){num = 16385};
-	if(name == 'Commerce City'){num = 16495};
-	if(name == 'Cortez'){num = 17375};
-	if(name == 'Craig'){num = 17760};
-	if(name == 'Crawford'){num = 17925};
-	if(name == 'Crested Butte'){num = 18310};
-	if(name == 'Crestone'){num = 18420};
-	if(name == 'Cripple Creek'){num = 18530};
-	if(name == 'Crook'){num = 18640};
-	if(name == 'Crowley'){num = 18750};
-	if(name == 'Dacono'){num = 19080};
-	if(name == 'De Beque'){num = 19355};
-	if(name == 'Deer Trail'){num = 19630};
-	if(name == 'Del Norte'){num = 19795};
-	if(name == 'Delta'){num = 19850};
-	if(name == 'Denver'){num = 20000};
-	if(name == 'Dillon'){num = 20440};
-	if(name == 'Dinosaur'){num = 20495};
-	if(name == 'Dolores'){num = 20770};
-	if(name == 'Dove Creek'){num = 21265};
-	if(name == 'Durango'){num = 22035};
-	if(name == 'Eads'){num = 22145};
-	if(name == 'Eagle'){num = 22200};
-	if(name == 'Eaton'){num = 22860};
-	if(name == 'Eckley'){num = 23025};
-	if(name == 'Edgewater'){num = 23135};
-	if(name == 'Elizabeth'){num = 23740};
-	if(name == 'Empire'){num = 24620};
-	if(name == 'Englewood'){num = 24785};
-	if(name == 'Erie'){num = 24950};
-	if(name == 'Estes Park'){num = 25115};
-	if(name == 'Evans'){num = 25280};
-	if(name == 'Fairplay'){num = 25610};
-	if(name == 'Federal Heights'){num = 26270};
-	if(name == 'Firestone'){num = 26600};
-	if(name == 'Flagler'){num = 26765};
-	if(name == 'Fleming'){num = 26875};
-	if(name == 'Florence'){num = 27040};
-	if(name == 'Fort Collins'){num = 27425};
-	if(name == 'Fort Lupton'){num = 27700};
-	if(name == 'Fort Morgan'){num = 27810};
-	if(name == 'Fountain'){num = 27865};
-	if(name == 'Fowler'){num = 27975};
-	if(name == 'Foxfield'){num = 28105};
-	if(name == 'Fraser'){num = 28305};
-	if(name == 'Frederick'){num = 28360};
-	if(name == 'Frisco'){num = 28690};
-	if(name == 'Fruita'){num = 28745};
-	if(name == 'Garden City'){num = 29185};
-	if(name == 'Genoa'){num = 29680};
-	if(name == 'Georgetown'){num = 29735};
-	if(name == 'Gilcrest'){num = 29955};
-	if(name == 'Glendale'){num = 30340};
-	if(name == 'Glenwood Springs'){num = 30780};
-	if(name == 'Golden'){num = 30835};
-	if(name == 'Granada'){num = 31550};
-	if(name == 'Granby'){num = 31605};
-	if(name == 'Grand Junction'){num = 31660};
-	if(name == 'Grand Lake'){num = 31715};
-	if(name == 'Greeley'){num = 32155};
-	if(name == 'Green Mountain Falls'){num = 32650};
-	if(name == 'Greenwood Village'){num = 33035};
-	if(name == 'Grover'){num = 33310};
-	if(name == 'Gunnison'){num = 33640};
-	if(name == 'Gypsum'){num = 33695};
-	if(name == 'Hartman'){num = 34520};
-	if(name == 'Haswell'){num = 34740};
-	if(name == 'Haxtun'){num = 34960};
-	if(name == 'Hayden'){num = 35070};
-	if(name == 'Hillrose'){num = 36610};
-	if(name == 'Holly'){num = 37215};
-	if(name == 'Holyoke'){num = 37270};
-	if(name == 'Hooper'){num = 37380};
-	if(name == 'Hotchkiss'){num = 37545};
-	if(name == 'Hot Sulphur Springs'){num = 37600};
-	if(name == 'Hudson'){num = 37820};
-	if(name == 'Hugo'){num = 37875};
-	if(name == 'Idaho Springs'){num = 38370};
-	if(name == 'Ignacio'){num = 38535};
-	if(name == 'Iliff'){num = 38590};
-	if(name == 'Jamestown'){num = 39195};
-	if(name == 'Johnstown'){num = 39855};
-	if(name == 'Julesburg'){num = 39965};
-	if(name == 'Keenesburg'){num = 40185};
-	if(name == 'Kersey'){num = 40515};
-	if(name == 'Kim'){num = 40570};
-	if(name == 'Kiowa'){num = 40790};
-	if(name == 'Kit Carson'){num = 41010};
-	if(name == 'Kremmling'){num = 41560};
-	if(name == 'Lafayette'){num = 41835};
-	if(name == 'La Jara'){num = 42055};
-	if(name == 'La Junta'){num = 42110};
-	if(name == 'Lake City'){num = 42330};
-	if(name == 'Lakeside'){num = 42495};
-	if(name == 'Lakewood'){num = 43000};
-	if(name == 'Lamar'){num = 43110};
-	if(name == 'Larkspur'){num = 43550};
-	if(name == 'La Salle'){num = 43605};
-	if(name == 'Las Animas'){num = 43660};
-	if(name == 'La Veta'){num = 44100};
-	if(name == 'Leadville'){num = 44320};
-	if(name == 'Limon'){num = 44980};
-	if(name == 'Littleton'){num = 45255};
-	if(name == 'Lochbuie'){num = 45530};
-	if(name == 'Log Lane Village'){num = 45695};
-	if(name == 'Lone Tree'){num = 45955};
-	if(name == 'Longmont'){num = 45970};
-	if(name == 'Louisville'){num = 46355};
-	if(name == 'Loveland'){num = 46465};
-	if(name == 'Lyons'){num = 47070};
-	if(name == 'Manassa'){num = 48060};
-	if(name == 'Mancos'){num = 48115};
-	if(name == 'Manitou Springs'){num = 48445};
-	if(name == 'Manzanola'){num = 48500};
-	if(name == 'Marble'){num = 48555};
-	if(name == 'Mead'){num = 49600};
-	if(name == 'Meeker'){num = 49875};
-	if(name == 'Merino'){num = 50040};
-	if(name == 'Milliken'){num = 50480};
-	if(name == 'Minturn'){num = 50920};
-	if(name == 'Moffat'){num = 51250};
-	if(name == 'Monte Vista'){num = 51635};
-	if(name == 'Montezuma'){num = 51690};
-	if(name == 'Montrose'){num = 51745};
-	if(name == 'Monument'){num = 51800};
-	if(name == 'Morrison'){num = 52075};
-	if(name == 'Mountain View'){num = 52350};
-	if(name == 'Mountain Village'){num = 52550};
-	if(name == 'Mount Crested Butte'){num = 52570};
-	if(name == 'Naturita'){num = 53120};
-	if(name == 'Nederland'){num = 53175};
-	if(name == 'New Castle'){num = 53395};
-	if(name == 'Northglenn'){num = 54330};
-	if(name == 'Norwood'){num = 54880};
-	if(name == 'Nucla'){num = 54935};
-	if(name == 'Nunn'){num = 55045};
-	if(name == 'Oak Creek'){num = 55155};
-	if(name == 'Olathe'){num = 55540};
-	if(name == 'Olney Springs'){num = 55705};
-	if(name == 'Ophir'){num = 55870};
-	if(name == 'Orchard City'){num = 55980};
-	if(name == 'Ordway'){num = 56145};
-	if(name == 'Otis'){num = 56365};
-	if(name == 'Ouray'){num = 56420};
-	if(name == 'Ovid'){num = 56475};
-	if(name == 'Pagosa Springs'){num = 56860};
-	if(name == 'Palisade'){num = 56970};
-	if(name == 'Palmer Lake'){num = 57025};
-	if(name == 'Paoli'){num = 57245};
-	if(name == 'Paonia'){num = 57300};
-	if(name == 'Parachute'){num = 57400};
-	if(name == 'Parker'){num = 57630};
-	if(name == 'Peetz'){num = 58235};
-	if(name == 'Pierce'){num = 59005};
-	if(name == 'Pitkin'){num = 59830};
-	if(name == 'Platteville'){num = 60160};
-	if(name == 'Poncha Springs'){num = 60600};
-	if(name == 'Pritchett'){num = 61315};
-	if(name == 'Pueblo'){num = 62000};
-	if(name == 'Ramah'){num = 62660};
-	if(name == 'Rangely'){num = 62880};
-	if(name == 'Raymer (New Raymer'){num = 63045};
-	if(name == 'Red Cliff'){num = 63265};
-	if(name == 'Rico'){num = 64090};
-	if(name == 'Ridgway'){num = 64200};
-	if(name == 'Rifle'){num = 64255};
-	if(name == 'Rockvale'){num = 64970};
-	if(name == 'Rocky Ford'){num = 65190};
-	if(name == 'Romeo'){num = 65740};
-	if(name == 'Rye'){num = 66895};
-	if(name == 'Saguache'){num = 67005};
-	if(name == 'Salida'){num = 67280};
-	if(name == 'Sanford'){num = 67830};
-	if(name == 'San Luis'){num = 68105};
-	if(name == 'Sawpit'){num = 68655};
-	if(name == 'Sedgwick'){num = 68930};
-	if(name == 'Seibert'){num = 69040};
-	if(name == 'Severance'){num = 69150};
-	if(name == 'Sheridan'){num = 69645};
-	if(name == 'Sheridan Lake'){num = 69700};
-	if(name == 'Silt'){num = 70195};
-	if(name == 'Silver Cliff'){num = 70250};
-	if(name == 'Silver Plume'){num = 70360};
-	if(name == 'Silverthorne'){num = 70525};
-	if(name == 'Silverton'){num = 70580};
-	if(name == 'Simla'){num = 70635};
-	if(name == 'Snowmass Village'){num = 71755};
-	if(name == 'South Fork'){num = 72395};
-	if(name == 'Springfield'){num = 73330};
-	if(name == 'Starkville'){num = 73715};
-	if(name == 'Steamboat Springs'){num = 73825};
-	if(name == 'Sterling'){num = 73935};
-	if(name == 'Stratton'){num = 74485};
-	if(name == 'Sugar City'){num = 74815};
-	if(name == 'Superior'){num = 75640};
-	if(name == 'Swink'){num = 75970};
-	if(name == 'Telluride'){num = 76795};
-	if(name == 'Thornton'){num = 77290};
-	if(name == 'Timnath'){num = 77510};
-	if(name == 'Trinidad'){num = 78610};
-	if(name == 'Two Buttes'){num = 79270};
-	if(name == 'Vail'){num = 80040};
-	if(name == 'Victor'){num = 80865};
-	if(name == 'Vilas'){num = 81030};
-	if(name == 'Vona'){num = 81690};
-	if(name == 'Walden'){num = 82130};
-	if(name == 'Walsenburg'){num = 82350};
-	if(name == 'Walsh'){num = 82460};
-	if(name == 'Ward'){num = 82735};
-	if(name == 'Wellington'){num = 83230};
-	if(name == 'Westcliffe'){num = 83450};
-	if(name == 'Westminster'){num = 83835};
-	if(name == 'Wheat Ridge'){num = 84440};
-	if(name == 'Wiggins'){num = 84770};
-	if(name == 'Wiley'){num = 85045};
-	if(name == 'Williamsburg'){num = 85155};
-	if(name == 'Windsor'){num = 85485};
-	if(name == 'Winter Park'){num = 85705};
-	if(name == 'Woodland Park'){num = 86090};
-	if(name == 'Wray'){num = 86310};
-	if(name == 'Yampa'){num = 86475};
-	if(name == 'Yuma'){num = 86750};
+	if(name2 == 'Colorado'){num = 0};
+	if(name2 == 'Aguilar'){num = 760};
+	if(name2 == 'Akron'){num = 925};
+	if(name2 == 'Alamosa'){num = 1090};
+	if(name2 == 'Alma'){num = 1530};
+	if(name2 == 'Antonito'){num = 2355};
+	if(name2 == 'Arriba'){num = 3235};
+	if(name2 == 'Arvada'){num = 3455};
+	if(name2 == 'Aspen'){num = 3620};
+	if(name2 == 'Ault'){num = 3950};
+	if(name2 == 'Aurora'){num = 4000};
+	if(name2 == 'Avon'){num = 4110};
+	if(name2 == 'Basalt'){num = 4935};
+	if(name2 == 'Bayfield'){num = 5265};
+	if(name2 == 'Bennett'){num = 6090};
+	if(name2 == 'Berthoud'){num = 6255};
+	if(name2 == 'Bethune'){num = 6530};
+	if(name2 == 'Black Hawk'){num = 7025};
+	if(name2 == 'Blanca'){num = 7190};
+	if(name2 == 'Blue River'){num = 7410};
+	if(name2 == 'Bonanza'){num = 7571};
+	if(name2 == 'Boone'){num = 7795};
+	if(name2 == 'Boulder'){num = 7850};
+	if(name2 == 'Bow Mar'){num = 8070};
+	if(name2 == 'Branson'){num = 8345};
+	if(name2 == 'Breckenridge'){num = 8400};
+	if(name2 == 'Brighton'){num = 8675};
+	if(name2 == 'Brookside'){num = 9115};
+	if(name2 == 'Broomfield'){num = 9280};
+	if(name2 == 'Brush'){num = 9555};
+	if(name2 == 'Buena Vista'){num = 10105};
+	if(name2 == 'Burlington'){num = 10600};
+	if(name2 == 'Calhan'){num = 11260};
+	if(name2 == 'Campo'){num = 11645};
+	if(name2 == 'Cañon City'){num = 11810};
+	if(name2 == 'Carbonate'){num = 12030};
+	if(name2 == 'Carbondale'){num = 12045};
+	if(name2 == 'Castle Pines'){num = 12387};
+	if(name2 == 'Castle Rock'){num = 12415};
+	if(name2 == 'Cedaredge'){num = 12635};
+	if(name2 == 'Centennial'){num = 12815};
+	if(name2 == 'Center'){num = 12855};
+	if(name2 == 'Central City'){num = 12910};
+	if(name2 == 'Cheraw'){num = 13460};
+	if(name2 == 'Cherry Hills Village'){num = 13845};
+	if(name2 == 'Cheyenne Wells'){num = 14175};
+	if(name2 == 'City of Creede'){num = 14765};
+	if(name2 == 'Coal Creek'){num = 15330};
+	if(name2 == 'Cokedale'){num = 15550};
+	if(name2 == 'Collbran'){num = 15605};
+	if(name2 == 'Colorado Springs'){num = 16000};
+	if(name2 == 'Columbine Valley'){num = 16385};
+	if(name2 == 'Commerce City'){num = 16495};
+	if(name2 == 'Cortez'){num = 17375};
+	if(name2 == 'Craig'){num = 17760};
+	if(name2 == 'Crawford'){num = 17925};
+	if(name2 == 'Crested Butte'){num = 18310};
+	if(name2 == 'Crestone'){num = 18420};
+	if(name2 == 'Cripple Creek'){num = 18530};
+	if(name2 == 'Crook'){num = 18640};
+	if(name2 == 'Crowley'){num = 18750};
+	if(name2 == 'Dacono'){num = 19080};
+	if(name2 == 'De Beque'){num = 19355};
+	if(name2 == 'Deer Trail'){num = 19630};
+	if(name2 == 'Del Norte'){num = 19795};
+	if(name2 == 'Delta'){num = 19850};
+	if(name2 == 'Denver'){num = 20000};
+	if(name2 == 'Dillon'){num = 20440};
+	if(name2 == 'Dinosaur'){num = 20495};
+	if(name2 == 'Dolores'){num = 20770};
+	if(name2 == 'Dove Creek'){num = 21265};
+	if(name2 == 'Durango'){num = 22035};
+	if(name2 == 'Eads'){num = 22145};
+	if(name2 == 'Eagle'){num = 22200};
+	if(name2 == 'Eaton'){num = 22860};
+	if(name2 == 'Eckley'){num = 23025};
+	if(name2 == 'Edgewater'){num = 23135};
+	if(name2 == 'Elizabeth'){num = 23740};
+	if(name2 == 'Empire'){num = 24620};
+	if(name2 == 'Englewood'){num = 24785};
+	if(name2 == 'Erie'){num = 24950};
+	if(name2 == 'Estes Park'){num = 25115};
+	if(name2 == 'Evans'){num = 25280};
+	if(name2 == 'Fairplay'){num = 25610};
+	if(name2 == 'Federal Heights'){num = 26270};
+	if(name2 == 'Firestone'){num = 26600};
+	if(name2 == 'Flagler'){num = 26765};
+	if(name2 == 'Fleming'){num = 26875};
+	if(name2 == 'Florence'){num = 27040};
+	if(name2 == 'Fort Collins'){num = 27425};
+	if(name2 == 'Fort Lupton'){num = 27700};
+	if(name2 == 'Fort Morgan'){num = 27810};
+	if(name2 == 'Fountain'){num = 27865};
+	if(name2 == 'Fowler'){num = 27975};
+	if(name2 == 'Foxfield'){num = 28105};
+	if(name2 == 'Fraser'){num = 28305};
+	if(name2 == 'Frederick'){num = 28360};
+	if(name2 == 'Frisco'){num = 28690};
+	if(name2 == 'Fruita'){num = 28745};
+	if(name2 == 'Garden City'){num = 29185};
+	if(name2 == 'Genoa'){num = 29680};
+	if(name2 == 'Georgetown'){num = 29735};
+	if(name2 == 'Gilcrest'){num = 29955};
+	if(name2 == 'Glendale'){num = 30340};
+	if(name2 == 'Glenwood Springs'){num = 30780};
+	if(name2 == 'Golden'){num = 30835};
+	if(name2 == 'Granada'){num = 31550};
+	if(name2 == 'Granby'){num = 31605};
+	if(name2 == 'Grand Junction'){num = 31660};
+	if(name2 == 'Grand Lake'){num = 31715};
+	if(name2 == 'Greeley'){num = 32155};
+	if(name2 == 'Green Mountain Falls'){num = 32650};
+	if(name2 == 'Greenwood Village'){num = 33035};
+	if(name2 == 'Grover'){num = 33310};
+	if(name2 == 'Gunnison'){num = 33640};
+	if(name2 == 'Gypsum'){num = 33695};
+	if(name2 == 'Hartman'){num = 34520};
+	if(name2 == 'Haswell'){num = 34740};
+	if(name2 == 'Haxtun'){num = 34960};
+	if(name2 == 'Hayden'){num = 35070};
+	if(name2 == 'Hillrose'){num = 36610};
+	if(name2 == 'Holly'){num = 37215};
+	if(name2 == 'Holyoke'){num = 37270};
+	if(name2 == 'Hooper'){num = 37380};
+	if(name2 == 'Hotchkiss'){num = 37545};
+	if(name2 == 'Hot Sulphur Springs'){num = 37600};
+	if(name2 == 'Hudson'){num = 37820};
+	if(name2 == 'Hugo'){num = 37875};
+	if(name2 == 'Idaho Springs'){num = 38370};
+	if(name2 == 'Ignacio'){num = 38535};
+	if(name2 == 'Iliff'){num = 38590};
+	if(name2 == 'Jamestown'){num = 39195};
+	if(name2 == 'Johnstown'){num = 39855};
+	if(name2 == 'Julesburg'){num = 39965};
+	if(name2 == 'Keenesburg'){num = 40185};
+	if(name2 == 'Kersey'){num = 40515};
+	if(name2 == 'Kim'){num = 40570};
+	if(name2 == 'Kiowa'){num = 40790};
+	if(name2 == 'Kit Carson'){num = 41010};
+	if(name2 == 'Kremmling'){num = 41560};
+	if(name2 == 'Lafayette'){num = 41835};
+	if(name2 == 'La Jara'){num = 42055};
+	if(name2 == 'La Junta'){num = 42110};
+	if(name2 == 'Lake City'){num = 42330};
+	if(name2 == 'Lakeside'){num = 42495};
+	if(name2 == 'Lakewood'){num = 43000};
+	if(name2 == 'Lamar'){num = 43110};
+	if(name2 == 'Larkspur'){num = 43550};
+	if(name2 == 'La Salle'){num = 43605};
+	if(name2 == 'Las Animas'){num = 43660};
+	if(name2 == 'La Veta'){num = 44100};
+	if(name2 == 'Leadville'){num = 44320};
+	if(name2 == 'Limon'){num = 44980};
+	if(name2 == 'Littleton'){num = 45255};
+	if(name2 == 'Lochbuie'){num = 45530};
+	if(name2 == 'Log Lane Village'){num = 45695};
+	if(name2 == 'Lone Tree'){num = 45955};
+	if(name2 == 'Longmont'){num = 45970};
+	if(name2 == 'Louisville'){num = 46355};
+	if(name2 == 'Loveland'){num = 46465};
+	if(name2 == 'Lyons'){num = 47070};
+	if(name2 == 'Manassa'){num = 48060};
+	if(name2 == 'Mancos'){num = 48115};
+	if(name2 == 'Manitou Springs'){num = 48445};
+	if(name2 == 'Manzanola'){num = 48500};
+	if(name2 == 'Marble'){num = 48555};
+	if(name2 == 'Mead'){num = 49600};
+	if(name2 == 'Meeker'){num = 49875};
+	if(name2 == 'Merino'){num = 50040};
+	if(name2 == 'Milliken'){num = 50480};
+	if(name2 == 'Minturn'){num = 50920};
+	if(name2 == 'Moffat'){num = 51250};
+	if(name2 == 'Monte Vista'){num = 51635};
+	if(name2 == 'Montezuma'){num = 51690};
+	if(name2 == 'Montrose'){num = 51745};
+	if(name2 == 'Monument'){num = 51800};
+	if(name2 == 'Morrison'){num = 52075};
+	if(name2 == 'Mountain View'){num = 52350};
+	if(name2 == 'Mountain Village'){num = 52550};
+	if(name2 == 'Mount Crested Butte'){num = 52570};
+	if(name2 == 'Naturita'){num = 53120};
+	if(name2 == 'Nederland'){num = 53175};
+	if(name2 == 'New Castle'){num = 53395};
+	if(name2 == 'Northglenn'){num = 54330};
+	if(name2 == 'Norwood'){num = 54880};
+	if(name2 == 'Nucla'){num = 54935};
+	if(name2 == 'Nunn'){num = 55045};
+	if(name2 == 'Oak Creek'){num = 55155};
+	if(name2 == 'Olathe'){num = 55540};
+	if(name2 == 'Olney Springs'){num = 55705};
+	if(name2 == 'Ophir'){num = 55870};
+	if(name2 == 'Orchard City'){num = 55980};
+	if(name2 == 'Ordway'){num = 56145};
+	if(name2 == 'Otis'){num = 56365};
+	if(name2 == 'Ouray'){num = 56420};
+	if(name2 == 'Ovid'){num = 56475};
+	if(name2 == 'Pagosa Springs'){num = 56860};
+	if(name2 == 'Palisade'){num = 56970};
+	if(name2 == 'Palmer Lake'){num = 57025};
+	if(name2 == 'Paoli'){num = 57245};
+	if(name2 == 'Paonia'){num = 57300};
+	if(name2 == 'Parachute'){num = 57400};
+	if(name2 == 'Parker'){num = 57630};
+	if(name2 == 'Peetz'){num = 58235};
+	if(name2 == 'Pierce'){num = 59005};
+	if(name2 == 'Pitkin'){num = 59830};
+	if(name2 == 'Platteville'){num = 60160};
+	if(name2 == 'Poncha Springs'){num = 60600};
+	if(name2 == 'Pritchett'){num = 61315};
+	if(name2 == 'Pueblo'){num = 62000};
+	if(name2 == 'Ramah'){num = 62660};
+	if(name2 == 'Rangely'){num = 62880};
+	if(name2 == 'Raymer (New Raymer'){num = 63045};
+	if(name2 == 'Red Cliff'){num = 63265};
+	if(name2 == 'Rico'){num = 64090};
+	if(name2 == 'Ridgway'){num = 64200};
+	if(name2 == 'Rifle'){num = 64255};
+	if(name2 == 'Rockvale'){num = 64970};
+	if(name2 == 'Rocky Ford'){num = 65190};
+	if(name2 == 'Romeo'){num = 65740};
+	if(name2 == 'Rye'){num = 66895};
+	if(name2 == 'Saguache'){num = 67005};
+	if(name2 == 'Salida'){num = 67280};
+	if(name2 == 'Sanford'){num = 67830};
+	if(name2 == 'San Luis'){num = 68105};
+	if(name2 == 'Sawpit'){num = 68655};
+	if(name2 == 'Sedgwick'){num = 68930};
+	if(name2 == 'Seibert'){num = 69040};
+	if(name2 == 'Severance'){num = 69150};
+	if(name2 == 'Sheridan'){num = 69645};
+	if(name2 == 'Sheridan Lake'){num = 69700};
+	if(name2 == 'Silt'){num = 70195};
+	if(name2 == 'Silver Cliff'){num = 70250};
+	if(name2 == 'Silver Plume'){num = 70360};
+	if(name2 == 'Silverthorne'){num = 70525};
+	if(name2 == 'Silverton'){num = 70580};
+	if(name2 == 'Simla'){num = 70635};
+	if(name2 == 'Snowmass Village'){num = 71755};
+	if(name2 == 'South Fork'){num = 72395};
+	if(name2 == 'Springfield'){num = 73330};
+	if(name2 == 'Starkville'){num = 73715};
+	if(name2 == 'Steamboat Springs'){num = 73825};
+	if(name2 == 'Sterling'){num = 73935};
+	if(name2 == 'Stratton'){num = 74485};
+	if(name2 == 'Sugar City'){num = 74815};
+	if(name2 == 'Superior'){num = 75640};
+	if(name2 == 'Swink'){num = 75970};
+	if(name2 == 'Telluride'){num = 76795};
+	if(name2 == 'Thornton'){num = 77290};
+	if(name2 == 'Timnath'){num = 77510};
+	if(name2 == 'Trinidad'){num = 78610};
+	if(name2 == 'Two Buttes'){num = 79270};
+	if(name2 == 'Vail'){num = 80040};
+	if(name2 == 'Victor'){num = 80865};
+	if(name2 == 'Vilas'){num = 81030};
+	if(name2 == 'Vona'){num = 81690};
+	if(name2 == 'Walden'){num = 82130};
+	if(name2 == 'Walsenburg'){num = 82350};
+	if(name2 == 'Walsh'){num = 82460};
+	if(name2 == 'Ward'){num = 82735};
+	if(name2 == 'Wellington'){num = 83230};
+	if(name2 == 'Westcliffe'){num = 83450};
+	if(name2 == 'Westminster'){num = 83835};
+	if(name2 == 'Wheat Ridge'){num = 84440};
+	if(name2 == 'Wiggins'){num = 84770};
+	if(name2 == 'Wiley'){num = 85045};
+	if(name2 == 'Williamsburg'){num = 85155};
+	if(name2 == 'Windsor'){num = 85485};
+	if(name2 == 'Winter Park'){num = 85705};
+	if(name2 == 'Woodland Park'){num = 86090};
+	if(name2 == 'Wray'){num = 86310};
+	if(name2 == 'Yampa'){num = 86475};
+	if(name2 == 'Yuma'){num = 86750};
+	if(name2.includes("Unincorporated")){num=99990}
 	return(num)
 } 
 // muniNum
@@ -1601,7 +1609,7 @@ return name;
 
 
 function popDropdown(level,ddid,callpg) {
-//popDropdown populaates drop down boxes based on input geography Type
+//popDropdown populates drop down boxes based on input geography Type
    
    //Counties
 var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Adams County', 'fips': '001'},
@@ -1639,22 +1647,24 @@ var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Adams Count
 				{'location':'Yuma County', 'fips': '125'}];
 
 if(callpg == "jobs"){
-	var county = [  {'location':'Colorado', 'fips': '000'}, {'location':'Denver-Boulder Metro Area', 'fips': '130'},
-                {'location':'Alamosa County', 'fips': '003'},
+	var county = [{'location':'Colorado', 'fips': '000'}, {'location':'Denver-Boulder Metro Area', 'fips': '500'},
+				{'location':'Adams County', 'fips': '001'},
+                {'location':'Alamosa County', 'fips': '003'},{'location':'Arapahoe County', 'fips': '005'},
 				{'location':'Archuleta County', 'fips': '007'},{'location':'Baca County', 'fips': '009'},
-				{'location':'Bent County', 'fips': '011'},
+				{'location':'Bent County', 'fips': '011'},{'location':'Boulder County', 'fips': '013'},
+				{'location':'Broomfield County', 'fips': '014'},
 				{'location':'Chaffee County', 'fips': '015'},
 				{'location':'Cheyenne County', 'fips': '017'},{'location':'Clear Creek County', 'fips': '019'},
 				{'location':'Conejos County', 'fips': '021'},{'location':'Costilla County', 'fips': '023'},
 				{'location':'Crowley County', 'fips': '025'},{'location':'Custer County', 'fips': '027'},
-				{'location':'Delta County', 'fips': '029'},
-				{'location':'Dolores County', 'fips': '033'},
+				{'location':'Delta County', 'fips': '029'},{'location':'Denver County', 'fips': '031'},
+				{'location':'Dolores County', 'fips': '033'},{'location':'Douglas County', 'fips': '035'},
 				{'location':'Eagle County', 'fips': '037'},{'location':'Elbert County', 'fips': '039'},
 				{'location':'El Paso County', 'fips': '041'},{'location':'Fremont County', 'fips': '043'},
 				{'location':'Garfield County', 'fips': '045'},{'location':'Gilpin County', 'fips': '047'},
 				{'location':'Grand County', 'fips': '049'},{'location':'Gunnison County', 'fips': '051'},
 				{'location':'Hinsdale County', 'fips': '053'},{'location':'Huerfano County', 'fips': '055'},
-				{'location':'Jackson County', 'fips': '057'},
+				{'location':'Jackson County', 'fips': '057'},{'location':'Jefferson County', 'fips': '059'},
 				{'location':'Kiowa County', 'fips': '061'},{'location':'Kit Carson County', 'fips': '063'},
 				{'location':'Lake County', 'fips': '065'},{'location':'La Plata County', 'fips': '067'},
 				{'location':'Larimer County', 'fips': '069'},{'location':'Las Animas County', 'fips': '071'},
@@ -1688,7 +1698,7 @@ var region =  [
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 5: Central Eastern Plains', 'regnum' : '10'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 6: Southern Eastern Plains', 'regnum' : '11'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 7: Pueblo County', 'regnum' : '12'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 8: San Juan Valley', 'regnum' : '13'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 8: San Luis Valley', 'regnum' : '13'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 9: Southern Western Slope', 'regnum' : '14'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 10: Central Western Slope', 'regnum' : '15'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 11: Northern Western Slope', 'regnum' : '16'},
@@ -1736,7 +1746,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Brush' , 'fips' : '09555'}, {'location' :  'Buena Vista' , 'fips' : '10105'},
 		{'location' :  'Burlington' , 'fips' : '10600'}, {'location' :  'Calhan' , 'fips' : '11260'},
 		{'location' :  'Campo' , 'fips' : '11645'}, {'location' :  'Ca\u00f1on City' , 'fips' : '11810'},
-		{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12387'},
+		{'location' :  'Carbonate' , 'fips' : '12030'},{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12387'},
 		{'location' :  'Castle Rock' , 'fips' : '12415'}, {'location' :  'Cedaredge' , 'fips' : '12635'},
 		{'location' :  'Centennial' , 'fips' : '12815'}, {'location' :  'Center' , 'fips' : '12855'},
 		{'location' :  'Central City' , 'fips' : '12910'}, {'location' :  'Cheraw' , 'fips' : '13460'},
@@ -1785,7 +1795,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Idaho Springs' , 'fips' : '38370'}, {'location' :  'Ignacio' , 'fips' : '38535'},
 		{'location' :  'Iliff' , 'fips' : '38590'}, {'location' :  'Jamestown' , 'fips' : '39195'},
 		{'location' :  'Johnstown' , 'fips' : '39855'}, {'location' :  'Julesburg' , 'fips' : '39965'},
-		{'location' :  'Keenesburg' , 'fips' : '40185'}, {'location' :  'Kersey' , 'fips' : '40515'},
+		{'location' :  'Keenesburg' , 'fips' : '40185'}, {'location' :  'Kersey' , 'fips' : '40515'}, {'location' :  'Keystone' , 'fips' : '40550'}, 
 		{'location' :  'Kim' , 'fips' : '40570'}, {'location' :  'Kiowa' , 'fips' : '40790'},
 		{'location' :  'Kit Carson' , 'fips' : '41010'}, {'location' :  'Kremmling' , 'fips' : '41560'},
 		{'location' :  'La Jara' , 'fips' : '42055'}, {'location' :  'La Junta' , 'fips' : '42110'},
@@ -1903,7 +1913,7 @@ var place =[{'location' :  'Acres Green CDP' , 'fips' : '00320'}, {'location' : 
 		{'location' :  'Inverness CDP' , 'fips' : '38910'}, {'location' :  'Jackson Lake CDP' , 'fips' : '39160'},
 		{'location' :  'Jansen CDP' , 'fips' : '39250'}, {'location' :  'Joes CDP' , 'fips' : '39745'},
 		{'location' :  'Johnson Village CDP' , 'fips' : '39800'}, {'location' :  'Ken Caryl CDP' , 'fips' : '40377'},
-		{'location' :  'Keystone CDP' , 'fips' : '40550'}, {'location' :  'Kirk CDP' , 'fips' : '40900'},
+		{'location' :  'Kirk CDP' , 'fips' : '40900'},
 		{'location' :  'Kittredge CDP' , 'fips' : '41065'}, {'location' :  'La Junta Gardens CDP' , 'fips' : '42165'},
 		{'location' :  'Laird CDP' , 'fips' : '42000'}, {'location' :  'Laporte CDP' , 'fips' : '43220'},
 		{'location' :  'Lazy Acres CDP' , 'fips' : '44270'}, {'location' :  'Leadville North CDP' , 'fips' : '44375'},
@@ -1950,9 +1960,178 @@ var place =[{'location' :  'Acres Green CDP' , 'fips' : '00320'}, {'location' : 
 		{'location' :  'Westcreek CDP' , 'fips' : '83500'}, {'location' :  'Weston CDP' , 'fips' : '84000'},
 		{'location' :  'Wolcott CDP' , 'fips' : '85760'}, {'location' :  'Woodmoor CDP' , 'fips' : '86117'}]
 
+// County and muni
+var ctymuni = [{'location' : 'Arvada', 'fips' : '00103455'}, {'location' : 'Aurora', 'fips' : '00104000'},
+			{'location' : 'Bennett', 'fips' : '00106090'}, {'location' : 'Brighton', 'fips' : '00108675'},
+			{'location' : 'Commerce City', 'fips' : '00116495'}, {'location' : 'Federal Heights', 'fips' : '00126270'},
+			{'location' : 'Lochbuie', 'fips' : '00145530'}, {'location' : 'Northglenn', 'fips' : '00154330'},
+			{'location' : 'Thornton', 'fips' : '00177290'}, {'location' : 'Westminster', 'fips' : '00183835'},
+			{'location' : 'Unincorporated Adams County', 'fips' : '00199990'}, {'location' : 'Alamosa', 'fips' : '00301090'},
+			{'location' : 'Hooper', 'fips' : '00337380'}, {'location' : 'Unincorporated Alamosa County', 'fips' : '00399990'},
+			{'location' : 'Bow Mar', 'fips' : '00508070'}, {'location' : 'Centennial', 'fips' : '00512815'},
+			{'location' : 'Cherry Hills Village', 'fips' : '00513845'}, {'location' : 'Columbine Valley', 'fips' : '00516385'},
+			{'location' : 'Deer Trail', 'fips' : '00519630'}, {'location' : 'Englewood', 'fips' : '00524785'},
+			{'location' : 'Foxfield', 'fips' : '00528105'}, {'location' : 'Glendale', 'fips' : '00530340'},
+			{'location' : 'Greenwood Village', 'fips' : '00533035'}, {'location' : 'Littleton', 'fips' : '00545255'},
+			{'location' : 'Sheridan', 'fips' : '00569645'}, {'location' : 'Unincorporated Arapahoe County', 'fips' : '00599990'},
+			{'location' : 'Pagosa Springs', 'fips' : '00756860'}, {'location' : 'Unincorporated Archuleta County', 'fips' : '00799990'},
+			{'location' : 'Campo', 'fips' : '00911645'}, {'location' : 'Pritchett', 'fips' : '00961315'},
+			{'location' : 'Springfield', 'fips' : '00973330'}, {'location' : 'Two Buttes', 'fips' : '00979270'},
+			{'location' : 'Vilas', 'fips' : '00981030'}, {'location' : 'Walsh', 'fips' : '00982460'},
+			{'location' : 'Unincorporated Baca County', 'fips' : '00999990'}, {'location' : 'Las Animas', 'fips' : '01143660'},
+			{'location' : 'Unincorporated Bent County', 'fips' : '01199990'}, {'location' : 'Boulder', 'fips' : '01307850'},
+			{'location' : 'Erie', 'fips' : '01324950'}, {'location' : 'Jamestown', 'fips' : '01339195'},
+			{'location' : 'Lafayette', 'fips' : '01341835'}, {'location' : 'Longmont', 'fips' : '01345970'},
+			{'location' : 'Louisville', 'fips' : '01346355'}, {'location' : 'Lyons', 'fips' : '01347070'},
+			{'location' : 'Nederland', 'fips' : '01353175'}, {'location' : 'Superior', 'fips' : '01375640'},
+			{'location' : 'Ward', 'fips' : '01382735'}, {'location' : 'Unincorporated Boulder County', 'fips' : '01399990'},
+			{'location' : 'Broomfield', 'fips' : '01409280'}, {'location' : 'Unincorporated Broomfield County', 'fips' : '01499990'},
+			{'location' : 'Buena Vista', 'fips' : '01510105'}, {'location' : 'Poncha Springs', 'fips' : '01560600'},
+			{'location' : 'Salida', 'fips' : '01567280'}, {'location' : 'Unincorporated Chaffee County', 'fips' : '01599990'},
+			{'location' : 'Cheyenne Wells', 'fips' : '01714175'}, {'location' : 'Kit Carson', 'fips' : '01741010'},
+			{'location' : 'Unincorporated Cheyenne County', 'fips' : '01799990'}, {'location' : 'Central City', 'fips' : '01912910'},
+			{'location' : 'Empire', 'fips' : '01924620'}, {'location' : 'Georgetown', 'fips' : '01929735'},
+			{'location' : 'Idaho Springs', 'fips' : '01938370'}, {'location' : 'Silver Plume', 'fips' : '01970360'},
+			{'location' : 'Unincorporated Clear Creek County', 'fips' : '01999990'}, {'location' : 'Antonito', 'fips' : '02102355'},
+			{'location' : 'La Jara', 'fips' : '02142055'}, {'location' : 'Manassa', 'fips' : '02148060'},
+			{'location' : 'Romeo', 'fips' : '02165740'}, {'location' : 'Sanford', 'fips' : '02167830'},
+			{'location' : 'Unincorporated Conejos County', 'fips' : '02199990'}, {'location' : 'Blanca', 'fips' : '02307190'},
+			{'location' : 'San Luis', 'fips' : '02368105'}, {'location' : 'Unincorporated Costilla County', 'fips' : '02399990'},
+			{'location' : 'Crowley', 'fips' : '02518750'}, {'location' : 'Olney Springs', 'fips' : '02555705'},
+			{'location' : 'Ordway', 'fips' : '02556145'}, {'location' : 'Sugar City', 'fips' : '02574815'},
+			{'location' : 'Unincorporated Crowley County', 'fips' : '02599990'}, {'location' : 'Silver Cliff', 'fips' : '02770250'},
+			{'location' : 'Westcliffe', 'fips' : '02783450'}, {'location' : 'Unincorporated Custer County', 'fips' : '02799990'},
+			{'location' : 'Cedaredge', 'fips' : '02912635'}, {'location' : 'Crawford', 'fips' : '02917925'},
+			{'location' : 'Delta', 'fips' : '02919850'}, {'location' : 'Hotchkiss', 'fips' : '02937545'},
+			{'location' : 'Orchard City', 'fips' : '02955980'}, {'location' : 'Paonia', 'fips' : '02957300'},
+			{'location' : 'Unincorporated Delta County', 'fips' : '02999990'}, {'location' : 'Denver', 'fips' : '03120000'},
+			{'location' : 'Unincorporated Denver County', 'fips' : '03199990'}, {'location' : 'Dove Creek', 'fips' : '03321265'},
+			{'location' : 'Rico', 'fips' : '03364090'}, {'location' : 'Unincorporated Dolores County', 'fips' : '03399990'},
+			{'location' : 'Castle Pines North', 'fips' : '03512390'}, {'location' : 'Castle Rock', 'fips' : '03512415'},
+			{'location' : 'Larkspur', 'fips' : '03543550'}, {'location' : 'Lone Tree', 'fips' : '03545955'},
+			{'location' : 'Parker', 'fips' : '03557630'}, {'location' : 'Unincorporated Douglas County', 'fips' : '03599990'},
+			{'location' : 'Avon', 'fips' : '03704110'}, {'location' : 'Basalt', 'fips' : '03704935'},
+			{'location' : 'Eagle', 'fips' : '03722200'}, {'location' : 'Gypsum', 'fips' : '03733695'},
+			{'location' : 'Minturn', 'fips' : '03750920'}, {'location' : 'Red Cliff', 'fips' : '03763265'},
+			{'location' : 'Vail', 'fips' : '03780040'}, {'location' : 'Unincorporated Eagle County', 'fips' : '03799990'},
+			{'location' : 'Elizabeth', 'fips' : '03923740'}, {'location' : 'Kiowa', 'fips' : '03940790'},
+			{'location' : 'Simla', 'fips' : '03970635'}, {'location' : 'Unincorporated Elbert County', 'fips' : '03999990'},
+			{'location' : 'Calhan', 'fips' : '04111260'}, {'location' : 'Colorado Springs', 'fips' : '04116000'},
+			{'location' : 'Fountain', 'fips' : '04127865'}, {'location' : 'Green Mountain Falls', 'fips' : '04132650'},
+			{'location' : 'Manitou Springs', 'fips' : '04148445'}, {'location' : 'Monument', 'fips' : '04151800'},
+			{'location' : 'Palmer Lake', 'fips' : '04157025'}, {'location' : 'Ramah', 'fips' : '04162660'},
+			{'location' : 'Unincorporated El Paso County', 'fips' : '04199990'}, {'location' : 'Brookside', 'fips' : '04309115'},
+			{'location' : 'Cañon City', 'fips' : '04311810'}, {'location' : 'Coal Creek', 'fips' : '04315330'},
+			{'location' : 'Florence', 'fips' : '04327040'}, {'location' : 'Rockvale', 'fips' : '04364970'},
+			{'location' : 'Williamsburg', 'fips' : '04385155'}, {'location' : 'Unincorporated Fremont County', 'fips' : '04399990'},
+			{'location' : 'Carbondale', 'fips' : '04512045'}, {'location' : 'Glenwood Springs', 'fips' : '04530780'},
+			{'location' : 'New Castle', 'fips' : '04553395'}, {'location' : 'Parachute', 'fips' : '04557400'},
+			{'location' : 'Rifle', 'fips' : '04564255'}, {'location' : 'Silt', 'fips' : '04570195'},
+			{'location' : 'Unincorporated Garfield County', 'fips' : '04599990'}, {'location' : 'Black Hawk', 'fips' : '04707025'},
+			{'location' : 'Unincorporated Gilpin County', 'fips' : '04799990'}, {'location' : 'Fraser', 'fips' : '04928305'},
+			{'location' : 'Granby', 'fips' : '04931605'}, {'location' : 'Grand Lake', 'fips' : '04931715'},
+			{'location' : 'Hot Sulphur Springs', 'fips' : '04937600'}, {'location' : 'Kremmling', 'fips' : '04941560'},
+			{'location' : 'Winter Park', 'fips' : '04985705'}, {'location' : 'Unincorporated Grand County', 'fips' : '04999990'},
+			{'location' : 'Crested Butte', 'fips' : '05118310'}, {'location' : 'Gunnison', 'fips' : '05133640'},
+			{'location' : 'Marble', 'fips' : '05148555'}, {'location' : 'Mount Crested Butte', 'fips' : '05152570'},
+			{'location' : 'Pitkin', 'fips' : '05159830'}, {'location' : 'Unincorporated Gunnison County', 'fips' : '05199990'},
+			{'location' : 'Lake City', 'fips' : '05342330'}, {'location' : 'Unincorporated Hinsdale County', 'fips' : '05399990'},
+			{'location' : 'La Veta', 'fips' : '05544100'}, {'location' : 'Walsenburg', 'fips' : '05582350'},
+			{'location' : 'Unincorporated Huerfano County', 'fips' : '05599990'}, {'location' : 'Walden', 'fips' : '05782130'},
+			{'location' : 'Unincorporated Jackson County', 'fips' : '05799990'}, {'location' : 'Edgewater', 'fips' : '05923135'},
+			{'location' : 'Golden', 'fips' : '05930835'}, {'location' : 'Lakeside', 'fips' : '05942495'},
+			{'location' : 'Lakewood', 'fips' : '05943000'}, {'location' : 'Morrison', 'fips' : '05952075'},
+			{'location' : 'Mountain View', 'fips' : '05952350'}, {'location' : 'Wheat Ridge', 'fips' : '05984440'},
+			{'location' : 'Unincorporated Jefferson County', 'fips' : '05999990'}, {'location' : 'Eads', 'fips' : '06122145'},
+			{'location' : 'Haswell', 'fips' : '06134740'}, {'location' : 'Sheridan Lake', 'fips' : '06169700'},
+			{'location' : 'Unincorporated Kiowa County', 'fips' : '06199990'}, {'location' : 'Bethune', 'fips' : '06306530'},
+			{'location' : 'Burlington', 'fips' : '06310600'}, {'location' : 'Flagler', 'fips' : '06326765'},
+			{'location' : 'Seibert', 'fips' : '06369040'}, {'location' : 'Stratton', 'fips' : '06374485'},
+			{'location' : 'Vona', 'fips' : '06381690'}, {'location' : 'Unincorporated Kit Carson County', 'fips' : '06399990'},
+			{'location' : 'Leadville', 'fips' : '06544320'}, {'location' : 'Unincorporated Lake County', 'fips' : '06599990'},
+			{'location' : 'Bayfield', 'fips' : '06705265'}, {'location' : 'Durango', 'fips' : '06722035'},
+			{'location' : 'Ignacio', 'fips' : '06738535'}, {'location' : 'Unincorporated La Plata County', 'fips' : '06799990'},
+			{'location' : 'Berthoud', 'fips' : '06906255'}, {'location' : 'Estes Park', 'fips' : '06925115'},
+			{'location' : 'Fort Collins', 'fips' : '06927425'}, {'location' : 'Johnstown', 'fips' : '06939855'},
+			{'location' : 'Loveland', 'fips' : '06946465'}, {'location' : 'Timnath', 'fips' : '06977510'},
+			{'location' : 'Wellington', 'fips' : '06983230'}, {'location' : 'Windsor', 'fips' : '06985485'},
+			{'location' : 'Unincorporated Larimer County', 'fips' : '06999990'},
+			{'location' : 'Aguilar', 'fips' : '07100760'}, {'location' : 'Branson', 'fips' : '07108345'},
+			{'location' : 'Cokedale', 'fips' : '07115550'}, {'location' : 'Kim', 'fips' : '07140570'},
+			{'location' : 'Starkville', 'fips' : '07173715'}, {'location' : 'Trinidad', 'fips' : '07178610'},
+			{'location' : 'Unincorporated Las Animas County', 'fips' : '07199990'}, {'location' : 'Arriba', 'fips' : '07303235'},
+			{'location' : 'Genoa', 'fips' : '07329680'}, {'location' : 'Hugo', 'fips' : '07337875'},
+			{'location' : 'Limon', 'fips' : '07344980'}, {'location' : 'Unincorporated Lincoln County', 'fips' : '07399990'},
+			{'location' : 'Crook', 'fips' : '07518640'}, {'location' : 'Fleming', 'fips' : '07526875'},
+			{'location' : 'Iliff', 'fips' : '07538590'}, {'location' : 'Merino', 'fips' : '07550040'},
+			{'location' : 'Peetz', 'fips' : '07558235'}, {'location' : 'Sterling', 'fips' : '07573935'},
+			{'location' : 'Unincorporated Logan County', 'fips' : '07599990'}, {'location' : 'Collbran', 'fips' : '07715605'},
+			{'location' : 'De Beque', 'fips' : '07719355'}, {'location' : 'Fruita', 'fips' : '07728745'},
+			{'location' : 'Grand Junction', 'fips' : '07731660'}, {'location' : 'Palisade', 'fips' : '07756970'},
+			{'location' : 'Unincorporated Mesa County', 'fips' : '07799990'}, {'location' : 'City of Creede', 'fips' : '07914765'},
+			{'location' : 'Unincorporated Mineral County', 'fips' : '07999990'}, {'location' : 'Craig', 'fips' : '08117760'},
+			{'location' : 'Dinosaur', 'fips' : '08120495'}, {'location' : 'Unincorporated Moffat County', 'fips' : '08199990'},
+			{'location' : 'Cortez', 'fips' : '08317375'}, {'location' : 'Dolores', 'fips' : '08320770'},
+			{'location' : 'Mancos', 'fips' : '08348115'}, {'location' : 'Unincorporated Montezuma County', 'fips' : '08399990'},
+			{'location' : 'Montrose', 'fips' : '08551745'}, {'location' : 'Naturita', 'fips' : '08553120'},
+			{'location' : 'Nucla', 'fips' : '08554935'}, {'location' : 'Olathe', 'fips' : '08555540'},
+			{'location' : 'Unincorporated Montrose County', 'fips' : '08599990'}, {'location' : 'Brush', 'fips' : '08709555'},
+			{'location' : 'Fort Morgan', 'fips' : '08727810'}, {'location' : 'Hillrose', 'fips' : '08736610'},
+			{'location' : 'Log Lane Village', 'fips' : '08745695'}, {'location' : 'Wiggins', 'fips' : '08784770'},
+			{'location' : 'Unincorporated Morgan County', 'fips' : '08799990'}, {'location' : 'Cheraw', 'fips' : '08913460'},
+			{'location' : 'Fowler', 'fips' : '08927975'}, {'location' : 'La Junta', 'fips' : '08942110'},
+			{'location' : 'Manzanola', 'fips' : '08948500'}, {'location' : 'Rocky Ford', 'fips' : '08965190'},
+			{'location' : 'Swink', 'fips' : '08975970'}, {'location' : 'Unincorporated Otero County', 'fips' : '08999990'},
+			{'location' : 'Ouray', 'fips' : '09156420'}, {'location' : 'Ridgway', 'fips' : '09164200'},
+			{'location' : 'Unincorporated Ouray County', 'fips' : '09199990'}, {'location' : 'Alma', 'fips' : '09301530'},
+			{'location' : 'Fairplay', 'fips' : '09325610'}, {'location' : 'Unincorporated Park County', 'fips' : '09399990'},
+			{'location' : 'Haxtun', 'fips' : '09534960'}, {'location' : 'Holyoke', 'fips' : '09537270'},
+			{'location' : 'Paoli', 'fips' : '09557245'}, {'location' : 'Unincorporated Phillips County', 'fips' : '09599990'},
+			{'location' : 'Aspen', 'fips' : '09703620'}, {'location' : 'Snowmass Village', 'fips' : '09771755'},
+			{'location' : 'Unincorporated Pitkin County', 'fips' : '09799990'}, {'location' : 'Granada', 'fips' : '09931550'},
+			{'location' : 'Hartman', 'fips' : '09934520'}, {'location' : 'Holly', 'fips' : '09937215'},
+			{'location' : 'Lamar', 'fips' : '09943110'}, {'location' : 'Wiley', 'fips' : '09985045'},
+			{'location' : 'Unincorporated Prowers County', 'fips' : '09999990'}, {'location' : 'Boone', 'fips' : '10107795'},
+			{'location' : 'Pueblo', 'fips' : '10162000'}, {'location' : 'Rye', 'fips' : '10166895'},
+			{'location' : 'Unincorporated Pueblo County', 'fips' : '10199990'}, {'location' : 'Meeker', 'fips' : '10349875'},
+			{'location' : 'Rangely', 'fips' : '10362880'}, {'location' : 'Unincorporated Rio Blanco County', 'fips' : '10399990'},
+			{'location' : 'Center', 'fips' : '10512855'}, {'location' : 'Del Norte', 'fips' : '10519795'},
+			{'location' : 'Monte Vista', 'fips' : '10551635'}, {'location' : 'South Fork', 'fips' : '10572395'},
+			{'location' : 'Unincorporated Rio Grande County', 'fips' : '10599990'}, {'location' : 'Hayden', 'fips' : '10735070'},
+			{'location' : 'Oak Creek', 'fips' : '10755155'}, {'location' : 'Steamboat Springs', 'fips' : '10773825'},
+			{'location' : 'Yampa', 'fips' : '10786475'}, {'location' : 'Unincorporated Routt County', 'fips' : '10799990'},
+			{'location' : 'Bonanza', 'fips' : '10907571'}, {'location' : 'Crestone', 'fips' : '10918420'},
+			{'location' : 'Moffat', 'fips' : '10951250'}, {'location' : 'Saguache', 'fips' : '10967005'},
+			{'location' : 'Unincorporated Saguache County', 'fips' : '10999990'}, {'location' : 'Silverton', 'fips' : '11170580'},
+			{'location' : 'Unincorporated San Juan County', 'fips' : '11199990'}, {'location' : 'Mountain Village', 'fips' : '11352550'},
+			{'location' : 'Norwood', 'fips' : '11354880'}, {'location' : 'Ophir', 'fips' : '11355870'},
+			{'location' : 'Sawpit', 'fips' : '11368655'}, {'location' : 'Telluride', 'fips' : '11376795'},
+			{'location' : 'Unincorporated San Miguel County', 'fips' : '11399990'}, {'location' : 'Julesburg', 'fips' : '11539965'},
+			{'location' : 'Ovid', 'fips' : '11556475'}, {'location' : 'Sedgwick', 'fips' : '11568930'},
+			{'location' : 'Unincorporated Sedgwick County', 'fips' : '11599990'}, {'location' : 'Blue River', 'fips' : '11707410'},
+			{'location' : 'Breckenridge', 'fips' : '11708400'}, {'location' : 'Dillon', 'fips' : '11720440'},
+			{'location' : 'Frisco', 'fips' : '11728690'}, {'location' : 'Montezuma', 'fips' : '11751690'},
+			{'location' : 'Silverthorne', 'fips' : '11770525'}, {'location' : 'Unincorporated Summit County', 'fips' : '11799990'},
+			{'location' : 'Cripple Creek', 'fips' : '11918530'}, {'location' : 'Victor', 'fips' : '11980865'},
+			{'location' : 'Woodland Park', 'fips' : '11986090'}, {'location' : 'Unincorporated Teller County', 'fips' : '11999990'},
+			{'location' : 'Akron', 'fips' : '12100925'}, {'location' : 'Otis', 'fips' : '12156365'},
+			{'location' : 'Unincorporated Washington County', 'fips' : '12199990'}, {'location' : 'Ault', 'fips' : '12303950'},
+			{'location' : 'Dacono', 'fips' : '12319080'}, {'location' : 'Eaton', 'fips' : '12322860'},
+			{'location' : 'Evans', 'fips' : '12325280'}, {'location' : 'Firestone', 'fips' : '12326600'},
+			{'location' : 'Fort Lupton', 'fips' : '12327700'}, {'location' : 'Frederick', 'fips' : '12328360'},
+			{'location' : 'Garden City', 'fips' : '12329185'}, {'location' : 'Gilcrest', 'fips' : '12329955'},
+			{'location' : 'Greeley', 'fips' : '12332155'}, {'location' : 'Grover', 'fips' : '12333310'},
+			{'location' : 'Hudson', 'fips' : '12337820'}, {'location' : 'Keenesburg', 'fips' : '12340185'},
+			{'location' : 'Kersey', 'fips' : '12340515'}, {'location' : 'La Salle', 'fips' : '12343605'},
+			{'location' : 'Mead', 'fips' : '12349600'}, {'location' : 'Milliken', 'fips' : '12350480'},
+			{'location' : 'Nunn', 'fips' : '12355045'}, {'location' : 'Pierce', 'fips' : '12359005'},
+			{'location' : 'Platteville', 'fips' : '12360160'}, {'location' : 'Raymer (New Raymer)', 'fips' : '12363045'},
+			{'location' : 'Severance', 'fips' : '12369150'}, {'location' : 'Unincorporated Weld County', 'fips' : '12399990'},
+			{'location' : 'Eckley', 'fips' : '12523025'}, {'location' : 'Wray', 'fips' : '12586310'},
+			{'location' : 'Yuma', 'fips' : '12586750'}, {'location' : 'Unincorporated Yuma County', 'fips' : '12599990'}]
 //Profile selection -- Removing Comparisons and CDPs  
 var profile = [{'location' :  'Select Profile' , 'fips' : ''},{'location' :  'Region' , 'fips' : 'region'}, {'location' :  'County' , 'fips' : 'county'},
-		{'location' :  'Municipality', 'fips' : 'municipality'}
+		{'location' :  'Municipality', 'fips' : 'municipality'}, {'location' :  'Municipality by County' , 'fips' : 'ctymuni'}
 	/*
         {'location' :  'Census Designated Place' , 'fips' : 'place'},
 		{'location' :  'Regional Comparison' , 'fips' : 'regioncomp'}, {'location' :  'County Comparison' , 'fips' : 'countycomp'},
@@ -1984,6 +2163,7 @@ if(level == 'regioncomp') {var locarr = region};
 if(level == 'countycomp') {var locarr = county};
 if(level == 'municipalitycomp') { var locarr = municipality};
 if(level == 'placecomp') { var locarr = place};
+if(level == 'ctymuni') {var locarr = ctymuni};
 if(level == 'profile') { var locarr = profile};
 
 var sel = document.getElementById(ddid);
@@ -2007,6 +2187,18 @@ if(level == 'region' || level == 'regioncomp') {
 	}
 	
     } else {
+	if(callpg == 'jobs'){
+		var sel = document.getElementById(ddid);
+		for(var i = 0; i < locarr.length; i++) {
+			var el = document.createElement("option");
+			el.textContent = locarr[i].location;
+			if(["001","005","013","014","031","035","059"].includes(locarr[i].fips)){
+				el.style.color = "#A51C30"
+			}
+			el.value = locarr[i].fips;
+			sel.appendChild(el);
+		}
+	} else {
 	if(callpg == 'lookup') {
 		locarr.shift()
 	}
@@ -2017,6 +2209,7 @@ if(level == 'region' || level == 'regioncomp') {
 			el.value = locarr[i].fips;
 			sel.appendChild(el);
 		}
+	}
 	}
 }; 
 // popDropdown	
@@ -2108,21 +2301,31 @@ if(regnum == 39) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035',
 
 function restructureRace(inData) {
 //restructureRace restructures SDO race data 
-    var output = [];
-   var WH, HP, BL, AS, AM;
+   var output = [];
+   var WH, HP, BL, AS, NH, AM, MULTI;
    var ages = [... new Set(inData.map(tag => tag.age))];
 
     for(i = 0; i < ages.length; i++) {
 		var tmp = inData.filter(function(d) {return d.age == ages[i];});
 		for(j = 0; j < tmp.length; j++) {
-				  if( tmp[j].race_eth == "White NH") { WH = tmp[j].population};
+				  if( tmp[j].race_eth == "White alone NH") { WH = tmp[j].population};
 				  if( tmp[j].race_eth == "Hispanic") { HP = tmp[j].population};
-				  if( tmp[j].race_eth == "Black NH") { BL = tmp[j].population};
-				  if( tmp[j].race_eth == "Asian/Pacific Islander NH") {AS = tmp[j].population};
-				  if( tmp[j].race_eth == "American Indian NH") {AM = tmp[j].population};
+				  if( tmp[j].race_eth == "Black or African American alone NH") { BL = tmp[j].population};
+				  if( tmp[j].race_eth == "Asian alone NH") {AS = tmp[j].population};
+				  if( tmp[j].race_eth == "Native Hawaiian or Other Pacific Islander alone NH") {NH = tmp[j].population};
+				  if( tmp[j].race_eth == "American Indian and Alaska Native alone NH") {AM = tmp[j].population};
+		          if( tmp[j].race_eth == "Two or more NH") {MULTI = tmp[j].population};
 				}
-		output.push({ 'age' : tmp[0].age, "Hisapnic" : HP, "White NH" : WH, "Black NH" : BL, "Asian/Pacific Islander NH" : AS, "American Indian, NH" : AM});
+		output.push({"fips" : tmp[0].fips, "name" : tmp[0].name, "age" : tmp[0].age, 
+					"Hispanic" : HP, 
+					"White Alone NH" : WH, 
+					"Black Alone NH" : BL, 
+					"Asian Alone NH" : AS, 
+					"Native Hawaiian/Pacific Islander Alone NH": NH,
+					"American Indian, NH" : AM, 
+					"Two or More Races, NH": MULTI});
 		};
+
     return output;
 };
 // restructureRace
@@ -2153,6 +2356,12 @@ function genFilename(outname, type, ext, yr) {
 		case 'netmig' :
 			var fileName = outname + " Net Migration by Age." + ext;
 		break;
+		case 'linecoc' :
+			var fileName = outname + " Long Term Components of Change." + ext;
+		break;
+		case 'barcoc' :
+			var fileName = outname + " Long Term Components of Change Barchart." + ext;
+		break;
 		case 'age' :
 			var fileName = outname + " Age Categories." + ext;
 		break;
@@ -2166,7 +2375,7 @@ function genFilename(outname, type, ext, yr) {
 			var fileName = outname + " Age Pyramid." + ext;
 		break;
 		case 'popchng' :
-			var fileName = canem + " Population Change by Age Group." + ext;
+			var fileName = outname + " Population Change by Age Group." + ext;
 		break;
 		case 'line' :
 			var fileName = outname + " Single Year of Age by Race " + yr + "." + ext;
@@ -2189,8 +2398,8 @@ function genFilename(outname, type, ext, yr) {
 		case  'amind' :
 			var fileName = outname + " Single Year of Age by Race American Indian NH " + yr + "." + ext;
 		break;
-		case 'amind' :
-			var fileName = canme + " Single Year of Age by Race Two or More Races NH " + yr + "." + ext;
+		case 'multi' :
+			var fileName = outname + " Single Year of Age by Race Two or More Races NH " + yr + "." + ext;
 		break;
 		case 'netmign' :
 		   if(ext == "csv"){
@@ -2259,6 +2468,12 @@ function genFilename(outname, type, ext, yr) {
 		break;
 		case 'outflow' :
 			var fileName = outname + " ACS Out Migration Flows." + ext
+		break;
+		case 'LODESBAR' :
+			var fileName = outname + " LODES Commuting Summary." + ext
+		break;
+		case 'LODESFLOW' :
+			var fileName = outname + " LODES Communting Flows." + ext
 		break;
 		} //switch
 		
@@ -2367,7 +2582,7 @@ function exportToPng(cname, type, graphDiv, yr){
 		case 'inflow' : 
 		case 'outflow':
 		{
-		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 600}).then(function (dataURL) {
+		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 900}).then(function (dataURL) {
 				var a = document.createElement('a');
 				a.href = dataURL;
 				a.download = fn;
@@ -2377,8 +2592,20 @@ function exportToPng(cname, type, graphDiv, yr){
 			});
 		} 
 		break;
-	  default : {
-	   Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 600}).then(function (dataURL) {
+		case 'LODESFLOW' :
+		{
+		    Plotly.toImage(graphDiv, { format: 'png', width: 900, height: 930}).then(function (dataURL) {
+				var a = document.createElement('a');
+				a.href = dataURL;
+				a.download = fn;
+				document.body.appendChild(a);
+				 a.click();
+				document.body.removeChild(a);
+			});
+		} 
+		break;
+	  default : {  
+	   Plotly.toImage(graphDiv, { format: 'png', width: 1000, height: 500}).then(function (dataURL) {
         var a = document.createElement('a');
         a.href = dataURL;
         a.download = fn;
@@ -2439,6 +2666,7 @@ var fips_list = parseInt(fips);
  var totaldata = [];
 
 d3.json(urlstr).then(function(data){
+	
    data.forEach(function(obj) {
     if(obj.age >=  0 && obj.age <= 17) {obj.age_cat = "0 to 17"; }
     if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24";}
@@ -2686,7 +2914,6 @@ urlstr_nonhispest = "https://gis.dola.colorado.gov/lookups/county_sya_race_estim
 //var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest),d3.json(urlstr_for)];
 var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest)];
 
-
 Promise.all(prom).then(function(data){
 	var hisp_est = [];
 	var nonhisp_est = []
@@ -2741,13 +2968,15 @@ var tbl_arr = []
 var race_eth_sum = d3.sum(raceeth_est, d => d.population);
 var raceth = ['Hispanic', 'White alone NH', 'Black or African American alone NH',
 			'Asian alone NH', 'Native Hawaiian or Other Pacific Islander alone NH', 
-			'American Indian and Alaska Native alone NH', 'Two or more  NH'];
+			'American Indian and Alaska Native alone NH', 'Two or more NH'];
+			
 
 for(i = 0; i < raceth.length; i++) {
 	var filt = raceeth_fin.filter(function(d) {return d.race_eth == raceth[i]});
 	//tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population), 'forval' : fmt_comma(filt[1].population)});
-	tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population)});
+   tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population)});
   };
+
 
 //Generate Table
 d3.select('#RaceTab').html("");
@@ -4204,7 +4433,7 @@ if(fips == "000") {
 	   var homestr_prev = genACSUrl("homepage",prevyr, "B25097", 1, 3, "county",fips);
 	   
        var rentstr_cur = genACSUrl("homepage",curyr, "B25064", 1, 1, "county",fips);
-	   var rentstr_prev = genACSUrl("homepage",curyr, "B25064", 1, 1, "county",fips);;
+	   var rentstr_prev = genACSUrl("homepage",prevyr, "B25064", 1, 1, "county",fips);;
    };
    
  
@@ -4551,13 +4780,14 @@ function genHousing(fips, yrvalue) {
 //genHousing generates housing data for home Page table From the SDO County Profile
 	var fmt_pct = d3.format(".2%")
 	var fmt_comma = d3.format(",");
-	var fmt_dec = d3.format(".2");
+	var fmt_dec = d3.format(".2f");
+
 
 //Specify fips_list
 var fips_list = parseInt(fips); 
    
 //extract year value 
- 
+  
   var prevyear = yrvalue - 1;
   var yr_list = prevyear + "," + yrvalue;
  
@@ -4566,39 +4796,38 @@ var fips_list = parseInt(fips);
  fips_list = "1,3,5,7,9,11,13,14,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119,121,123,125";
  } 
 //estimates urls
-urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalhousingunits,householdpopulation,groupquarterspopulation,households,censusbuildingpermits,vacanthousingunits";
+urlstr = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalhousingunits,householdpopulation,groupquarterspopulation,censusbuildingpermits,hhldpoptothuratio";
 
 var hous_tmp = [];
 d3.json(urlstr).then(function(data){
 
  data.forEach(function(obj) {
- hous_tmp.push({'year' : obj.year,  'county' : obj.county,
+ hous_tmp.push({'year' : obj.year,  
+     'county' : obj.county,
      'totalhousingunits' : parseInt(obj.totalhousingunits),
      'householdpopulation' : parseInt(obj.householdpopulation),
 	 'groupquarterspopulation' : parseInt(obj.groupquarterspopulation),
-	 'households' : parseInt(obj.households),
 	 'censusbuildingpermits' : parseInt(obj.censusbuildingpermits),
-	 'vacanthousingunits' : parseInt(obj.vacanthousingunits)});
+	 'hhldpoptothuratio' : parseInt(obj.hhldpoptothuratio)
+ });
  });
  
-var columnsToSum = ['totalhousingunits','householdpopulation','groupquarterspopulation', 'households', 'censusbuildingpermits', 'vacanthousingunits']
+var columnsToSum = ['totalhousingunits','householdpopulation','groupquarterspopulation', 'censusbuildingpermits']
  
-      //  Totals
+//  Totals
 var housing_temp = d3.rollup(hous_tmp,
                   v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
 
 var housing_fin = [];
 for (let [key, obj] of housing_temp) {
-	housing_fin.push( {'year' : key,  
+	housing_fin.push({'year' : key,  
                         'totalhousingunits' : obj.totalhousingunits,
                         'householdpopulation' : obj.householdpopulation,
 	                    'groupquarterspopulation' : obj.groupquarterspopulation,
-	                    'households' : obj.households,
-						'household_size' : obj.householdpopulation/obj.households,
 	                    'censusbuildingpermits' : obj.censusbuildingpermits,
-						'vacanthousingunits' : obj.vacanthousingunits});
- };
-
+						'hhldpoptothuratio' : obj.householdpopulation/obj.totalhousingunits
+ });
+};
 
 var housing_T = transpose(housing_fin);
 
@@ -4628,22 +4857,6 @@ for(i = 1; i < housing_fint.length; i++){
 	                                                     cVal = fmt_comma(currentVal);
 														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
 													   };
-	if(housing_fint[i][0][0].name == 'households') { out_name = "Households";
-	                                                     cVal = fmt_comma(currentVal);
-														 pctVal = fmt_pct((currentVal - prevVal)/prevVal);
-													   };
-	if(housing_fint[i][0][0].name == 'vacanthousingunits') { out_name = "Vacant Housing Units";
-	                                                     cVal = fmt_comma(currentVal);
-														 if(prevVal != 0) {
-														   pctVal = fmt_pct((currentVal - prevVal)/prevVal);
-														 } else {
-														   pctVal = " ";
-														 };
-													   };												   
-	if(housing_fint[i][0][0].name == 'household_size') { out_name = "Household Size";
-	                                                     cVal = fmt_dec(currentVal);
-														 pctVal = "";
-													   };
 	if(housing_fint[i][0][0].name == 'censusbuildingpermits') { out_name = "Annual Building Permits";
 	                                                     cVal = fmt_comma(currentVal);
 														 if(prevVal != 0) {
@@ -4651,12 +4864,17 @@ for(i = 1; i < housing_fint.length; i++){
 														 } else {
 														   pctVal = " ";
 														 };
-													   };
+	}
+	if(housing_fint[i][0][0].name == 'hhldpoptothuratio') { out_name = " Household Population to Housing Unit Ratio";
+	                                                     cVal = fmt_dec(currentVal);
+														 pctVal = " ";
+														 };
 
 	tbl_arr.push({ 'row_name' : out_name,
 	               'curval' : cVal, 
 	               'pct_chg' : pctVal});
 };
+
 
 //Generate Table
 d3.select('#HousTab').html("");
@@ -4717,7 +4935,7 @@ rows.append('td')
 //cat Demographic Dashboard Functions
 
 function estPlot(inData, app, level, plotdiv, bkmark, yrvalue, fips, ctyName){
-//Component Functions for Demograpic Dashboard : Estimates Plot
+//estPlot Component Functions for Demograpic Dashboard : Estimates Plot
     const fmt_date = d3.timeFormat("%B %d, %Y");
 
 var config = {responsive: true,
@@ -4758,7 +4976,7 @@ var est_layout = {
 		title: "Population Estimates 1985 to "+ yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -4766,7 +4984,7 @@ var est_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -4777,7 +4995,7 @@ var est_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -4803,7 +5021,7 @@ est_png.onclick = function() {exportToPng(ctyName, 'estimate', ESTIMATE,0)};
 
 
 function forecastPlot(inData, app, level, plotdiv, bkmark, yrvalue,fips,ctyName) {
-//Component Functions for Demograpic Dashboard: Forecast Plot
+//forecastPlot Component Functions for Demograpic Dashboard: Forecast Plot
     const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
 	const fmt_pct1 = d3.format(".1%");
@@ -4856,7 +5074,7 @@ var forec_layout = {
 		title: "Population Projections 2010 to 2050, " + ctyName ,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -4864,7 +5082,7 @@ var forec_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -4875,7 +5093,7 @@ var forec_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -4922,7 +5140,7 @@ if(app == 'profile'){
 
 
 function agePlot (inData, app, plotdiv,yrvalue,fips,ctyName) {
-//Component Functions for Demograpic Dashboard: Age Plot 
+//agePlot Component Functions for Demograpic Dashboard: Age Plot 
 	    const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
 	const fmt_pct1 = d3.format(".1%");
@@ -5013,7 +5231,7 @@ var age_layout = {
 		title: "Population by Age Group " + yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Percentage',
 			showgrid: true,
@@ -5021,7 +5239,7 @@ var age_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: ',.0%'
@@ -5033,7 +5251,7 @@ var age_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -5070,7 +5288,7 @@ age_png.onclick = function() {exportToPng(ctyName, 'age', AGEPLOT,0)};
 // agePlot
 
 function popchngPlot(inData, app, unit, plotdiv,yrvalue,fips,ctyName) {
-//Component Functions for Demograpic Dashboard: Population Change Plot 
+//popchngPlot Component Functions for Demograpic Dashboard: Population Change Plot 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
 	const fmt_pct1 = d3.format(".1%");
@@ -5165,7 +5383,6 @@ var popchng_trace = {
 			  textposition: 'auto',
 			  hoverinfo: 'none',
 			  marker: {
-				color: 'blue',
 				opacity: 0.9,
 				line: {
 				  color: 'blue',
@@ -5180,7 +5397,7 @@ var axis_spec = {
 	showline: true,
 	mirror: 'ticks',
 	gridcolor: '#e5e4e2',
-	gridwidth: 2,
+	gridwidth: 1,
 	linecolor: 'black',
 	linewidth: 2,
 	tickformat: ',.0%'
@@ -5195,7 +5412,6 @@ var popchng_trace = {
 			  textposition : 'auto',
 			  hoverinfo: 'none',
 			  marker: {
-				color: 'blue',
 				opacity: 0.9,
 				line: {
 				  color: 'blue',
@@ -5211,7 +5427,7 @@ var axis_spec = {
 	showline: true,
 	mirror: 'ticks',
 	gridcolor: '#e5e4e2',
-	gridwidth: 2,
+	gridwidth: 1,
 	linecolor: 'black',
 	linewidth: 2,
 	tickformat: ','
@@ -5223,7 +5439,7 @@ var popchng_layout = {
 		title: "Projected Population Change by Age Group, " + yrvalue + " to "+ yr10 + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: axis_spec, 
 		  yaxis: { 
             autorange : 'reversed',
@@ -5232,7 +5448,7 @@ var popchng_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#e5e4e2',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -5282,7 +5498,7 @@ popchng_png.onclick = function() {exportToPng(ctyName, 'popchng', POPCHNG,0)};
 
 
 function netmigPlot(inData, app, plotdiv, fips, ctyName) {
-//Component Functions for Demograpic Dashboard: Net Migration by Age 
+//netmigPlot Component Functions for Demograpic Dashboard: Net Migration by Age 
 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
@@ -5318,7 +5534,7 @@ var NetMig_layout = {
 		title: "Net Migration by Age -- Net Migrants 2010-2020 " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -5326,7 +5542,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -5339,7 +5555,7 @@ var NetMig_layout = {
 			zerolinewidth: 4,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -5359,7 +5575,7 @@ mig_png.onclick = function() {exportToPng(ctyName, 'netmig', NETMIG,0)};
 // netmigPlot
 
 function cocPlot(inData,app, level, plotdiv, bkmark,yrvalue,fips,ctyName) {
-//Component Functions for Demograpic Dashboard Components of Change Plot Bith Dashboard and Profile
+//cocPlot Component Functions for Demograpic Dashboard Components of Change Plot Bith Dashboard and Profile
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
 	const fmt_pct1 = d3.format(".1%");
@@ -5473,7 +5689,7 @@ var coc_layout = {
 		title: "Births, Deaths and Net Migration 1985 to " + yrvalue + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400,
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -5481,7 +5697,7 @@ var coc_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -5494,7 +5710,7 @@ var coc_layout = {
 			zerolinewidth: 4,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -5735,7 +5951,6 @@ var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest)];
 Promise.all(prom).then(function(data){
 	var hisp_est = [];
     var nonhisp_est = [];
-
 	
 if(fips == "000") {	
 	data[0].forEach(obj => {
@@ -5777,6 +5992,7 @@ var race_flat = hisp_flat.concat(nonhisp_flat).sort(function(a, b){ return d3.as
                 .sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
 				.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
 
+
 if(geotype == 'region') {
 	var race_reg = d3.rollup(race_flat, v => d3.sum(v, d => d.population),  d => d.age, d=> d.race_eth);
 	var race_flat = [];
@@ -5790,7 +6006,6 @@ if(geotype == 'region') {
                 .sort(function(a, b){ return d3.ascending(a['age'], b['age']); })
 				.sort(function(a, b){ return d3.ascending(a['fips'], b['fips']); });
 };
-
 
 //Plotting 
 var config = {responsive: true,
@@ -5856,7 +6071,7 @@ for(i = 0; i < race_flat.length; i++){
 		age_line_arr_ai.push(race_flat[i].age);
 		pop_line_arr_ai.push(race_flat[i].population);
 	};
-	if(race_flat[i].race_eth == "Two or more  NH" && race_flat[i].age < 85){
+	if(race_flat[i].race_eth == "Two or more NH" && race_flat[i].age < 85){
 		age_line_arr_mu.push(race_flat[i].age);
 		pop_line_arr_mu.push(race_flat[i].population);
 	};
@@ -6000,7 +6215,7 @@ var line_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6008,7 +6223,7 @@ var line_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6019,7 +6234,7 @@ var line_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6033,7 +6248,7 @@ var white_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " White, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6041,7 +6256,7 @@ var white_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6052,7 +6267,7 @@ var white_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6066,7 +6281,7 @@ var hisp_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Hispanic",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6074,7 +6289,7 @@ var hisp_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6085,7 +6300,7 @@ var hisp_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6099,7 +6314,7 @@ var black_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Black or African American, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6107,7 +6322,7 @@ var black_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6118,7 +6333,7 @@ var black_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6132,7 +6347,7 @@ var asian_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Asian, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6140,7 +6355,7 @@ var asian_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6151,7 +6366,7 @@ var asian_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6165,7 +6380,7 @@ var nhpi_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Native Hawaiian or Other Pacific Islander, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6173,7 +6388,7 @@ var nhpi_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6184,7 +6399,7 @@ var nhpi_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6198,7 +6413,7 @@ var amind_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " American Indian and Alaska Native, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6206,7 +6421,7 @@ var amind_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6217,7 +6432,7 @@ var amind_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6231,7 +6446,7 @@ var multi_layout = {
 		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Two or More Races, NH",
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6239,7 +6454,7 @@ var multi_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6250,7 +6465,7 @@ var multi_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6372,23 +6587,41 @@ var data_csv = "https://storage.googleapis.com/co-publicdata/Colorado_Age_Migrat
 d3.csv(data_csv).then(function(data){
 
    if(geotype == "region"){
+	    var reg_cty = []
 		var selgeo = [];
 		var selgeo_fin = [];
 		fips_Arr.forEach(d => {
 			var tmpcty = regionCOL(+d);
 		    selgeo.push(tmpcty[0].fips)
+			tmpcty[0].fips.forEach(c => {
+				reg_cty.push({regval : +d, countyfips : parseInt(c).toString()})
+			})
 		})
-		for(i = 0; i < selgeo[0].length; i++) {
-			selgeo_fin.push(parseInt(selgeo[0][i]).toString())
-		}
-		var datafilt = data.filter(d=> selgeo_fin.includes(d.countyfips) && yrvalue.includes(d.year));
-        for(i = 0; i < datafilt.length; i++){
-		 datafilt[i].regionNum = +fips[0]
-		}
 		
+
+		for(a = 0; a < selgeo.length; a++){
+		for(i = 0; i < selgeo[a].length; i++) {
+			selgeo_fin.push(parseInt(selgeo[a][i]).toString())
+		}
+		}
+
+		
+		var datafilt = data.filter(d=> selgeo_fin.includes(d.countyfips) && yrvalue.includes(d.year));
+
+ var reg_data = joinFUNCT(reg_cty,datafilt,"countyfips","countyfips",function(dat,col){
+		return{
+			regionNum : col.regval,
+			countyfips : col.countyfips,
+			year : dat.year,
+			age: dat.age,
+			population : dat.population,
+			netmigration : dat.netmigration
+		};
+	});
+	
 		var tmp_data = []
 		var columnsToSum = ['population', 'netmigration']
-		var binroll =  d3.rollup(datafilt, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regionNum, d => d.year, d => d.age);
+		var binroll =  d3.rollup(reg_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regionNum, d => d.year, d => d.age);
 		for (let [key, value] of binroll) {
 		for (let [key2, value2] of value) {
 		for (let [key3, value3] of value2) {
@@ -6417,6 +6650,8 @@ d3.csv(data_csv).then(function(data){
 	   }
 	}
 
+var datasort = datafilt.sort(function(a, b){ return d3.ascending(a['year'], b['year']); })
+	                       .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); });
 
 //Linetypes for line Charts
 var patternArr = ["","/","-","+"]
@@ -6460,17 +6695,19 @@ for(a = 0; a < fips_Arr.length; a++){
 		netmig.push(+yr_filt[j].netmigration);
 		migrate.push(+yr_filt[j].migrationrate);
 	  }
+	  
+
 if(chart == "bar"){
 	  var ind_traceN = {
                x: age_arr,
                y : netmig,
 			   name : yr_title,
-			   name: nameVal + ", " + yr_title,
+			   name: nameVal + "<br>  " + yr_title,
 			   type : 'bar', 
 			   marker :{
-				color : colorArr[i],
-				pattern: {shape: patternArr[a]},
- 			    line: { color : 'black', width : 2 }
+				color : colorArr[a],
+				pattern: {shape: patternArr[i]},
+ 			    line: { color : 'black', width : 1 }
 				}
 			};
       NetMig_trace.push(ind_traceN)
@@ -6478,12 +6715,12 @@ if(chart == "bar"){
 	var ind_traceRT = {
                x: age_arr,
                y : migrate,
-			   name: nameVal + ", " + yr_title,
+			   name: nameVal + "<br>  " + yr_title,
 			   type : 'bar', 
 			   marker :{
-				color : colorArr[i],
-				pattern: {shape: patternArr[a]},
- 			    line: { color : 'black', width : 2 }
+				color : colorArr[a],
+				pattern: {shape: patternArr[i]},
+ 			    line: { color : 'black', width : 1 }
 				}
 			};
       Rate_trace.push(ind_traceRT)
@@ -6495,11 +6732,12 @@ if(chart == "line"){
                y : netmig,
 			   name : yr_title,
 			   mode: 'lines+markers',
-			   name: nameVal + ", " + yr_title,
+			   name: nameVal + "<br>  " + yr_title,
 			   line: {
-                 dash: lineArr[a],
-                 width: 4,
-				 color : colorArr[i],
+                 dash: lineArr[i],
+                 width: 3,
+				 color : colorArr[a],
+				 shape: 'spline'
 				}
 			};
       NetMig_trace.push(ind_traceN)
@@ -6507,12 +6745,13 @@ if(chart == "line"){
 	var ind_traceRT = {
                x: age_arr,
                y : migrate,
-			   name: nameVal + ", " + yr_title,
+			   name: nameVal + "<br>  " + yr_title,
 			   mode : 'lines+markers',
 			   line: {
-                 dash: lineArr[a],
-                 width: 4,
-				 color : colorArr[i],
+                 dash: lineArr[i],
+                 width: 3,
+				 color : colorArr[a],
+				 shape: 'spline'
 				}
 			};
       Rate_trace.push(ind_traceRT)
@@ -6525,7 +6764,7 @@ var NetMig_layout = {
 		title: NetMigTitle,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6533,7 +6772,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6544,7 +6783,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6567,7 +6806,7 @@ var NetMig_layout = {
 		title: NetMigRateTitle,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Age',
 			showgrid: true,
@@ -6575,7 +6814,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6586,7 +6825,7 @@ var NetMig_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat:  '.2f'
@@ -6620,6 +6859,17 @@ Plotly.newPlot(NETMIGRATE, Rate_trace, Rate_layout,config);
 
 //Button Events
 //Net Migration Chart
+
+if(fips_Arr. length == 1){
+	var outName = nameVal;
+} else {
+	if(geotype == "Region") {
+	var outName = "Multiple Regions"
+	} else {
+	var outName = "Multiple Counties"
+	}
+}
+
 var netmign_csv = document.getElementById('netmign_csv');
 var netmign_png = document.getElementById('netmign_png');
 netmign_csv.onclick = function() {
@@ -6767,7 +7017,7 @@ var tot_layout = {
 		title: titStrTot,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -6775,7 +7025,7 @@ var tot_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6786,7 +7036,7 @@ var tot_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -6799,7 +7049,7 @@ var rate_layout = {
 		title: titStrRate,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -6807,7 +7057,7 @@ var rate_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -6818,7 +7068,7 @@ var rate_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat:  '.2f'
@@ -6859,58 +7109,103 @@ netmigrwa_png.onclick = function() {
 
 //cat Long term components of change dashboard (netmighist.html)
 
-function genCOCHIST(fipsVal, ctyName) {
+function genCOCHIST(fipsVal,  byrs, eyrs, stats, axis, DIV0, DIV1) {
 //genCOCHIST generates long-term COC charts
 	
 const fmt_date = d3.timeFormat("%B %d, %Y");
 
 //Generating urls
 var ctyfips  = parseInt(fipsVal);
-var yrlist = 1970;
-for(i = 1971; i <= 2050; i++){
+var ctyName = countyName(ctyfips);
+
+var yrlist = parseInt(byrs);
+for(i = parseInt(byrs)+1; i <= parseInt(eyrs); i++){
 	yrlist = yrlist + "," + i;
 };
+
+
+
 
 if(fipsVal == "000") {
 	 var dataurl = 'https://gis.dola.colorado.gov/lookups/components_region?reg_num=' + ctyfips + '&year=' + yrlist;
 } else {
 	var dataurl = 'https://gis.dola.colorado.gov/lookups/components?county=' + ctyfips + '&year=' + yrlist;
 }
+
+
 var year_est = [];
 var year_forc = [];
+var year_bars = [];
+var year_tick = []
 var birth_est = [];
 var birth_forc = [];
 var death_est = [];
 var death_forc = [];
 var mig_est = [];
 var mig_forc = [];
+var mig_bars = [];
+var natincr_est = [];
+var natincr_forc = [];
+var natincr_bars = []
 var out_data = [];
 
 d3.json(dataurl).then(function(data){
+
 	   for(i = 0; i < data.length; i++){
-		   out_data.push({'Year' : data[i].year, 'County' : ctyName, 'Births' : Number(data[i].births), 'Deaths' : Number(data[i].deaths), 
+		   out_data.push({ 'FIPS' : fipsVal[0], 'County' : ctyName, 'Year' : data[i].year, 'Births' : Number(data[i].births), 'Deaths' : Number(data[i].deaths), "Natural Increase" : Number(data[i].births) - Number(data[i].deaths),
 		                  'Net Migration' : Number(data[i].netmig), 'Data Type' : data[i].datatype});
 		   if(data[i].datatype == "Estimate"){
 			year_est.push(data[i].year);
 		    birth_est.push(Number(data[i].births));
 			death_est.push(Number(data[i].deaths));
 			mig_est.push(Number(data[i].netmig));
+			natincr_est.push(Number(data[i].births) - Number(data[i].deaths));
 		   } else {
 			year_forc.push(data[i].year);
 		    birth_forc.push(Number(data[i].births));
 			death_forc.push(Number(data[i].deaths));
 			mig_forc.push(Number(data[i].netmig));
+			natincr_forc.push(Number(data[i].births) - Number(data[i].deaths));
 		   };
+		   //Dealing with axis ticks
+			switch(axis) {
+				case "yr5" :
+				   if(i % 5 == 0){
+					   year_tick.push(data[i].year)
+				   }
+				   break;
+				case "yr2" : 
+				   if(i % 2 == 0){
+					   year_tick.push(data[i].year)
+				   }
+				   break;
+				case "yr1" :
+					   year_tick.push(data[i].year)
+					   break;
+			}
+
+		  year_bars.push(data[i].year);
+		  mig_bars.push(Number(data[i].netmig));
+		  natincr_bars.push(Number(data[i].births) - Number(data[i].deaths));
+
 	   };
-//Traces
+	   
+
+
+var min_yr = Math.min(...year_tick);
+var max_yr = Math.max(...year_tick);
+var tit1 = "Components of Population Change "
+var bar_title =  tit1.concat(min_yr.toString(), " to ", max_yr.toString(), ": ", ctyName) 
+
+//Line Traces
 var birth_tmp1 = { 
 					   x: year_est,
 					   y : birth_est,
-					   name : 'Estimate',
+					   name : 'Births Estimate',
 					   mode : 'lines',
 					   line: {
 						dash: 'solid',
-						color : 'black',
+						color : '#d81b60',
 						width: 3
 						}
 					};
@@ -6918,24 +7213,23 @@ var birth_tmp1 = {
 var birth_tmp2 = { 
 					   x: year_forc,
 					   y : birth_forc,
-					   name : 'Forecast',
+					   name : 'Births Forecast',
 					   mode : 'lines',
 					   line: {
 						dash: 'dash',
-						color : 'black',
+						color : '#d81b60',
 						width: 3
 						}
 					};
-var birth_trace = [birth_tmp1, birth_tmp2];
 
 var death_tmp1 = { 
 					   x: year_est,
 					   y : death_est,
-					   name : 'Estimate',
+					   name : 'Deaths Estimate',
 					   mode : 'lines',
 					   line: {
 						dash: 'solid',
-						color : 'grey',
+						color : '#1e88e5',
 						width: 3
 						}
 					};
@@ -6943,24 +7237,23 @@ var death_tmp1 = {
 var death_tmp2 = { 
 					   x: year_forc,
 					   y : death_forc,
-					   name : 'Forecast',
+					   name : 'Deaths Forecast',
 					   mode : 'lines',
 					   line: {
 						dash: 'dash',
-						color : 'grey',
+						color : '#1e88e5',
 						width: 3
 						}
 					};
-var death_trace = [death_tmp1, death_tmp2];
 
 var mig_tmp1 = { 
 					   x: year_est,
 					   y : mig_est,
-					   name : 'Estimate',
+					   name : 'Net Migraton Estimate',
 					   mode : 'lines',
 					   line: {
 						dash: 'solid',
-						color : 'green',
+						color : '#8B8000',
 						width: 3
 						}
 					};
@@ -6968,15 +7261,86 @@ var mig_tmp1 = {
 var mig_tmp2 = { 
 					   x: year_forc,
 					   y : mig_forc,
-					   name : 'Forecast',
+					   name : 'Net Migration Forecast',
 					   mode : 'lines',
 					   line: {
 						dash: 'dash',
-						color : 'green',
+						color : '#8B8000',
 						width: 3
 						}
 					};
-var mig_trace = [mig_tmp1, mig_tmp2];
+
+var natincr_tmp1 = { 
+					   x: year_est,
+					   y : natincr_est,
+					   name : 'Natural Increase Estimate',
+					   mode : 'lines',
+					   line: {
+						dash: 'solid',
+						color : '#004d40',
+						width: 3
+						}
+					};
+
+var natincr_tmp2 = { 
+					   x: year_forc,
+					   y : natincr_forc,
+					   name : 'Natural Increase Forecast',
+					   mode : 'lines',
+					   line: {
+						dash: 'dash',
+						color : '#004d40',
+						width: 3
+						}
+					};
+					
+//Set up x-axis string
+
+
+//Creating the line chart trace
+
+var line_trace = []
+stats.forEach( d => {
+	switch(d){
+		case "births":
+		line_trace.push(birth_tmp1, birth_tmp2);
+		break;
+		case "deaths":
+		line_trace.push(death_tmp1, death_tmp2);
+		break;
+		case "netmig":
+		line_trace.push(mig_tmp1, mig_tmp2);
+		break;
+		case "natincr":
+		line_trace.push(natincr_tmp1, natincr_tmp2);
+		break;
+		}
+})
+
+//Genearing Bar chart trace
+
+var mig_bar = { 
+					   x: year_bars,
+					   y : mig_bars,
+					   name : 'Net Migration',
+					   type : 'bar',
+					   marker: {
+						color : '#C0504D'
+					   }
+					};
+
+var natincr_bar = { 
+					   x: year_bars,
+					   y : natincr_bars,
+					   name : 'Natural Increase',
+					   type : 'bar',
+					   marker : {
+						color : '#4F81BD'
+					   }
+					};
+					
+
+var bar_trace = [natincr_bar, mig_bar]
 
 //Generating Chart	
 var config = {responsive: true,
@@ -6984,19 +7348,16 @@ var config = {responsive: true,
 			  
 	
 //Clearing out Divs
-var BIRTH = document.getElementById("birth_output");
-var DEATH = document.getElementById("death_output");
-var MIG = document.getElementById("netmig_output");
 
-BIRTH.innerHTML = "";
-DEATH.innerHTML = "";
-MIG.innerHTML = "";
+DIV0.innerHTML = "";
+DIV1.innerHTML = "";
 
-var birth_layout = {
-		title: "Birth Estimate and Forecast " + ctyName,
+
+var line_layout = {
+		title: "Components of Change: " + ctyName,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7004,9 +7365,13 @@ var birth_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
-			linecolor: 'black',
-			linewidth: 2
+			gridwidth: 1,
+			linecolor: '#D3D3D3',
+			linewidth: 2,
+			tickmode: "array", 
+			tickvals : year_tick,
+			tickangle: 45,
+			tickfont: { size: 10}
 		  },
 		  yaxis: {
 			  title : 'Persons',
@@ -7015,7 +7380,7 @@ var birth_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
@@ -7023,21 +7388,27 @@ var birth_layout = {
 			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
 		
-var death_layout = {
-		title: "Death Estimate and Forecast " + ctyName,
+		
+var bar_layout = {
+		title: bar_title,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
+		  barmode : 'relative',
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
 			zeroline: true,
 			showline: true,
-			mirror: 'ticks',
+//			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
-			linecolor: 'black',
-			linewidth: 2
+			gridwidth: 1,
+			linecolor: '#D3D3D3',
+			linewidth: 2,
+			tickmode: "array", 
+			tickvals: year_tick,
+			tickangle: 45,
+			tickfont: { size: 10}
 		  },
 		  yaxis: {
 			  title : 'Persons',
@@ -7046,79 +7417,38 @@ var death_layout = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
-		};
-		
-var mig_layout = {
-		title: "Net Migration Estimate and Forecast " + ctyName,
-		  autosize: false,
-		  width: 1000,
-		  height: 400, 
-		  xaxis: {
-			title : 'Year',
-			showgrid: true,
-			zeroline: true,
-			showline: true,
-			mirror: 'ticks',
-			gridcolor: '#bdbdbd',
-			gridwidth: 2,
-			linecolor: 'black',
-			linewidth: 2
-		  },
-		  yaxis: {
-			  title : 'Persons',
-			  automargin : true,
-			showgrid: true,
-			showline: true,
-			mirror: 'ticks',
-			gridcolor: '#bdbdbd',
-			gridwidth: 2,
-			linecolor: 'black',
-			linewidth: 2,
-			 tickformat: ','
-		  },
+		  legend : { x : 0.3, y : 1.1, 'orientation' : 'h', font:{size: 10}},
 			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
 		};
 		
 
-Plotly.newPlot(BIRTH, birth_trace, birth_layout, config);
-Plotly.newPlot(DEATH, death_trace, death_layout, config);
-Plotly.newPlot(MIG, mig_trace, mig_layout, config);
+Plotly.newPlot(DIV0, line_trace, line_layout, config);
+Plotly.newPlot(DIV1, bar_trace, bar_layout, config);
 
 //Button Events
-//Net Migration Chart
 
-var birth_csv = document.getElementById('birth_csv');
-var birth_png = document.getElementById('birth_png');
-birth_csv.onclick = function() {
-	  exportToCsv(ctyName, 'nethist', out_data, 0);
+var linecoc_csv = document.getElementById('linecoc_csv');
+var linecoc_png = document.getElementById('linecoc_png');
+linecoc_csv.onclick = function() {
+	  exportToCsv(ctyName, 'linecoc', out_data, 0);
      }; 
-birth_png.onclick = function() {
-	   exportToPng(ctyName, 'birth', BIRTH, 0);
+linecoc_png.onclick = function() {
+	   exportToPng(ctyName, 'linecoc', DIV0, 0);
      };
 	 
 
-var death_csv = document.getElementById('death_csv');
-var death_png = document.getElementById('death_png');
-death_csv.onclick = function() {
-	  exportToCsv(ctyName, 'nethist', out_data, 0);
+var barcoc_csv = document.getElementById('barcoc_csv');
+var barcoc_png = document.getElementById('barcoc_png');
+barcoc_csv.onclick = function() {
+	  exportToCsv(ctyName, 'barcoc', out_data, 0);
      }; 
-death_png.onclick = function() {
-	   exportToPng(ctyName, 'death', DEATH, 0);
-     };
-	 
-var mig_csv = document.getElementById('netmig_csv');
-var mig_png = document.getElementById('netmig_png');
-mig_csv.onclick = function() {
-	  exportToCsv(ctyName, 'nethist', out_data, 0);
-     }; 
-mig_png.onclick = function() {
-	   exportToPng(ctyName, 'mig', MIG, 0);
+barcoc_png.onclick = function() {
+	   exportToPng(ctyName, 'barcoc', DIV1, 0);
      };
 	 
 }); //end of d3 json
@@ -7342,7 +7672,7 @@ for(i = 0; i < hh_arr.length; i++){
 		title: tit_str,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7350,7 +7680,7 @@ for(i = 0; i < hh_arr.length; i++){
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			type: 'date'
@@ -7362,7 +7692,7 @@ for(i = 0; i < hh_arr.length; i++){
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: y_ticks
@@ -7389,7 +7719,7 @@ ch_layout.push(layout);
 		title: tit_str,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			showgrid: true,
@@ -7397,7 +7727,7 @@ ch_layout.push(layout);
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7408,7 +7738,7 @@ ch_layout.push(layout);
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: y_ticks
@@ -7744,7 +8074,7 @@ var config = {responsive: true,
 		title: tit_str0,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			range: [2009, yrvalue+1],
@@ -7753,7 +8083,7 @@ var config = {responsive: true,
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7764,7 +8094,7 @@ var config = {responsive: true,
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: ','
@@ -7776,7 +8106,7 @@ var layout1 = {
 		title: tit_str1,
 		  autosize: false,
 		  width: 1000,
-		  height: 400, 
+		  height: 500,
 		  xaxis: {
 			title : 'Year',
 			range: [2009, yrvalue+1],
@@ -7785,7 +8115,7 @@ var layout1 = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
@@ -7796,7 +8126,7 @@ var layout1 = {
 			showline: true,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
-			gridwidth: 2,
+			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
 			tickformat: ','
@@ -7809,7 +8139,7 @@ var layout2 = {
 	title: tit_str2,
 	  autosize: false,
 	  width: 1000,
-	  height: 400, 
+	  height: 500,
 	  xaxis: {
 		title : 'Year',
 		range: [2009, yrvalue+1],
@@ -7818,7 +8148,7 @@ var layout2 = {
 		showline: true,
 		mirror: 'ticks',
 		gridcolor: '#bdbdbd',
-		gridwidth: 2,
+		gridwidth: 1,
 		linecolor: 'black',
 		linewidth: 2
 	  },
@@ -7829,7 +8159,7 @@ var layout2 = {
 		showline: true,
 		mirror: 'ticks',
 		gridcolor: '#bdbdbd',
-		gridwidth: 2,
+		gridwidth: 1,
 		linecolor: 'black',
 		linewidth: 2,
 		tickformat: ','
@@ -7902,11 +8232,14 @@ function parsePhrase (phrase){
 }
 //parsePhrase
 
-function supressData(inData, fips, type){
-// genFLOWYR supressData compresses data sets to have a maximum of 35 entires (20 px per entry in a chart with 700 px) OR entry with 10 or fewer movers
+function supressData(inData, fips, geo_name, type){
+// genFLOWYR and genLODES supressData compresses data sets to have a maximum of 35 entires (20 px per entry in a chart with 700 px) OR entry with 10 or fewer movers
 
 	var fmt_comma = d3.format(",");
-	var outname = countyName(parseInt(fips))
+
+	if(geo_name ==""){
+		geo_name = countyName(fips)
+	}
 
 		switch(type) {
 		case 'net' :{
@@ -7936,7 +8269,7 @@ function supressData(inData, fips, type){
 			  posfin.push({
 				"GEOID1" : "",
 				"GEOID2" : "",
-				"NAME1" : outname,
+				"NAME1" : geo_name,
 				"STATE1" : "",
 				"NAME2" : posphrase.length > 0 ? posphrase : "",
 				"STATE2" : "",
@@ -7975,7 +8308,7 @@ function supressData(inData, fips, type){
 			  negfin.push({
 				"GEOID1" : "",
 				"GEOID2" : "",
-				"NAME1" : outname,
+				"NAME1" : geo_name,
 				"STATE1" : "",
 				"NAME2" : negphrase.length > 0 ? negphrase : "",
 				"STATE2" : "",
@@ -8014,7 +8347,7 @@ function supressData(inData, fips, type){
 			  infin.push({
 				"GEOID1" : "",
 				"GEOID2" : "",
-				"NAME1" : outname,
+				"NAME1" : geo_name,
 				"STATE1" : "",
 				"NAME2" : inphrase.length > 0 ? inphrase : "",
 				"STATE2" : "",
@@ -8053,7 +8386,7 @@ function supressData(inData, fips, type){
 			  outfin.push({
 				"GEOID1" : "",
 				"GEOID2" : "",
-				"NAME1" : outname,
+				"NAME1" : geo_name,
 				"STATE1" : "",
 				"NAME2" : outphrase.length > 0 ? outphrase : "",
 				"STATE2" : "",
@@ -8067,6 +8400,57 @@ function supressData(inData, fips, type){
 		var outdata = outfin;
 		break;
 	} //out
+	case 'lodes' :{
+ 		  var posdata = inData.filter(d => d.jobs >= 0)
+          var possort = posdata.sort(function(a, b){return d3.descending(a['jobs'], b['jobs']); })
+		  var poscnt = 0;
+		  var posmax = 0;
+		  var postmp = [];
+          var posphrase = ""
+			  for(i = 0; i < possort.length; i++) {
+				  if(i < 21){
+					  postmp[i] = possort[i];
+				  } else {
+				      poscnt++
+				      posmax =  posmax + possort[i].jobs;
+			      }
+			  }
+
+		//adding record for supression
+		 if(posdata.length > 20){
+			  postmp.push({
+				"residential_location" : fmt_comma(poscnt) + ' locations with ' + fmt_comma(Math.abs(posmax))+ ' workers',
+				"work_location" : geo_name,
+				"jobs" : posmax
+				})
+			  }
+  
+		  var negdata = inData.filter(d => d.jobs < 0)
+          var negsort = negdata.sort(function(a, b){return d3.ascending(a['jobs'], b['jobs']); })
+		  var negcnt = 0;
+		  var negmax = 0;
+		  var negtmp = [];
+		  var negphrase = "";
+			  for(i = 0; i < negsort.length; i++) {
+				  if(i < 21){
+					  negtmp[i] = negsort[i];
+				  } else {
+				      negcnt++
+				      negmax =  negmax + Math.abs(negsort[i].jobs);
+			      }
+			  }
+		
+		//adding record for supression
+		 if(negdata.length > 20){
+			  negtmp.push({
+				"residential_location" : geo_name,
+				"work_location" : fmt_comma(negcnt) + ' locations with ' + fmt_comma(Math.abs(negmax))+ ' workers',
+				"jobs" : negmax })
+			  }
+			  
+		var outdata = postmp.concat(negtmp);
+		break;
+		}  //lodes
 	} //switch
 return(outdata)
 } 
@@ -8218,9 +8602,9 @@ if(fips == "000"){
   
 	var outchartun = instate_sum.concat(bindata);
 }
-var outchart_net = supressData(outchartun, fips, "net")
-var outchart_in = supressData(outchartun, fips, "in")
-var outchart_out = supressData(outchartun, fips, "out")
+var outchart_net = supressData(outchartun, fips, "", "net")
+var outchart_in = supressData(outchartun, fips, "", "in")
+var outchart_out = supressData(outchartun, fips, "","out")
 
 // Creating Nodeslist
 var nodeslist_net = [];
@@ -8664,3 +9048,743 @@ chartout_png.onclick = function() {exportToPng(plname, 'outflow', CHART2,0)};
    }) //promise
 } 
 //genFLOWS
+
+function lodes_tab(indata,citation,type){
+	var labs = [];
+	var head_str = "<thead><tr><th align='center' style='word-wrap: break-word'>Location</th>" +
+                   "<th align='center' style='word-wrap: break-word'>Number of Jobs</th>" +
+                   "<th align='center' style='word-wrap: break-word'>Median Travel Distance (Miles)</th>" +
+                   "<th align='center' style='word-wrap: break-word'>5 or fewer Miles</th>" + 
+                   "<th align='center' style='word-wrap: break-word'>6 to 10 Miles</th>" + 
+                   "<th align='center' style='word-wrap: break-word'>11 to 20 Miles</th>" + 
+                   "<th align='center' style='word-wrap: break-word'>21 to 50 Miles</th>" +
+                   "<th align='center' style='word-wrap: break-word'>51 to 100 Miles</th>" +
+                   "<th align='center' style='word-wrap: break-word'>Greater than 100 Miles</th></tr></thead>"
+				   
+var tab_str = ""
+
+for(i = 0; i < indata.length;i++){
+	if(type == "work"){
+		var loc_str = indata[i].residential_location
+	} else {
+		var loc_str = indata[i].work_location
+	}
+	var tmp_str = "<tr><td align='left'>" + loc_str + "</td>" +
+			  "<td align='right'>" + fixNUMFMT(Math.abs(indata[i].jobs),"num") + "</td>" +
+				"<td align='right'>" + fixNUMFMT(indata[i].median_distance,"num") + "</td>" +
+				"<td align='right'>" + fixNUMFMT(indata[i].miles_05,"num") + "</td>" + 
+				"<td align='right'>" + fixNUMFMT(indata[i].miles_10,"num") + "</td>" +
+				"<td align='right'>" + fixNUMFMT(indata[i].miles_20,"num") + "</td>" +
+				"<td align='right'>" + fixNUMFMT(indata[i].miles_50,"num") + "</td>" +
+				"<td align='right'>" + fixNUMFMT(indata[i].miles_100,"num") + "</td>" +
+				"<td align='right'>" + fixNUMFMT(indata[i].miles_gt100,"num") + "</td></tr>"
+	var tab_str = tab_str.concat(tmp_str)
+	labs.push({'title' : loc_str , 'URL_link' : 'https://onthemap.ces.census.gov/'});
+	}
+
+var ftr_str = "<tfoot><tr><td colspan='9'>"+citation+"</td></tr></tfoot>"
+var out_str = head_str.concat(tab_str, ftr_str)
+var fin_str = out_str.replaceAll("NaN","")
+return([fin_str,labs,ftr_str])
+}
+
+function genLODES(geo, loc, geo_name, year, sector, CHART0, CHART1, TAB0, TAB1){
+// genLODES Generates LODES Dashboard
+// this current version pulls data from 2021 LODES data, still considering if future versions will allow year selection
+
+	var fmt_comma = d3.format(",");
+	const fmt_date = d3.timeFormat("%B %d, %Y");
+	//Initializing screen
+	 CHART0.innerHTML = ''
+	 CHART1.innerHTML = ''
+	 TAB0.innerHTML = ''
+	 TAB1.innerHTML = ''
+
+	var fips_code = "08" + loc;
+	if(geo == 'county') {
+		var geostr = 'county';
+    } else {
+	  var geostr = 'place'
+	}
+	//creating barchart diagram data pull
+	var barchartstr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&sector=' + sector +'&year=2021&choice=summary'
+	var sankeystr = 'https://gis.dola.colorado.gov/lookups/lodes?geo=' + geostr + '&geonum=' + fips_code + '&sector=' + sector + '&year=2021&choice=place'
+	
+	var prom = [d3.json(barchartstr),d3.json(sankeystr)];
+	
+	Promise.all(prom).then(function(data){
+   
+		//Creating analysis data 
+		var barchart_data = [];
+		var sankey_data = [];
+		switch(sector){
+		case 'total' :
+		 var barchart_title = geo_name + " All Jobs, " + year;
+		 for (i = 0; i < data[0].length; i++) {
+			barchart_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_total),
+							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_total),
+							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_total)
+			})
+		 }
+		 for (i = 0; i < data[1].length; i++) {
+				if(geo == 'county'){
+					sankey_data.push({"work_st" : data[1][i].work_cty.substr(0,2),
+									"work_loc" : data[1][i].work_cty,
+									"work_loc_name" : data[1][i].work_cty_name,
+									"home_st" : data[1][i].home_cty.substr(0,2),
+									"home_loc" : data[1][i].home_cty,
+									"home_loc_name" : data[1][i].home_cty_name,
+									"jobs" : parseInt(data[1][i].total_jobs),
+									"miles_05": parseInt(data[1][i].miles_05),
+									"miles_10": parseInt(data[1][i].miles_10),
+									"miles_20": parseInt(data[1][i].miles_20),
+									"miles_50": parseInt(data[1][i].miles_50),
+									"miles_100": parseInt(data[1][i].miles_100),
+									"miles_gt100": parseInt(data[1][i].miles_gt100),
+									"median_distance":Math.round(parseFloat(data[1][i].median_distance),2)
+									})
+				} else {
+					sankey_data.push({"work_st" : data[1][i].work_place.substr(0,2),
+						             "work_loc" : data[1][i].work_place,
+									 "work_loc_name" : data[1][i].work_place_name,
+									 "home_st" : data[1][i].home_place.substr(0,2),
+									 "home_loc" : data[1][i].home_place,
+									 "home_loc_name" : data[1][i].home_place_name,
+									 "jobs" : parseInt(data[1][i].total_jobs),
+									"miles_05": parseInt(data[1][i].miles_05),
+									"miles_10": parseInt(data[1][i].miles_10),
+									"miles_20": parseInt(data[1][i].miles_20),
+									"miles_50": parseInt(data[1][i].miles_50),
+									"miles_100": parseInt(data[1][i].miles_100),
+									"miles_gt100": parseInt(data[1][i].miles_gt100),
+									"median_distance":Math.round(parseFloat(data[1][i].median_distance),2)
+									})
+				}
+		 }
+		break;
+		case 'goods' :
+		 var barchart_title = geo_name + " Goods Producing Jobs, " + year;
+		 for (i = 0; i < data[0].length; i++) {
+			barchart_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_goods),
+							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_goods),
+							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_goods)
+			})
+		 }
+		 for (i = 0; i < data[1].length; i++) {
+				if(geo == 'county'){
+					sankey_data.push({"work_st" : data[1][i].work_cty.substr(0,2),
+									  "work_loc" : data[1][i].work_cty,
+									 "work_loc_name" : data[1][i].work_cty_name,
+									 "home_st" : data[1][i].home_cty.substr(0,2),
+									 "home_loc" : data[1][i].home_cty,
+									 "home_loc_name" : data[1][i].home_cty_name,
+									 "jobs" : parseInt(data[1][i].goods),
+									"miles_05": parseInt(data[1][i].miles_05),
+									"miles_10": parseInt(data[1][i].miles_10),
+									"miles_20": parseInt(data[1][i].miles_20),
+									"miles_50": parseInt(data[1][i].miles_50),
+									"miles_100": parseInt(data[1][i].miles_100),
+									"miles_gt100": parseInt(data[1][i].miles_gt100),
+									"median_distance":Math.round(parseFloat(data[1][i].median_distance),2)
+									})
+				} else {
+					sankey_data.push({"work_st" : data[1][i].work_place.substr(0,2),
+									  "work_loc" : data[1][i].work_place,
+									 "work_loc_name" : data[1][i].work_place_name,
+									 "home_st" : data[1][i].home_place.substr(0,2),
+									 "home_loc" : data[1][i].home_place,
+									 "home_loc_name" : data[1][i].home_place_name,
+									 "jobs" : parseInt(data[1][i].goods),
+									"miles_05": parseInt(data[1][i].miles_05),
+									"miles_10": parseInt(data[1][i].miles_10),
+									"miles_20": parseInt(data[1][i].miles_20),
+									"miles_50": parseInt(data[1][i].miles_50),
+									"miles_100": parseInt(data[1][i].miles_100),
+									"miles_gt100": parseInt(data[1][i].miles_gt100),
+									"median_distance":Math.round(parseFloat(data[1][i].median_distance),2)
+									})
+				}
+		 }
+		break;
+		case 'trade' :
+		 var barchart_title = geo_name + " Trade, Transportation,\nand Utilities Jobs, " + year;
+		 for (i = 0; i < data[0].length; i++) {
+			barchart_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_trade),
+							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_trade),
+							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_trade)
+			})
+		 }
+		 for (i = 0; i < data[1].length; i++) {
+				if(geo == 'county'){
+					sankey_data.push({"work_st" : data[1][i].work_cty.substr(0,2),
+					                  "work_loc" : data[1][i].work_cty,
+									 "work_loc_name" : data[1][i].work_cty_name,
+									 "home_st" : data[1][i].home_cty.substr(0,2),
+									 "home_loc" : data[1][i].home_cty,
+									 "home_loc_name" : data[1][i].home_cty_name,
+									 "jobs" : parseInt(data[1][i].trade),
+									"miles_05": parseInt(data[1][i].miles_05),
+									"miles_10": parseInt(data[1][i].miles_10),
+									"miles_20": parseInt(data[1][i].miles_20),
+									"miles_50": parseInt(data[1][i].miles_50),
+									"miles_100": parseInt(data[1][i].miles_100),
+									"miles_gt100": parseInt(data[1][i].miles_gt100),
+									"median_distance":Math.round(parseFloat(data[1][i].median_distance),2)
+									})
+				} else {
+					sankey_data.push({"work_st" : data[1][i].work_place.substr(0,2),
+									  "work_loc" : data[1][i].work_place,
+									 "work_loc_name" : data[1][i].work_place_name,
+									 "home_st" : data[1][i].home_place.substr(0,2),
+									 "home_loc" : data[1][i].home_place,
+									 "home_loc_name" : data[1][i].home_place_name,
+									 "jobs" : parseInt(data[1][i].trade),
+									"miles_05": parseInt(data[1][i].miles_05),
+									"miles_10": parseInt(data[1][i].miles_10),
+									"miles_20": parseInt(data[1][i].miles_20),
+									"miles_50": parseInt(data[1][i].miles_50),
+									"miles_100": parseInt(data[1][i].miles_100),
+									"miles_gt100": parseInt(data[1][i].miles_gt100),
+									"median_distance":Math.round(parseFloat(data[1][i].median_distance),2)
+									})
+				}
+		 }
+		break;
+		case 'services' :
+		var barchart_title = geo_name + " Service Industry Jobs, " + year;
+		 for (i = 0; i < data[0].length; i++) {
+			barchart_data.push({"work_in_home_in" : parseInt(data[0][i].work_in_home_in_services),
+							"work_in_home_out" : parseInt(data[0][i].work_in_home_out_services),
+							"work_out_home_in" : parseInt(data[0][i].work_out_home_in_services)
+			})
+		 }
+		 for (i = 0; i < data[1].length; i++) {
+				if(geo == 'county'){
+					sankey_data.push({"work_st" : data[1][i].work_cty.substr(0,2),
+									  "work_loc" : data[1][i].work_cty,
+									 "work_loc_name" : data[1][i].work_cty_name,
+									 "home_st" : data[1][i].home_cty.substr(0,2),
+									 "home_loc" : data[1][i].home_cty,
+									 "home_loc_name" : data[1][i].home_cty_name,
+									 "jobs" : parseInt(data[1][i].services),
+									"miles_05": parseInt(data[1][i].miles_05),
+									"miles_10": parseInt(data[1][i].miles_10),
+									"miles_20": parseInt(data[1][i].miles_20),
+									"miles_50": parseInt(data[1][i].miles_50),
+									"miles_100": parseInt(data[1][i].miles_100),
+									"miles_gt100": parseInt(data[1][i].miles_gt100),
+									"median_distance":Math.round(parseFloat(data[1][i].median_distance),2)
+									})
+				} else {
+					sankey_data.push({"work_st" : data[1][i].work_place.substr(0,2),
+									  "work_loc" : data[1][i].work_place,
+									 "work_loc_name" : data[1][i].work_place_name,
+									 "home_st" : data[1][i].home_place.substr(0,2),
+									 "home_loc" : data[1][i].home_place,
+									 "home_loc_name" : data[1][i].home_place_name,
+									 "jobs" : parseInt(data[1][i].services),
+									"miles_05": parseInt(data[1][i].miles_05),
+									"miles_10": parseInt(data[1][i].miles_10),
+									"miles_20": parseInt(data[1][i].miles_20),
+									"miles_50": parseInt(data[1][i].miles_50),
+									"miles_100": parseInt(data[1][i].miles_100),
+									"miles_gt100": parseInt(data[1][i].miles_gt100),
+									"median_distance":Math.round(parseFloat(data[1][i].median_distance),2)
+									})
+				}
+		 }
+		break;
+		} //Switch
+		
+//Create barchart Data
+var labs= ["Employed and Live<br>in Selected Area",
+		   "Live in Selected Area,<br>Employed Outside Area",
+		   "Employed in Selected Area,<br>Live Outside Area"]
+
+var vals = [barchart_data[0].work_in_home_in, barchart_data[0].work_out_home_in, barchart_data[0].work_in_home_out]
+var fmtvals = [
+ "Employed and Live in Selected Area " + fmt_comma(barchart_data[0].work_in_home_in),
+ "Live in Selected Area, Employed Outside Area " + fmt_comma(barchart_data[0].work_out_home_in), 
+ "Employed in Selected Area, Live Outside Area " + fmt_comma(barchart_data[0].work_in_home_out) 
+]
+var barcolor = ["#b2df8a", "#1f78b4", "#a6cee3"]
+
+// Generate Sankey Data
+ 
+//Summarizing out out of state and adjoining state residents
+var out_state_home = sankey_data.filter(d =>  !['08','04','20','31','35','40','49','56'].includes(d.home_st))
+var out_adjoining_home = sankey_data.filter(d => ['04','20','31','35','40','49','56'].includes(d.home_st))
+
+var out_state_home_val = d3.rollup(out_state_home, v => d3.sum(v, d => d.jobs));
+
+var out_state_home = [{"work_st" : "08",
+					  "work_loc" : fips_code,
+					 "work_loc_name" : geo_name,
+					 "home_st" : "99",
+					 "home_loc" : "99000",
+					 "home_loc_name" : "Other, non-Adjoining States",
+					 "jobs" : out_state_home_val
+ }];
+
+var out_state_work = sankey_data.filter(d => !['08','04','20','31','35','40','49','56'].includes(d.work_st))
+var out_adjoining_work = sankey_data.filter(d => ['04','20','31','35','40','49','56'].includes(d.work_st))
+
+var out_state_work_val = d3.rollup(out_state_work, v => d3.sum(v, d => d.jobs));
+
+var out_state_work =[{"work_st" : "99",
+					  "work_loc" : "99000",
+					 "work_loc_name" : "Other, non-Adjoining States",
+					 "home_st" : "08",
+					 "home_loc" : fips_code,
+					 "home_loc_name" : geo_name,
+					 "jobs" : out_state_work_val
+ }];
+
+var in_state = sankey_data.filter(d => d.home_st == "08" & d.work_st == "08")
+var out_work =  in_state.filter(d => d.work_loc == fips_code);
+var out_home = in_state.filter(d => d.home_loc == fips_code);
+
+var total_work = out_work.concat(out_adjoining_home,out_state_home).sort(function(a, b){ return d3.ascending(a['home_loc'], b['home_loc']); })
+       .sort(function(a, b){ return d3.descending(a['jobs'], b['jobs']); });
+
+var total_home = out_home.concat(out_adjoining_work, out_state_work).sort(function(a, b){ return d3.ascending(a['work_loc'], b['work_loc']); })
+       .sort(function(a, b){ return d3.descending(a['jobs'], b['jobs']); });;
+	   
+	   
+
+//Building Final Data Set
+
+var sankey_fin = total_work.concat(total_home)
+
+// Creating Nodeslist
+
+var nodeslist_tmp = [];
+var sankey_out = []  //sankey output data
+sankey_fin.forEach(d => {
+	nodeslist_tmp.push({
+		residential_location : d.home_loc == fips_code ? geo_name : d.home_loc_name.replace(", CO",""),
+		work_location : d.work_loc == fips_code ? geo_name : d.work_loc_name.replace(", CO",""),
+		jobs : d.work_loc == fips_code ? d.jobs : d.jobs * -1,
+		miles_05 : d.miles_05,
+		miles_10 : d.miles_10,
+		miles_20 : d.miles_20,
+		miles_50 : d.miles_50,
+		miles_100 : d.miles_100,
+		miles_gt100 : d.miles_gt100,
+		median_distance : d.median_distance
+
+	})
+	sankey_out.push({
+		residential_location : d.home_loc == fips_code ? geo_name : d.home_loc_name.replace(", CO",""),
+		work_location : d.work_loc == fips_code ? geo_name : d.work_loc_name.replace(", CO",""),
+		jobs : d.jobs,
+		miles_05 : d.miles_05,
+		miles_10 : d.miles_10,
+		miles_20 : d.miles_20,
+		miles_50 : d.miles_50,
+		miles_100 : d.miles_100,
+		miles_gt100 : d.miles_gt100,
+		median_distance : d.median_distance
+	})
+})
+
+
+var nodeslist_tmp2 = supressData(nodeslist_tmp, fips_code, geo_name, 'lodes');
+
+// Remove work in live in and summary records
+var label_dat = [];
+for(i = 0; i < nodeslist_tmp2.length ;i++){
+	var res_str = nodeslist_tmp2[i].residential_location
+	var work_str = nodeslist_tmp2[i].work_location
+   if(res_str.indexOf("workers") != -1){
+	   label_dat.push({
+		   residential_location : nodeslist_tmp2[i].residential_location,
+		   work_location : nodeslist_tmp2[i].work_location,
+		   jobs : nodeslist_tmp2[i].jobs
+	   })
+   }
+   if(work_str.indexOf("workers") != -1){
+	   label_dat.push({
+		   residential_location : nodeslist_tmp2[i].residential_location,
+		   work_location : nodeslist_tmp2[i].work_location,
+		   jobs : nodeslist_tmp2[i].jobs
+	   })
+   }
+   if(nodeslist_tmp2[i].residential_location == nodeslist_tmp2[i].work_location){
+	   label_dat.push({
+		   residential_location : nodeslist_tmp2[i].residential_location,
+		   work_location : nodeslist_tmp2[i].work_location,
+		   jobs : nodeslist_tmp2[i].jobs
+	   })
+   }
+}
+
+label_dat = label_dat.filter((value, index, self) =>
+  index === self.findIndex((t) => (
+    t.residential_location === value.residential_location && t.work_location === value.work_location && t.jobs == value.jobs
+  ))
+)
+
+var same_loc =[];
+var annot_lab = [];
+label_dat.forEach(d => {
+	if(d.residential_location == d.work_location){
+		same_loc.push({
+			residential_location : d.residential_location,
+			work_location : d.work_location,
+		    jobs : d.jobs
+			})
+	}
+	if(d.residential_location.includes('workers')){
+		annot_lab.push({outlab: "In Commuters: " + d.residential_location})
+	}
+	if(d.work_location.includes('workers')){
+		annot_lab.push({outlab : "Out Commuters: " + d.work_location})
+	}
+})
+
+var nodeslist_tmp3 = nodeslist_tmp2.filter(d => !d.residential_location.includes("workers"))
+                      .filter(d => !d.work_location.includes("workers")) 
+                      .filter(d => d.residential_location != d.work_location)
+					  
+var nodeslist_tmp4 = [];
+nodeslist_tmp3.forEach(d => {
+	nodeslist_tmp4.push({work_location : d.work_location,
+	                     residential_location : d.residential_location,
+						jobs : d.jobs 
+					})
+})
+
+var zero_node = []
+zero_node.push({residential_location : geo_name,
+				work_location : geo_name,
+				jobs : 1
+})
+
+if(vals[0] == 0){
+	var nodeslist_dat = zero_node.concat(same_loc,nodeslist_tmp4)
+} else {
+	var nodeslist_dat = same_loc.concat(nodeslist_tmp4)
+}
+
+var labarr_dat = [];
+var lab1_tmp = []
+var lab2_tmp = []
+nodeslist_dat.forEach(obj => { 
+	lab1_tmp.push(obj.residential_location)
+	lab2_tmp.push(obj.work_location)
+})
+
+var lab1_dat = [...new Set(lab1_tmp)];
+var lab2_dat = [...new Set(lab2_tmp)];
+var labarr_dat = lab1_dat.concat(lab2_dat);
+
+
+var neg = nodeslist_dat.filter(d => d.jobs <= 0).length
+var pos = nodeslist_dat.filter(d => d.jobs > 0).length
+
+if(neg < pos) {
+	var inc = 1/pos;
+} else {
+	var inc = 1/neg;
+}
+var incr = parseFloat(inc.toFixed(3))
+
+// Prepping nodelsist data
+
+var total_pos_datmig = 0;
+var total_neg_datmig = 0;
+var y_dat_pos = 0.1;
+var y_dat_neg = 0.1;
+var titleVal_dat = "Commuting Profile "+ geo_name;
+var citStr = "U.S. Census Bureau. LEHD Origin-Destination Employment Statistics (2002-2021) " +
+	           " Print Date: "+ fmt_date(new Date);
+
+
+
+//setting annotation labels
+var annot_in = ""
+var annot_out = ""
+annot_lab.forEach(d => {
+	if(d.outlab.includes("In Commuters")){
+		annot_in = d.outlab
+	}
+	if(d.outlab.includes("Out Commuters")){
+		annot_out = d.outlab
+	}
+})
+var lab_annotation = [];
+
+// Prepping nodeslist data
+var tgt_neg = pos;
+
+for(i = 0; i < nodeslist_dat.length;i++){
+		if(nodeslist_dat[i].jobs < 0) {  //live in area work elsewhere
+			nodeslist_dat[i].src = labarr_dat.indexOf(nodeslist_dat[i].residential_location)
+			nodeslist_dat[i].tgt = tgt_neg
+			nodeslist_dat[i].val = Math.abs(nodeslist_dat[i].jobs)
+			nodeslist_dat[i].lablink = nodeslist_dat[i].residential_location + " to " + nodeslist_dat[i].work_location + ": " + fmt_comma(Math.abs(nodeslist_dat[i].jobs));	
+			nodeslist_dat[i].xpos =  0.9;
+			nodeslist_dat[i].labposx = 1;
+			nodeslist_dat[i].ypos =  parseFloat(y_dat_neg.toFixed(3));
+			nodeslist_dat[i].labposy = parseFloat(y_dat_neg.toFixed(3));
+			nodeslist_dat[i].lab = nodeslist_dat[i].work_location;
+			nodeslist_dat[i].linewidth = parseFloat((Math.abs(nodeslist_dat[i].jobs)/vals[2]).toFixed(2))
+			y_dat_neg = y_dat_neg + incr;
+			tgt_neg++
+			
+		} else {
+			nodeslist_dat[i].src = labarr_dat.indexOf(nodeslist_dat[i].residential_location)
+			nodeslist_dat[i].tgt = 0
+			nodeslist_dat[i].val = Math.abs(nodeslist_dat[i].jobs)
+			nodeslist_dat[i].lablink = nodeslist_dat[i].residential_location + " to " + nodeslist_dat[i].work_location + ": " + fmt_comma(Math.abs(nodeslist_dat[i].jobs));	
+			nodeslist_dat[i].xpos =  0.1;
+			nodeslist_dat[i].ypos =  parseFloat(y_dat_pos.toFixed(3));
+			nodeslist_dat[i].labposx = 0;
+			nodeslist_dat[i].labposy =  parseFloat(y_dat_pos.toFixed(3));
+			nodeslist_dat[i].lab = nodeslist_dat[i].residential_location;
+			nodeslist_dat[i].linewidth = parseFloat((Math.abs(nodeslist_dat[i].jobs)/vals[1]).toFixed(2))
+			y_dat_pos = y_dat_pos + incr;
+		}
+		if(nodeslist_dat[i].residential_location == nodeslist_dat[i].work_location){
+			nodeslist_dat[i].src = 0;
+			nodeslist_dat[i].tgt = 0;
+			nodeslist_dat[i].xpos =  0.5;
+			nodeslist_dat[i].ypos =  0.5;
+			nodeslist_dat[i].labposx = 0;
+			nodeslist_dat[i].labposy =  0;
+			nodeslist_dat[i].lab = nodeslist_dat[i].residential_location;
+			nodeslist_dat[i].lablink = "Work and Live in " + nodeslist_dat[i].residential_location + ": "+ fmt_comma(Math.abs(nodeslist_dat[i].jobs))
+			nodeslist_dat[i].linewidth = parseFloat((Math.abs(nodeslist_dat[i].jobs)/vals[0]).toFixed(2))
+		}
+		
+		//Build Label Annotations
+			lab_annotation.push({text: nodeslist_dat[i].residential_location,
+				font : {size : 11, color : 'black'},    
+				x : nodeslist_dat[i].xpos,
+				y : nodeslist_dat[i].ypos,
+				showarrow : false})
+} //i
+
+//Bar Chart Section
+//Plotting 
+var config = {responsive: true,
+              displayModeBar: false};
+			  
+
+
+var bardata = [{
+	 x: vals,
+	 y: labs,
+	 type: 'bar',
+	 marker : {color : barcolor},
+	 customdata : fmtvals,
+	 hovertemplate : '%{customdata}',
+	 hoverlabel : {namelength :0},
+     orientation: 'h'
+}]
+
+var barlayout = {
+	title: barchart_title,
+  autosize: false,
+  width: 1000,
+  height: 500,
+  margin: {
+    l: 200,
+    r: 50,
+    b: 100,
+    t: 100,
+    pad: 4
+  },
+  xaxis : {
+	title : 'Jobs'
+  },
+ 	annotations : [{text :  citStr, 
+      font: { size : 9, color: 'black'},
+      xref : 'paper', 
+	  yref : 'paper', 
+	  xanchor : 'left',
+	  yanchor : 'bottom',
+      x : 0, 
+      y : -0.25, 
+      align : 'left', 
+      showarrow : false}]
+};
+
+
+Plotly.newPlot(CHART0, bardata,barlayout,config);
+var barchart_csv = document.getElementById('barchart_csv');
+var barchart_png = document.getElementById('barchart_png');
+barchart_csv.onclick = function() {exportToCsv(geo_name, 'LODESBAR', barchart_data,0)};
+barchart_png.onclick = function() {exportToPng(geo_name, 'LODESBAR', CHART0,0)};
+
+//Sankey Chart
+
+var data_com = {
+  type: "sankey",
+  orientation: "h",
+  arrangement : "fixed",
+  node: {
+    thickness: 50,
+    line: {
+      color: "black",
+      width: nodeslist_dat.map(d => d.linewidth)
+    },
+   label: nodeslist_dat.map(d => d.lab),
+   x : nodeslist_dat.map(d => d.xpos),
+   y : nodeslist_dat.map(d => d.ypos),
+   pad : 35,
+   hoverinfo: 'none'
+      },
+
+  link: {
+    source: nodeslist_dat.map(d => d.src),
+    target: nodeslist_dat.map(d => d.tgt),
+    value:  nodeslist_dat.map(d => d.val),
+	customdata : nodeslist_dat.map(d => d.lablink),
+	hovertemplate : '%{customdata}<extra></extra>'
+  }
+}
+
+var data_commut = [data_com];
+
+var layout_commut = {
+  title: barchart_title + " Commuting Flows", 
+  autosize : false, 
+  width: 1000,
+  height: 1000, 
+  font: {
+    size: 11,
+	family : 'Arial Black'
+  },
+annotations : [
+      {text :  citStr, 
+      font: { size : 9, color: 'black'},
+      xref : 'paper', 
+	  yref : 'paper', 
+	  xanchor : 'left',
+	  yanchor : 'bottom',
+      x : 0, 
+      y : -0.10, 
+      align : 'left', 
+      showarrow : false},
+		{text : annot_in,
+        font : {size : 10, color : 'black'},      
+		xref : 'paper', 
+	    yref : 'paper', 
+	    xanchor : 'left',
+	    yanchor : 'bottom',
+        x : 0,
+        y : -0.09,
+		showarrow : false },
+		{text : annot_out,
+        font : {size : 10, color : 'black'},      
+		xref : 'paper', 
+	    yref : 'paper', 
+	    xanchor : 'left',
+	    yanchor : 'bottom',
+        x : 0.6,
+        y : -0.09,
+		showarrow : false }
+
+
+]
+}
+Plotly.newPlot(CHART1, data_commut,layout_commut,config);
+var sankey_csv = document.getElementById('sankey_csv');
+var sankey_png = document.getElementById('sankey_png');
+sankey_csv.onclick = function() {exportToCsv(geo_name, 'LODESFLOW', sankey_fin,0)};
+sankey_png.onclick = function() {exportToPng(geo_name, 'LODESFLOW', CHART1,0)};
+
+//Creating work tables
+
+switch(sector){
+		case 'total' :
+			var work_title = "Work in "+ geo_name + " and Live elsewhere: All Jobs";
+			var fileName_work = "Commuting data Work in "+ geo_name +", Live elsewhere All Jobs"
+			var res_title = "Live in "+ geo_name + " and Work elsewhere: All Jobs";
+			var fileName_res = "Commuting data Live in "+ geo_name +", Work elsewhere All Jobs"
+			break;
+		case 'goods' :
+			var work_title = "Work in "+ geo_name + " and Live elsewhere: Goods Producing Jobs";
+			var fileName_work = "Commuting data Work in "+ geo_name +", Live elsewhere Goods Producing Jobs"
+			var res_title = "Live in "+ geo_name + " and Work elsewhere: Goods Producing Jobs";
+			var fileName_res = "Commuting data Live in "+ geo_name +", Work elsewhere Goods Producing Jobs"
+			break;
+		case 'trade' :
+			var work_title = "Work in "+ geo_name + " and Live elsewhere: Trade, Transportation, and Utilities Jobs";
+			var fileName_work = "Commuting data Work in "+ geo_name +", Live elsewhere Trade Jobs"
+			var res_title = "Live in "+ geo_name + " and Work elsewhere: Trade, Transportation, and Utilities Jobs";
+			var fileName_res = "Commuting data Live in "+ geo_name +", Work elsewhere Trade Jobs"
+			break;
+		case 'services' :
+			var work_title = "Work in "+ geo_name + " and Live elsewhere: Service Industry Jobs";
+			var fileName_work = "Commuting data Work in "+ geo_name +", Live elsewhere Service Jobs"
+			var res_title = "Live in "+ geo_name + " and Work elsewhere: Service Industry Jobs";
+			var fileName_res = "Commuting data Live in "+ geo_name +", Work elsewhere Service Jobs"
+			break;
+	}
+var work_tab = nodeslist_tmp3.filter(d => d.work_location == geo_name)
+
+var work_tab_out = lodes_tab(work_tab,citStr,"work")
+var work_tab_html = work_tab_out[0]
+var work_tab_html2 = "<h2>" + work_title + "</h2><p></p><table>"+ work_tab_html + "</table>"
+var labels_work = work_tab_out[1]
+var footArr = work_tab_out[2]
+
+//Clear div
+var pgLength_work = 10;
+var tabName0 = "work_tab_out"
+TAB0.innerHTML = "";
+
+var tabObj_work = "#" + tabName0;
+$(TAB0).append("<h2>"+work_title+"</h2>")
+$(TAB0).append("<table id= '"+ tabName0 + "' class='DTTable' width='90%'></table>");
+$(tabObj_work).append(work_tab_html); //this has to be a html table
+
+$(tabObj_work).DataTable({
+       "pageLength" : pgLength_work,
+	   "ordering": false,
+		"fixedHeader":   true ,
+ dom: 'Bfrtip',
+       buttons: [
+		{ text : 'Word', action: function ( e, dt, node, config ) { export2Word(work_tab_html2,fileName_work)} },
+		{ text : 'CSV', action: function ( e, dt, node, config ) { exportToCsv(geo_name, 'LODESFLOW', sankey_fin,0)} },
+		]  //buttons
+ } );
+ 
+//Creating Residential tables
+
+var res_tab = nodeslist_tmp3.filter(d => d.residential_location == geo_name)
+
+var res_tab_out = lodes_tab(res_tab,citStr,"res")
+var res_tab_html = res_tab_out[0]
+var res_tab_html2 = "<h2>" + res_title + "</h2><p></p><table>"+ res_tab_html + "</table>"
+var labels_res = res_tab_out[1]
+var footArr = res_tab_out[2]
+
+
+//Clear div
+var pgLength = 10;
+var tabName1 = "res_tab_out"
+TAB1.innerHTML = "";
+
+var tabObj_res = "#" + tabName1;
+$(TAB1).append("<h2>"+res_title+"</h2>")
+$(TAB1).append("<table id= '"+ tabName1 + "' class='DTTable' width='90%'></table>");
+$(tabObj_res).append(res_tab_html); //this has to be a html table
+
+$(tabObj_res).DataTable({
+       "pageLength" : pgLength,
+	   "ordering": false,
+		"fixedHeader":   true ,
+ dom: 'Bfrtip',
+       buttons: [
+		{ text : 'Word', action: function ( e, dt, node, config ) { export2Word(res_tab_html2,fileName_res)} },
+		{ text : 'CSV', action: function ( e, dt, node, config ) { exportToCsv(geo_name, 'LODESFLOW', sankey_fin,0)} }
+		
+		]  //buttons
+ } );
+}) //Promise
+}
+//genLODES
