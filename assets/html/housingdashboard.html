@@ -152,8 +152,8 @@ d3.json(urlstr).then(yeardata => {
 
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
-    //var yrvalue = d3.max(yrsList);  Restore this when we have a solution for post-2020 housing data
-   var yrvalue = 2019;
+    var yrvalue = d3.max(yrsList);  //Restore this when we have a solution for post-2020 housing data
+
 /* Populate County Dropdown for Initial state */
 genHOUSEDASH('county','000','Colorado',yrvalue);
 //show buttons
