@@ -2105,7 +2105,7 @@ if(ctyval.length > 0){
 
 
 //Unincorp and muni
-debugger
+
 var multichk = false
 if(munival.length > 0){
 	munival.forEach(i => {
@@ -2785,10 +2785,11 @@ data.forEach(i => {
 		  'countyname' : countyName(i.area_code),
 		  'population_year' : i.population_year,
 		  'sector_id' : i.sector_id.padStart(5, '0'),
-		  'sector_name': i.sector_name,
-		  'total_jobs' : parseInt(i.total_jobs)
+		  'sector_name': i.sector_name.replace("-","..."),
+		  'total_jobs' : isNaN(parseInt(i.total_jobs)) ? 0 : parseInt(i.total_jobs)
 	})
 	})
+
 
 var cty_data2 = cty_data
         .sort(function(a, b){ return d3.ascending(a['countyfips'], b['countyfips']); })
@@ -2909,8 +2910,8 @@ var raw_data = joinFUNCT(uniq_sector,reg_data,"sector_id","sector_id",function(d
 			'regname' : regionName(dat.regval),
 			'year' : dat.year,
 			'sector_id': col.sector_id,
-			'sector_name' : col.sector_name,
-			'total_jobs' : dat.total_jobs
+			'sector_name' : col.sector_name.replace("-","..."),
+			'total_jobs' : isNaN(parseInt(dat.total_jobs)) ? 0 : parseInt(dat.total_jobs)
 		};
 	});
 
@@ -3728,9 +3729,6 @@ if(sex_val == "S"){
 }
 
 d3.json(urlstr).then(function(data){
-debugger
-console.log(urlstr)
-console.log(data)
 
 	var data_keys = Object.keys(data[0])
 	var cty_data = [];
