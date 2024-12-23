@@ -559,11 +559,12 @@ d3.json(urlstr).then(function(data){
 	
 // Rolling up Region
 
+
 var reg_data = [];
 	region.forEach(i => {
 	   var selfips = [];
        var tempReg = regionCOL(parseInt(i));
-	   tempReg[0].fips.forEach( a => selfips.push(parseInt(a)) )
+	   tempReg[0].fips.forEach( a => selfips.push(parseInt(a).toString()) )
 	   var filtData = data.filter(b => selfips.includes(b.county_fips));
 	   var reg_tmp = [];
 
@@ -693,7 +694,6 @@ var reg_data = [];
 } //Switch
 reg_data = reg_data.concat(reg_tmp)
 	}) //forEach
-
 
 	
 	// Generate Table
