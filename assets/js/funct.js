@@ -2657,16 +2657,12 @@ var fips_list = parseInt(fips);
   var yr_list = prevyear + "," + yrvalue + "," + year10;
  
  //Generate url
- if(fips == "000") {
- var urlstr = "https://gis.dola.colorado.gov/lookups/sya_regions?reg_num=" + fips_list + "&year=" + yr_list + "&choice=single"
- } else {
+
      var urlstr = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + yr_list + "&choice=single&group=3"
- }
- 
+  
  var totaldata = [];
 
 d3.json(urlstr).then(function(data){
-	
    data.forEach(function(obj) {
     if(obj.age >=  0 && obj.age <= 17) {obj.age_cat = "0 to 17"; }
     if(obj.age >= 18 && obj.age <= 24) {obj.age_cat = "18 to 24";}
@@ -2689,6 +2685,7 @@ for (let [key, value] of total_ann) {
     };
 
 var total_ann_flat = total_ann_tmp.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
+
 
 var total_age_tmp = [];
 for (let [key1, value] of total_age) {
