@@ -90,10 +90,9 @@ d3.json(urlstr).then(function(yeardata){
     var maxest = yeardata.filter(function(d){return d.datatype == 'Estimate'});
 	var yrsList = maxest.map(function(d){return d.year;});
     var yrvalue = d3.max(yrsList) 
-	var acsyr = 2022;  //Update this to current ACS Year
+	var acsyr = 2023;  //Update this to current ACS Year
 
 //Generate Initial Tables
-
 genSYA("000",yrvalue);
 genCOC("000",yrvalue);
 genRaceEth("000",yrvalue);
