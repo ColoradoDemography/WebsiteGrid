@@ -3102,7 +3102,7 @@ function baseIndLabels(incat){
 // baseIndLabels
 
 
-function rebaseind(inData, level){
+function rebaseind(inData, level, yrval){
 //restructure baseind  converts wide dataset  to long
  var newLabel = [];
  var outData = [];
@@ -3170,7 +3170,7 @@ inData.forEach(i => {
 		'countyname' : i.fips == '500' ? 'Denver-Boulder MSA' : countyName(+i.fips),
 		'variable' : 'VINTAGE',
 		'row'  :  23,
-		'category' : "Vintage 2022",
+		'category' : "Vintage "+ yrval,
 		'total_employment' : 999999999,
 		'total_pct' : 999999999
 	});
@@ -3232,7 +3232,7 @@ inData.forEach(i => {
 		'regname' : i.regname,
 		'variable' : 'VINTAGE',
 		'row'  :  23,
-		'category' : "Vintage 2022",
+		'category' : "Vintage "+ yrval,
 		'total_employment' : 999999999,
 		'total_pct' : 999999999
 	});
@@ -3246,7 +3246,7 @@ return(outData);
 
 
 
-function genBaseIndCty(loc) {
+function genBaseIndCty(loc,yrval) {
 //County Base Industries lookup
 
 		//build urlstr
@@ -3261,7 +3261,7 @@ function genBaseIndCty(loc) {
 
 		
 d3.json(urlstr).then(function(data){
- var cty_data = rebaseind(data,"county")
+ var cty_data = rebaseind(data,"county",yrval)
 
 var cty_data2 = cty_data
         .sort(function(a, b){ return d3.ascending(a['row'], b['row']); })
@@ -3304,7 +3304,7 @@ $(tabObj).DataTable({
 // genBaseIndCty
 
 
-function genBaseIndReg(region, loc) {
+function genBaseIndReg(region, loc, yrval) {
 //Regional Base Industries lookup
 
 		//build urlstr
@@ -3419,7 +3419,7 @@ if(region == '22') {
 }
 
 
- var reg_data_long = rebaseind(reg_data, "region")
+ var reg_data_long = rebaseind(reg_data, "region",yrval)
 
 var reg_data2 = reg_data_long
         .sort(function(a, b){ return d3.ascending(a['row'], b['row']); })
@@ -3427,16 +3427,15 @@ var reg_data2 = reg_data_long
 		;
 
 	// Generate Table
-	var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Industry Group</th><th>Employment</th><th>Employment % of Basic</th></tr></thead><tbody>";
+	var out_tab = "<thead><tr><th>Region Name</th><th>Industry Group</th><th>Employment</th><th>Employment % of Basic</th></tr></thead><tbody>";
 	for(i = 0; i < reg_data2.length; i++){
 		var pctval = reg_data2[i].variable == "FINAL ROW" ? fixNUMFMT(reg_data2[i].total_pct,"dec") : fixNUMFMT(reg_data2[i].total_pct,"pct");
 		var sumval = reg_data2[i].variable == "FINAL ROW" ? " " : fixNUMFMT(reg_data2[i].total_employment,"num")
-		var el0 = "<td>" + reg_data2[i].regval + "</td>"
 		var el1 = "<td>" + reg_data2[i].regname + "</td>"
 		var el2 = "<td>" + reg_data2[i].category + "</td>"
 		var el3 = "<td style='text-align: right'>" + sumval + "</td>"
 		var el4 = "<td style='text-align: right'>" + pctval + "</td>"
-	   var tmp_row = "<tr>" + el0 + el1 + el2 + el3 +  el4 + "</tr>";
+	   var tmp_row = "<tr>" +  el1 + el2 + el3 +  el4 + "</tr>";
 	   out_tab = out_tab + tmp_row;
 	}
 	out_tab = out_tab + "</tbody>"
@@ -3666,9 +3665,8 @@ var reg_data2 = reg_data
 		;
 
 	// Generate Table
-	var out_tab = "<thead><tr><th>Region Number</th><th>Region Name</th><th>Year</th><th>Total Jobs</th><th>Data Type</th></tr></thead><tbody>";
+	var out_tab = "<thead><tr><th>Region Name</th><th>Year</th><th>Total Jobs</th><th>Data Type</th></tr></thead><tbody>";
 	for(i = 0; i < reg_data2.length; i++){
-		var el0 = "<td>" + reg_data2[i].regval + "</td>"
 		var el1 = "<td>" + reg_data2[i].regname + "</td>"
 		var el2 = "<td>" + reg_data2[i].population_year + "</td>"
 		var el3 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].totaljobs,"num") + "</td>"
