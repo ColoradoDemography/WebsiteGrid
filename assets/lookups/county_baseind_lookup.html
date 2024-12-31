@@ -117,7 +117,7 @@
 
  includeHTML();
 
-
+var yrval = 2023; //Update this to reflect current vintage
  popBaseInd('county','county-dropdown')
 
 //Button Event
@@ -140,7 +140,7 @@
 		
 
 		if(complete){
-		     genBaseIndCty(selectedfips);
+		     genBaseIndCty(selectedfips,yrval);
 			 } else {
 			 window.alert(outputmsg);
 			 }

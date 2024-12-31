@@ -53,7 +53,7 @@
   <p>
   <ul style="list-style-type:none">
   <li style='color:black;'><a href="https://drive.google.com/uc?export=download&id=1Ag0JdOo8XATTBiNuh80BTiuqLV4Kv72T" target='_blank' title='Base Industries Summary' aria_label='Base Industries Summary'>Base Industries Summary</a></li>
-  <li style='color:black;'><a href="../lookups/county_sya_lookup.html" target='_blank' title='Need County Data?' aria-label='Need County Data?'>Need County Data?</a></li>
+  <li style='color:black;'><a href="../lookups/county_baseind_lookup.html" target='_blank' title='Need County Data?' aria-label='Need County Data?'>Need County Data?</a></li>
   <li style='color:black;'><a href='https://gis.dola.colorado.gov/RegionsMap/' target='_blank' title='Colorado Regions Map' aria-label='Colorado Regions Map'>Colorado Regions Map</a></li>
   </ul>
   </p>
@@ -120,6 +120,8 @@
  includeHTML();
 
 
+var yrval = 2023; //Update this to reflect current vintage
+
   popDropdown('region','region-dropdown','lookup');
  //Removing problematic Regions
 $("#region-dropdown").children().remove("optgroup[label='Census Metropolitan Statistical Areas']");
@@ -150,7 +152,7 @@ $("#region-dropdown").children().remove("optgroup[label='Denver Regions']");
 		
 
 		if(complete){
-		     genBaseIndReg(selectedreg, selectedfips);
+		     genBaseIndReg(selectedreg, selectedfips,yrval);
 			 } else {
 			 window.alert(outputmsg);
 			 }
