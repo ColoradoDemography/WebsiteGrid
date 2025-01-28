@@ -3671,7 +3671,7 @@ var reg_data2 = reg_data
 		var el2 = "<td>" + reg_data2[i].population_year + "</td>"
 		var el3 = "<td style='text-align: right'>" + fixNUMFMT(reg_data2[i].totaljobs,"num") + "</td>"
 		var el4 = "<td>" + reg_data2[i].datatype + "</td>"
-	   var tmp_row = "<tr>" + el0 + el1 + el2 + el3 +  el4 + "</tr>";
+	   var tmp_row = "<tr>" + el1 + el2 + el3 +  el4 + "</tr>";
 	   out_tab = out_tab + tmp_row;
 	}
 	out_tab = out_tab + "</tbody>"
