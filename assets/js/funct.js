@@ -3990,7 +3990,6 @@ if(typeof acsyr === 'number') { //calculates income value adjustment
 	
 	var cpipre = data.filter(function(d) {return d.YEAR == preyr;});
 	var cpicur = data.filter(function(d) {return d.YEAR == curyr;});
-    debugger
 	var cpipreval = Number(cpipre[0]['AVG'])
 	var cpicurval = Number(cpicur[0]['AVG'])
 	
