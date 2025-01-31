@@ -3976,61 +3976,24 @@ for(i = 0; i <= 17;  i++){
 // acsAgePyr
 
 
-function acsChkDiff(curpct,curmoe, prevpct, prevmoe,acsyr) {
-
+function acsChkDiff(curpct,curmoe, prevpct, prevmoe) {
 //acsChkDiff checks for significant increase or decrease in quantity for ACS values  ACS Handbook Chapter 7
-	var outcome = 'equal';
-
-if(typeof acsyr === 'number') { //calculates income value adjustment
-	d3.csv("assets/data/r-cpi-u-rs-allitems.csv").then(function(data){
-	var prevpct1 = prevpct;
-	var prevmoe1 = prevmoe;
-	var preyr = (acsyr-5).toString()
-	var curyr = acsyr.toString()
-	
-	var cpipre = data.filter(function(d) {return d.YEAR == preyr;});
-	var cpicur = data.filter(function(d) {return d.YEAR == curyr;});
-	var cpipreval = Number(cpipre[0]['AVG'])
-	var cpicurval = Number(cpicur[0]['AVG'])
-	
-	var cpiadj = cpicurval/cpipreval
-   	var prevpct2 = prevpct1 * cpiadj
-	var prevmoe2 = prevmoe1 * cpiadj
-	var se_cur = curmoe/1.645;
-	var se_prev = prevmoe2/1.645;
-	var se_sum = Math.pow(se_cur,2) + Math.pow(se_prev,2);
-	var se_sqrt = Math.sqrt(se_sum);
-	var est_diff = Math.abs(curpct - prevpct2);
-	var diff_crit = est_diff/se_sqrt;
-	
-	var diff_crit = est_diff/se_sqrt;
-    if(diff_crit > 1.645){
-		if(curpct > prevpct) {
-		outcome = 'increase';
-	} else {
-		outcome = 'decrease';
-	} 
-	}//diff_crit
-  return(outcome);
-	})
-}   else {
+	var outcome = "equal"
 	var se_cur = curmoe/1.645;
 	var se_prev = prevmoe/1.645;
 	var se_sum = Math.pow(se_cur,2) + Math.pow(se_prev,2);
 	var se_sqrt = Math.sqrt(se_sum);
 	var est_diff = Math.abs(curpct - prevpct);
 	var diff_crit = est_diff/se_sqrt;
-	var outcome = 'equal';
     if(diff_crit > 1.645){
-		if(curpct > prevpct) {
-		outcome = 'increase';
+	if(curpct > prevpct) {
+		var outcome = 'increase';
 	} else {
-		outcome = 'decrease';
+		var outcome = 'decrease';
 	}  
-	}//diff_crit
-	return(outcome);
-} //is number else
-}; 
+	} 
+	return(outcome)
+}
 // acsChkDiff
 
 
@@ -4451,7 +4414,7 @@ if(fips == "000") {
 	   var homestr_prev = genACSUrl("homepage",prevyr, "B25097", 1, 3, "state",fips);
 	   
        var rentstr_cur = genACSUrl("homepage",curyr, "B25064", 1, 1, "state",fips);
-	   var rentstr_prev = genACSUrl("homepage",curyr, "B25064", 1, 1, "state",fips);;
+	   var rentstr_prev = genACSUrl("homepage",prevyr, "B25064", 1, 1, "state",fips);;
    } else {
        var povstr_cur = genACSUrl("homepage",curyr, "B06012", 1, 20, "county",fips);
 	   var povstr_prev = genACSUrl("homepage",prevyr, "B06012", 1, 20, "county",fips);
@@ -4469,14 +4432,25 @@ if(fips == "000") {
 	   var rentstr_prev = genACSUrl("homepage",prevyr, "B25064", 1, 1, "county",fips);;
    };
    
- 
   
  //Promise Structure
 var prom = [d3.json(povstr_prev),d3.json(povstr_cur),d3.json(educstr_prev),d3.json(educstr_cur),
             d3.json(incstr_prev),d3.json(incstr_cur),d3.json(homestr_prev),d3.json(homestr_cur),
-			d3.json(rentstr_prev),d3.json(rentstr_cur)];
+			d3.json(rentstr_prev),d3.json(rentstr_cur),d3.csv("assets/data/r-cpi-u-rs-allitems.csv")];
 
 Promise.all(prom).then(function(data){
+
+//Income adjustment 
+	var preyrst = prevyr.toString()
+	var curyrst = curyr.toString()
+	
+	var cpipre = data[10].filter(function(d) {return d.YEAR == preyrst;});
+	var cpicur = data[10].filter(function(d) {return d.YEAR == curyrst;});
+
+	var cpipreval = Number(cpipre[0]['AVG'])
+	var cpicurval = Number(cpicur[0]['AVG'])
+	
+	var cpiAdj = cpicurval/cpipreval
 
 //Poverty Variables and Objects
  var pov_cur = [];
@@ -4594,7 +4568,7 @@ Promise.all(prom).then(function(data){
 		inc_comp.push(inc_prev.filter(function(d) {return d.county == parseInt(fips);}));
     };
 
-	incDiff = acsChkDiff(inc_comp[0]['inc_est'], inc_comp[0]['inc_moe'], inc_comp[1][0]['inc_est'], inc_comp[1][0]['inc_moe'],curyr);
+	incDiff = acsChkDiff(inc_comp[0]['inc_est'], inc_comp[0]['inc_moe'], (inc_comp[1][0]['inc_est']* cpiAdj), (inc_comp[1][0]['inc_moe']*cpiAdj));
 	
 //Median Home Value  Processing
 	
@@ -4618,7 +4592,7 @@ Promise.all(prom).then(function(data){
 		home_comp = home_cur.filter(function(d) {return d.county == parseInt(fips);})
 		home_comp.push(home_prev.filter(function(d) {return d.county == parseInt(fips);}));
     };
-	homeDiff = acsChkDiff(home_comp[0]['inc_est'], home_comp[0]['inc_moe'], home_comp[1][0]['inc_est'], home_comp[1][0]['inc_moe'],curyr);
+	homeDiff = acsChkDiff(home_comp[0]['inc_est'], home_comp[0]['inc_moe'], (home_comp[1][0]['inc_est']* cpiAdj), (home_comp[1][0]['inc_moe']*cpiAdj));
 	
 //Median Gross Rent Processing
 
@@ -4643,8 +4617,11 @@ Promise.all(prom).then(function(data){
 		rent_comp = rent_cur.filter(function(d) {return d.county == parseInt(fips);})
 		rent_comp.push(rent_prev.filter(function(d) {return d.county == parseInt(fips);}));
     };
-	rentDiff = acsChkDiff(rent_comp[0]['inc_est'], rent_comp[0]['inc_moe'], rent_comp[1][0]['inc_est'], rent_comp[1][0]['inc_moe'],curyr);
-	
+
+	rentDiff = acsChkDiff(rent_comp[0]['inc_est'], rent_comp[0]['inc_moe'], (rent_comp[1][0]['inc_est']* cpiAdj), (rent_comp[1][0]['inc_moe']*cpiAdj));
+
+
+  
 //Building Table Array
 var tbl_arr = [];
 var censstub = "https://data.census.gov/cedsci/table?q=";
