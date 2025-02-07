@@ -111,13 +111,19 @@ function transpose(data) {
 }; 
 // transpose
 
-function annot(annTxt,ypos) {
-//annot  Chart annotation Places chart source citation on Plotly Charts
+function citation(source,vintage,table) { 
+//citation  Chart annotation Places chart source citation on Plotly Charts
 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 		ypos = -0.23;
+	if(source == 'SDO'){
+		annTxt = 'Source: Colorado State Demography Office, Vintage '+ vintage + ' Estimates'
+	} 
+	if(source == 'ACS'){
+		annTxt = 'U.S. Census Bureau, “American Community Survey 5-Year Estimates: Detailed Tables '+ table + '", ' + vintage + ', <http://api.census.gov/data/2022/acs/acs5>'
+	} 
 	
-	var  outAnnot = {text :  annTxt +'  Print Date: ' +  fmt_date(new Date) , 
+	var  outAnnot = {text :  annTxt , 
                 font: {
     size : 9,
     color: 'black'
@@ -131,7 +137,15 @@ function annot(annTxt,ypos) {
 	  
 return(outAnnot);
 }
-// annot
+// citation
+
+function colorRamp() {
+//colorRamp  returns SDO colors for charts
+	var colors = ["#00008B", "#007ADE", "#5BB5FF", "#000000", "#808080", "#BFBFBF", "#359A7E", 
+	                              "#7A853B", "#245D38", "#7A853B", "#FFD100", "#C0504D", "#FF8199", "#6D3A5D", "#9F7FB3"]
+return(colors)
+}
+// colorRamp
 
 function muni_county(muni){
 //muni_county provides county designation for municipalities (based on largest population for multi-county munis
@@ -4944,10 +4958,10 @@ rows.append('td')
 
 //cat Demographic Dashboard Functions
 
-function estPlot(inData, app, level, plotdiv, bkmark, yrvalue, fips, ctyName){
+function estPlot(inData, app, level, plotdiv, bkmark, yrvalue, fips, ctyName,colors){
 //estPlot Component Functions for Demograpic Dashboard : Estimates Plot
     const fmt_date = d3.timeFormat("%B %d, %Y");
-
+	const fmt_comma = d3.format(",");
 var config = {responsive: true,
               displayModeBar: false};
 //Clearing out divs
@@ -4964,34 +4978,74 @@ ESTIMATE.innerHTML = "";
 
 var year_est_arr =[];
 var pop_est_arr = [];
-
+var pop_est_lab = [];
+var pop_for_lab = [];
+var annotStr = 'Data and Visualization by the Colorado State Demography Office. Vintage ' + yrvalue;
 est_flat = inData.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
-year_est_arr = est_flat.map(item => item.year);
-pop_est_arr = est_flat.map(item => item.totalpopulation);
-if(app == "dashboard"){
+
+pop_est_data = est_flat.filter(d => d.type == "Estimate");
+year_est_arr = pop_est_data.map(item => item.year);
+pop_est_arr = pop_est_data.map(item => item.totalpopulation);
+for(j = 0; j < pop_est_data.length; j++){
+			pop_est_lab.push('Population Estimate, ' + pop_est_data[j].year + ': ' + fmt_comma(pop_est_data[j].totalpopulation));
+}
+
+
+pop_for_data = est_flat.filter(d => d.type == "Forecast")
+year_for_arr = pop_for_data.map(item => item.year);
+pop_for_arr = pop_for_data.map(item => item.totalpopulation);
+
+for(j = 0; j < pop_for_data.length; j++){
+			pop_for_lab.push('Population Forecast, ' + pop_for_data[j].year + ': ' + fmt_comma(pop_for_data[j].totalpopulation));
+}
+
 var est_trace = { 
                x: year_est_arr,
                y : pop_est_arr,
-			   type : 'bar'
-			};
-} else {
-	var est_trace = { 
-               x: year_est_arr,
-               y : pop_est_arr,
-			   mode: 'lines+markers'
-	}
-}
-var est_data = [est_trace];
+			   customdata : pop_est_lab,
+			   hovertemplate : '%{customdata}',
+			   hoverlabel : {namelength :0},
+			   name: "Population Estimate",
+			   type: 'scatter',
+			   mode: 'lines+markers',
+			  marker: {
+				color: colors[1],
+				size: 2,
+				line: {
+				  color: colors[1],
+				  width: 3
+				}
+		}}
+var for_trace = { 
+               x: year_for_arr,
+               y : pop_for_arr,
+			   customdata : pop_for_lab,
+			   hovertemplate : '%{customdata}',
+			   hoverlabel : {namelength :0, font: {color: 'white'}},
+			   name: "Population Forecast",
+			   type: 'scatter',
+			   mode: 'lines+markers',
+			  marker: {
+				color: colors[4],
+				size: 2,
+				line: {
+				  dash: 'dash',
+				  color: colors[4],
+				  width: 3
+				}
+		}}
+
+var est_data = [est_trace, for_trace];
 var est_layout = {
-		title: "Population Estimates 1985 to "+ yrvalue + ", " + ctyName,
+		title: "Population Estimates and Forecasts 1990 to 2050, " + ctyName,
 		  autosize: false,
 		  width: 1000,
 		  height: 500,
 		  xaxis: {
 			title : 'Year',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -5000,9 +5054,9 @@ var est_layout = {
 		  },
 		  yaxis: {
 			title : 'Total Population',
-			automargin : true,
-			showgrid: true,
-			showline: true,
+			automargin : false,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -5010,7 +5064,7 @@ var est_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+		  annotations : [citation('SDO',yrvalue,"")]
 		};
 		
 Plotly.newPlot(ESTIMATE, est_data, est_layout,config);
@@ -5029,127 +5083,7 @@ est_png.onclick = function() {exportToPng(ctyName, 'estimate', ESTIMATE,0)};
 }; 
 // estPlot
 
-
-function forecastPlot(inData, app, level, plotdiv, bkmark, yrvalue,fips,ctyName) {
-//forecastPlot Component Functions for Demograpic Dashboard: Forecast Plot
-    const fmt_date = d3.timeFormat("%B %d, %Y");
-	const fmt_pct = d3.format(".0%");
-	const fmt_pct1 = d3.format(".1%");
-	const fmt_comma = d3.format(",");
-	var config = {responsive: true,
-              displayModeBar: false};
-			  
-if(app == "profile") {
-	  pgSetupPro(level,"chart",plotdiv,bkmark,true,false,fips, ctyName, 0)
-	  var FORECAST = document.getElementById('PlotDiv3');
-} else {
-	var FORECAST = document.getElementById(plotdiv);
-}
-FORECAST.innerHTML = "";
-
-//Population Projections  This data is a single Geo by age...
-//Rollup
-	var columnsFor = ['totalpopulation'];
-	var forecast_sum = d3.rollup(inData, v => Object.fromEntries(columnsFor.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
-
-	var forecast_data = [];
-		for (let[key, value] of forecast_sum) {
-		   forecast_data.push({'fips' : fips, 'name' : ctyName, 'year' :  key, 'totalpopulation' : value.totalpopulation});
-		}
-
-var year_forec_arr =[];
-var pop_forec_arr = [];
-
-forec_flat = forecast_data.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
-year_forec_arr = forec_flat.map(item => item.year);
-pop_forec_arr = forec_flat.map(item => item.totalpopulation);
-
-if(app == 'dashboard'){
-var forec_trace = { 
-               x: year_forec_arr,
-               y : pop_forec_arr,
-			   type : 'bar'
-			};
-} else {
-var forec_trace = { 
-               x: year_forec_arr,
-               y : pop_forec_arr,
-			   mode : 'lines+markers'
-			};
-}
-	
-var forec_tr = [forec_trace];
-
-var forec_layout = {
-		title: "Population Projections 2010 to 2050, " + ctyName ,
-		  autosize: false,
-		  width: 1000,
-		  height: 500,
-		  xaxis: {
-			title : 'Year',
-			showgrid: true,
-			zeroline: false,
-			showline: true,
-			mirror: 'ticks',
-			gridcolor: '#bdbdbd',
-			gridwidth: 1,
-			linecolor: 'black',
-			linewidth: 2
-		  },
-		  yaxis: {
-			title : 'Total Population',
-			automargin: true,
-			showgrid: true,
-			showline: true,
-			mirror: 'ticks',
-			gridcolor: '#bdbdbd',
-			gridwidth: 1,
-			linecolor: 'black',
-			linewidth: 2,
-			 tickformat: ','
-		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
-		};
- 
-Plotly.newPlot(FORECAST, forec_tr, forec_layout,config);
-//Data formatting
-
-var forecast_shift  = [];
-forecast_data.forEach(item => {
-    forecast_shift.push({'fips' : fips, 'name' : ctyName, 'year' :  item.year, 'totalpopulation' : fmt_comma(item.totalpopulation)});
-});
-
-
-//Forecasts
-var forecast_names = {
-	       fips : 'FIPS',
-		   name : 'Location',
-		   year : 'Year',
-		   totalpopulation : "Population"
-         };
-		 
-var forecast_fin = changeKeyObjects(forecast_shift,forecast_names);
-
-//Data and plot output 
-if(app == 'profile'){
-	var profileDat2 = document.getElementById('profileDat3');
-	var profileImg2 = document.getElementById('profileImg3');
-	profileDat2.onclick = function() {exportToCsv(ctyName, 'forecast', forecast_fin,0)};
-	profileImg2.onclick = function() {exportToPng(ctyName, 'forecast', FORECAST,0)};
-} else { //These are the dashboard events
-	var est_csv = document.getElementById('forec_csv');
-	var est_png = document.getElementById('forec_png');
-	est_csv.onclick = function() {exportToCsv(ctyName, 'forecast', forecast_fin,0)};
-	est_png.onclick = function() {exportToPng(ctyName, 'forecast', FORECAST,0)};
-}	//profile
-
-	
-}; 
-// forecastPlot
-
-
-
-function agePlot (inData, app, plotdiv,yrvalue,fips,ctyName) {
+function agePlot (inData, app, plotdiv,yrvalue,fips,ctyName, colors) {
 //agePlot Component Functions for Demograpic Dashboard: Age Plot 
 	    const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
@@ -5232,6 +5166,7 @@ var age_trace = {
                x: pct_arr,
                y : age_arr,
 			   type : 'bar',
+			   color: colors[1],
 			   orientation : 'h'
 			};
 
@@ -5244,9 +5179,9 @@ var age_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Percentage',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -5257,15 +5192,15 @@ var age_layout = {
 		  yaxis: {
             autorange : 'reversed',
 			automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,"")]
 		}; 
 		
 Plotly.newPlot(AGEPLOT, age_data, age_layout,config);
@@ -5297,7 +5232,7 @@ age_png.onclick = function() {exportToPng(ctyName, 'age', AGEPLOT,0)};
 } 
 // agePlot
 
-function popchngPlot(inData, app, unit, plotdiv,yrvalue,fips,ctyName) {
+function popchngPlot(inData, app, unit, plotdiv,yrvalue,fips,ctyName,colors) {
 //popchngPlot Component Functions for Demograpic Dashboard: Population Change Plot 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_pct = d3.format(".0%");
@@ -5395,16 +5330,16 @@ var popchng_trace = {
 			  marker: {
 				opacity: 0.9,
 				line: {
-				  color: 'blue',
+				  color: colors[1],
 				  width: 1.5
 				}
 			  }
 			};
 var axis_spec = {
 	title : 'Percent Change',
-	showgrid: true,
+	showgrid: false,
 	zeroline: true,
-	showline: true,
+	showline: false,
 	mirror: 'ticks',
 	gridcolor: '#e5e4e2',
 	gridwidth: 1,
@@ -5432,9 +5367,9 @@ var popchng_trace = {
 
 var axis_spec = {
 	title : 'Change',
-	showgrid: true,
+	showgrid: false,
 	zeroline: true,
-	showline: true,
+	showline: false,
 	mirror: 'ticks',
 	gridcolor: '#e5e4e2',
 	gridwidth: 1,
@@ -5454,8 +5389,8 @@ var popchng_layout = {
 		  yaxis: { 
             autorange : 'reversed',
 			automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#e5e4e2',
 			gridwidth: 1,
@@ -5463,7 +5398,7 @@ var popchng_layout = {
 			linewidth: 2
 		  },
 		  font : { color : 'black' },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  Plotly.newPlot(POPCHNG, popchng_tr, popchng_layout,config);
 
@@ -5507,7 +5442,7 @@ popchng_png.onclick = function() {exportToPng(ctyName, 'popchng', POPCHNG,0)};
 // popchngPlot
 
 
-function netmigPlot(inData, app, plotdiv, fips, ctyName) {
+function netmigPlot(inData, app, plotdiv, fips, yrvalue, ctyName,colors) {
 //netmigPlot Component Functions for Demograpic Dashboard: Net Migration by Age 
 
 	const fmt_date = d3.timeFormat("%B %d, %Y");
@@ -5536,7 +5471,8 @@ var NetMig1020_bar = {
                x: NetMigAge,
                y : NetMig1020,
 			   name : '2010 to 2020',
-			   type : 'bar'
+			   type : 'bar',
+			   color: colors[1]
 			};
 var NetMig_chart = [NetMig1020_bar];
 
@@ -5547,9 +5483,9 @@ var NetMig_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -5559,8 +5495,8 @@ var NetMig_layout = {
 		  yaxis: {
 			  title : 'Net Migration',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			zeroline : true,
 			zerolinewidth: 4,
 			mirror: 'ticks',
@@ -5570,7 +5506,7 @@ var NetMig_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
 
 Plotly.newPlot(NETMIG, NetMig_chart, NetMig_layout,config);
@@ -5611,7 +5547,6 @@ COC.innerHTML = "";
 
 //Components of Change
 var year_coc_arr =[];
-var pop_coc_arr = [];
 var birth_coc_arr = [];
 var death_coc_arr = [];
 var incr_coc_arr = [];
@@ -5621,29 +5556,12 @@ var migr_coc_arr = [];
 coc_flat = coc_flat.sort(function(a, b){ return d3.ascending(a['year'], b['year']); });
 
 year_coc_arr = coc_flat.map(item => item.year);
-pop_coc_arr = coc_flat.map(item => item.popchng);
 birth_coc_arr = coc_flat.map(item => item.births);
 death_coc_arr = coc_flat.map(item => item.deaths);
 incr_coc_arr = coc_flat.map(item => item.naturalincrease);
 migr_coc_arr = coc_flat.map(item => item.netmigration);
 
 var coc_trace1 = { 
-               x: year_coc_arr,
-               y : pop_coc_arr,
-			   name : 'Total Population Change',
-			   mode : 'lines+markers',
-			    marker: {
-                  color: 'black',
-				  symbol: 'circle',
-                  size: 6
-  },
-  line: {
-    color: 'black',
-    width: 1
-  }
-			};
-			
-var coc_trace2 = { 
                x: year_coc_arr,
                y : birth_coc_arr,
 			   name : 'Births',
@@ -5660,7 +5578,7 @@ var coc_trace2 = {
   }
  };
 
-var coc_trace3 = { 
+var coc_trace2 = { 
                x: year_coc_arr,
                y : death_coc_arr,
 			   name : 'Deaths',
@@ -5677,23 +5595,23 @@ var coc_trace3 = {
   }
 };
 
-var coc_trace4 = { 
+var coc_trace3 = { 
                x: year_coc_arr,
                y : migr_coc_arr,
 			   name : 'Net Migration',
-			   mode : 'lines+markers',
-			    marker: {
-                  color: 'green',
-				  symbol: 'diamond',
-                  size: 4
-  },
-  line: {
-    color: 'green',
-	dash: 'dashdot',
-    width: 1
-  }
+			   type: 'scatter',
+			   mode: 'lines+markers',
+			   marker: {
+				color: 'rgb(53, 100, 126)', //
+				size: 2,
+				line: {
+				  color: 'rgb(53, 100, 126)',
+				  width: 3
+				}
+			}
 			};
-var coc_data = [coc_trace1, coc_trace2, coc_trace3, coc_trace4]
+
+var coc_data = [coc_trace1, coc_trace2, coc_trace3]
 
 var coc_layout = {
 		title: "Births, Deaths and Net Migration 1985 to " + yrvalue + ", " + ctyName,
@@ -5702,9 +5620,9 @@ var coc_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Year',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -5714,8 +5632,8 @@ var coc_layout = {
 		  yaxis: {
 			title : 'Population Change',
 			automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			zeroline : true,
 			zerolinewidth: 4,
 			mirror: 'ticks',
@@ -5725,7 +5643,7 @@ var coc_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(COC, coc_data, coc_layout,config);	
@@ -5775,7 +5693,7 @@ if(app == 'profile') {
 function genDEMO(geotype, fips, unit, ctyName, yrvalue){
 //genDEMO outputs Plotly charts for the Demographic Dashboard
 //genDEMO Creates 3 datasets, one for estimates (pop by year), 
-// one for net migration by age for 2000-2010, and
+// one for net migration by age for 2010-2020, and
 // one for forecasts population by age and year
 
     const fmt_date = d3.timeFormat("%B %d, %Y");
@@ -5783,6 +5701,13 @@ function genDEMO(geotype, fips, unit, ctyName, yrvalue){
 	const fmt_comma = d3.format(",");
     var endyr = yrvalue + 10;
 	var fips_list; 
+	
+	var colors = colorRamp()
+
+
+// chartdivs
+var CHART0 = document.getElementById("linecoc_output");
+var CHART1 = document.getElementById("barcoc_output");
 
 	if(geotype == "region"){
 		var fips_tmp = regionCOL(parseInt(fips));
@@ -5799,12 +5724,12 @@ function genDEMO(geotype, fips, unit, ctyName, yrvalue){
 	};
 //Estimates and components of change chart
 
-	var yr_list = 1985;
-	for(i = 1986; i <= yrvalue; i++){
+	var yr_list = 1990;
+	for(i = 1991; i <= 2050; i++){
 		yr_list = yr_list + "," + i;
 	};
 	
-	var esturl = "https://gis.dola.colorado.gov/lookups/profile?county=" + fips_list + "&year=" + yr_list + "&vars=totalpopulation,births,deaths,naturalincrease,netmigration";
+	var esturl = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + yr_list + "&choice=single&group=3"
 	
 //forecasts and age projections
    var forc_yrs = 2010;
@@ -5817,23 +5742,20 @@ function genDEMO(geotype, fips, unit, ctyName, yrvalue){
 //Net migration by age -- this is net migration by 5-year data
    var netmigurl = "https://storage.googleapis.com/co-publicdata/Colorado_Age_Migration_By_Decade.csv"
 
-
-var prom = [d3.json(esturl),d3.json(forcurl),d3.csv(netmigurl)];
-
+var prom = [d3.json(esturl),d3.json(forcurl), d3.csv(netmigurl)];
 
 Promise.all(prom).then(function(data){
 
 //Rollup for region
 if(geotype == "region"){
 //Estimates
-	var columnsEst = ['totalpopulation', 'births', 'deaths', 'naturalincrease','netmigration'];
+	var columnsEst = ['totalpopulation'];
  	var est_sum =      d3.rollup(data[0], v => Object.fromEntries(columnsEst.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
 //Flatten Arrays
 	var est_data = [];
 	for (let [key, value] of est_sum) {
-	  est_data.push({'type' : 'region', 'fips' : parseInt(fips), 'name' : ctyName, 'year' : key, 'totalpopulation' : value.totalpopulation, 
-	   'births' : value.births, 'deaths' : value.deaths, 'naturalincrease' : value.naturalincrease, 
-	   'netmigration' : value.netmigration});
+	  est_data.push({'geo' : 'region', 'fips' : parseInt(fips), 'name' : ctyName, 'year' : key, 'totalpopulation' : value.totalpopulation, 
+	      'type' : key <= yrvalue ? "Estimate" : "Forecast"});
 		}
 
 //Forecast
@@ -5860,15 +5782,15 @@ var netmig_data = [];
 
 } else {
 	if(fips == "000") { //Colorado as a whole
-	//estimate
-	var columnsEst = ['totalpopulation', 'births', 'deaths', 'naturalincrease','netmigration'];
+//Estimates
+	var columnsEst = ['totalpopulation'];
  	var est_sum =      d3.rollup(data[0], v => Object.fromEntries(columnsEst.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
+//Flatten Arrays
 	var est_data = [];
 	for (let [key, value] of est_sum) {
-	  est_data.push({'type' : 'state', 'fips' : 0, 'name' : 'Colorado', 'year' : key, 'totalpopulation' : value.totalpopulation, 
-	   'births' : value.births, 'deaths' : value.deaths, 'naturalincrease' : value.naturalincrease, 
-	   'netmigration' : value.netmigration});
-		};
+	  est_data.push({'geo' : 'state', 'fips' : parseInt(fips), 'name' : ctyName, 'year' : key, 'totalpopulation' : value.totalpopulation, 
+	      'type' : key <= yrvalue ? "Estimate" : "Forecast"});
+		}
 
 	//Forecast
 	var columnsFor = ['totalpopulation'];
@@ -5884,12 +5806,14 @@ var netmig_data = [];
 	var netmig_data = data[2].filter(d => (parseInt(fips) == parseInt(d.countyfips)) && (parseInt(d.year) == 2010))
 
 	} else {
+//Estimates
+	var columnsEst = ['totalpopulation'];
+ 	var est_sum =      d3.rollup(data[0], v => Object.fromEntries(columnsEst.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
+//Flatten Arrays
 	var est_data = [];
-	for(i = 0; i < data[0].length; i++){
-		  est_data.push({'type' : 'county', 'fips' : data[0][i].countyfips, 'name' : countyName(data[0][i].countyfips),
-		  'year' : data[0][i].year, 'totalpopulation' : data[0][i].totalpopulation, 
-		   'births' : data[0][i].births, 'deaths' : data[0][i].deaths, 'naturalincrease' : data[0][i].naturalincrease, 
-		   'netmigration' : data[0][i].netmigration});
+	for (let [key, value] of est_sum) {
+	  est_data.push({'geo' : 'county', 'fips' : parseInt(fips), 'name' : ctyName, 'year' : key, 'totalpopulation' : value.totalpopulation, 
+	      'type' : key <= yrvalue ? "Estimate" : "Forecast"});
 		}
 	
 	var forecast_data = [];
@@ -5904,12 +5828,11 @@ var netmig_data = [];
 
 //Plotting 
 
-	estPlot(est_data, "dashboard", "County",  "est_output", "", yrvalue, fips, ctyName);
-	forecastPlot(forecast_data, "dashboard", "County", "forec_output", "", yrvalue, fips, ctyName);
-	cocPlot(est_data, "dashboard","County", "coc_output", "", yrvalue, fips, ctyName);
-	netmigPlot(netmig_data, "dashboard","mig_output", fips, ctyName);
-    agePlot(forecast_data,"dashboard", "ageest_output", yrvalue, fips, ctyName);
-    popchngPlot(forecast_data,"dashboard", unit, "popchng_output", yrvalue, fips, ctyName);
+	estPlot(est_data, "dashboard", "County",  "est_output", "", yrvalue, fips, ctyName, colors);
+	genCOCHIST(geotype, fips,  1970, yrvalue, ['births','deaths','netmig'], "yr5", "linecoc_output", "barcoc_output") 
+	netmigPlot(netmig_data, "dashboard","mig_output", fips, yrvalue,ctyName, colors);
+    agePlot(forecast_data,"dashboard", "ageest_output", yrvalue, fips, ctyName, colors);
+    popchngPlot(forecast_data,"dashboard", unit, "popchng_output", yrvalue, fips, ctyName,colors);
  
 }); //end of promise
 } 
@@ -5926,6 +5849,7 @@ function genRACEVIS(geotype, fips,ctyName, yrvalue) {
 		geotype = 'county'
 	}
 
+var colors = colorRamp()
 //Specify fips_list
  var fips_list; 
 	
@@ -6093,7 +6017,7 @@ var white_line = {
 			   name : 'White, NH',
 			   mode : 'lines', 
 			   line : {
-					color: 'blue',
+					color: colors[1],
 					width : 3
 				}
 			};
@@ -6104,7 +6028,7 @@ var hisp_line = {
 			   name : 'Hispanic',
 			   mode : 'lines', 
 			   line : {
-					color: 'orange',
+					color: colors[9],
 					width : 3
 				}
 			};
@@ -6115,7 +6039,7 @@ var black_line = {
 			   name : 'Black or African American, NH',
 			   mode : 'lines', 
 			   line : {
-					color: 'green',
+					color: colors[4],
 					width : 3
 				}
 			};
@@ -6126,7 +6050,7 @@ var asian_line = {
 			   name : 'Asian, NH',
 			   mode : 'lines', 
 			   line : {
-					color: 'red',
+					color: colors[13],
 					width : 3
 				}
 			};
@@ -6137,7 +6061,7 @@ var nhpi_line = {
 			   name : 'Native Hawaiian or Other Pacific Islander, NH',
 			   mode : 'lines', 
 			   line : {
-					color: 'brown',
+					color: colors[14],
 					width : 3
 				}
 			};
@@ -6147,7 +6071,7 @@ var amind_line = {
 			   name : 'American Indian and Alaska Native, NH',
 			   mode : 'lines', 
     		   line : {
-					color: 'purple',
+					color: colors[2],
 					width : 3
 				}
 			};
@@ -6158,7 +6082,7 @@ var multi_line = {
 			   name : 'Two or More Races, NH',
 			   mode : 'lines', 
     		   line : {
-					color: 'grey',
+					color: colors[5],
 					width : 3
 				}
 			};
@@ -6167,49 +6091,49 @@ var white_bar = {
                x: age_line_arr_w,
                y : pop_line_arr_w,
 			   type : 'bar',
-			   marker : { color: 'blue' }
+			   marker : { color: colors[1] }
 			};
 
 var hisp_bar = { 
                x: age_line_arr_h,
                y : pop_line_arr_h,
 			   type : 'bar',
-			   marker : { color : 'orange'}
+			   marker : { color : colors[9]}
 			};
 
 var black_bar = { 
                x: age_line_arr_b,
                y : pop_line_arr_b,
 			   type : 'bar',
-			   marker : { color: 'green' }
+			   marker : { color: colors[4] }
 			};
 
 var asian_bar = { 
                x: age_line_arr_as,
                y : pop_line_arr_as,
 			   type : 'bar',
-			   marker : { color : 'red' }
+			   marker : { color : colors[13] }
 			};
 
 var nhpi_bar = { 
                x: age_line_arr_nh,
                y : pop_line_arr_nh,
 			   type : 'bar',
-			   marker : { color : 'brown' }
+			   marker : { color : colors[14] }
 			};
 
 var amind_bar = { 
                x: age_line_arr_ai,
                y : pop_line_arr_ai,
 			   type : 'bar',
-			   marker : { color : 'purple' }
+			   marker : { color : colors[2] }
 			};
 			
 var multi_bar = { 
                x: age_line_arr_mu,
                y : pop_line_arr_mu,
 			   type : 'bar',
-			   marker : { color : 'grey' }
+			   marker : { color : colors[5] }
 			};
 //aDD FOR NEW RACES
 var line_data = [white_line, hisp_line, black_line, asian_line, nhpi_line, amind_line, multi_line];
@@ -6228,9 +6152,9 @@ var line_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6240,8 +6164,8 @@ var line_layout = {
 		  yaxis: {
 			  title : 'Total Population',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6249,7 +6173,7 @@ var line_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(LINE, line_data, line_layout,config);
@@ -6261,9 +6185,9 @@ var white_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6273,8 +6197,8 @@ var white_layout = {
 		  yaxis: {
 			  title : 'Total Population',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6282,7 +6206,7 @@ var white_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(WHITE, white_trace, white_layout,config);
@@ -6294,9 +6218,9 @@ var hisp_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6306,8 +6230,8 @@ var hisp_layout = {
 		  yaxis: {
 			  title : 'Total Population',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6315,7 +6239,7 @@ var hisp_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(HISPANIC, hisp_trace, hisp_layout,config);
@@ -6327,9 +6251,9 @@ var black_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6339,8 +6263,8 @@ var black_layout = {
 		  yaxis: {
 			  title : 'Total Population',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6348,7 +6272,7 @@ var black_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(BLACK, black_trace, black_layout,config);
@@ -6360,9 +6284,9 @@ var asian_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6372,8 +6296,8 @@ var asian_layout = {
 		  yaxis: {
 			  title : 'Total Population',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6381,7 +6305,7 @@ var asian_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(ASIAN, asian_trace, asian_layout,config);
@@ -6393,9 +6317,9 @@ var nhpi_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6405,8 +6329,8 @@ var nhpi_layout = {
 		  yaxis: {
 			  title : 'Total Population',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6414,7 +6338,7 @@ var nhpi_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(NHPI, nhpi_trace, nhpi_layout,config);
@@ -6426,9 +6350,9 @@ var amind_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6438,8 +6362,8 @@ var amind_layout = {
 		  yaxis: {
 			  title : 'Total Population',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6447,7 +6371,7 @@ var amind_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(AMIND, amind_trace, amind_layout,config);
@@ -6459,9 +6383,9 @@ var multi_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6471,8 +6395,8 @@ var multi_layout = {
 		  yaxis: {
 			  title : 'Total Population',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6480,7 +6404,7 @@ var multi_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
 Plotly.newPlot(MULTI, multi_trace, multi_layout,config);
@@ -6591,6 +6515,7 @@ function genNETMIGCOMP(geotype, fips_Arr, yrvalue, chart) {
 
 const fmt_date = d3.timeFormat("%B %d, %Y");
 var yr_arr = yrvalue;
+var colors = colorRamp()
 
 //Reading Raw data
 var data_csv = "https://storage.googleapis.com/co-publicdata/Colorado_Age_Migration_By_Decade.csv";
@@ -6666,7 +6591,7 @@ var datasort = datafilt.sort(function(a, b){ return d3.ascending(a['year'], b['y
 //Linetypes for line Charts
 var patternArr = ["","/","-","+"]
 var lineArr = ['solid','dash','dashdot',"dot"]
-var colorArr = ["blue","orange","green","gray"]
+var colorArr = [colors[1],colors[11],colors[9],colors[5]]
 
 //Chart Title
  if((yr_arr.length == 1) && (fips_Arr.length == 1)){
@@ -6777,9 +6702,9 @@ var NetMig_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6789,8 +6714,8 @@ var NetMig_layout = {
 		  yaxis: {
 			  title : 'Net Migration',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6809,7 +6734,7 @@ var NetMig_layout = {
 				width: 4,
 				dash: 'solid'
 		}}],
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
  
  var Rate_layout = {
@@ -6819,9 +6744,9 @@ var NetMig_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Age',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6831,8 +6756,8 @@ var NetMig_layout = {
 		  yaxis: {
 			  title : 'Net Migration Rate (per 100 Population)',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -6851,7 +6776,7 @@ var NetMig_layout = {
 				width: 4,
 				dash: 'solid'
 		}}],
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
 		
 var config = {responsive: true,
@@ -6913,7 +6838,7 @@ function genNETMIG1864(fipsVal, ctyName, ageSeries, chartType, yrvalue){
 const fmt_date = d3.timeFormat("%B %d, %Y");
 
 var data_csv = "../data/netmig_1864x.csv";
-
+var colors = colorRamp()
 	
 //Building Chart Title and filename
 
@@ -6980,26 +6905,30 @@ if(chartType == 'bar'){
 					   x: xDataYear,
 					   y :  yDataTot,
 					   name : ctyName[i],
-					   type : 'bar'
+					   type : 'bar',
+					   color: colors[1]
 					};
 		var rate_tmp = { 
 					   x: xDataYear,
 					   y : yDataRate,
 					   name : ctyName[i],
-					   type : 'bar'
+					   type : 'bar',
+					   color : colors[11]
 					};			
 	} else {
 		var tot_tmp = { 
 					   x: xDataYear,
 					   y : yDataTot,
 					   name : ctyName[i],
-					   mode : 'lines+markers'
+					   mode : 'lines+markers',
+					   color: colors[1]
 					};
 		var rate_tmp = { 
 					   x: xDataYear,
 					   y : yDataRate,
 					   name : ctyName[i],
-					   mode : 'lines+markers'
+					   mode : 'lines+markers',
+					   color : colors[11]
 					};			
 };
 
@@ -7030,9 +6959,9 @@ var tot_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Year',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7042,8 +6971,8 @@ var tot_layout = {
 		  yaxis: {
 			  title : 'Persons',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7051,7 +6980,7 @@ var tot_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
 
 
@@ -7062,9 +6991,9 @@ var rate_layout = {
 		  height: 500,
 		  xaxis: {
 			title : 'Year',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7074,8 +7003,8 @@ var rate_layout = {
 		  yaxis: {
 			  title : 'Rate per 100 Persons',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7083,7 +7012,7 @@ var rate_layout = {
 			linewidth: 2,
 			 tickformat:  '.2f'
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
 		//Chart Call
 
@@ -7119,28 +7048,38 @@ netmigrwa_png.onclick = function() {
 
 //cat Long term components of change dashboard (netmighist.html)
 
-function genCOCHIST(fipsVal,  byrs, eyrs, stats, axis, DIV0, DIV1) {
+function genCOCHIST(geotype,fipsVal,  byrs, eyrs, stats, axis, DIV0, DIV1) {
 //genCOCHIST generates long-term COC charts
 	
 const fmt_date = d3.timeFormat("%B %d, %Y");
-
+var colors = colorRamp()
 //Generating urls
 var ctyfips  = parseInt(fipsVal);
-var ctyName = countyName(ctyfips);
-
+if(geotype == "region"){
+  var regName = regionName(ctyfips);
+} else {
+  var ctyName = countyName(ctyfips);
+} 
 var yrlist = parseInt(byrs);
 for(i = parseInt(byrs)+1; i <= parseInt(eyrs); i++){
 	yrlist = yrlist + "," + i;
 };
 
+	if(geotype == "region"){
+		var fips_tmp = regionCOL(parseInt(fipsVal));
+	    fips_list = fips_tmp[0].fips;
+		for(i = 0; i < fips_list.length; i++){
+			 fips_list[i] = parseInt(fips_list[i]);
+		}
+		var dataurl = 'https://gis.dola.colorado.gov/lookups/components?county=' + fips_list + '&year=' + yrlist;
+	} else {
+		if(fipsVal == "000") {
+			 var dataurl = 'https://gis.dola.colorado.gov/lookups/components_region?reg_num=' + ctyfips + '&year=' + yrlist;
+		} else {
+			var dataurl = 'https://gis.dola.colorado.gov/lookups/components?county=' + ctyfips + '&year=' + yrlist;
+		}
+	};
 
-
-
-if(fipsVal == "000") {
-	 var dataurl = 'https://gis.dola.colorado.gov/lookups/components_region?reg_num=' + ctyfips + '&year=' + yrlist;
-} else {
-	var dataurl = 'https://gis.dola.colorado.gov/lookups/components?county=' + ctyfips + '&year=' + yrlist;
-}
 
 
 var year_est = [];
@@ -7161,51 +7100,68 @@ var out_data = [];
 
 d3.json(dataurl).then(function(data){
 
-	   for(i = 0; i < data.length; i++){
-		   out_data.push({ 'FIPS' : fipsVal[0], 'County' : ctyName, 'Year' : data[i].year, 'Births' : Number(data[i].births), 'Deaths' : Number(data[i].deaths), "Natural Increase" : Number(data[i].births) - Number(data[i].deaths),
-		                  'Net Migration' : Number(data[i].netmig), 'Data Type' : data[i].datatype});
-		   if(data[i].datatype == "Estimate"){
-			year_est.push(data[i].year);
-		    birth_est.push(Number(data[i].births));
-			death_est.push(Number(data[i].deaths));
-			mig_est.push(Number(data[i].netmig));
-			natincr_est.push(Number(data[i].births) - Number(data[i].deaths));
+	if(geotype == "region"){
+	var columnsEst = ['births','deaths','netmig'];
+ 	var data_sum =   d3.rollup(data, v => Object.fromEntries(columnsEst.map(col => [col, d3.sum(v, d => +d[col])])), d => d.year);
+//Flatten Arrays
+	var data2 = [];
+	for (let [key, value] of data_sum) {
+	  data2.push({'geo' : 'region', 'fips' : fipsVal, 'name' : regName, 'year' : key, 'births' : value.births, 'deaths' : value.deaths,
+	      'netmig' : value.netmig,  'datatype' : key <= eyrs ? "Estimate" : "Forecast"});
+		}
+	} else {
+        var data2 = data
+	}
+		
+	   for(i = 0; i < data2.length; i++){
+		   out_data.push({ 'FIPS' : fipsVal, 'Name' : data2[i].name, 'Year' : data2[i].year, 'Births' : Number(data2[i].births), 'Deaths' : Number(data2[i].deaths), 
+		                   "Natural Increase" : Number(data2[i].births) - Number(data2[i].deaths),
+		                  'Net Migration' : Number(data2[i].netmig), 'Data Type' : data2[i].datatype});
+		   if(data2[i].datatype == "Estimate"){
+			year_est.push(data2[i].year);
+		    birth_est.push(Number(data2[i].births));
+			death_est.push(Number(data2[i].deaths));
+			mig_est.push(Number(data2[i].netmig));
+			natincr_est.push(Number(data2[i].births) - Number(data2[i].deaths));
 		   } else {
-			year_forc.push(data[i].year);
-		    birth_forc.push(Number(data[i].births));
-			death_forc.push(Number(data[i].deaths));
-			mig_forc.push(Number(data[i].netmig));
-			natincr_forc.push(Number(data[i].births) - Number(data[i].deaths));
+			year_forc.push(data2[i].year);
+		    birth_forc.push(Number(data2[i].births));
+			death_forc.push(Number(data2[i].deaths));
+			mig_forc.push(Number(data2[i].netmig));
+			natincr_forc.push(Number(data2[i].births) - Number(data2[i].deaths));
 		   };
 		   //Dealing with axis ticks
 			switch(axis) {
 				case "yr5" :
 				   if(i % 5 == 0){
-					   year_tick.push(data[i].year)
+					   year_tick.push(data2[i].year)
 				   }
 				   break;
 				case "yr2" : 
 				   if(i % 2 == 0){
-					   year_tick.push(data[i].year)
+					   year_tick.push(data2[i].year)
 				   }
 				   break;
 				case "yr1" :
-					   year_tick.push(data[i].year)
+					   year_tick.push(data2[i].year)
 					   break;
 			}
 
-		  year_bars.push(data[i].year);
-		  mig_bars.push(Number(data[i].netmig));
-		  natincr_bars.push(Number(data[i].births) - Number(data[i].deaths));
+		  year_bars.push(data2[i].year);
+		  mig_bars.push(Number(data2[i].netmig));
+		  natincr_bars.push(Number(data2[i].births) - Number(data2[i].deaths));
 
 	   };
 	   
 
-
 var min_yr = Math.min(...year_tick);
 var max_yr = Math.max(...year_tick);
 var tit1 = "Components of Population Change "
-var bar_title =  tit1.concat(min_yr.toString(), " to ", max_yr.toString(), ": ", ctyName) 
+if (geotype == "region") {
+	var chart_title =  tit1.concat(byrs, " to ", eyrs, ": ", regName) 
+} else {
+	var chart_title =  tit1.concat(byrs, " to ", eyrs, ": ", ctyName) 
+}
 
 //Line Traces
 var birth_tmp1 = { 
@@ -7215,7 +7171,7 @@ var birth_tmp1 = {
 					   mode : 'lines',
 					   line: {
 						dash: 'solid',
-						color : '#d81b60',
+						color : colors[2],
 						width: 3
 						}
 					};
@@ -7227,7 +7183,7 @@ var birth_tmp2 = {
 					   mode : 'lines',
 					   line: {
 						dash: 'dash',
-						color : '#d81b60',
+						color : colors[2],
 						width: 3
 						}
 					};
@@ -7239,7 +7195,7 @@ var death_tmp1 = {
 					   mode : 'lines',
 					   line: {
 						dash: 'solid',
-						color : '#1e88e5',
+						color : colors[9],
 						width: 3
 						}
 					};
@@ -7251,7 +7207,7 @@ var death_tmp2 = {
 					   mode : 'lines',
 					   line: {
 						dash: 'dash',
-						color : '#1e88e5',
+						color : colors[9],
 						width: 3
 						}
 					};
@@ -7263,7 +7219,7 @@ var mig_tmp1 = {
 					   mode : 'lines',
 					   line: {
 						dash: 'solid',
-						color : '#8B8000',
+						color : colors[11],  
 						width: 3
 						}
 					};
@@ -7275,7 +7231,7 @@ var mig_tmp2 = {
 					   mode : 'lines',
 					   line: {
 						dash: 'dash',
-						color : '#8B8000',
+						color : colors[11],
 						width: 3
 						}
 					};
@@ -7287,7 +7243,7 @@ var natincr_tmp1 = {
 					   mode : 'lines',
 					   line: {
 						dash: 'solid',
-						color : '#004d40',
+						color : colors[1],
 						width: 3
 						}
 					};
@@ -7299,7 +7255,7 @@ var natincr_tmp2 = {
 					   mode : 'lines',
 					   line: {
 						dash: 'dash',
-						color : '#004d40',
+						color : colors[1],
 						width: 3
 						}
 					};
@@ -7335,7 +7291,7 @@ var mig_bar = {
 					   name : 'Net Migration',
 					   type : 'bar',
 					   marker: {
-						color : '#C0504D'
+						color : colors[11]
 					   }
 					};
 
@@ -7345,7 +7301,7 @@ var natincr_bar = {
 					   name : 'Natural Increase',
 					   type : 'bar',
 					   marker : {
-						color : '#4F81BD'
+						color : colors[1]
 					   }
 					};
 					
@@ -7364,15 +7320,15 @@ DIV1.innerHTML = "";
 
 
 var line_layout = {
-		title: "Components of Change: " + ctyName,
+		title: chart_title,
 		  autosize: false,
 		  width: 1000,
 		  height: 500,
 		  xaxis: {
 			title : 'Year',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7386,8 +7342,8 @@ var line_layout = {
 		  yaxis: {
 			  title : 'Persons',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7395,21 +7351,21 @@ var line_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',eyrs,'')]
 		};
 		
 		
 var bar_layout = {
-		title: bar_title,
+		title: chart_title,
 		  autosize: false,
 		  width: 1000,
 		  height: 500,
 		  barmode : 'relative',
 		  xaxis: {
 			title : 'Year',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 //			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7423,8 +7379,8 @@ var bar_layout = {
 		  yaxis: {
 			  title : 'Persons',
 			  automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7433,7 +7389,7 @@ var bar_layout = {
 			 tickformat: ','
 		  },
 		  legend : { x : 0.3, y : 1.1, 'orientation' : 'h', font:{size: 10}},
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',eyrs,'')]
 		};
 		
 
@@ -7460,7 +7416,7 @@ barcoc_csv.onclick = function() {
 barcoc_png.onclick = function() {
 	   exportToPng(ctyName, 'barcoc', DIV1, 0);
      };
-	 
+
 }); //end of d3 json
 }; 
 // genCOCHIST
@@ -7470,7 +7426,7 @@ barcoc_png.onclick = function() {
 function genHOUSEAGE(fipsVal,ctyName, varType, seriesType){
 //genHOUSEAGE  Household forecast by age and household type
 	const fmt_date = d3.timeFormat("%B %d, %Y");
-
+    var colors = colorRamp()
 	var fips_list = parseInt(fipsVal);
 
    var yr_trace = [2010];
@@ -7563,35 +7519,40 @@ for(i = 0; i < hh_arr.length; i++){
    	tr_0 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color : colors[1]
 			};
 	};
 	if(j == 1){
    	tr_1 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color : colors[4]
 			};
 	};
 	if(j == 2){
    	tr_2 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color: colors[6]
 			};
 	};	
 	if(j == 3){
    	tr_3 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color : colors[8]
 			};
 	};
 	if(j == 4){
    	tr_4 = {x: yr_trace,
 			y :  yData,
 			name : age_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color: colors[11]
 			};
 	};
    	} //J loop
@@ -7620,35 +7581,41 @@ for(i = 0; i < hh_arr.length; i++){
    	tr_0 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color: colors[1]
 			};
 	};
 	if(j == 1){
    	tr_1 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color: colors[4]
 			};
 	};
 	if(j == 2){
    	tr_2 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color: colors[6]
+			
 			};
 	};	
 	if(j == 3){
    	tr_3 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color: colors[8]
 			};
 	};
 	if(j == 4){
    	tr_4 = {x: yr_trace,
 			y :  yData,
 			name : hh_arr[j],
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color: colors[11]
 			};
 	};
    	} //J loop
@@ -7685,9 +7652,9 @@ for(i = 0; i < hh_arr.length; i++){
 		  height: 500,
 		  xaxis: {
 			title : 'Year',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7698,8 +7665,8 @@ for(i = 0; i < hh_arr.length; i++){
 		  yaxis: {
 			title : y_title,
 			automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7707,7 +7674,7 @@ for(i = 0; i < hh_arr.length; i++){
 			linewidth: 2,
 			tickformat: y_ticks
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
 ch_layout.push(layout);
 };
@@ -7732,9 +7699,9 @@ ch_layout.push(layout);
 		  height: 500,
 		  xaxis: {
 			title : 'Year',
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7744,8 +7711,8 @@ ch_layout.push(layout);
 		  yaxis: {
 			title : y_title,
 			automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -7753,7 +7720,7 @@ ch_layout.push(layout);
 			linewidth: 2,
 			tickformat: y_ticks
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};
 ch_layout.push(layout);
 };
@@ -7832,6 +7799,7 @@ function genHOUSEDASH(geotype,fips,plName,yrvalue) {
 	const fmt_pct = d3.format(".2%")
 	const fmt_comma = d3.format(",");
     const fmt_date = d3.timeFormat("%B %d, %Y");
+	var colors = colorRamp()
 	
 	//Verifying if region is input
 	if(geotype =='region'){
@@ -8016,8 +7984,8 @@ var tit_str2 = "Occupied and Vacant Housing Units " + plName;
 			hovertemplate : '%{customdata}',
 			hoverlabel : {namelength :0},
 			name : 'Total Housing Units',
-			marker: {color: 'green'},
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color : colors[1]
 			};
 
 	tr_occ = {x: yearList,
@@ -8026,8 +7994,8 @@ var tit_str2 = "Occupied and Vacant Housing Units " + plName;
 			hovertemplate : '%{customdata}',
 			hoverlabel : {namelength :0},
 			name : 'Occupied Housing Units',
-			marker: {color: 'blue'},
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color : colors[11]
 			};
  var ch_0 = [tr_total, tr_occ];
  
@@ -8038,8 +8006,8 @@ var tit_str2 = "Occupied and Vacant Housing Units " + plName;
 			hovertemplate : '%{customdata}',
 			hoverlabel : {namelength :0},
 			name : 'Total Housing Units',
-			marker: {color: 'green'},
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color : colors[1]
 			};
 	
 	yty_occ = {x: yty,
@@ -8048,8 +8016,8 @@ var tit_str2 = "Occupied and Vacant Housing Units " + plName;
 			hovertemplate : '%{customdata}',
 			hoverlabel : {namelength :0},
 			name : 'Occupied Housing Units',
-			marker: {color: 'blue'},
-			mode : 'lines+markers'
+			mode : 'lines+markers',
+			color : colors[11]
 			};
  var ch_1 = [yty_total, yty_occ];
 
@@ -8059,9 +8027,9 @@ var tit_str2 = "Occupied and Vacant Housing Units " + plName;
 			customdata : tr_occ_pct_lab,
 			hovertemplate : '%{customdata}',
 			hoverlabel : {namelength :0},
-			marker: {color: 'blue', opacity : 0.8},
 			name : 'Occupied Housing Units',
-			type : 'bar'
+			type : 'bar',
+			color : colors[1]
 			};
 
 	vac_bar = {x: yearList,
@@ -8071,7 +8039,8 @@ var tit_str2 = "Occupied and Vacant Housing Units " + plName;
 			hoverlabel : {namelength :0},
 			marker: {color: 'brown', opacity : 0.8},
 			name : 'Vacant Housing Units',
-			type : 'bar'
+			type : 'bar',
+			color : colors[4]
 			};
  var ch_2 = [occ_bar, vac_bar];
  
@@ -8088,9 +8057,9 @@ var config = {responsive: true,
 		  xaxis: {
 			title : 'Year',
 			range: [2009, yrvalue+1],
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -8100,8 +8069,8 @@ var config = {responsive: true,
 		  yaxis: {
 			title : 'Housing Units',
 			automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -8109,7 +8078,7 @@ var config = {responsive: true,
 			linewidth: 2,
 			tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};	
 		
 var layout1 = {
@@ -8120,9 +8089,9 @@ var layout1 = {
 		  xaxis: {
 			title : 'Year',
 			range: [2009, yrvalue+1],
-			showgrid: true,
+			showgrid: false,
 			zeroline: true,
-			showline: true,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -8132,8 +8101,8 @@ var layout1 = {
 		  yaxis: {
 			title : 'Housing Units',
 			automargin : true,
-			showgrid: true,
-			showline: true,
+			showgrid: false,
+			showline: false,
 			mirror: 'ticks',
 			gridcolor: '#bdbdbd',
 			gridwidth: 1,
@@ -8141,7 +8110,7 @@ var layout1 = {
 			linewidth: 2,
 			tickformat: ','
 		  },
-			annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+			annotations : [citation('SDO',yrvalue,'')]
 		};	
 		
 var layout2 = {
@@ -8153,9 +8122,9 @@ var layout2 = {
 	  xaxis: {
 		title : 'Year',
 		range: [2009, yrvalue+1],
-		showgrid: true,
+		showgrid: false,
 		zeroline: true,
-		showline: true,
+		showline: false,
 		mirror: 'ticks',
 		gridcolor: '#bdbdbd',
 		gridwidth: 1,
@@ -8165,8 +8134,8 @@ var layout2 = {
 	  yaxis: {
 		title : 'Housing Units',
 		automargin : true,
-		showgrid: true,
-		showline: true,
+		showgrid: false,
+		showline: false,
 		mirror: 'ticks',
 		gridcolor: '#bdbdbd',
 		gridwidth: 1,
@@ -8174,7 +8143,7 @@ var layout2 = {
 		linewidth: 2,
 		tickformat: ','
 	  },
-		annotations : [annot('Data and Visualization by the Colorado State Demography Office.')]
+		annotations : [citation('SDO',yrvalue,'')]
 	};
 
 		
@@ -8472,6 +8441,7 @@ function genFLOWS(fips, name, yearval){
 	var fmt_comma = d3.format(",");
 	const fmt_date = d3.timeFormat("%B %d, %Y");
 	var CHART0 = document.getElementById("net_output");
+	
 	var CHART1 = document.getElementById("in_output");
 	var CHART2 = document.getElementById("out_output");
 
