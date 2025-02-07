@@ -87,7 +87,7 @@
 	</tr>
 	</table>
   <div class="grid-item app-panel_3_2">
-    <p class='h3_style'>Population Estimates</p>
+    <h3 class='h3_style'>Population Estimates and Forecasts</h3>
       <div class="dropdown AClass">
 		  <button class="dropbtn"  id="estimate" aria-label='Population Estimate Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
 		  <div class="dropdown-content">
@@ -101,35 +101,30 @@
 	 <div id="est_output"></div>
   </div>
   <div class="grid-item app-panel_4_2">
-  <p class='h3_style'>Population Forecasts and Projections</p>
-	<div class="dropdown AClass">
-		<button class="dropbtn" id="forecast" aria-label='Population Forecast Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
-	<div class="dropdown-content">
-	    <ul class='dd-list'>
-		<li style='color:black;'><a href="#" id='forec_csv'>Download Data (CSV)</a></li>
-		<li style='color:black;'><a href='#' id='forec_png'>Download Image (PNG)</a></li>
-		<li style='color:black;'><a href='../lookups/county_totpop_lookup.html' id='fore_src' target='_blank'>Total Population Lookup</a></li>
-		</ul>
-	 </div>
+  <h3 class='h3_style'>Births Deaths and Net Migration</h3>
+      <div class="dropdown AClass">
+		  <button class="dropbtn"  id="linecoc" aria-label='Births, Deaths, Net Migraton Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
+		  <div class="dropdown-content">
+			<a href="#" id='linecoc_csv'>Download Data (CSV)</a>
+			<a href='#' id='linecoc_png'>Download Image (PNG)</a>
+			<a href='../lookups/county_coc_lookup.html' id='linecoc_src' target='_blank'><u>Data Source:</u>County Births, Deaths, and Migration Lookup</a>
+		  </div>
+	  </div>
+	 <div id="linecoc_output"></div>
 	</div>
-    <div id="forec_output"></div>
-  </div>
   <div class="grid-item app-panel_5_2">
-  <p class='h3_style'>Births, Deaths and Net Migration</h3>
-  	<div class="dropdown AClass">
-		<button class="dropbtn" id="coc" aria-label='Births, Deaths and Migration Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
-	<div class="dropdown-content">
-		<ul class='dd-list'>
-		<li style='color:black;'><a href="#" id='coc_csv'>Download Data (CSV)</a></li>
-		<li style='color:black;'><a href='#' id='coc_png'>Download Image (PNG)</a></li>
-        <li style='color:black;'><a href='../lookups/county_coc_lookup.html' id='coc_src'target='_blank'>Births, Deaths, and Migration Lookup</a></li>
-		</ul>
-	 </div>
+	<div class="dropdown AClass">
+		<button class="dropbtn" id="barcoc" aria-label='Components of Change Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
+		<div class="dropdown-content">
+			<a href="#" id='barcoc_csv'>Download Data (CSV)</a>
+			<a href='#' id='barcoc_png'>Download Image (PNG)</a>
+			<a href='../lookups/county_coc_lookup.html' id='barcoc_src' target='_blank'><u>Data Source:</u>County Births, Deaths, and Migration Lookup</a>
+		</div>
 	</div>
-    <div id="coc_output"></div>
+    <div id="barcoc_output"></div>
   </div>
   <div class="grid-item app-panel_6_2">
-  <p class='h3_style'>Net Migration by Age</p>
+  <h3 class='h3_style'>Net Migration by Age</h3>
     <div class="dropdown AClass">
 		<button class="dropbtn" id="migr" aria-label='net Migration by Age Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
 	<div class="dropdown-content">
@@ -143,7 +138,7 @@
 	<div id="mig_output"></div>
   </div>
   <div class="grid-item app-panel_7_2">
-  <p class='h3_style'>Population by Age Group</p>
+  <h3 class='h3_style'>Population by Age Group</h3>
     <div class="dropdown AClass">
 		<button class="dropbtn" id="age" aria-label='Population By Age Group Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button> 
 	<div class="dropdown-content">
@@ -155,7 +150,7 @@
 	 </div>
 	</div>
     <div id="ageest_output"></div>
-  <p class='h3_style'>Population Change by Age Group</p>
+  <h3 class='h3_style'>Population Change by Age Group</h3>
   <div class="grid-item app-panel_8_2">
       <div class="dropdown AClass">
 		<button class="dropbtn" id="popchng" aria-label='Population Change by Age Group Download Button'><i class="fas fas fa-download fa-2x" style='color: black;'></i></button>
@@ -207,12 +202,11 @@ var selectedunit = d3.select("#unit-dropdown").property('value');
 
 genDEMO("county", "000", selectedunit,"Colorado", yrvalue);
 d3.select("#geo-dropdown").on("change", function(d,i) {
-debugger
       var selectedGeo = d3.select("#geo-dropdown").property('value');
 	  // update link
 	  var estlink = document.getElementById('est_src');
-	  var forelink = document.getElementById('fore_src');
-	  var coclink = document.getElementById('coc_src');
+	  var linecoclink = document.getElementById('linecoc_src');
+	  var barcoclink = document.getElementById('barcoc_src');
 	  var miglink = document.getElementById('migr_src');
 	  var agelink = document.getElementById('age_src');
 	  var popchnglink = document.getElementById('popchng_src');
@@ -220,16 +214,16 @@ debugger
 	  switch(selectedGeo){
 	  case "region" :
 			estlink.setAttribute("href","../lookups/region_totpop_lookup.html");
-			forelink.setAttribute("href","../lookups/region_totpop_lookup.html"); 
-			coclink.setAttribute("href","../lookups/region_coc_lookup.html");
+			linecoclink .setAttribute("href","../lookups/region_coc_lookup.html"); 
+			barcoclink.setAttribute("href","../lookups/region_coc_lookup.html");
 			miglink.setAttribute("href","../lookups/region_netmig_lookup.html");
 			agelink.setAttribute("href","../lookups/region_sya_lookup.html");
 			popchnglink.setAttribute("href","../lookups/region_sya_lookup.html");
 		   break;
 	  case "county" :
 			estlink.setAttribute("href","../lookups/county_totpop_lookup.html");
-			forelink.setAttribute("href","../lookups/county_totpop_lookup.html"); 
-			coclink.setAttribute("href","../lookups/county_coc_lookup.html");
+			linecoclink .setAttribute("href","../lookups/county_coc_lookup.html"); 
+			barcoclink.setAttribute("href","../lookups/county_coc_lookup.html");
 			miglink.setAttribute("href","../lookups/county_netmig_lookup.html");
 			agelink.setAttribute("href","../lookups/county_sya_lookup.html");
 			popchnglink.setAttribute("href","../lookups/county_sya_lookup.html");
