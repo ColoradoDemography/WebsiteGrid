@@ -5026,6 +5026,7 @@ var for_trace = {
 			   type: 'scatter',
 			   mode: 'lines+markers',
 			  marker: {
+				symbol : 'diamond',  
 				color: colors[4],
 				size: 2,
 				line: {
