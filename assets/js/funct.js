@@ -5841,7 +5841,7 @@ var netmig_data = [];
 
 //cat Race by Age Dashboard Functions
 
-function genRACEVIS(geotype, fips,ctyName, yrvalue) {
+function genRACEVIS(geotype, fips,ctyName, vintYR, yrvalue) {
 //genRACEVIS Generates the Race/Ethncity by Age Dashboard
 	const fmt_comma = d3.format(",");
     const fmt_date = d3.timeFormat("%B %d, %Y");
@@ -6174,7 +6174,7 @@ var line_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',yrvalue,'')]
+			annotations : [citation('SDO',vintYR,'')]
 		};
  
 Plotly.newPlot(LINE, line_data, line_layout,config);
@@ -6207,7 +6207,7 @@ var white_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',yrvalue,'')]
+			annotations : [citation('SDO',vintYR,'')]
 		};
  
 Plotly.newPlot(WHITE, white_trace, white_layout,config);
@@ -6240,7 +6240,7 @@ var hisp_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',yrvalue,'')]
+			annotations : [citation('SDO',vintYR,'')]
 		};
  
 Plotly.newPlot(HISPANIC, hisp_trace, hisp_layout,config);
@@ -6273,7 +6273,7 @@ var black_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',yrvalue,'')]
+			annotations : [citation('SDO',vintYR,'')]
 		};
  
 Plotly.newPlot(BLACK, black_trace, black_layout,config);
@@ -6306,7 +6306,7 @@ var asian_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',yrvalue,'')]
+			annotations : [citation('SDO',vintYR,'')]
 		};
  
 Plotly.newPlot(ASIAN, asian_trace, asian_layout,config);
@@ -6339,7 +6339,7 @@ var nhpi_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',yrvalue,'')]
+			annotations : [citation('SDO',vintYR,'')]
 		};
  
 Plotly.newPlot(NHPI, nhpi_trace, nhpi_layout,config);
@@ -6372,7 +6372,7 @@ var amind_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',yrvalue,'')]
+			annotations : [citation('SDO',vintYR,'')]
 		};
  
 Plotly.newPlot(AMIND, amind_trace, amind_layout,config);
@@ -6405,7 +6405,7 @@ var multi_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',yrvalue,'')]
+			annotations : [citation('SDO',vintYR,'')]
 		};
  
 Plotly.newPlot(MULTI, multi_trace, multi_layout,config);
@@ -7049,7 +7049,7 @@ netmigrwa_png.onclick = function() {
 
 //cat Long term components of change dashboard (netmighist.html)
 
-function genCOCHIST(geotype,fipsVal,  byrs, eyrs, stats, axis, DIV0, DIV1) {
+function genCOCHIST(geotype,fipsVal,  vintyrs, byrs, eyrs, stats, axis, DIV0, DIV1) {
 //genCOCHIST generates long-term COC charts
 	
 const fmt_date = d3.timeFormat("%B %d, %Y");
@@ -7352,7 +7352,7 @@ var line_layout = {
 			linewidth: 2,
 			 tickformat: ','
 		  },
-			annotations : [citation('SDO',eyrs,'')]
+			annotations : [citation('SDO',vintyrs,'')]
 		};
 		
 		
@@ -7390,7 +7390,7 @@ var bar_layout = {
 			 tickformat: ','
 		  },
 		  legend : { x : 0.3, y : 1.1, 'orientation' : 'h', font:{size: 10}},
-			annotations : [citation('SDO',eyrs,'')]
+			annotations : [citation('SDO',vintyrs,'')]
 		};
 		
 
