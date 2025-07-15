@@ -157,8 +157,10 @@ document.getElementById('county-dropdown').size = "3";
 //generating maximum year value for estimates
 var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
 d3.json(urlstr).then(function(yeardata){
+
     var yrsList = yeardata.filter(function(d){return d.year >= 1970});
 
+   
     popYrdd("beg-year",yrsList);  //Change this range to match data
     popYrdd("end-year",yrsList);  //Change this range to match data
 
@@ -166,6 +168,9 @@ d3.json(urlstr).then(function(yeardata){
 	document.getElementById('beg-year').value = min_yr;
 	var max_yr = Math.max(...yrsList.map(o => o.year))
 	document.getElementById('end-year').value = max_yr;
+//Extracting vintage Year
+	var estyrs = yeardata.filter(function(d){return d.datatype == 'Estimate'});
+	var vintYr = Math.max(...estyrs.map(o => o.year))
 
 var CHART0 = document.getElementById("linecoc_output");
 var CHART1 = document.getElementById("barcoc_output");
@@ -204,7 +209,7 @@ function chkInputs(){
 		complete = false;
 	}
     if(complete){
-	      genCOCHIST('county',selectedfips, stYr, endYr, selectedstat, selectedaxis, CHART0, CHART1)
+	      genCOCHIST('county',selectedfips, vintYr, stYr, endYr, selectedstat, selectedaxis, CHART0, CHART1)
 	} else {
 		 window.alert(outputmsg);
 	}

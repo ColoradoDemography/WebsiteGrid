@@ -230,10 +230,13 @@ var yrList = yeardata.filter(d => ((d.year >= 2020) && (d.datatype == "Estimate"
 popYrdd("year-dropdown",yrList);  //Change this range to match data
 var yrvalue = 2020;
 
+//Extracting vintage Year
+	var estyrs = yeardata.filter(function(d){return d.datatype == 'Estimate'});
+	var vintYr = Math.max(...estyrs.map(o => o.year))
 	
 //Generate Initial Tables
 var selectedGeo = d3.select("#geo-dropdown").property('value');
-genRACEVIS(selectedGeo,"000","Colorado", yrvalue);
+genRACEVIS(selectedGeo,"000","Colorado", vintYr,yrvalue);
 showButtons();
 d3.select("#geo-dropdown").on("change", function(d,i) {
       var selectedGeo = d3.select("#geo-dropdown").property('value');
@@ -241,7 +244,7 @@ d3.select("#geo-dropdown").on("change", function(d,i) {
 	  var selectedfips = d3.select("#location-dropdown").property('value');
 	  var selectedregion = d3.select("#location-dropdown option:checked").text();
 	  var yrvalue = d3.select("#year-dropdown").property('value');
-	  genRACEVIS(selectedGeo,selectedfips,selectedregion,yrvalue);
+	  genRACEVIS(selectedGeo,selectedfips,selectedregion,vintYr,yrvalue);
 //Display drilldown boxes
 	  if(selectedGeo == 'region') {
 	    if (ctyDrop.style.display === "none") {
@@ -298,7 +301,7 @@ d3.select("#location-dropdown").on("change", function(d,i) {
 			selectedfips = selectedfips.padStart(3, '0');
 		var selectedcounty = d3.select('#location-dropdown option:checked').text();
 		var yrvalue = d3.select("#year-dropdown").property('value');
-        genRACEVIS(selectedGeo,selectedfips,selectedcounty,yrvalue);
+        genRACEVIS(selectedGeo,selectedfips,selectedcounty,vintYr,yrvalue);
 		if(selectedGeo == 'region') {
 		   popCtyDrop(selectedfips,'county-dropdown');
 		}
@@ -310,7 +313,7 @@ d3.select("#county-dropdown").on("change", function(d,i) {
 			selectedfips = selectedfips.padStart(3, '0');
 		var selectedcounty = d3.select('#county-dropdown option:checked').text();
 		var yrvalue = d3.select("#year-dropdown").property('value');
-        genRACEVIS('county',selectedfips,selectedcounty,yrvalue); 
+        genRACEVIS('county',selectedfips,selectedcounty,vintYr,yrvalue); 
 		});
 	
 d3.select("#year-dropdown").on("change", function(d,i) {
@@ -323,7 +326,7 @@ d3.select("#year-dropdown").on("change", function(d,i) {
 		     var selectedcounty = d3.select('#location-dropdown option:checked').text();
 		  }
 		var yrvalue = d3.select("#year-dropdown").property('value');
-        genRACEVIS(selectedGeo,selectedfips,selectedcounty,yrvalue); 
+        genRACEVIS(selectedGeo,selectedfips,selectedcounty,vintYr,yrvalue); 
 	
     });
 }); //end of maximum year value
