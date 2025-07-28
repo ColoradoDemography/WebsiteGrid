@@ -5830,7 +5830,7 @@ var netmig_data = [];
 //Plotting 
 
 	estPlot(est_data, "dashboard", "County",  "est_output", "", yrvalue, fips, ctyName, colors);
-	genCOCHIST(geotype, fips,  1970, yrvalue, ['births','deaths','netmig'], "yr5", "linecoc_output", "barcoc_output") 
+	genCOCHIST(geotype, fips, yrvalue, 1970, endyr, ['births','deaths','netmig'], "yr5", "linecoc_output", "barcoc_output") 
 	netmigPlot(netmig_data, "dashboard","mig_output", fips, yrvalue,ctyName, colors);
     agePlot(forecast_data,"dashboard", "ageest_output", yrvalue, fips, ctyName, colors);
     popchngPlot(forecast_data,"dashboard", unit, "popchng_output", yrvalue, fips, ctyName,colors);
@@ -7265,7 +7265,8 @@ var natincr_tmp2 = {
 
 
 //Creating the line chart trace
-
+debugger;
+console.log(stats)
 var line_trace = []
 stats.forEach( d => {
 	switch(d){
