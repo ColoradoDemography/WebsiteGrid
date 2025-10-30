@@ -2145,7 +2145,7 @@ if(muniarr.length > 0){
 	ctylist = ctylist.slice(0, -1)
 	munilist = munilist.slice(0, -1)
 	
-
+debugger
 	if(multichk){
 		if(groupval == "opt0"){
 	     var muni_url = urlstr + "placefips="+ munilist + "&year=" + yrstr + "&compressed=no" ;
@@ -2172,6 +2172,12 @@ if(unincorparr.length > 0) {
 	 prom.push(d3.json(unincorp_url))
 	 data_type.push("unincorp")
 }
+
+debugger
+console.log(cty_url)
+console.log(muni_url)
+console.log(unincorp_url)
+
 
 Promise.all(prom).then(function(data){
 
@@ -2784,7 +2790,7 @@ data.forEach(i => {
 		  'countyfips' : i.area_code,
 		  'countyname' : countyName(i.area_code),
 		  'population_year' : i.population_year,
-		  'sector_id' : i.sector_id.padStart(5, '0'),
+		  'sector_id' : i.sector_id,
 		  'sector_name': i.sector_name.replace("-","..."),
 		  'total_jobs' : isNaN(parseInt(i.total_jobs)) ? 0 : parseInt(i.total_jobs)
 	})
@@ -2858,7 +2864,7 @@ d3.json(urlstr).then(function(data){
  var sector_data = [];
 data.forEach(i => {
    	sector_data.push({
-		  'sector_id' : i.sector_id.padStart(5, '0'),
+		  'sector_id' : i.sector_id,
 		  'sector_name': i.sector_name
 	})
 	})
@@ -2880,7 +2886,7 @@ var raw_data = joinFUNCT(fips_arr,data,"countyfips","area_code",function(dat,col
 			'regval' : col.regval,
 			'countyfips' : col.countyfips,
 			'year' : dat.population_year,
-			'sector_id': dat.sector_id.padStart(5, '0'),
+			'sector_id': dat.sector_id,
 			'total_jobs' : parseInt(dat.total_jobs),
 		};
 	});
