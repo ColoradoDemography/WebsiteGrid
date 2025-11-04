@@ -2326,7 +2326,7 @@ function restructureRace(inData) {
 				  if( tmp[j].race_eth == "Hispanic") { HP = tmp[j].population};
 				  if( tmp[j].race_eth == "Black or African American alone NH") { BL = tmp[j].population};
 				  if( tmp[j].race_eth == "Asian alone NH") {AS = tmp[j].population};
-				  if( tmp[j].race_eth == "Native Hawaiian or Other Pacific Islander alone NH") {NH = tmp[j].population};
+				  if( tmp[j].race_eth == "Native Hawaiian and Other Pacific Islander alone NH") {NH = tmp[j].population};
 				  if( tmp[j].race_eth == "American Indian and Alaska Native alone NH") {AM = tmp[j].population};
 		          if( tmp[j].race_eth == "Two or more NH") {MULTI = tmp[j].population};
 				}
@@ -2975,10 +2975,11 @@ raceeth_est.concat(raceeth_for).forEach(function(obj) {
 */
 
 // Create table array for output
+
 var tbl_arr = []
 var race_eth_sum = d3.sum(raceeth_est, d => d.population);
 var raceth = ['Hispanic', 'White alone NH', 'Black or African American alone NH',
-			'Asian alone NH', 'Native Hawaiian or Other Pacific Islander alone NH', 
+			'Asian alone NH', 'Native Hawaiian and Other Pacific Islander alone NH', 
 			'American Indian and Alaska Native alone NH', 'Two or more NH'];
 			
 
@@ -5998,7 +5999,7 @@ for(i = 0; i < race_flat.length; i++){
 		age_line_arr_as.push(race_flat[i].age);
 		pop_line_arr_as.push(race_flat[i].population);
 	};
-	if(race_flat[i].race_eth == "Native Hawaiian or Other Pacific Islander alone NH" && race_flat[i].age < 85){
+	if(race_flat[i].race_eth == "Native Hawaiian and Other Pacific Islander alone NH" && race_flat[i].age < 85){
 		age_line_arr_nh.push(race_flat[i].age);
 		pop_line_arr_nh.push(race_flat[i].population);
 	};
@@ -6059,7 +6060,7 @@ var asian_line = {
 var nhpi_line = { 
                x: age_line_arr_nh,
                y : pop_line_arr_nh,
-			   name : 'Native Hawaiian or Other Pacific Islander, NH',
+			   name : 'Native Hawaiian and Other Pacific Islander, NH',
 			   mode : 'lines', 
 			   line : {
 					color: colors[14],
@@ -6312,7 +6313,7 @@ var asian_layout = {
 Plotly.newPlot(ASIAN, asian_trace, asian_layout,config);
 
 var nhpi_layout = {
-		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Native Hawaiian or Other Pacific Islander, NH",
+		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Native Hawaiian and Other Pacific Islander, NH",
 		  autosize: false,
 		  width: 1000,
 		  height: 500,
@@ -6469,7 +6470,7 @@ asian_png.onclick = function() {
 var nhpi_csv = document.getElementById('nhpi_csv');
 var nhpi_png = document.getElementById('nhpi_png');
 nhpi_csv.onclick = function() {
-	  exportToCsv(ctyName, 'nhpi', race_flat.filter(function(d) {return d.race_eth == "Native Hawaiian or Other Pacific Islander NH";}), yrvalue);
+	  exportToCsv(ctyName, 'nhpi', race_flat.filter(function(d) {return d.race_eth == "Native Hawaiian and Other Pacific Islander NH";}), yrvalue);
      }; 
 nhpi_png.onclick = function() {
 	   exportToPng(ctyName, 'nhpi', NHPI,yrvalue);
@@ -7265,8 +7266,7 @@ var natincr_tmp2 = {
 
 
 //Creating the line chart trace
-debugger;
-console.log(stats)
+
 var line_trace = []
 stats.forEach( d => {
 	switch(d){
