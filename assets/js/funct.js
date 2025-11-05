@@ -710,7 +710,7 @@ if(reg == 35) {name =  'Steamboat Springs'};
 if(reg == 36) {name =  'Sterling'};
 if(reg == 37) {name =  'Denver PMSA'};
 if(reg == 38) {name =  'Denver-Boulder Metro Area'};
-if(reg == 39) {name =  'Denver-Boulder-Greely CMSA'};
+if(reg == 39) {name =  'Denver-Boulder-Greeley CMSA'};
 return name;
 }; 
 // Regionname
@@ -1738,7 +1738,7 @@ var region =  [
 				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Sterling', 'regnum' : '36'},
 				{'optgroup' : 'Denver Regions','location' : 'Denver PMSA', 'regnum' : '37'},
 				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder Metro Area', 'regnum' : '38'},
-				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder-Greely CMSA', 'regnum' : '39'},
+				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder-Greeley CMSA', 'regnum' : '39'},
 ];
 
 //Municipalities and places
