@@ -662,7 +662,7 @@ if(nam == 'Steamboat Springs') {regionNum = 35};
 if(nam == 'Sterling') {regionNum = 36};
 if(nam == 'Denver PMSA') {regionNum = 37};
 if(nam == 'Denver-Boulder Metro Area') {regionNum = 38};
-if(nam == 'Denver-Boulder-Greely CMSA') {regionNum = 39};
+if(nam == 'Denver-Boulder-Greeley CMSA') {regionNum = 39};
 
 return(regionNum);
 }; 
@@ -1992,7 +1992,7 @@ var ctymuni = [{'location' : 'Aguilar', 'fips' : '07100760'}, {'location' : 'Akr
 		{'location' : 'Brush', 'fips' : '08709555'}, {'location' : 'Buena Vista', 'fips' : '01510105'},
 		{'location' : 'Burlington', 'fips' : '06310600'}, {'location' : 'Calhan', 'fips' : '04111260'},
 		{'location' : 'Campo', 'fips' : '00911645'}, {'location' : 'Cañon City', 'fips' : '04311810'},
-		{'location' : 'Carbondale', 'fips' : '04512045'}, {'location' : 'Castle Pines North', 'fips' : '03512390'},
+		{'location' : 'Carbondale', 'fips' : '04512045'}, {'location' : 'Castle Pines', 'fips' : '03512390'},
 		{'location' : 'Castle Rock', 'fips' : '03512415'}, {'location' : 'Cedaredge', 'fips' : '02912635'},
 		{'location' : 'Centennial', 'fips' : '00512815'}, {'location' : 'Center', 'fips' : '10512855'},
 		{'location' : 'Central City', 'fips' : '01912910'}, {'location' : 'Cheraw', 'fips' : '08913460'},
