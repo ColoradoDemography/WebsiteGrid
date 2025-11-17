@@ -2967,7 +2967,7 @@ raceeth_est.concat(raceeth_for).forEach(function(obj) {
 var tbl_arr = []
 var race_eth_sum = d3.sum(raceeth_est, d => d.population);
 var raceth = ['Hispanic', 'White alone NH', 'Black or African American alone NH',
-			'Asian alone NH', 'Native Hawaiian or Other Pacific Islander alone NH', 
+			'Asian alone NH', 'Native Hawaiian and Other Pacific Islander alone NH', 
 			'American Indian and Alaska Native alone NH', 'Two or more NH'];
 			
 
@@ -9787,4 +9787,5 @@ $(tabObj_res).DataTable({
  } );
 }) //Promise
 }
+
 //genLODES

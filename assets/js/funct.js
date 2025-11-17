@@ -662,7 +662,7 @@ if(nam == 'Steamboat Springs') {regionNum = 35};
 if(nam == 'Sterling') {regionNum = 36};
 if(nam == 'Denver PMSA') {regionNum = 37};
 if(nam == 'Denver-Boulder Metro Area') {regionNum = 38};
-if(nam == 'Denver-Boulder-Greely CMSA') {regionNum = 39};
+if(nam == 'Denver-Boulder-Greeley CMSA') {regionNum = 39};
 
 return(regionNum);
 }; 
@@ -710,7 +710,7 @@ if(reg == 35) {name =  'Steamboat Springs'};
 if(reg == 36) {name =  'Sterling'};
 if(reg == 37) {name =  'Denver PMSA'};
 if(reg == 38) {name =  'Denver-Boulder Metro Area'};
-if(reg == 39) {name =  'Denver-Boulder-Greely CMSA'};
+if(reg == 39) {name =  'Denver-Boulder-Greeley CMSA'};
 return name;
 }; 
 // Regionname
@@ -1738,7 +1738,7 @@ var region =  [
 				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Sterling', 'regnum' : '36'},
 				{'optgroup' : 'Denver Regions','location' : 'Denver PMSA', 'regnum' : '37'},
 				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder Metro Area', 'regnum' : '38'},
-				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder-Greely CMSA', 'regnum' : '39'},
+				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder-Greeley CMSA', 'regnum' : '39'},
 ];
 
 //Municipalities and places
@@ -1992,7 +1992,7 @@ var ctymuni = [{'location' : 'Aguilar', 'fips' : '07100760'}, {'location' : 'Akr
 		{'location' : 'Brush', 'fips' : '08709555'}, {'location' : 'Buena Vista', 'fips' : '01510105'},
 		{'location' : 'Burlington', 'fips' : '06310600'}, {'location' : 'Calhan', 'fips' : '04111260'},
 		{'location' : 'Campo', 'fips' : '00911645'}, {'location' : 'Cañon City', 'fips' : '04311810'},
-		{'location' : 'Carbondale', 'fips' : '04512045'}, {'location' : 'Castle Pines North', 'fips' : '03512390'},
+		{'location' : 'Carbondale', 'fips' : '04512045'}, {'location' : 'Castle Pines', 'fips' : '03512390'},
 		{'location' : 'Castle Rock', 'fips' : '03512415'}, {'location' : 'Cedaredge', 'fips' : '02912635'},
 		{'location' : 'Centennial', 'fips' : '00512815'}, {'location' : 'Center', 'fips' : '10512855'},
 		{'location' : 'Central City', 'fips' : '01912910'}, {'location' : 'Cheraw', 'fips' : '08913460'},
@@ -2326,7 +2326,7 @@ function restructureRace(inData) {
 				  if( tmp[j].race_eth == "Hispanic") { HP = tmp[j].population};
 				  if( tmp[j].race_eth == "Black or African American alone NH") { BL = tmp[j].population};
 				  if( tmp[j].race_eth == "Asian alone NH") {AS = tmp[j].population};
-				  if( tmp[j].race_eth == "Native Hawaiian or Other Pacific Islander alone NH") {NH = tmp[j].population};
+				  if( tmp[j].race_eth == "Native Hawaiian and Other Pacific Islander alone NH") {NH = tmp[j].population};
 				  if( tmp[j].race_eth == "American Indian and Alaska Native alone NH") {AM = tmp[j].population};
 		          if( tmp[j].race_eth == "Two or more NH") {MULTI = tmp[j].population};
 				}
@@ -2975,10 +2975,11 @@ raceeth_est.concat(raceeth_for).forEach(function(obj) {
 */
 
 // Create table array for output
+
 var tbl_arr = []
 var race_eth_sum = d3.sum(raceeth_est, d => d.population);
 var raceth = ['Hispanic', 'White alone NH', 'Black or African American alone NH',
-			'Asian alone NH', 'Native Hawaiian or Other Pacific Islander alone NH', 
+			'Asian alone NH', 'Native Hawaiian and Other Pacific Islander alone NH', 
 			'American Indian and Alaska Native alone NH', 'Two or more NH'];
 			
 
@@ -5998,7 +5999,7 @@ for(i = 0; i < race_flat.length; i++){
 		age_line_arr_as.push(race_flat[i].age);
 		pop_line_arr_as.push(race_flat[i].population);
 	};
-	if(race_flat[i].race_eth == "Native Hawaiian or Other Pacific Islander alone NH" && race_flat[i].age < 85){
+	if(race_flat[i].race_eth == "Native Hawaiian and Other Pacific Islander alone NH" && race_flat[i].age < 85){
 		age_line_arr_nh.push(race_flat[i].age);
 		pop_line_arr_nh.push(race_flat[i].population);
 	};
@@ -6059,7 +6060,7 @@ var asian_line = {
 var nhpi_line = { 
                x: age_line_arr_nh,
                y : pop_line_arr_nh,
-			   name : 'Native Hawaiian or Other Pacific Islander, NH',
+			   name : 'Native Hawaiian and Other Pacific Islander, NH',
 			   mode : 'lines', 
 			   line : {
 					color: colors[14],
@@ -6312,7 +6313,7 @@ var asian_layout = {
 Plotly.newPlot(ASIAN, asian_trace, asian_layout,config);
 
 var nhpi_layout = {
-		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Native Hawaiian or Other Pacific Islander, NH",
+		title: "Single Year of Age by Race/Ethnicity: " + ctyName + ", " + yrvalue + " Native Hawaiian and Other Pacific Islander, NH",
 		  autosize: false,
 		  width: 1000,
 		  height: 500,
@@ -6469,7 +6470,7 @@ asian_png.onclick = function() {
 var nhpi_csv = document.getElementById('nhpi_csv');
 var nhpi_png = document.getElementById('nhpi_png');
 nhpi_csv.onclick = function() {
-	  exportToCsv(ctyName, 'nhpi', race_flat.filter(function(d) {return d.race_eth == "Native Hawaiian or Other Pacific Islander NH";}), yrvalue);
+	  exportToCsv(ctyName, 'nhpi', race_flat.filter(function(d) {return d.race_eth == "Native Hawaiian and Other Pacific Islander NH";}), yrvalue);
      }; 
 nhpi_png.onclick = function() {
 	   exportToPng(ctyName, 'nhpi', NHPI,yrvalue);
@@ -7265,8 +7266,7 @@ var natincr_tmp2 = {
 
 
 //Creating the line chart trace
-debugger;
-console.log(stats)
+
 var line_trace = []
 stats.forEach( d => {
 	switch(d){
