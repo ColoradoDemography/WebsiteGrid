@@ -147,7 +147,9 @@ d3.select("#program-dropdown").on("change", function(d,i) {
     if(selectedprg == "CSBG"){
 	    document.getElementById('loc-lbl').innerHTML = "Select CSBG Program Entity"
 	    document.getElementById('loc-dropdown').hidden = false;
+		document.getElementById('genBundle').style.display = 'block'
     	popDropdown(selectedprg,'loc-dropdown','dashboard'); 
+	   
 	  } else {
 	  	document.getElementById('geo-lbl').innerHTML = "Select Geography Type"
 	    document.getElementById('geo-dropdown').hidden = false;	
@@ -193,9 +195,7 @@ d3.select("#geo-dropdown").on("change", function(d,i) {
 			 popDropdown('county','loc-dropdown','dashboard'); 
 			 }
 		}
-     } else {
-	   document.getElementById('genBundle').style.display = 'block'
-	   }
+     } 
 }); //D3 Location Selection	 
 
  //Selection of CCD
