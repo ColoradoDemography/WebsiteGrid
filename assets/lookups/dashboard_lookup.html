@@ -170,7 +170,7 @@ d3.select("#program-dropdown").on("change", function(d,i) {
 		}
  });  //D3 Program Selection
  //Selection of Location
- //geo drop dowl only for non CSBG bundles
+ //geo drop down only for non CSBG bundles
 d3.select("#geo-dropdown").on("change", function(d,i) {
 	document.getElementById('ccd-dropdown').hidden = true;
 	document.getElementById('ccd-lbl').innerHTML = ""
@@ -193,7 +193,9 @@ d3.select("#geo-dropdown").on("change", function(d,i) {
 			 popDropdown('county','loc-dropdown','dashboard'); 
 			 }
 		}
-     }
+     } else {
+	   document.getElementById('genBundle').style.display = 'block'
+	   }
 }); //D3 Location Selection	 
 
  //Selection of CCD
