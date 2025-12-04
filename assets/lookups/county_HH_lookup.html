@@ -145,7 +145,7 @@
  includeHTML();
 
 // Extract Yange or years
-var urlstr = "https://gis.dola.colorado.gov/lookups/componentYRS";
+var urlstr = "https://gis.dola.colorado.gov/lookups/householdYRS";
 d3.json(urlstr).then(function(yeardata){
  var yeardata2 = yeardata.filter(d => d.year >= 2010);
 
@@ -220,4 +220,5 @@ function clearInputs() {
  
  </script>
 </body>
+
 </html> 
