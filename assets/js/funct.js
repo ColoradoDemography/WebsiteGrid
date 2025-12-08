@@ -141,8 +141,22 @@ return(outAnnot);
 
 function colorRamp() {
 //colorRamp  returns SDO colors for charts
-	var colors = ["#00008B", "#007ADE", "#5BB5FF", "#000000", "#808080", "#BFBFBF", "#359A7E", 
-	                              "#7A853B", "#245D38", "#7A853B", "#FFD100", "#C0504D", "#FF8199", "#6D3A5D", "#9F7FB3"]
+	var colors = ['#001970', //Dark Blue
+				'#007ADE', //Mid Blue
+				'#5BB5FF', //Light Blue
+				'#000000', //Black
+				'#808080', //Mid Grey
+				'#BFBFBF', //Light Grey
+				'#35647E', //Right Mountain Teal
+				'#5D99BD', //Light Right Mountain Teal
+				'#245D38', //Tree Green
+				'#7A853B', //Left Mountain Green
+				'#E1D100', //Yellow
+				'#C3002F', //Red
+				'#FF8199', //Pink
+				'#6D3A5D', //Purple
+				'#9F7FB3' //Light Purple
+					]
 return(colors)
 }
 // colorRamp
@@ -4959,7 +4973,7 @@ rows.append('td')
 
 //cat Demographic Dashboard Functions
 
-function estPlot(inData, app, level, plotdiv, bkmark, yrvalue, fips, ctyName,colors){
+function estPlot(inData, app, level, plotdiv, bkmark, yrvalue, maxYr,fips, ctyName,colors){
 //estPlot Component Functions for Demograpic Dashboard : Estimates Plot
     const fmt_date = d3.timeFormat("%B %d, %Y");
 	const fmt_comma = d3.format(",");
@@ -5039,7 +5053,7 @@ var for_trace = {
 
 var est_data = [est_trace, for_trace];
 var est_layout = {
-		title: "Population Estimates and Forecasts 1990 to 2050, " + ctyName,
+		title: "Population Estimates and Forecasts 1990 to " + maxYr + ", " + ctyName,
 		  autosize: false,
 		  width: 1000,
 		  height: 500,
@@ -5692,7 +5706,7 @@ if(app == 'profile') {
 // cocPlot
 
 
-function genDEMO(geotype, fips, unit, ctyName, yrvalue){
+function genDEMO(geotype, fips, unit, ctyName, yrvalue, maxYr){
 //genDEMO outputs Plotly charts for the Demographic Dashboard
 //genDEMO Creates 3 datasets, one for estimates (pop by year), 
 // one for net migration by age for 2010-2020, and
@@ -5727,7 +5741,7 @@ var CHART1 = document.getElementById("barcoc_output");
 //Estimates and components of change chart
 
 	var yr_list = 1990;
-	for(i = 1991; i <= 2050; i++){
+	for(i = 1991; i <= maxYr; i++){
 		yr_list = yr_list + "," + i;
 	};
 	
@@ -5735,7 +5749,7 @@ var CHART1 = document.getElementById("barcoc_output");
 	
 //forecasts and age projections
    var forc_yrs = 2010;
-   	for(i = 2011; i <= 2050; i++){
+   	for(i = 2011; i <= maxYr; i++){
 		forc_yrs = forc_yrs + "," + i;
 	};
 		var forcurl = "https://gis.dola.colorado.gov/lookups/sya?county=" + fips_list + "&year=" + forc_yrs + "&choice=single&group=3"
@@ -5830,9 +5844,9 @@ var netmig_data = [];
 
 //Plotting 
 
-	estPlot(est_data, "dashboard", "County",  "est_output", "", yrvalue, fips, ctyName, colors);
+	estPlot(est_data, "dashboard", "County",  "est_output", "", yrvalue, maxYr, fips, ctyName, colors);
 	genCOCHIST(geotype, fips, yrvalue, 1970, endyr, ['births','deaths','netmig'], "yr5", "linecoc_output", "barcoc_output") 
-	netmigPlot(netmig_data, "dashboard","mig_output", fips, yrvalue,ctyName, colors);
+	netmigPlot(netmig_data, "dashboard","mig_output", fips, yrvalue, ctyName, colors);
     agePlot(forecast_data,"dashboard", "ageest_output", yrvalue, fips, ctyName, colors);
     popchngPlot(forecast_data,"dashboard", unit, "popchng_output", yrvalue, fips, ctyName,colors);
  
@@ -7293,7 +7307,7 @@ var mig_bar = {
 					   name : 'Net Migration',
 					   type : 'bar',
 					   marker: {
-						color : colors[11]
+						color : colors[5]
 					   }
 					};
 
@@ -7303,7 +7317,7 @@ var natincr_bar = {
 					   name : 'Natural Increase',
 					   type : 'bar',
 					   marker : {
-						color : colors[1]
+						color : colors[2]
 					   }
 					};
 					
@@ -7430,11 +7444,11 @@ function genHOUSEAGE(fipsVal,ctyName, varType, seriesType){
 	const fmt_date = d3.timeFormat("%B %d, %Y");
     var colors = colorRamp()
 	var fips_list = parseInt(fipsVal);
-
+  var maxYr = 2050  //UPDATE THIS ONCE FORECAST IS EXTENDED
    var yr_trace = [2010];
 
  	var yr_list = 2010;
-	for(i = 2011; i <= 2050; i++){
+	for(i = 2011; i <= maxYr; i++){
 		yr_list = yr_list + "," + i;
 		yr_trace.push(Number(i));
 	};
@@ -7456,7 +7470,7 @@ d3.json(urlstr).then(function(data){
  });
  //Calculating Age by Housing Type percentage
 
-for(i = 2010; i <= 2050;i++){
+for(i = 2010; i <= maxYr;i++){
 	var tmp = dataplot.filter(function(d) {return d.year == i;});
 
 	for(j = 0; j < 5;j++){
@@ -7474,7 +7488,7 @@ for(i = 2010; i <= 2050;i++){
 
  //Calculating Housing Type by Age Group percentage
 
-for(i = 2010; i <= 2050;i++){
+for(i = 2010; i <= maxYr;i++){
 	var tmp = dataplot.filter(function(d) {return d.year == i;});
 
 	for(j = 0; j < 5;j++){
@@ -7635,7 +7649,7 @@ var ch_layout = [];
 
 if(varType == "hhold") {
 for(i = 0; i < hh_arr.length; i++){
-	var tit_str = "Projected Households by Age and Household Type " + ctyName + " 2010 to 2050<br>Household Type: " + hh_arr[i];
+	var tit_str = "Projected Households by Age and Household Type " + ctyName + " 2010 to maxYr<br>Household Type: " + hh_arr[i];
 	if(seriesType == "num") {
 		tit_str = tit_str + " Number of Households";
 		y_title = "Households";
@@ -7682,7 +7696,7 @@ ch_layout.push(layout);
 };
 } else {
 	for(i = 0; i < age_arr.length; i++){
-	var tit_str = "Projected Households by Household Type and Age " + ctyName + " 2010 to 2050<br> Age Group: " + age_arr[i];
+	var tit_str = "Projected Households by Household Type and Age " + ctyName + " 2010 to maxYr<br> Age Group: " + age_arr[i];
 	if(seriesType == "num") {
 		tit_str = tit_str + " Number of Households";
 		y_title = "Households";
