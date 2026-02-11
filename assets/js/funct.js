@@ -686,45 +686,47 @@ return(regionNum);
 function regionName(reg) {
 //RegionName takes the region number and returns the name
 if(reg == 0) {name =  'Colorado'};
-if(reg == 1) {name =  'Central Mountains'};
-if(reg == 2) {name =  'Eastern Plains'};
-if(reg == 3) {name =  'Front Range'};
-if(reg == 4) {name =  'San Luis Valley'};
-if(reg == 5) {name =  'Western Slope'};
-if(reg == 6) {name = 'Region 1: Northern Eastern Plains'};
-if(reg == 7) {name = 'Region 2: Northern Front Range'};
-if(reg == 8) {name = 'Region 3: Denver Metropolitan Area'};
-if(reg == 9) {name = 'Region 4: Southern Front Range'};
-if(reg == 10) {name = 'Region 5: Central Eastern Plains'};
-if(reg == 11) {name = 'Region 6: Southern Eastern Plains'};
-if(reg == 12) {name = 'Region 7: Pueblo County'};
-if(reg == 13) {name = 'Region 8: San Luis Valley'};
-if(reg == 14) {name = 'Region 9: Southern Western Slope'};
-if(reg == 15) {name = 'Region 10: Central Western Slope'};
-if(reg == 16) {name = 'Region 11: Northern Western Slope'};
-if(reg == 17) {name = 'Region 12: Northern Mountains'};
-if(reg == 18) {name = 'Region 13: Central Mountains'};
-if(reg == 19) {name = 'Region 14: Southern Mountains'};
-if(reg == 20) {name =  'Boulder'};
-if(reg == 21) {name =  'Colorado Springs'};
-if(reg == 22) {name =  'Denver-Aurora-Lakewood'};
-if(reg == 23) {name =  'Fort Collins'};
-if(reg == 24) {name =  'Grand Junction'};
-if(reg == 25) {name =  'Greeley'};
-if(reg == 26) {name =  'Pueblo'};
-if(reg == 27) {name =  'Breckenridge'};
-if(reg == 28) {name =  'Ca\u00f1on City'};
-if(reg == 29) {name =  'Craig'};
-if(reg == 30) {name =  'Durango'};
-if(reg == 31) {name =  'Edwards'};
-if(reg == 32) {name =  'Fort Morgan'};
-if(reg == 33) {name =  'Glenwood Springs'};
-if(reg == 34) {name = 'Montrose'};
-if(reg == 35) {name =  'Steamboat Springs'};
-if(reg == 36) {name =  'Sterling'};
-if(reg == 37) {name =  'Denver PMSA'};
-if(reg == 38) {name =  'Denver-Boulder Metro Area'};
-if(reg == 39) {name =  'Denver-Boulder-Greeley CMSA'};
+if(reg == 1) {name = 'Region 1: Northern Eastern Plains'};
+if(reg == 2) {name = 'Region 2: Northern Front Range'};
+if(reg == 3) {name = 'Region 3: Denver Metropolitan Area'};
+if(reg == 4) {name = 'Region 4: Southern Front Range'};
+if(reg == 5) {name = 'Region 5: Central Eastern Plains'};
+if(reg == 6) {name = 'Region 6: Southern Eastern Plains'};
+if(reg == 7) {name = 'Region 7: Pueblo County'};
+if(reg == 8) {name = 'Region 8: San Luis Valley'};
+if(reg == 9) {name = 'Region 9: Southern Western Slope'};
+if(reg == 10) {name = 'Region 10: Central Western Slope'};
+if(reg == 11) {name = 'Region 11: Northern Western Slope'};
+if(reg == 12) {name = 'Region 12: Northern Mountains'};
+if(reg == 13) {name = 'Region 13: Central Mountains'};
+if(reg == 14) {name = 'Region 14: Southern Mountains'};
+if(reg == 15) {name =  'Central Mountains'};
+if(reg == 16) {name =  'Eastern Plains'};
+if(reg == 17) {name =  'Front Range'};
+if(reg == 18) {name =  'San Luis Valley'};
+if(reg == 19) {name =  'Western Slope'};
+if(reg == 20) {name =  'Denver PMSA'};
+if(reg == 21) {name =  'Denver-Boulder Metro Area'};
+if(reg == 22) {name =  'Denver-Boulder-Greeley CMSA'};
+if(reg == 23) {name =  'Denver Metro (10-County)'};
+if(reg == 24) {name =  'Boulder'};
+if(reg == 25) {name =  'Colorado Springs'};
+if(reg == 26) {name =  'Denver-Aurora-Lakewood'};
+if(reg == 27) {name =  'Fort Collins'};
+if(reg == 28) {name =  'Grand Junction'};
+if(reg == 29) {name =  'Greeley'};
+if(reg == 30) {name =  'Pueblo'};
+if(reg == 31) {name =  'Breckenridge'};
+if(reg == 32) {name =  'Ca\u00f1on City'};
+if(reg == 33) {name =  'Craig'};
+if(reg == 34) {name =  'Durango'};
+if(reg == 35) {name =  'Edwards'};
+if(reg == 36) {name =  'Fort Morgan'};
+if(reg == 37) {name =  'Glenwood Springs'};
+if(reg == 38) {name = 'Montrose'};
+if(reg == 39) {name =  'Steamboat Springs'};
+if(reg == 40) {name =  'Sterling'};
+
 return name;
 }; 
 // Regionname
@@ -1714,45 +1716,46 @@ if(callpg == "jobs"){
 //regions
 
 var region =  [
-				{'optgroup' : 'Geographic Region','location' : 'Central Mountains', 'regnum' : '01'},	
-				{'optgroup' : 'Geographic Region','location' : 'Eastern Plains', 'regnum' : '02'},
-				{'optgroup' : 'Geographic Region','location' : 'Front Range', 'regnum' : '03'},
-				{'optgroup' : 'Geographic Region','location' : 'San Luis Valley', 'regnum' : '04'},
-				{'optgroup' : 'Geographic Region','location' : 'Western Slope', 'regnum' : '05'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 1: Northern Eastern Plains', 'regnum' : '06'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 2: Northern Front Range', 'regnum' : '07'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 3: Denver Metropolitan Area', 'regnum' : '08'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 4: Southern Front Range', 'regnum' : '09'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 5: Central Eastern Plains', 'regnum' : '10'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 6: Southern Eastern Plains', 'regnum' : '11'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 7: Pueblo County', 'regnum' : '12'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 8: San Luis Valley', 'regnum' : '13'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 9: Southern Western Slope', 'regnum' : '14'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 10: Central Western Slope', 'regnum' : '15'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 11: Northern Western Slope', 'regnum' : '16'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 12: Northern Mountains', 'regnum' : '17'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 13: Central Mountains', 'regnum' : '18'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 14: Southern Mountains', 'regnum' : '19'},
-				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Boulder', 'regnum' : '20'},
-				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Colorado Springs', 'regnum' : '21'},
-				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Denver-Aurora-Lakewood', 'regnum' : '22'},
-				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Fort Collins', 'regnum' : '23'},
-				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Grand Junction', 'regnum' : '24'},
-				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Greeley', 'regnum' : '25'},
-				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Pueblo', 'regnum' : '26'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Breckenridge', 'regnum' : '27'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Ca\u00f1on City', 'regnum' : '28'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Craig', 'regnum' : '29'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Durango', 'regnum' : '30'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Edwards', 'regnum' : '31'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Fort Morgan', 'regnum' : '32'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Glenwood Springs', 'regnum' : '33'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Montrose', 'regnum' : '34'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Steamboat Springs', 'regnum' : '35'},
-				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Sterling', 'regnum' : '36'},
-				{'optgroup' : 'Denver Regions','location' : 'Denver PMSA', 'regnum' : '37'},
-				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder Metro Area', 'regnum' : '38'},
-				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder-Greeley CMSA', 'regnum' : '39'},
+				{'optgroup' : 'Geographic Region','location' : 'Central Mountains', 'regnum' : '15'},	
+				{'optgroup' : 'Geographic Region','location' : 'Eastern Plains', 'regnum' : '16'},
+				{'optgroup' : 'Geographic Region','location' : 'Front Range', 'regnum' : '17'},
+				{'optgroup' : 'Geographic Region','location' : 'San Luis Valley', 'regnum' : '18'},
+				{'optgroup' : 'Geographic Region','location' : 'Western Slope', 'regnum' : '19'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 1: Northern Eastern Plains', 'regnum' : '01'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 2: Northern Front Range', 'regnum' : '02'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 3: Denver Metropolitan Area', 'regnum' : '03'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 4: Southern Front Range', 'regnum' : '04'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 5: Central Eastern Plains', 'regnum' : '05'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 6: Southern Eastern Plains', 'regnum' : '06'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 7: Pueblo County', 'regnum' : '07'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 8: San Luis Valley', 'regnum' : '08'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 9: Southern Western Slope', 'regnum' : '09'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 10: Central Western Slope', 'regnum' : '10'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 11: Northern Western Slope', 'regnum' : '11'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 12: Northern Mountains', 'regnum' : '12'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 13: Central Mountains', 'regnum' : '13'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 14: Southern Mountains', 'regnum' : '14'},
+				{'optgroup' : 'Denver Regions','location' : 'Denver PMSA', 'regnum' : '20'},
+				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder Metro Area', 'regnum' : '21'},
+				{'optgroup' : 'Denver Regions','location' : 'Denver-Boulder-Greeley CMSA', 'regnum' : '22'},
+				{'optgroup' : 'Denver Regions','location' : 'Denver Metro (10-County)', 'regnum' : '23'},
+				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Boulder', 'regnum' : '24'},
+				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Colorado Springs', 'regnum' : '25'},
+				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Denver-Aurora-Lakewood', 'regnum' : '26'},
+				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Fort Collins', 'regnum' : '27'},
+				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Grand Junction', 'regnum' : '28'},
+				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Greeley', 'regnum' : '29'},
+				{'optgroup' : 'Census Metropolitan Statistical Areas', 'location' : 'Pueblo', 'regnum' : '30'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Breckenridge', 'regnum' : '31'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Ca\u00f1on City', 'regnum' : '32'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Craig', 'regnum' : '33'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Durango', 'regnum' : '34'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Edwards', 'regnum' : '35'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Fort Morgan', 'regnum' : '36'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Glenwood Springs', 'regnum' : '37'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Montrose', 'regnum' : '38'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Steamboat Springs', 'regnum' : '39'},
+				{'optgroup' : 'Census Micropolitan Statistical Areas', 'location' : 'Sterling', 'regnum' : '40'},
 ];
 
 //Municipalities and places
@@ -2278,50 +2281,48 @@ function regionCOL(regnum) {
 //Micro Regions DOLA Left Mountain Greens
 //Denver DOLA Rignh Mountain Teal
 	var fips = []; 
-if(regnum == 0) {fips.push({'fips' : ['001', '003', '005', '007', '009', '011', '013', '014', '015', '017', '019', '021', '023', '025', '027', 
-									'029', '031', '033', '035', '037', '039', '041', '043', '045', '047', '049', '051', '053', '055', '057', 
-									'059', '061', '063', '065', '067', '069', '071', '073', '075', '077', '079', '081', '083', '085', '087', 
-									'089', '091', '093', '095', '097', '099', '101', '103', '105', '107', '109', '111', '113', '115', '117', 
-									'119', '121', '123', '125'], 'color' : ''})};
-if(regnum == 1) {fips.push({'fips' : ['015', '019', '027', '043', '047', '055', '065', '071', '093'], 'color' : '#EE6677'})};
-if(regnum == 2) {fips.push({'fips' : ['009', '011', '017', '025', '039', '061', '063', '073', '075', '087', '089', '095', '099', '115', '121', '125'],  'color' : '#228833'})};
-if(regnum == 3) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035', '041', '059', '069', '101','119','123'],  'color' : '#4477AA'})};
-if(regnum == 4) {fips.push({'fips' : ['003', '021', '023', '079', '105', '109'],  'color' : '#CCBB44'})};
-if(regnum == 5) {fips.push({'fips' : ['007', '029', '033', '037', '045', '049', '051', '053', '057', '067', '077', '081', '083', '085', '091', '097', '103', '107', '111', '113', '117'],  'color' : '#66CCEE'})};
-if(regnum == 6) {fips.push({'fips' : ['075','087','095','115','121','125'], 'color' : '#AA3377'})};
-if(regnum == 7) {fips.push({'fips' : ['069','123'],  'color' : '#BBBBBB'})};
-if(regnum == 8) {fips.push({'fips' : ['001','005','013','014','019','031','035','047','059'], 'color' : '#505050'})};
-if(regnum == 9) {fips.push({'fips' : ['041','093','119'],  'color' : '#44AA99'})};
-if(regnum == 10) {fips.push({'fips' : ['017','039','063','073'], 'color' : '#117733'})};
-if(regnum == 11) {fips.push({'fips' : ['009','011','025','061','089','099'],  'color' : '#332288'})};
-if(regnum == 12) {fips.push({'fips' : ['101'],  'color' : '#DDCC77'})};
-if(regnum == 13) {fips.push({'fips' : ['003','021','023','079','105','109'],  'color' : '#999933'})};
-if(regnum == 14) {fips.push({'fips' : ['007','033','067','083','111'],  'color' : '#CC6677'})};
-if(regnum == 15) {fips.push({'fips' : ['029','051','053','085','091','113'], 'color' : '#F8F8F8'})};
-if(regnum == 16) {fips.push({'fips' : ['045','077','081','103'],  'color' : '#AA4499'})};
-if(regnum == 17) {fips.push({'fips' : ['037','049','057','097','107','117'], 'color' : '#DDDDDD'})};
-if(regnum == 18) {fips.push({'fips' : ['015','027','043','065'], 'color' : '#BBCC33'})};
-if(regnum == 19) {fips.push({'fips' : ['055','071'],  'color' : '#AAAA00'})};
-if(regnum == 20) {fips.push({'fips' : ['013'], 'color' : '#77AADD'})};
-if(regnum == 21) {fips.push({'fips' : ['041','119'], 'color' : '#EE8866'})};
-if(regnum == 22) {fips.push({'fips' : ['001','005','014','019','031','035','039','047','059','093'],  'color' : '#EEDD88'})};
-if(regnum == 23) {fips.push({'fips' : ['069'],  'color' : '#FFAABB'})};
-if(regnum == 24) {fips.push({'fips' : ['077'],  'color' : '#99DDFF'})};
-if(regnum == 25) {fips.push({'fips' : ['123'],  'color' : '#44BB99'})};
-if(regnum == 26) {fips.push({'fips' : ['101'],  'color' : '#DDCC77'})};
-if(regnum == 27) {fips.push({'fips' : ['117'], 'color' : '#E69F00'})};
-if(regnum == 28) {fips.push({'fips' : ['043'],  'color' : '#56B4E9'})};
-if(regnum == 29) {fips.push({'fips' : ['081'],  'color' : '#009E73'})};
-if(regnum == 30) {fips.push({'fips' : ['067'],  'color' : '#F0E442'})};
-if(regnum == 31) {fips.push({'fips' : ['037'],  'color' : '#0072B2'})};
-if(regnum == 32) {fips.push({'fips' : ['087'],  'color' : '#D55E00'})};
-if(regnum == 33) {fips.push({'fips' : ['045','097'],  'color' : '#CC79A7'})};
-if(regnum == 34) {fips.push({'fips' : ['085','091'],  'color' : '#696969'})};
-if(regnum == 35) {fips.push({'fips' : ['107'], 'color' : '#808080'})};
-if(regnum == 36) {fips.push({'fips' : ['075'],  'color' : '#A9A9A9'})};
-if(regnum == 37) {fips.push({'fips' : ['001', '005', '014', '031', '035', '059'],  'color' : '#505050'})};
-if(regnum == 38) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035', '059'], 'color' : '#C0C0C0'})};
-if(regnum == 39) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035', '059', '123'],  'color' : '#D3D3D3'})};
+if(regnum == 0) {fips.push({'fips' : ['001', '003', '005', '007', '009', '011', '013', '014', '015', '017', '019', '021', '023', '025', '027',  '029', '031', '033', '035', '037', '039', '041', '043', '045', '047', '049', '051', '053', '055', '057',  '059', '061', '063', '065', '067', '069', '071', '073', '075', '077', '079', '081', '083', '085', '087',  '089', '091', '093', '095', '097', '099', '101', '103', '105', '107', '109', '111', '113', '115', '117',  '119', '121', '123', '125'], 'color' : ''})};
+if(regnum == 1) {fips.push({'fips' : ['075','087','095','115','121','125'], 'color' : '#AA3377'})};
+if(regnum == 2) {fips.push({'fips' : ['069','123'],  'color' : '#BBBBBB'})};
+if(regnum == 3) {fips.push({'fips' : ['001','005','013','014','019','031','035','047','059'], 'color' : '#505050'})};
+if(regnum == 4) {fips.push({'fips' : ['041','093','119'],  'color' : '#44AA99'})};
+if(regnum == 5) {fips.push({'fips' : ['017','039','063','073'], 'color' : '#117733'})};
+if(regnum == 6) {fips.push({'fips' : ['009','011','025','061','089','099'],  'color' : '#332288'})};
+if(regnum == 7) {fips.push({'fips' : ['101'],  'color' : '#DDCC77'})};
+if(regnum == 8) {fips.push({'fips' : ['003','021','023','079','105','109'],  'color' : '#999933'})};
+if(regnum == 9) {fips.push({'fips' : ['007','033','067','083','111'],  'color' : '#CC6677'})};
+if(regnum == 10) {fips.push({'fips' : ['029','051','053','085','091','113'], 'color' : '#F8F8F8'})};
+if(regnum == 11) {fips.push({'fips' : ['045','077','081','103'],  'color' : '#AA4499'})};
+if(regnum == 12) {fips.push({'fips' : ['037','049','057','097','107','117'], 'color' : '#DDDDDD'})};
+if(regnum == 13) {fips.push({'fips' : ['015','027','043','065'], 'color' : '#BBCC33'})};
+if(regnum == 14) {fips.push({'fips' : ['055','071'],  'color' : '#AAAA00'})};
+if(regnum == 15) {fips.push({'fips' : ['015', '019', '027', '043', '047', '055', '065', '071', '093'], 'color' : '#EE6677'})};
+if(regnum == 16) {fips.push({'fips' : ['009', '011', '017', '025', '039', '061', '063', '073', '075', '087', '089', '095', '099', '115', '121', '125'],  'color' : '#228833'})};
+if(regnum == 17) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035', '041', '059', '069', '101','119','123'],  'color' : '#4477AA'})};
+if(regnum == 18) {fips.push({'fips' : ['003', '021', '023', '079', '105', '109'],  'color' : '#CCBB44'})};
+if(regnum == 19) {fips.push({'fips' : ['007', '029', '033', '037', '045', '049', '051', '053', '057', '067', '077', '081', '083', '085', '091', '097', '103', '107', '111', '113', '117'],  'color' : '#66CCEE'})};
+if(regnum == 20) {fips.push({'fips' : ['001', '005', '014', '031', '035', '059'],  'color' : '#505050'})};
+if(regnum == 21) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035', '059'], 'color' : '#C0C0C0'})};
+if(regnum == 22) {fips.push({'fips' : ['001', '005', '013', '014', '031', '035', '059', '123'],  'color' : '#D3D3D3'})}
+if(regnum == 23) {fips.push({'fips' : ['001', '003', '014', '019', '031', '035', '039', '047', '059', '093'],  'color' : '#D3D3D3'})}
+if(regnum == 24) {fips.push({'fips' : ['013'], 'color' : '#77AADD'})};
+if(regnum == 25) {fips.push({'fips' : ['041','119'], 'color' : '#EE8866'})};
+if(regnum == 26) {fips.push({'fips' : ['001','005','014','019','031','035','039','047','059','093'],  'color' : '#EEDD88'})};
+if(regnum == 27) {fips.push({'fips' : ['069'],  'color' : '#FFAABB'})};
+if(regnum == 28) {fips.push({'fips' : ['077'],  'color' : '#99DDFF'})};
+if(regnum == 29) {fips.push({'fips' : ['123'],  'color' : '#44BB99'})};
+if(regnum == 30) {fips.push({'fips' : ['101'],  'color' : '#DDCC77'})};
+if(regnum == 31) {fips.push({'fips' : ['117'], 'color' : '#E69F00'})};
+if(regnum == 32) {fips.push({'fips' : ['043'],  'color' : '#56B4E9'})};
+if(regnum == 33) {fips.push({'fips' : ['081'],  'color' : '#009E73'})};
+if(regnum == 34) {fips.push({'fips' : ['067'],  'color' : '#F0E442'})};
+if(regnum == 35) {fips.push({'fips' : ['037'],  'color' : '#0072B2'})};
+if(regnum == 36) {fips.push({'fips' : ['087'],  'color' : '#D55E00'})};
+if(regnum == 37) {fips.push({'fips' : ['045','097'],  'color' : '#CC79A7'})};
+if(regnum == 38) {fips.push({'fips' : ['085','091'],  'color' : '#696969'})};
+if(regnum == 39) {fips.push({'fips' : ['107'], 'color' : '#808080'})};
+if(regnum == 40) {fips.push({'fips' : ['075'],  'color' : '#A9A9A9'})};
+;
 
 	 return fips;
 	};
@@ -7353,7 +7354,7 @@ var line_layout = {
 			tickmode: "array", 
 			tickvals : year_tick,
 			tickangle: 45,
-			tickfont: { size: 10}
+			tickfont: { size: 18}
 		  },
 		  yaxis: {
 			  title : 'Persons',
@@ -7402,9 +7403,10 @@ var bar_layout = {
 			gridwidth: 1,
 			linecolor: 'black',
 			linewidth: 2,
-			 tickformat: ','
+			 tickformat: ',',
+			 tickfont: { size: 10}
 		  },
-		  legend : { x : 0.3, y : 1.1, 'orientation' : 'h', font:{size: 10}},
+		  legend : { x : 0.3, y : 1.1, 'orientation' : 'h', font:{size: 15}},
 			annotations : [citation('SDO',vintyrs,'')]
 		};
 		

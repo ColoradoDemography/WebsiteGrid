@@ -2145,7 +2145,7 @@ if(muniarr.length > 0){
 	ctylist = ctylist.slice(0, -1)
 	munilist = munilist.slice(0, -1)
 	
-debugger
+
 	if(multichk){
 		if(groupval == "opt0"){
 	     var muni_url = urlstr + "placefips="+ munilist + "&year=" + yrstr + "&compressed=no" ;
@@ -2172,12 +2172,6 @@ if(unincorparr.length > 0) {
 	 prom.push(d3.json(unincorp_url))
 	 data_type.push("unincorp")
 }
-
-debugger
-console.log(cty_url)
-console.log(muni_url)
-console.log(unincorp_url)
-
 
 Promise.all(prom).then(function(data){
 
@@ -2841,6 +2835,7 @@ $(tabObj).DataTable({
 
 function genJOBSECTReg(region, loc,year_arr) {
 //genJOBSECTReg creates the county Jobs by Sector Table
+
  
 	//build urlstr
    var fips_arr = [];
@@ -2853,17 +2848,41 @@ function genJOBSECTReg(region, loc,year_arr) {
 		fips_arr2.push(countyfips);
      };
    };
+   
 	var fips_list  = fips_arr2.join(",")
 	var year_list = year_arr.join(",")
-
+	
+if(regval <= 23) {
+	 var urlstr = "https://gis.dola.colorado.gov/lookups/jobs_region?reg_num="+ regval +"&year=" + year_list
+} else {
 	 var urlstr = "https://gis.dola.colorado.gov/lookups/jobs?county="+ fips_list + "&year=" + year_list
-
+}
 		
 d3.json(urlstr).then(function(data){
- 
+
+ if(regval <= 23){
+	 raw_data = [];
+	 data.forEach(i => {
+		 raw_data.push({
+			'regval' : i.area_code,
+			'regname' : regionName(+i.area_code),
+			'year' : i.population_year,
+			'sector_num' : i.sector_id == '10' ? 0 : parseInt(i.sector_id),
+			'sector_id': i.sector_id,
+			'sector_name' : i.sector_name.replace("-","..."),
+			'total_jobs' : isNaN(parseInt(i.total_jobs)) ? 0 : parseInt(i.total_jobs)
+		 })
+	 });
+
+
+var reg_data2 = raw_data
+   		 .sort(function(a, b){ return d3.ascending(a['sector_num'], b['sector_num']); })
+		 
+ } else {
  var sector_data = [];
 data.forEach(i => {
    	sector_data.push({
+		  'sector_num' : i.sector_id == '10' ? 0 : parseInt(i.sector_id),
 		  'sector_id' : i.sector_id,
 		  'sector_name': i.sector_name
 	})
@@ -2903,6 +2922,7 @@ var reg_data = [];
 		   reg_data.push({ 'regval' : key,
 			            'name' : regionName(key), 
 						'year' : key2,
+						'sector_num' : key3 == '10' ? 0 : parseInt(key3),
 						'sector_id' : key3, 
 						'total_jobs' : value3.total_jobs});
 		};
@@ -2915,15 +2935,18 @@ var raw_data = joinFUNCT(uniq_sector,reg_data,"sector_id","sector_id",function(d
 			'regval' : dat.regval,
 			'regname' : regionName(dat.regval),
 			'year' : dat.year,
+			'sector_num' : col.sector_num,
 			'sector_id': col.sector_id,
 			'sector_name' : col.sector_name.replace("-","..."),
 			'total_jobs' : isNaN(parseInt(dat.total_jobs)) ? 0 : parseInt(dat.total_jobs)
 		};
 	});
 
-
 var reg_data2 = raw_data
-   		 .sort(function(a, b){ return d3.ascending(a['regval'], b['regval']); })
+   		 .sort(function(a, b){ return d3.ascending(a['sector_num'], b['sector_num']); })
+		 
+ } // regval <= 23
+
 
 	// Generate Table
 	var out_tab = "<thead><tr><th>Region Name</th><th>Year</th><th>Job Sector Code</th><th>Job Sector Name</th><th>Total Jobs</th></tr></thead><tbody>";
@@ -3010,7 +3033,7 @@ var region =  [
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 5: Central Eastern Plains', 'regnum' : '10'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 6: Southern Eastern Plains', 'regnum' : '11'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 7: Pueblo County', 'regnum' : '12'},
-				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 8: San Juan Valley', 'regnum' : '13'},
+				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 8: San Luis Valley', 'regnum' : '13'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 9: Southern Western Slope', 'regnum' : '14'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 10: Central Western Slope', 'regnum' : '15'},
 				{'optgroup' : 'Colorado Planning and Management Regions','location' : 'Region 11: Northern Western Slope', 'regnum' : '16'},
