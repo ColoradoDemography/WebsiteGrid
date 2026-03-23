@@ -1131,7 +1131,7 @@ $(tabObj).DataTable({
 
 function genCOCCty(loc,year_arr,group,yeardata,outType) {
 //genCOCCty creates the county COC Table
-
+//HERE
 	//build urlstr
    var fips_arr2 = [];
 	for(j = 0; j < loc.length; j++){
@@ -1143,7 +1143,7 @@ function genCOCCty(loc,year_arr,group,yeardata,outType) {
 	
 	var urlstr = "https://gis.dola.colorado.gov/lookups/components?county=" + fips_list + "&year=" + year_list + "&group=" + group +";"
 		
-d3.json(urlstr).then(function(data){
+d3.json(urlstr).then(function(data){  //the Javascript Promise Statement
      
     // sum up values by region and year
 	var columnsToSum = ['estimate', 'births','deaths','netmig', 'change']
@@ -2109,13 +2109,14 @@ if(ctyval.length > 0){
 var multichk = false
 if(munival.length > 0){
 	munival.forEach(i => {
-	  if(i.includes('99990')){ //Unincorporated
+	  var chkval = i.slice(3)
+	  if(chkval.includes('99990')){ //Unincorporated
 		   unincorparr.push({"ctyfips" : parseInt(i.substr(0,3)), "munifips" : parseInt(i.substr(3))});
 		 } else {
-		   if(multicounty.includes(i.substr(3))) {
+		   if(multicounty.includes(chkval)) {
 			   multichk = true;
 		   }
-		   muniarr.push(parseInt(i.substr(3)));
+		   muniarr.push(chkval);
 				} 
 	  })
 }  
@@ -2129,7 +2130,7 @@ if(ctyarr.length > 0){
 	data_type.push("cty")
 }
 if(muniarr.length > 0){
-
+debugger
 	var munilist = ""
 	var ctylist = ""
 	muniarr.forEach(i => {
@@ -2145,6 +2146,7 @@ if(muniarr.length > 0){
 	ctylist = ctylist.slice(0, -1)
 	munilist = munilist.slice(0, -1)
 	
+
 
 	if(multichk){
 		if(groupval == "opt0"){
@@ -2174,6 +2176,8 @@ if(unincorparr.length > 0) {
 }
 
 Promise.all(prom).then(function(data){
+debugger;
+console.log(data)
 
 //Assigning  data type 
 var out_data = []
