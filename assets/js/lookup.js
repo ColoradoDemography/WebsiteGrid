@@ -2130,7 +2130,7 @@ if(ctyarr.length > 0){
 	data_type.push("cty")
 }
 if(muniarr.length > 0){
-debugger
+
 	var munilist = ""
 	var ctylist = ""
 	muniarr.forEach(i => {
@@ -2176,8 +2176,6 @@ if(unincorparr.length > 0) {
 }
 
 Promise.all(prom).then(function(data){
-debugger;
-console.log(data)
 
 //Assigning  data type 
 var out_data = []
