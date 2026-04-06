@@ -2940,9 +2940,12 @@ urlstr_nonhispest = "https://gis.dola.colorado.gov/lookups/county_sya_race_estim
 //var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest),d3.json(urlstr_for)];
 var prom = [d3.json(urlstr_hispest),d3.json(urlstr_nonhispest)];
 
+
 Promise.all(prom).then(function(data){
 	var hisp_est = [];
 	var nonhisp_est = []
+	
+
 //push out vars and count to number
 data[0].forEach(function(obj) {
 hisp_est.push({'year' : obj.year, 'sex' : obj.sex, 'population' : Math.round(+obj.count)});
@@ -2950,6 +2953,10 @@ hisp_est.push({'year' : obj.year, 'sex' : obj.sex, 'population' : Math.round(+ob
     data[1].forEach(function(obj) {
      nonhisp_est.push({'year' : obj.year, 'sex' : obj.sex, 'race' : obj.race, 'population' : Math.round(+obj.count)});
 });
+
+debugger
+console.log(hisp_est)
+console.log(nonhisp_est)
 /*
     data[2].forEach(function(obj) {
      raceeth_for.push({'year' : obj.year, 'race_eth' : obj.race, 'population' : parseInt(obj.count)});
@@ -3003,7 +3010,6 @@ for(i = 0; i < raceth.length; i++) {
 	//tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population), 'forval' : fmt_comma(filt[1].population)});
    tbl_arr.push({'race_eth' : raceth[i], 'percent' : fmt_pct(filt[0].population/race_eth_sum), 'curval' : fmt_comma(filt[0].population)});
   };
-
 
 //Generate Table
 d3.select('#RaceTab').html("");
@@ -4476,6 +4482,7 @@ Promise.all(prom).then(function(data){
 	
 	var cpipre = data[10].filter(function(d) {return d.YEAR == preyrst;});
 	var cpicur = data[10].filter(function(d) {return d.YEAR == curyrst;});
+
 
 	var cpipreval = Number(cpipre[0]['AVG'])
 	var cpicurval = Number(cpicur[0]['AVG'])
