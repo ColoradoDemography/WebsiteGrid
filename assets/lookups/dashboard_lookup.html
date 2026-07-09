@@ -40,6 +40,7 @@
    <p class="lookup_p">
    This application downloads bundled data summaries for 
    <ul>
+   <li class='accordion_link'>Colorado Demographic Profiles</li>
    <li class='accordion_link'>Community Services Block Grant Program (CSBG)</li>
    <li class='accordion_link'>Housing Needs Assessment Data Bundles (HNA)</li>
    </ul>
@@ -47,6 +48,7 @@
    <p>
    Data bundles for specific programs are available from this site:
    <ul>
+   <li>The <i>Colorado Demographic Profile</i> option provides general bundles for Colorado Regions, Counties and Municipalities.</li>
    <li>The <i>Community Services Block Grant Program (CSBG)</i> option provides data bundles for specific CSBG agencies.</li>
    <li>The <i>Housing Needs Assessment Data Bundles (HNA)</i> option provides county data bundles for selected counties to facilitate Housing Needs Assessments analysis.</li>
    <ul>
@@ -79,7 +81,8 @@
 	</tr>
 	<tr>
 	<td class="look_cll"> 
-	<select class="program-dropdown" id="program-dropdown" size="2"  role='listbox'>
+	<select class="program-dropdown" id="program-dropdown" size="3"  role='listbox'>
+		<option value='PROFILE'>Colorado Demographic Profiles</option>
 		<option value='CSBG'>Community Services Block Grant (CSBG)</option>
 		<option value='HNA'>Housing Needs Assessment Data Bundles (HNA)</option>
 	</select>
@@ -149,8 +152,8 @@ d3.select("#program-dropdown").on("change", function(d,i) {
 	    document.getElementById('loc-dropdown').hidden = false;
 		document.getElementById('genBundle').style.display = 'block'
     	popDropdown(selectedprg,'loc-dropdown','dashboard'); 
-	   
-	  } else {
+	  } 
+	if(selectedprg == "HNA") {
 	  	document.getElementById('geo-lbl').innerHTML = "Select Geography Type"
 	    document.getElementById('geo-dropdown').hidden = false;	
 		document.getElementById('geo-dropdown').innerHTML = "";
@@ -170,6 +173,26 @@ d3.select("#program-dropdown").on("change", function(d,i) {
 			el.value = "CCD";
 			sel.appendChild(el);
 		}
+	if(selectedprg == "PROFILE") {
+	  	document.getElementById('geo-lbl').innerHTML = "Select Geography Type"
+	    document.getElementById('geo-dropdown').hidden = false;	
+		document.getElementById('geo-dropdown').innerHTML = "";
+        document.getElementById('geo-dropdown').size = 3;
+		document.getElementById('geo-dropdown').multiple = false;
+       var sel = document.getElementById('geo-dropdown');
+	        var el = document.createElement("option");
+			el.textContent = "Region";
+			el.value = "region";
+			sel.appendChild(el);
+			var el = document.createElement("option");
+			el.textContent = "County";
+			el.value = "county";
+			sel.appendChild(el);
+		    var el = document.createElement("option");
+			el.textContent = "Municipality";
+			el.value = "municipality";
+			sel.appendChild(el);
+		}
  });  //D3 Program Selection
  //Selection of Location
  //geo drop down only for non CSBG bundles
@@ -184,18 +207,21 @@ d3.select("#geo-dropdown").on("change", function(d,i) {
 			 document.getElementById('loc-lbl').innerHTML = "Select Location"
 		     document.getElementById('loc-dropdown').hidden = false;	
 		     popDropdown(selectedgeo,'loc-dropdown','dashboard'); 
-	     } else {
-		 	 document.getElementById('loc-lbl').innerHTML = "Select Location"
-		 	 document.getElementById('loc-dropdown').hidden = false;	
-		     if(selectedgeo == "CCD"){
-			  document.getElementById('loc-dropdown').multiple = false;
-			  popDropdown('county','loc-dropdown','dashboard'); 
-			 } else {
+	     } 	 
+		if(selectedgeo == "region"){
+		     document.getElementById('loc-lbl').innerHTML = "Select Location"
+			 document.getElementById('loc-dropdown').hidden = false;	
+			 document.getElementById('loc-dropdown').multiple = false;
+			 popDropdown('region','loc-dropdown','dashboard'); 
+			 }
+		if(selectedgeo == "county"){
+		     document.getElementById('loc-lbl').innerHTML = "Select Location"
+			 document.getElementById('loc-dropdown').hidden = false;	
 			 document.getElementById('loc-dropdown').multiple = true;
 			 popDropdown('county','loc-dropdown','dashboard'); 
 			 }
-		}
      } 
+
 }); //D3 Location Selection	 
 
  //Selection of CCD
@@ -214,6 +240,7 @@ d3.select("#loc-dropdown").on("change", function(d,i) {
 	}); //D3 CCD Selection	 
 
 function dwnBundle() {
+debugger
     var selectedprg = document.getElementById("program-dropdown").value;
     if(selectedprg == "CSBG") {
 	var dropdown = document.getElementById('loc-dropdown');
@@ -224,11 +251,13 @@ function dwnBundle() {
 	 if(selectedgeo == "CCD"){
 	   var dropdown = document.getElementById('ccd-dropdown');
        var select_ids = getSelectValues(dropdown);
-	} else {
+	} 
+	} 
+	if(selectedprg == "PROFILE"){
 	var dropdown = document.getElementById('loc-dropdown');
     var select_ids = getSelectValues(dropdown);
 		}
-	}
+
 	
 	if(select_ids.length == 0){
 		outputmsg = outputmsg +  " > Please select one or more agencies or geographies.\n";
