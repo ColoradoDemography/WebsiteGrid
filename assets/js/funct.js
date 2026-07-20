@@ -205,7 +205,7 @@ if(muni == '12415'){cty_n = '035'};
 if(muni == '12635'){cty_n = '029'};
 if(muni == '12815'){cty_n = '005'};
 if(muni == '12855'){cty_n = '109'};
-if(muni == '12910'){cty_n = '047'};
+if(muni == '12900'){cty_n = '047'};
 if(muni == '13460'){cty_n = '089'};
 if(muni == '13845'){cty_n = '005'};
 if(muni == '14175'){cty_n = '017'};
@@ -849,7 +849,7 @@ function muniName(muni){
 	if(muni == 12635){name = 'Cedaredge'};
 	if(muni == 12815){name = 'Centennial'};
 	if(muni == 12855){name = 'Center'};
-	if(muni == 12910){name = 'Central City'};
+	if(muni == 12900){name = 'Central City'};
 	if(muni == 13460){name = 'Cheraw'};
 	if(muni == 13845){name = 'Cherry Hills Village'};
 	if(muni == 14175){name = 'Cheyenne Wells'};
@@ -1205,7 +1205,7 @@ function muniNum(name) {
 	if(name2 == 'Cedaredge'){num = 12635};
 	if(name2 == 'Centennial'){num = 12815};
 	if(name2 == 'Center'){num = 12855};
-	if(name2 == 'Central City'){num = 12910};
+	if(name2 == 'Central City'){num = 12900};
 	if(name2 == 'Cheraw'){num = 13460};
 	if(name2 == 'Cherry Hills Village'){num = 13845};
 	if(name2 == 'Cheyenne Wells'){num = 14175};
@@ -1780,7 +1780,7 @@ var municipality = [{'location' :  'Aguilar' , 'fips' : '00760'}, {'location' : 
 		{'location' :  'Carbonate' , 'fips' : '12030'},{'location' :  'Carbondale' , 'fips' : '12045'}, {'location' :  'Castle Pines' , 'fips' : '12387'},
 		{'location' :  'Castle Rock' , 'fips' : '12415'}, {'location' :  'Cedaredge' , 'fips' : '12635'},
 		{'location' :  'Centennial' , 'fips' : '12815'}, {'location' :  'Center' , 'fips' : '12855'},
-		{'location' :  'Central City' , 'fips' : '12910'}, {'location' :  'Cheraw' , 'fips' : '13460'},
+		{'location' :  'Central City' , 'fips' : '12900'}, {'location' :  'Cheraw' , 'fips' : '13460'},
 		{'location' :  'Cherry Hills Village' , 'fips' : '13845'}, {'location' :  'Cheyenne Wells' , 'fips' : '14175'},
 		{'location' :  'City of Creede' , 'fips' : '14765'}, {'location' :  'Coal Creek' , 'fips' : '15330'},
 		{'location' :  'Cokedale' , 'fips' : '15550'}, {'location' :  'Collbran' , 'fips' : '15605'},
@@ -2012,7 +2012,7 @@ var ctymuni = [{'location' : 'Aguilar', 'fips' : '07100760'}, {'location' : 'Akr
 		{'location' : 'Carbondale', 'fips' : '04512045'}, {'location' : 'Castle Pines', 'fips' : '03512390'},
 		{'location' : 'Castle Rock', 'fips' : '03512415'}, {'location' : 'Cedaredge', 'fips' : '02912635'},
 		{'location' : 'Centennial', 'fips' : '00512815'}, {'location' : 'Center', 'fips' : '10512855'},
-		{'location' : 'Central City', 'fips' : '01912910'}, {'location' : 'Cheraw', 'fips' : '08913460'},
+		{'location' : 'Central City', 'fips' : '01912900'}, {'location' : 'Cheraw', 'fips' : '08913460'},
 		{'location' : 'Cherry Hills Village', 'fips' : '00513845'}, {'location' : 'Cheyenne Wells', 'fips' : '01714175'},
 		{'location' : 'City of Creede', 'fips' : '07914765'}, {'location' : 'Coal Creek', 'fips' : '04315330'},
 		{'location' : 'Cokedale', 'fips' : '07115550'}, {'location' : 'Collbran', 'fips' : '07715605'},
