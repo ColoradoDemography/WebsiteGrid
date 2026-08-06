@@ -581,20 +581,20 @@ if(nam == 'Eastern Plains') {regionNum = 2};
 if(nam == 'Front Range') {regionNum = 3};
 if(nam == 'San Luis Valley') {regionNum = 4};
 if(nam == 'Western Slope') {regionNum = 5};
-if(nam == 'Region 1: Northern Eastern Plains') {regionNum = 6};
-if(nam == 'Region 2: Northern Front Range') {regionNum = 7};
-if(nam == 'Region 3: Denver Metropolitan Area') {regionNum = 8};
-if(nam == 'Region 4: Southern Front Range') {regionNum = 9};
-if(nam == 'Region 5: Central Eastern Plains') {regionNum = 10};
-if(nam == 'Region 6: Southern Eastern Plains') {regionNum = 11};
-if(nam == 'Region 7: Pueblo County') {regionNum = 12};
-if(nam == 'Region 8: San Luis Valley') {regionNum = 13};
-if(nam == 'Region 9: Southern Western Slope') {regionNum = 14};
-if(nam == 'Region 10: Central Western Slope') {regionNum = 15};
-if(nam == 'Region 11: Northern Western Slope') {regionNum = 16};
-if(nam == 'Region 12: Northern Mountains') {regionNum = 17};
-if(nam == 'Region 13: Central Mountains') {regionNum = 18};
-if(nam == 'Region 14: Southern Mountains') {regionNum = 19};
+if(nam == 'Region 1 Northern Eastern Plains') {regionNum = 6};
+if(nam == 'Region 2 Northern Front Range') {regionNum = 7};
+if(nam == 'Region 3 Denver Metropolitan Area') {regionNum = 8};
+if(nam == 'Region 4 Southern Front Range') {regionNum = 9};
+if(nam == 'Region 5 Central Eastern Plains') {regionNum = 10};
+if(nam == 'Region 6 Southern Eastern Plains') {regionNum = 11};
+if(nam == 'Region 7 Pueblo County') {regionNum = 12};
+if(nam == 'Region 8 San Luis Valley') {regionNum = 13};
+if(nam == 'Region 9 Southern Western Slope') {regionNum = 14};
+if(nam == 'Region 10 Central Western Slope') {regionNum = 15};
+if(nam == 'Region 11 Northern Western Slope') {regionNum = 16};
+if(nam == 'Region 12 Northern Mountains') {regionNum = 17};
+if(nam == 'Region 13 Central Mountains') {regionNum = 18};
+if(nam == 'Region 14 Southern Mountains') {regionNum = 19};
 if(nam == 'Boulder') {regionNum = 20};
 if(nam == 'Colorado Springs') {regionNum = 21};
 if(nam == 'Denver-Aurora-Lakewood') {regionNum = 22};
@@ -629,20 +629,20 @@ if(reg == 2) {name =  'Eastern Plains'};
 if(reg == 3) {name =  'Front Range'};
 if(reg == 4) {name =  'San Luis Valley'};
 if(reg == 5) {name =  'Western Slope'};
-if(reg == 6) {name = 'Region 1: Northern Eastern Plains'};
-if(reg == 7) {name = 'Region 2: Northern Front Range'};
-if(reg == 8) {name = 'Region 3: Denver Metropolitan Area'};
-if(reg == 9) {name = 'Region 4: Southern Front Range'};
-if(reg == 10) {name = 'Region 5: Central Eastern Plains'};
-if(reg == 11) {name = 'Region 6: Southern Eastern Plains'};
-if(reg == 12) {name = 'Region 7: Pueblo County'};
-if(reg == 13) {name = 'Region 8: San Luis Valley'};
-if(reg == 14) {name = 'Region 9: Southern Western Slope'};
-if(reg == 15) {name = 'Region 10: Central Western Slope'};
-if(reg == 16) {name = 'Region 11: Northern Western Slope'};
-if(reg == 17) {name = 'Region 12: Northern Mountains'};
-if(reg == 18) {name = 'Region 13: Central Mountains'};
-if(reg == 19) {name = 'Region 14: Southern Mountains'};
+if(reg == 6) {name = 'Region 1 Northern Eastern Plains'};
+if(reg == 7) {name = 'Region 2 Northern Front Range'};
+if(reg == 8) {name = 'Region 3 Denver Metropolitan Area'};
+if(reg == 9) {name = 'Region 4 Southern Front Range'};
+if(reg == 10) {name = 'Region 5 Central Eastern Plains'};
+if(reg == 11) {name = 'Region 6 Southern Eastern Plains'};
+if(reg == 12) {name = 'Region 7 Pueblo County'};
+if(reg == 13) {name = 'Region 8 San Luis Valley'};
+if(reg == 14) {name = 'Region 9 Southern Western Slope'};
+if(reg == 15) {name = 'Region 10 Central Western Slope'};
+if(reg == 16) {name = 'Region 11 Northern Western Slope'};
+if(reg == 17) {name = 'Region 12 Northern Mountains'};
+if(reg == 18) {name = 'Region 13 Central Mountains'};
+if(reg == 19) {name = 'Region 14 Southern Mountains'};
 if(reg == 20) {name =  'Boulder'};
 if(reg == 21) {name =  'Colorado Springs'};
 if(reg == 22) {name =  'Denver-Aurora-Lakewood'};
@@ -2021,20 +2021,20 @@ var region = [{'location' : 'Central Mountains','fips' : '515'},
 			{'location' : 'Front Range','fips' : '517'},
 			{'location' : 'San Luis Valley','fips' : '518'},
 			{'location' : 'Western Slope','fips' : '519'},
-			{'location' : 'Region 1: Northern Eastern Plains','fips' : '501'},
-			{'location' : 'Region 2: Northern Front Range','fips' : '502'},
-			{'location' : 'Region 3: Denver Metropolitan Area','fips' : '503'},
-			{'location' : 'Region 4: Southern Front Range','fips' : '504'},
-			{'location' : 'Region 5: Central Eastern Plains','fips' : '505'},
-			{'location' : 'Region 6: Southern Eastern Plains','fips' : '506'},
-			{'location' : 'Region 7: Pueblo County','fips' : '507'},
-			{'location' : 'Region 8: San Luis Valley','fips' : '508'},
-			{'location' : 'Region 9: Southern Western Slope','fips' : '509'},
-			{'location' : 'Region 10: Central Western Slope','fips' : '510'},
-			{'location' : 'Region 11: Northern Western Slope','fips' : '511'},
-			{'location' : 'Region 12: Northern Mountains','fips' : '512'},
-			{'location' : 'Region 13: Central Mountains','fips' : '513'},
-			{'location' : 'Region 14: Southern Mountains','fips' : '514'},
+			{'location' : 'Region 1 Northern Eastern Plains','fips' : '501'},
+			{'location' : 'Region 2 Northern Front Range','fips' : '502'},
+			{'location' : 'Region 3 Denver Metropolitan Area','fips' : '503'},
+			{'location' : 'Region 4 Southern Front Range','fips' : '504'},
+			{'location' : 'Region 5 Central Eastern Plains','fips' : '505'},
+			{'location' : 'Region 6 Southern Eastern Plains','fips' : '506'},
+			{'location' : 'Region 7 Pueblo County','fips' : '507'},
+			{'location' : 'Region 8 San Luis Valley','fips' : '508'},
+			{'location' : 'Region 9 Southern Western Slope','fips' : '509'},
+			{'location' : 'Region 10 Central Western Slope','fips' : '510'},
+			{'location' : 'Region 11 Northern Western Slope','fips' : '511'},
+			{'location' : 'Region 12 Northern Mountains','fips' : '512'},
+			{'location' : 'Region 13 Central Mountains','fips' : '513'},
+			{'location' : 'Region 14 Southern Mountains','fips' : '514'},
 			{'location' : 'Denver PMSA','fips' : '520'},
 			{'location' : 'Denver-Boulder Metro Area','fips' : '521'},
 			{'location' : 'Denver-Boulder-Greeley CMSA','fips' : '522'},
@@ -2899,6 +2899,7 @@ return outid;
 } //update_link_HNA
 
 function update_link_PROFILE(name) {
+	
 	//Returns list of Google Links for each selection
 link_list = [
 {'location' :  '10 County Denver Metro Area', 'name' : ['10 County Denver Metro Area'], 'id' : ['1CD5W_SE1euE0clZECtpfSCFDoQaWh7xC']},
@@ -3312,6 +3313,7 @@ if(program == "HNA"){
 })
 }
 if(program == "PROFILE"){
+
 	urls.forEach(links => {
 		out_link = update_link_PROFILE(links.name)
 
