@@ -4212,27 +4212,27 @@ function sumSYA(in_data,spec,grp, type){
 		if(type == "county"){
 		  out_data = in_data;
 		} else {
-		var binroll =  d3.rollup(in_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regionnum, d => d.countyfips, d => d.year, d => d.age);
+		var binroll =  d3.rollup(in_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regval,  d => d.year, d => d.age);
 		for (let [key, value] of binroll) {
 		for (let [key1, value1] of value){
 	    for (let [key2, value2] of value1) {
-	    for (let [key3, value3] of value2) {
 		   out_data.push({ 'regionnum' : key,
 			'regionname' : regionName(key),
-			'countyfips' : key1,
-			'countyname' : key1 == 0 ? "Regional Total" : countyName(key1),
-			'year' : key2,
-			'age' : key3,
-			'male' : value3.male,
-			'female' : value3.female,
-			'total' : value3.total
+			'year' : key1,
+			'age' : key2,
+			'male' : value2.male,
+			'female' : value2.female,
+			'total' : value2.total
 		   })
-		};
 		};
 		};
 		};
 		
 		} //type
+		debugger
+		console.log(in_data)
+		console.log(out_data)
+		
 		  break;
 		case "opt1" :
 		var binroll =  d3.rollup(in_data, v => Object.fromEntries(columnsToSum.map(col => [col, d3.sum(v, d => +d[col])])), d => d.regionnum, d => d.countyfips, d => d.year);
