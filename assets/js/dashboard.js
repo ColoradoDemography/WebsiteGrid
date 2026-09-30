@@ -11,7 +11,7 @@ function getSelectValues(select) {
 //getSelectValues Works with multiple selection boxes from Stack Overflow https://stackoverflow.com/questions/5866169/how-to-get-all-selected-values-of-a-multiple-select-box
 
   var result = [];
-  var options = select && select.options;
+  var options = select;
   var opt;
 
   for (i = 0; i < options.length; i++) {
