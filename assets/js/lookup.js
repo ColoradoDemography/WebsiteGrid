@@ -98,8 +98,6 @@ sel.innerHTML = "";
 function genRaceTabCty(loc,year_arr, race_arr,eth_arr,age_arr,sex_list,group) {
 //genRaceTabCty creates the county race data call and produces table
 
-	
-
 	//build urlstr
 	var fips_arr = [];
 	for(i = 0; i < loc.length; i++){ fips_arr.push(parseInt(loc[i]))}
@@ -144,9 +142,11 @@ d3.json(urlstr).then(function(data){
 		});
 		break;
 		case "opt1":
-			var cty_sum = d3.rollup(filtData, v => d3.sum(v, d => +d.count));
+			var cty_sum = d3.rollup(filtData, v => d3.sum(v, d => +d.count), d => d.county_fips);
 			//Flatten Arrays for output
-			 cty_tmp.push({ 'name' : countyName(parseInt(i)), 'county_fips' : i, 'year' : "", 'age' : "", 'sex' : "", 'race' : "", 'ethnicity' : "", 'count' : Math.round(cty_sum)});
+			for (let [key, value] of cty_sum) {  
+			 cty_tmp.push({ 'name' : countyName(key), 'county_fips' : key, 'year' : "", 'age' : "", 'sex' : "", 'race' : "", 'ethnicity' : "", 'count' : Math.round(value)});
+			}
 		break;
 		case "opt2":
 			var cty_sum = d3.rollup(filtData, v => d3.sum(v, d => +d.count), d => d.year);
@@ -267,14 +267,13 @@ cty_data = cty_data.concat(cty_tmp)
 		var el2 = "<td>" + cty_data[i].name + "</td>"
 		var el3 = "<td>" + cty_data[i].year + "</td>"
 		var el4 = "<td>" + cty_data[i].age + "</td>"
-		if(sex_list == "S") {
-			var el5 = "<td> </td>"
-		} else {
-		   if(cty_data[i].sex == "M"){
+		if(cty_data[i].sex == "M"){
 			var el5 = "<td>Male</td>";
-		   }
+		 } else {
 		   if(cty_data[i].sex == "F"){
 			var el5 =  "<td>Female</td>";
+		   } else {
+			   var el5 = "<td></td>";
 		   }
 		}
 		var el6 =  "<td>" + cty_data[i].race + "</td>"
@@ -704,14 +703,13 @@ reg_data = reg_data.concat(reg_tmp)
 		var el1 = "<td>" + reg_data[i].name + "</td>"
 		var el3 = "<td>" + reg_data[i].year + "</td>"
 		var el4 = "<td>" + reg_data[i].age + "</td>"
-		if(sex_list == "S") {
-			var el5 = "<td> </td>"
-		} else {
-		   if(reg_data[i].sex == "M"){
+		if(reg_data[i].sex == "M"){
 			var el5 = "<td>Male</td>";
-		   }
+		   } else {
 		   if(reg_data[i].sex == "F"){
 			var el5 =  "<td>Female</td>";
+		   } else {
+			  var el5 =  "<td></td>";
 		   }
 		}
 		var el6 =  "<td>" + reg_data[i].race + "</td>"
@@ -4229,9 +4227,6 @@ function sumSYA(in_data,spec,grp, type){
 		};
 		
 		} //type
-		debugger
-		console.log(in_data)
-		console.log(out_data)
 		
 		  break;
 		case "opt1" :
